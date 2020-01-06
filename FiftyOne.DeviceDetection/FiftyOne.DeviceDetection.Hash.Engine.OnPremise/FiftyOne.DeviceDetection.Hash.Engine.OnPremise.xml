@@ -1,0 +1,223 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FiftyOne.DeviceDetection.Hash.Engine.OnPremise</name>
+    </assembly>
+    <members>
+        <member name="M:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data.DeviceDataHash.#ctor(Microsoft.Extensions.Logging.ILogger{FiftyOne.Pipeline.Engines.Data.AspectDataBase},FiftyOne.Pipeline.Core.Data.IFlowData,FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements.DeviceDetectionHashEngine,FiftyOne.Pipeline.Engines.Services.IMissingPropertyService)">
+            <summary>
+            Construct a new instance of the wrapper.
+            </summary>
+            <param name="logger"></param>
+            <param name="engine"></param>
+            <param name="missingPropertyService"></param>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data.FiftyOneAspectPropertyMetaDataHash.#ctor(FiftyOne.Pipeline.Engines.FlowElements.IAspectEngine,System.String,System.Type,System.String,System.Collections.Generic.IList{System.String},System.Boolean,FiftyOne.Pipeline.Engines.FiftyOne.Data.IComponentMetaData,FiftyOne.Pipeline.Engines.FiftyOne.Data.IValueMetaData,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="element"></param>
+            <param name="name"></param>
+            <param name="type"></param>
+            <param name="category"></param>
+            <param name="dataTiersWherePresent"></param>
+            <param name="available"></param>
+            <param name="component"></param>
+            <param name="defaultValue"></param>
+            <param name="description"></param>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data.FiftyOneAspectPropertyMetaDataHash.#ctor(FiftyOne.Pipeline.Engines.FlowElements.IAspectEngine,System.String,System.Type,System.String,System.Collections.Generic.IList{System.String},System.Boolean,FiftyOne.Pipeline.Engines.FiftyOne.Data.IComponentMetaData,FiftyOne.Pipeline.Engines.FiftyOne.Data.IValueMetaData,System.String,System.Byte,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="element"></param>
+            <param name="name"></param>
+            <param name="type"></param>
+            <param name="category"></param>
+            <param name="dataTiersWherePresent"></param>
+            <param name="available"></param>
+            <param name="component"></param>
+            <param name="defaultValue"></param>
+            <param name="description"></param>
+            <param name="displayOrder"></param>
+            <param name="list"></param>
+            <param name="mandatory"></param>
+            <param name="obsolete"></param>
+            <param name="show"></param>
+            <param name="showValues"></param>
+            <param name="url"></param>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data.IDeviceDataHash.Difference">
+            <summary>
+            The total difference in matching hash values found in the evidence.
+            The higher this value, the less accurate the results should be
+            considered.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data.IDeviceDataHash.Drift">
+            <summary>
+            Returns the maximum drift for a matched substring from the character
+            position where it was expected to be found.The higher this value, the
+            less accurate the results should be considered.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data.IDeviceDataHash.MatchedNodes">
+            <summary>
+            Returns the number of hash nodes matched within the evidence.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements.DeviceDetectionHashEngine">
+            <summary>
+            Hash device detection engine. This engine takes User-Agents and
+            other relevant HTTP headers and returns properties about the device
+            which produced them e.g. DeviceType or ReleaseDate.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements.DeviceDetectionHashEngine.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,FiftyOne.Pipeline.Engines.Data.IAspectEngineDataFile,FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers.IConfigSwigWrapper,FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers.IRequiredPropertiesConfigSwigWrapper,System.Func{FiftyOne.Pipeline.Core.Data.IFlowData,FiftyOne.Pipeline.Core.FlowElements.FlowElementBase{FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data.IDeviceDataHash,FiftyOne.Pipeline.Engines.FiftyOne.Data.IFiftyOneAspectPropertyMetaData},FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data.IDeviceDataHash},System.String,FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers.ISwigFactory)">
+            <summary>
+            Construct a new instance of the Hash engine.
+            </summary>
+            <param name="loggerFactory">Logger to use</param>
+            <param name="deviceDataFactory">
+            Method used to get an aspect data instance
+            </param>
+            <param name="dataFile">Meta data related to the data file</param>
+            <param name="config">Configuration instance</param>
+            <param name="properties">Properties to be initialised</param>
+            <param name="tempDataFilePath">
+            The directory to use when storing temporary copies of the 
+            data file(s) used by this engine.
+            </param>
+            <param name="swigFactory">
+            The factory object to use when creating swig wrapper instances.
+            Usually a <see cref="T:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers.SwigFactory"/> instance.
+            Unit tests can override this to mock behaviour as needed.
+            </param>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements.DeviceDetectionHashEngine.AddDataFile(FiftyOne.Pipeline.Engines.Data.IAspectEngineDataFile)">
+            <summary>
+            Add the specified data file to the engine
+            </summary>
+            <param name="dataFile"></param>
+        </member>
+        <member name="T:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements.DeviceDetectionHashEngineBuilder">
+            <summary>
+            Builder for the <see cref="T:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements.DeviceDetectionHashEngine"/>. All options
+            for the engine should be set here.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements.DeviceDetectionHashEngineBuilder.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Construct a new instance of the builder.
+            </summary>
+            <param name="loggerFactory">
+            Factory used to create loggers for the engine
+            </param>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements.DeviceDetectionHashEngineBuilder.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,FiftyOne.Pipeline.Engines.Services.IDataUpdateService)">
+            <summary>
+            Construct a new instance of the builder.
+            </summary>
+            <param name="loggerFactory">
+            Factory used to create loggers for the engine
+            </param>
+            <param name="dataUpdateService">
+            Data update service used to keep the engine's data up to date.
+            </param>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements.DeviceDetectionHashEngineBuilder.SetDifference(System.Int32)">
+            <summary>
+            Set the maximum difference in hash value to allow when processing
+            HTTP headers.
+            </summary>
+            <param name="difference">Difference to allow</param>
+            <returns>This builder</returns>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements.DeviceDetectionHashEngineBuilder.SetDrift(System.Int32)">
+            <summary>
+            Set maximum drift in hash position to allow when processing HTTP
+            headers.
+            </summary>
+            <param name="drift">Drift to allow</param>
+            <returns>This builder</returns>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements.DeviceDetectionHashEngineBuilder.SetAllowUnmatched(System.Boolean)">
+            <summary>
+            If set to false, a non-matching User-Agent will result in
+            properties without set values. If set to true, a non-matching
+            User-Agent will cause the 'default profiles' to be returned. This
+            means that properties will always have values (i.e. no need to
+            check .HasValue) but some may be inaccurate.. By default, this is
+            false.
+            </summary>
+            <param name="allow">
+            True if results with no matched hash nodes should be considered
+            valid
+            </param>
+            <returns>This builder</returns>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements.DeviceDetectionHashEngineBuilder.SetReuseTempFile(System.Boolean)">
+            <summary>
+            Set whether or not an existing temp file should be used if one is
+            found in the temp directory.
+            </summary>
+            <param name="reuse">True if an existing file should be used</param>
+            <returns>This builder</returns>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements.DeviceDetectionHashEngineBuilder.SetUpdateMatchedUserAgent(System.Boolean)">
+            <summary>
+            Set whether or not the matched characters of the User-Agent should
+            be stored to be returned in the results.
+            </summary>
+            <param name="update">
+            True if the matched User-Agent should be stored
+            </param>
+            <returns>This builder</returns>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements.DeviceDetectionHashEngineBuilder.SetPerformanceProfile(System.String)">
+            <summary>
+            Set the performance profile to use when constructing the data set.
+            </summary>
+            <param name="profileName">Name of the profile to use</param>
+            <returns>This builder</returns>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements.DeviceDetectionHashEngineBuilder.SetPerformanceProfile(FiftyOne.Pipeline.Engines.PerformanceProfiles)">
+            <summary>
+            Set the performance profile to use when constructing the data set.
+            </summary>
+            <param name="profile">Profile to use</param>
+            <returns>This builder</returns>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements.DeviceDetectionHashEngineBuilder.SetConcurrency(System.UInt16)">
+            <summary>
+            Set the expected number of concurrent operations using the engine.
+            This sets the concurrency of the internal caches to avoid excessive
+            locking.
+            </summary>
+            <param name="concurrency">Expected concurrent accesses</param>
+            <returns>This builder</returns>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements.DeviceDetectionHashEngineBuilder.NewEngine(System.Collections.Generic.List{System.String})">
+            <summary>
+            Called by the 'BuildEngine' method to handle
+            creation of the engine instance.
+            </summary>
+            <param name="properties"></param>
+            <returns>
+            An <see cref="T:FiftyOne.Pipeline.Engines.FlowElements.IAspectEngine"/>.
+            </returns>
+        </member>
+        <member name="T:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop.MapStringStringSwig.MapStringStringSwigEnumerator">
+            Note that the IEnumerator documentation requires an InvalidOperationException to be thrown
+            whenever the collection is modified. This has been done for changes in the size of the
+            collection but not when one of the elements of the collection is modified as it is a bit
+            tricky to detect unmanaged code that modifies the collection under our feet.
+        </member>
+        <member name="T:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop.VectorStringSwig.VectorStringSwigEnumerator">
+            Note that the IEnumerator documentation requires an InvalidOperationException to be thrown
+            whenever the collection is modified. This has been done for changes in the size of the
+            collection but not when one of the elements of the collection is modified as it is a bit
+            tricky to detect unmanaged code that modifies the collection under our feet.
+        </member>
+    </members>
+</doc>

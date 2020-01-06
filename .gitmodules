@@ -1,0 +1,4 @@
+[submodule "FiftyOne.DeviceDetection/device-detection-cxx"]
+	path = FiftyOne.DeviceDetection/device-detection-cxx
+	url = ../device-detection-cxx
+	branch = master

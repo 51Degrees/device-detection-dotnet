@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="SWIG">
+      <UniqueIdentifier>{2606e00b-fe28-4f39-8fc6-bb8837ba1b1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SWIG\Common">
+      <UniqueIdentifier>{d9a1155f-0e0f-47d8-82d4-4a07a5082401}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SWIG\Device Detection">
+      <UniqueIdentifier>{92a1820c-3e10-4066-80a3-c6ff9ea8e047}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SWIG\Hash">
+      <UniqueIdentifier>{491a5dca-a880-4cc5-8985-db61a37b012a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PreBuild.bat" />
+    <None Include="..\device-detection-cxx\src\common-cxx\ConfigBase.i">
+      <Filter>SWIG\Common</Filter>
+    </None>
+    <None Include="..\device-detection-cxx\src\common-cxx\CollectionConfig.i">
+      <Filter>SWIG\Common</Filter>
+    </None>
+    <None Include="..\device-detection-cxx\src\common-cxx\CsTypes.i">
+      <Filter>SWIG\Common</Filter>
+    </None>
+    <None Include="..\device-detection-cxx\src\common-cxx\EngineBase.i">
+      <Filter>SWIG\Common</Filter>
+    </None>
+    <None Include="..\device-detection-cxx\src\common-cxx\Date.i">
+      <Filter>SWIG\Common</Filter>
+    </None>
+    <None Include="..\device-detection-cxx\src\common-cxx\EvidenceBase.i">
+      <Filter>SWIG\Common</Filter>
+    </None>
+    <None Include="..\device-detection-cxx\src\common-cxx\Exceptions.i">
+      <Filter>SWIG\Common</Filter>
+    </None>
+    <None Include="..\device-detection-cxx\src\common-cxx\MapStringStringIterator.i">
+      <Filter>SWIG\Common</Filter>
+    </None>
+    <None Include="..\device-detection-cxx\src\common-cxx\ResultsBase.i">
+      <Filter>SWIG\Common</Filter>
+    </None>
+    <None Include="..\device-detection-cxx\src\common-cxx\PropertyMetaData.i">
+      <Filter>SWIG\Common</Filter>
+    </None>
+    <None Include="..\device-detection-cxx\src\common-cxx\RequiredPropertiesConfig.i">
+      <Filter>SWIG\Common</Filter>
+    </None>
+    <None Include="..\device-detection-cxx\src\common-cxx\Types.i">
+      <Filter>SWIG\Common</Filter>
+    </None>
+    <None Include="..\device-detection-cxx\src\ConfigDeviceDetection.i">
+      <Filter>SWIG\Device Detection</Filter>
+    </None>
+    <None Include="..\device-detection-cxx\src\EngineDeviceDetection.i">
+      <Filter>SWIG\Device Detection</Filter>
+    </None>
+    <None Include="..\device-detection-cxx\src\EvidenceDeviceDetection.i">
+      <Filter>SWIG\Device Detection</Filter>
+    </None>
+    <None Include="..\device-detection-cxx\src\ResultsDeviceDetection.i">
+      <Filter>SWIG\Device Detection</Filter>
+    </None>
+    <None Include="..\device-detection-cxx\src\hash\ResultsHash.i">
+      <Filter>SWIG\Hash</Filter>
+    </None>
+    <None Include="..\device-detection-cxx\src\hash\EngineHash.i">
+      <Filter>SWIG\Hash</Filter>
+    </None>
+    <None Include="..\device-detection-cxx\src\hash\ConfigHash.i">
+      <Filter>SWIG\Hash</Filter>
+    </None>
+    <None Include="hash_csharp.i">
+      <Filter>SWIG</Filter>
+    </None>
+    <None Include="..\device-detection-cxx\src\common-cxx\ComponentMetaData.i">
+      <Filter>SWIG\Common</Filter>
+    </None>
+    <None Include="..\device-detection-cxx\src\common-cxx\ProfileMetaData.i">
+      <Filter>SWIG\Common</Filter>
+    </None>
+    <None Include="..\device-detection-cxx\src\common-cxx\ValueMetaData.i">
+      <Filter>SWIG\Common</Filter>
+    </None>
+    <None Include="..\device-detection-cxx\src\hash\hash.i">
+      <Filter>SWIG</Filter>
+    </None>
+    <None Include="..\device-detection-cxx\src\common-cxx\Value.i">
+      <Filter>SWIG\Common</Filter>
+    </None>
+    <None Include="..\device-detection-cxx\src\common-cxx\MetaData.i">
+      <Filter>SWIG\Common</Filter>
+    </None>
+    <None Include="..\device-detection-cxx\src\common-cxx\Collection.i">
+      <Filter>SWIG\Common</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\DeviceDetectionHashEngineSwig_csharp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

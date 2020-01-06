@@ -1,0 +1,254 @@
+trigger:
+  - master
+  - develop
+  - release/*  
+    
+variables: 
+  - group: CertificateVariables
+  # Because we are pulling in a group, we need to define local variables 
+  # using the name/value syntax.
+  - name: RestoreBuildProjects
+    value: '*.sln'
+    # Projects to be run unit tests for
+  - name: TestProjects
+    value: '**/*[Tt]ests/*.csproj'
+    # Projects to be published as NuGet packages
+  - name: PublishProjects
+    value: '**/*.csproj;!**/*[Tt]ests/**/*.csproj;!**/*[Ee]xamples/**/*.csproj'
+    # Access token for the git repository. Used by the git tag task.
+  - name: system_accesstoken
+    value: $(System.AccessToken)
+        
+jobs:
+  - job: Build_Linux_Binaries
+    pool:
+      name: Ubuntu 18
+      
+    steps:
+    
+    # Get the data files that are required for device detection automated system tests.
+    - bash: |
+       git lfs install
+       ls
+       git config --global --add filter.lfs.required true
+       git config --global --add filter.lfs.smudge "git-lfs smudge -- %f"
+       git config --global --add filter.lfs.process "git-lfs filter-process"
+       git config --global --add filter.lfs.clean "git-lfs clean -- %f"
+      displayName: 'Configure git lfs'
+
+    - checkout: self
+      lfs: true
+      submodules: recursive
+
+    - bash: |
+       shopt -s globstar
+       ls -d -1 **/*.csproj
+      displayName: 'List all csproj files in repository'
+
+    # This step displays the projects that will match the pattern in the 'PublishProjects'
+    # variable.
+    # If example or test projects (or any other that should not be packaged) are listed
+    # then the pattern may need to be modified.
+    # Unfortunatley, I cannot find a way to use that pattern directly in linux so if it
+    # is changed then this will need to be updated separately.
+    - bash: |
+       shopt -s globstar
+       find **/*.csproj -not -path '**/*Tests*/*' -and -not -path '**/*Examples*/*'
+      displayName: 'List csproj files to be packaged'
+
+    - bash: |
+       chmod +x ./PreBuild.sh
+       ./PreBuild.sh pattern       
+      workingDirectory: FiftyOne.DeviceDetection
+      displayName: 'Make Pattern'
+
+    - bash: './PreBuild.sh hash'
+      workingDirectory: FiftyOne.DeviceDetection
+      displayName: 'Make Hash'
+
+    - task: CopyFiles@2
+      displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+      inputs:
+        SourceFolder: '$(build.sourcesdirectory)'
+        Contents: 'FiftyOne.DeviceDetection/dlls/linux/*/*'
+        TargetFolder: '$(build.artifactstagingdirectory)'
+        OverWrite: true
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: resources'
+      inputs:
+        PathtoPublish: '$(build.artifactstagingdirectory)'
+        ArtifactName: resources
+
+  - job: Windows_Build_and_Release
+    dependsOn: Build_Linux_Binaries
+    pool:
+      name: Hosted VS2017
+      demands:
+      - msbuild
+      - visualstudio
+
+    steps:
+    - bash: |
+       git lfs install
+       ls
+       git config --global --add filter.lfs.required true
+       git config --global --add filter.lfs.smudge "git-lfs smudge -- %f"
+       git config --global --add filter.lfs.process "git-lfs filter-process"
+       git config --global --add filter.lfs.clean "git-lfs clean -- %f"
+      displayName: 'Configure git lfs'
+      
+    # The lines below are needed to allow the pipeline access to the
+    # OAuth access token that controls write access to the git repository. 
+    # (Required for GitTag task)
+    - checkout: self
+      lfs: true
+      submodules: recursive
+      persistCredentials: true
+    # Useful snippets for debugging.
+    # List all contents of a directory:
+    #- script: |
+    #    ls -d $(System.ArtifactsDirectory)/*
+
+    # Use a script to set the BuildConfiguration variable.
+    # If building from master then build the Release configuration. 
+    # Otherwise, build the Debug configuration.
+    - script: |
+        echo Current branch is "%BUILD_SOURCEBRANCH%"
+        echo %BUILD_SOURCEBRANCH% |findstr /b "refs/heads/release/*" > nul && (
+          set ISRELEASEBRANCH=true
+        ) || (
+          set ISRELEASEBRANCH=false
+        )
+        if "%BUILD_SOURCEBRANCHNAME%" == "master" (
+            SET BUILD_CONFIG=Release
+        ) else if %ISRELEASEBRANCH% == true (
+            SET BUILD_CONFIG=Release
+        ) else (
+            SET BUILD_CONFIG=Debug
+        )
+        echo ##vso[task.setvariable variable=BuildConfiguration]%BUILD_CONFIG%
+        echo BuildConfiguration set to '%BUILD_CONFIG%'
+      displayName: 'Determine Build Configuration'
+        
+    - task: NuGetToolInstaller@1
+      displayName: 'Use NuGet 4.8.1'
+      inputs:
+        versionSpec: 4.8.1
+
+    - task: NuGetCommand@2
+      displayName: 'NuGet restore'
+      inputs:
+        command: 'restore'
+        restoreSolution: '$(RestoreBuildProjects)'
+        feedsToUse: 'select'
+        vstsFeed: 'd2431f86-c1e6-4d8b-8d27-311cf3614847'
+    
+    - task: gittools.gitversion.gitversion-task.GitVersion@4
+      displayName: 'Determine Version Number'
+      # Give this task a name so we can use the variables it sets later. 
+      name: GitVersion
+      inputs:
+        preferBundledVersion: false
+
+    - task: DownloadBuildArtifacts@0
+      displayName: 'Download Build Artifacts'
+      inputs:
+        downloadType: specific
+        itemPattern: '**/*'
+        downloadPath: '$(build.sourcesdirectory)/'
+
+    - script: |
+       dir resources\FiftyOne.DeviceDetection
+       dir
+       move resources\FiftyOne.DeviceDetection\dlls\linux FiftyOne.DeviceDetection\
+       dir FiftyOne.DeviceDetection\linux
+      displayName: 'Move Linux Binaries'
+
+    - task: VSBuild@1
+      displayName: 'Build solutions x64'
+      inputs:
+        solution: '$(RestoreBuildProjects)'
+        vsVersion: '15.0'
+        platform: 'x64'
+        configuration: '$(BuildConfiguration)'
+        clean: true
+        msbuildArchitecture: 'x64'
+
+    - task: VSBuild@1
+      displayName: 'Build solutions x86'
+      inputs:
+        solution: '$(RestoreBuildProjects)'
+        vsVersion: '15.0'
+        platform: 'x86'
+        configuration: '$(BuildConfiguration)'
+        clean: true
+        msbuildArchitecture: 'x86'
+
+    # Index and publish symbol file to allow debugging.
+    - task: PublishSymbols@2
+      displayName: 'Publish Symbols'
+      inputs: 
+        SearchPattern: '**/bin/**/*.pdb'
+        SymbolServerType: 'TeamServices'
+        SymbolsVersion: '$(GitVersion.NuGetVersion)'
+
+    # The nuget package version uses the BUILD_BUILDNUMER environment variable.
+    # This has been set by the GitVersion task above.
+    - task: DotNetCoreCLI@2
+      displayName: 'Build NuGet Package'
+      inputs:
+        command: 'pack'
+        packagesToPack: '$(PublishProjects)'
+        versioningScheme: 'byEnvVar'
+        versionEnvVar: 'BUILD_BUILDNUMBER'
+        
+    # The secure file to download will be stored in the 
+    # Pipelines/Library/SecureFiles section in Azure DevOps.
+    - task: DownloadSecureFile@1
+      displayName: 'Download Code Signing Certificate'
+      name: CodeSigningCert
+      inputs:
+        secureFile: ' 51Degrees.mobi Code Signing Certificate.pfx'
+
+    # Sign the Nuget package with the file downloaded previously.
+    # The password is stored in the Pipelines/Library/VariableGroups
+    # section in Azure DevOps.
+    - task: NuGetCommand@2
+      displayName: 'Sign NuGet Package'
+      inputs:
+        command: custom
+        arguments: 'sign $(System.ArtifactsDirectory)\*.nupkg -CertificatePath "$(CodeSigningCert.secureFilePath)" -CertificatePassword $(CodeSigningCertPassword) -Timestamper http://timestamp.digicert.com'
+
+    # Push the package file to the internal feed. From there it can be
+    # Published to the public nuget feed when needed.
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish NuGet Package'
+      inputs:
+        command: 'push'
+        packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+        nuGetFeedType: 'internal'
+        publishVstsFeed: 'd2431f86-c1e6-4d8b-8d27-311cf3614847'
+    # Only do this if:
+    # 1. The build has been successful to this point
+    # 2. The branch being built is master or develop OR the ForcePushNuget 
+    #    variable has been set to true.
+      condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), or(eq(variables['Build.SourceBranch'], 'refs/heads/develop'), or(startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'), eq('true', variables['ForcePushNuget'])))))
+
+    # Add a tag to the git repository with the version number of
+    # the package that has just been published
+    - task: ATP.ATP-GitTag.GitTag.GitTag@5
+      displayName: 'Tag Repo With Version Number'
+      inputs:
+        tagUser: 'Azure DevOps'
+        tagEmail: 'CIUser@51Degrees.com'
+        tag: 'v$(GitVersion.NuGetVersion)'
+    # Only create the tag if we also published a package as defined in 
+    # the previous task.
+      condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), or(eq(variables['Build.SourceBranch'], 'refs/heads/develop'), or(startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'), eq('true', variables['ForcePushNuget'])))))
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact'
+      inputs:
+        PathtoPublish: '$(build.artifactstagingdirectory)'
+      condition: succeededOrFailed()

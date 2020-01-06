@@ -1,0 +1,29 @@
+﻿@model FiftyOne.DeviceDetection.IDeviceData
+@{
+    ViewData["Title"] = "Device detection example";
+    var hardwareVendor = Model.HardwareVendor;
+    var hardwareName = Model.HardwareName;
+    var deviceType = Model.DeviceType;
+    var platformVendor = Model.PlatformVendor;
+    var platformName = Model.PlatformName;
+    var platformVersion = Model.PlatformVersion;
+    var browserVendor = Model.BrowserVendor;
+    var browserName = Model.BrowserName;
+    var browserVersion = Model.BrowserVersion;
+}
+
+<h2>Example</h2>
+
+<p>
+    Hardware Vendor: @(hardwareVendor.HasValue ? hardwareVendor.Value : $"Unknown ({hardwareVendor.NoValueMessage})")<br />
+    Hardware Name: @(hardwareName.HasValue ? string.Join(", ", hardwareName.Value) : $"Unknown ({hardwareName.NoValueMessage})")<br />
+    Device Type: @(deviceType.HasValue ? deviceType.Value : $"Unknown ({deviceType.NoValueMessage})")<br />
+    Platform Vendor: @(platformVendor.HasValue ? platformVendor.Value : $"Unknown ({platformVendor.NoValueMessage})")<br />
+    Platform Name: @(platformName.HasValue ? platformName.Value : $"Unknown ({platformName.NoValueMessage})")<br />
+    Platform Version: @(platformVersion.HasValue ? platformVersion.Value : $"Unknown ({platformVersion.NoValueMessage})")<br />
+    Browser Vendor: @(browserVendor.HasValue ? browserVendor.Value : $"Unknown ({browserVendor.NoValueMessage})")<br />
+    Browser Name: @(browserName.HasValue ? browserName.Value : $"Unknown ({browserName.NoValueMessage})")<br />
+    Browser Version: @(browserVersion.HasValue ? browserVersion.Value : $"Unknown ({browserVersion.NoValueMessage})")
+</p>
+
+@await Component.InvokeAsync("FiftyOneJS")

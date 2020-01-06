@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>FiftyOne.DeviceDetection.Examples</AssemblyName>
+    <Platforms>AnyCPU;x64;x86</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Core\**" />
+    <Compile Remove="DeviceDetectionWebDemoV4\**" />
+    <Compile Remove="Framework\**" />
+    <EmbeddedResource Remove="Core\**" />
+    <EmbeddedResource Remove="DeviceDetectionWebDemoV4\**" />
+    <EmbeddedResource Remove="Framework\**" />
+    <None Remove="Core\**" />
+    <None Remove="DeviceDetectionWebDemoV4\**" />
+    <None Remove="Framework\**" />
+  </ItemGroup>
+
+</Project>

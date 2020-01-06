@@ -1,0 +1,113 @@
+pool:
+  name: Hosted VS2017
+  demands:
+  - msbuild
+  - visualstudio
+  
+trigger: none
+
+# Configure this to run for both Debug and Release configurations
+strategy:
+  maxParallel: 4
+  matrix:
+    debug x86:
+      BuildConfiguration: Debug
+      BuildPlatform: x86
+    release x86:
+      BuildConfiguration: Release 
+      BuildPlatform: x86
+    debug x64:
+      BuildConfiguration: Debug
+      BuildPlatform: x64
+    release x64:
+      BuildConfiguration: Release  
+      BuildPlatform: x64      
+
+variables: 
+  RestoreBuildProjects: '*.sln'
+    # Projects to be run unit tests for
+  TestProjects: '**/*[Tt]ests/*.csproj'
+
+steps:
+# Get the data files that are required for device detection automated system tests.
+- powershell: |
+   git lfs install
+   ls
+   git config --global --add filter.lfs.required true
+   git config --global --add filter.lfs.smudge "git-lfs smudge -- %f"
+   git config --global --add filter.lfs.process "git-lfs filter-process"
+   git config --global --add filter.lfs.clean "git-lfs clean -- %f"
+  displayName: 'Configure git lfs'
+
+- checkout: self
+  lfs: true
+  submodules: recursive
+
+# Note - As of writing, NuGet 5.3.0 is the latest version but both this and 5.2.0
+# cause timeout errors to occur during the NuGet Restore step.
+# 4.8.1 appears to avoid this problem so sticking with that for now.
+- task: NuGetToolInstaller@0
+  displayName: 'Use NuGet 4.8.1'
+  inputs:
+    versionSpec: 4.8.1
+
+- task: NuGetCommand@2
+  displayName: 'NuGet restore'
+  inputs:
+    command: 'restore'
+    restoreSolution: '$(RestoreBuildProjects)'
+    feedsToUse: 'select'
+    vstsFeed: 'd2431f86-c1e6-4d8b-8d27-311cf3614847'
+
+- task: VSBuild@1
+  displayName: 'Build solutions'
+  inputs:
+    solution: '$(RestoreBuildProjects)'
+    vsVersion: '15.0'
+    platform: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'
+    clean: true
+    msbuildArchitecture: '$(BuildPlatform)'
+    
+- task: VisualStudioTestPlatformInstaller@1
+  displayName: 'Visual Studio Test Platform Installer'
+  inputs:
+    versionSelector: latestStable
+     
+- task: VSTest@2
+  displayName: 'VsTest - testAssemblies - dotnet framework'
+  inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      **\$(BuildPlatform)\*\*test*Framework.dll
+      !**\*TestAdapter*.dll
+      !**\*TestFramework*.dll
+      !**\*DeviceDetection*.Tests.dll
+      !**\obj\**
+    searchFolder: '$(System.DefaultWorkingDirectory)'
+    codeCoverageEnabled: true
+    otherConsoleOptions: '/Framework:Framework45 /Platform:$(BuildPlatform) /logger:console;verbosity="normal"'
+    platform: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'
+    diagnosticsEnabled: true
+
+- task: VSTest@2
+  displayName: 'VsTest - testAssemblies - dotnet core'
+  inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      **\$(BuildPlatform)\*\netcoreapp2.*\*Tests*.dll
+      !**\*TestAdapter*.dll
+      !**\*TestFramework*.dll
+      !**\*DeviceDetection*.Tests.dll
+      !**\obj\**
+    searchFolder: '$(System.DefaultWorkingDirectory)'
+    codeCoverageEnabled: true
+    otherConsoleOptions: '/Framework:.NETStandard,Version=v2.0 /Platform:$(BuildPlatform) /logger:console;verbosity="normal"'
+    platform: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'
+    diagnosticsEnabled: true
+    
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
+
