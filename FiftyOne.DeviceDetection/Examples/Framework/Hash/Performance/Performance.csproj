@@ -91,10 +91,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FiftyOne.Pipeline.Core">
-      <Version>4.1.0-beta.25</Version>
+      <Version>4.1.0-beta.26</Version>
     </PackageReference>
     <PackageReference Include="FiftyOne.Pipeline.Engines">
-      <Version>4.1.0-beta.25</Version>
+      <Version>4.1.0-beta.26</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
