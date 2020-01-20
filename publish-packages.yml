@@ -56,9 +56,7 @@ jobs:
        find **/*.csproj -not -path '**/*Tests*/*' -and -not -path '**/*Examples*/*'
       displayName: 'List csproj files to be packaged'
 
-    - bash: |
-       chmod +x ./PreBuild.sh
-       ./PreBuild.sh pattern       
+    - bash: './PreBuild.sh pattern'
       workingDirectory: FiftyOne.DeviceDetection
       displayName: 'Make Pattern'
 
