@@ -24,7 +24,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.Pipeline.Engines.FiftyOne" Version="4.1.0-beta.26" />
+    <PackageReference Include="FiftyOne.Pipeline.Engines.FiftyOne" Version="4.1.0-beta.28" />
     <PackageReference Include="Microsoft.SourceLink.Vsts.Git" Version="1.0.0-beta2-19367-01">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
