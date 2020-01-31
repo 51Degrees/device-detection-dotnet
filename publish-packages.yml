@@ -218,21 +218,6 @@ jobs:
         command: custom
         arguments: 'sign $(System.ArtifactsDirectory)\*.nupkg -CertificatePath "$(CodeSigningCert.secureFilePath)" -CertificatePassword $(CodeSigningCertPassword) -Timestamper http://timestamp.digicert.com'
 
-    # Push the package file to the internal feed. From there it can be
-    # Published to the public nuget feed when needed.
-    - task: DotNetCoreCLI@2
-      displayName: 'Publish NuGet Package'
-      inputs:
-        command: 'push'
-        packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-        nuGetFeedType: 'internal'
-        publishVstsFeed: 'd2431f86-c1e6-4d8b-8d27-311cf3614847'
-    # Only do this if:
-    # 1. The build has been successful to this point
-    # 2. The branch being built is master or develop OR the ForcePushNuget 
-    #    variable has been set to true.
-      condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), or(eq(variables['Build.SourceBranch'], 'refs/heads/develop'), or(startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'), eq('true', variables['ForcePushNuget'])))))
-
     # Add a tag to the git repository with the version number of
     # the package that has just been published
     - task: ATP.ATP-GitTag.GitTag.GitTag@5
@@ -241,9 +226,7 @@ jobs:
         tagUser: 'Azure DevOps'
         tagEmail: 'CIUser@51Degrees.com'
         tag: 'v$(GitVersion.NuGetVersion)'
-    # Only create the tag if we also published a package as defined in 
-    # the previous task.
-      condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), or(eq(variables['Build.SourceBranch'], 'refs/heads/develop'), or(startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'), eq('true', variables['ForcePushNuget'])))))
+      condition: succeeded()
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact'
