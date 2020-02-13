@@ -25,6 +25,7 @@ using FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.Interop;
 using FiftyOne.DeviceDetection.Shared.Data;
 using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.Data.Types;
+using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.Data;
 using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
@@ -48,14 +49,15 @@ namespace FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.Data
         /// Construct a new instance of the wrapper.
         /// </summary>
         /// <param name="logger"></param>
+        /// <param name="pipeline"></param>
         /// <param name="engine"></param>
         /// <param name="missingPropertyService"></param>
         internal DeviceDataPattern(
             ILogger<AspectDataBase> logger,
-            IFlowData flowData,
+            IPipeline pipeline,
             DeviceDetectionPatternEngine engine,
             IMissingPropertyService missingPropertyService)
-            : base(logger, flowData, engine, missingPropertyService)
+            : base(logger, pipeline, engine, missingPropertyService)
         {
         }
 

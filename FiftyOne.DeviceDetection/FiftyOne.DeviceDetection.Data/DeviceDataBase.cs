@@ -23,6 +23,7 @@
 using FiftyOne.DeviceDetection.Shared.Data;
 using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.Data.Types;
+using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.Data;
 using FiftyOne.Pipeline.Engines.FlowElements;
 using FiftyOne.Pipeline.Engines.Services;
@@ -35,10 +36,10 @@ namespace FiftyOne.DeviceDetection.Shared
     {
         protected DeviceDataBase(
             ILogger<AspectDataBase> logger,
-            IFlowData flowData,
+            IPipeline pipeline,
             IAspectEngine engine,
             IMissingPropertyService missingPropertyService)
-            : base(logger, flowData, engine, missingPropertyService) { }
+            : base(logger, pipeline, engine, missingPropertyService) { }
 
         public virtual IAspectPropertyValue<IReadOnlyList<string>> UserAgents { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("UserAgents"); } }
         public virtual IAspectPropertyValue<string> DeviceId { get { return GetAs<IAspectPropertyValue<string>>("DeviceId"); } }

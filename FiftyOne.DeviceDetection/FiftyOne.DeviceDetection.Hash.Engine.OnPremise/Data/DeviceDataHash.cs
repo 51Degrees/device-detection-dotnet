@@ -25,6 +25,7 @@ using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop;
 using FiftyOne.DeviceDetection.Shared.Data;
 using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.Data.Types;
+using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.Data;
 using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
@@ -52,10 +53,10 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         /// <param name="missingPropertyService"></param>
         internal DeviceDataHash(
             ILogger<AspectDataBase> logger,
-            IFlowData flowData,
+            IPipeline pipeline,
             DeviceDetectionHashEngine engine,
             IMissingPropertyService missingPropertyService)
-            : base(logger, flowData, engine, missingPropertyService)
+            : base(logger, pipeline, engine, missingPropertyService)
         {
         }
 

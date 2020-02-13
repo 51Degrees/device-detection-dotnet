@@ -28,6 +28,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace FiftyOne.DeviceDetection.Hash.Tests.Core.FlowElements
@@ -85,7 +86,7 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Core.FlowElements
         [TestMethod]
         public void EngineBuilder_CheckDataFileEngineSet()
         {
-            var engine = _builder.Build(new byte[] { });
+            var engine = _builder.Build(new MemoryStream());
             Assert.AreEqual(engine, engine.DataFiles.ElementAt(0).Engine);
         }
     }

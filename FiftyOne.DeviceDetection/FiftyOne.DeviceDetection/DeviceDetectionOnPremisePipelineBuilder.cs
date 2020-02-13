@@ -32,6 +32,7 @@ using FiftyOne.Pipeline.Engines.FlowElements;
 using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
 using System;
+using System.IO;
 using System.Net.Http;
 
 namespace FiftyOne.DeviceDetection
@@ -45,7 +46,7 @@ namespace FiftyOne.DeviceDetection
     {
         private string _filename;
         private bool _createTempDataCopy;
-        private byte[] _engineData;
+        private Stream _engineDataStream;
 
         private bool _autoUpdateEnabled = true;
         private bool _dataUpdateOnStartUpEnabled = true;
@@ -115,8 +116,8 @@ namespace FiftyOne.DeviceDetection
         /// Set the byte array to use as a data source when 
         /// creating the engine.
         /// </summary>
-        /// <param name="data">
-        /// The entire device detection data file stored as a byte array.
+        /// <param name="dataStream">
+        /// The entire device detection data file as a <see cref="Stream"/>.
         /// </param>
         /// <param name="algorithm">
         /// The detection algorithm that the supplied data supports.
@@ -124,9 +125,9 @@ namespace FiftyOne.DeviceDetection
         /// <returns>
         /// This builder instance.
         /// </returns>
-        internal DeviceDetectionOnPremisePipelineBuilder SetEngineData(byte[] data, DeviceDetectionAlgorithm algorithm)
+        internal DeviceDetectionOnPremisePipelineBuilder SetEngineData(Stream dataStream, DeviceDetectionAlgorithm algorithm)
         {
-            _engineData = data;
+            _engineDataStream = dataStream;
             _algorithm = algorithm;
             return this;
         }
@@ -381,10 +382,10 @@ namespace FiftyOne.DeviceDetection
             {
                 engine = builder.Build(_filename, _createTempDataCopy);
             }
-            else if (_engineData != null ||
+            else if (_engineDataStream != null ||
                 _dataUpdateOnStartUpEnabled == true)
             {
-                engine = builder.Build(_engineData);
+                engine = builder.Build(_engineDataStream);
             }
             else
             {

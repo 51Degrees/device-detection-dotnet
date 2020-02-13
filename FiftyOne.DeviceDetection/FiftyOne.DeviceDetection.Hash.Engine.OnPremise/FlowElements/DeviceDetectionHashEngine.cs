@@ -46,8 +46,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
     /// other relevant HTTP headers and returns properties about the device
     /// which produced them e.g. DeviceType or ReleaseDate.
     /// </summary>
-    public class DeviceDetectionHashEngine : FiftyOneOnPremiseAspectEngineBase<IDeviceDataHash>, 
-        IOnPremiseDeviceDetectionEngine
+    public class DeviceDetectionHashEngine : OnPremiseDeviceDetectionEngineBase<IDeviceDataHash>        
     {
         private ISwigFactory _swigFactory;
         private IEngineSwigWrapper _engine;
@@ -67,7 +66,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// This event is fired whenever the data that this engine makes use
         /// of has been updated.
         /// </summary>
-        public event EventHandler<EventArgs> RefreshCompleted;
+        public override event EventHandler<EventArgs> RefreshCompleted;
 
         /// <summary>
         /// Construct a new instance of the Hash engine.
@@ -93,7 +92,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             IAspectEngineDataFile dataFile,
             IConfigSwigWrapper config,
             IRequiredPropertiesConfigSwigWrapper properties,
-            Func<IFlowData, FlowElementBase<IDeviceDataHash, IFiftyOneAspectPropertyMetaData>, IDeviceDataHash> deviceDataFactory,
+            Func<IPipeline, FlowElementBase<IDeviceDataHash, IFiftyOneAspectPropertyMetaData>, IDeviceDataHash> deviceDataFactory,
             string tempDataFilePath,
             ISwigFactory swigFactory)
             : base(
@@ -166,8 +165,10 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             RefreshCompleted?.Invoke(this, null);
         }
 
-        public override void RefreshData(string dataFileIdentifier, byte[] data)
+        public override void RefreshData(string dataFileIdentifier, Stream stream)
         {
+            var data = ReadBytesFromStream(stream);
+
             if (_engine == null)
             {
                 _engine = _swigFactory.CreateEngine(data, data.Length, _config, _propertiesConfigSwig);
@@ -307,26 +308,6 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                 "The matched User-Agents.");
         }
 
-        /// <summary>
-        /// Add the specified data file to the engine
-        /// </summary>
-        /// <param name="dataFile"></param>
-        public override void AddDataFile(IAspectEngineDataFile dataFile)
-        {
-            if (DataFiles.Count > 0)
-            {
-                throw new Exception("DeviceDetectionPatternEngine already " +
-                    "has a configured data source.");
-            }
-            dataFile.Engine = this; 
-            base.AddDataFile(dataFile);
-            IFiftyOneDataFile fiftyOneDataFile = dataFile as IFiftyOneDataFile;
-            if (fiftyOneDataFile != null)
-            {
-                fiftyOneDataFile.DataUpdateDownloadType = "HashTrieV34";
-            }
-        }
-
         private DateTime GetDataFilePublishedDate()
         {
             if (_engine != null)
@@ -354,6 +335,11 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         private string GetDataFileTempPath()
         {
             return _engine?.getDataFileTempPath();
+        }
+
+        public override string GetDataDownloadType(string identifier)
+        {
+            return _engine.getType();
         }
     }
 }

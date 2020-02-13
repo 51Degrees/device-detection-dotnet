@@ -24,6 +24,7 @@ using FiftyOne.DeviceDetection.Shared;
 using FiftyOne.Pipeline.CloudRequestEngine.FlowElements;
 using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.Data.Types;
+using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.Data;
 using FiftyOne.Pipeline.Engines.FlowElements;
 using FiftyOne.Pipeline.Engines.Services;
@@ -40,10 +41,10 @@ namespace FiftyOne.DeviceDetection.Cloud.Data
     {
         private Dictionary<string, string> _noValueReasons = null;
         public DeviceDataCloud(ILogger<AspectDataBase> logger,
-            IFlowData flowData,
+            IPipeline pipeline,
             IAspectEngine engine,
             IMissingPropertyService missingPropertyService)
-            : base(logger, flowData, engine, missingPropertyService)
+            : base(logger, pipeline, engine, missingPropertyService)
         {
         }
 

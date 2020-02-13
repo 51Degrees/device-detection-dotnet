@@ -295,16 +295,16 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                 SwigFactory);
         }
         
-        protected override string DataFileType => "HashTrieV34";
+        protected override string DefaultDataDownloadType => "HashTrieV34";
         #endregion
 
 
-        private IDeviceDataHash CreateAspectData(IFlowData flowData, 
+        private IDeviceDataHash CreateAspectData(IPipeline pipeline, 
             FlowElementBase<IDeviceDataHash, IFiftyOneAspectPropertyMetaData> engine)
         {
             return new DeviceDataHash(
                 _loggerFactory.CreateLogger<DeviceDataHash>(),
-                flowData,
+                pipeline,
                 engine as DeviceDetectionHashEngine,
                 MissingPropertyService.Instance);
         }

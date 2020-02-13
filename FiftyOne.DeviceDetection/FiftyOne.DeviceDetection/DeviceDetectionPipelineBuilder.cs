@@ -22,6 +22,7 @@
 
 using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
+using System.IO;
 using System.Net.Http;
 
 namespace FiftyOne.DeviceDetection
@@ -169,11 +170,12 @@ namespace FiftyOne.DeviceDetection
         /// A builder that can be used to configure and build a pipeline
         /// that will use the on-premise detection engine.
         /// </returns>
-        public DeviceDetectionOnPremisePipelineBuilder UseOnPremise(byte[] data, DeviceDetectionAlgorithm algorithm)
+        public DeviceDetectionOnPremisePipelineBuilder UseOnPremise(
+            Stream dataStream, DeviceDetectionAlgorithm algorithm)
         {
             var builder = new DeviceDetectionOnPremisePipelineBuilder(
                 _loggerFactory, _dataUpdateService, _httpClient);
-            builder.SetEngineData(data, algorithm);
+            builder.SetEngineData(dataStream, algorithm);
             return builder;
         }
     }

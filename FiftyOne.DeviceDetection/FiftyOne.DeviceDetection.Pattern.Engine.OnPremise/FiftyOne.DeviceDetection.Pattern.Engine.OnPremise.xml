@@ -4,11 +4,12 @@
         <name>FiftyOne.DeviceDetection.Pattern.Engine.OnPremise</name>
     </assembly>
     <members>
-        <member name="M:FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.Data.DeviceDataPattern.#ctor(Microsoft.Extensions.Logging.ILogger{FiftyOne.Pipeline.Engines.Data.AspectDataBase},FiftyOne.Pipeline.Core.Data.IFlowData,FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.FlowElements.DeviceDetectionPatternEngine,FiftyOne.Pipeline.Engines.Services.IMissingPropertyService)">
+        <member name="M:FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.Data.DeviceDataPattern.#ctor(Microsoft.Extensions.Logging.ILogger{FiftyOne.Pipeline.Engines.Data.AspectDataBase},FiftyOne.Pipeline.Core.FlowElements.IPipeline,FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.FlowElements.DeviceDetectionPatternEngine,FiftyOne.Pipeline.Engines.Services.IMissingPropertyService)">
             <summary>
             Construct a new instance of the wrapper.
             </summary>
             <param name="logger"></param>
+            <param name="pipeline"></param>
             <param name="engine"></param>
             <param name="missingPropertyService"></param>
         </member>
@@ -92,7 +93,13 @@
             which produced them e.g. DeviceType or ReleaseDate.
             </summary>
         </member>
-        <member name="M:FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.FlowElements.DeviceDetectionPatternEngine.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,FiftyOne.Pipeline.Engines.Data.IAspectEngineDataFile,FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.Wrappers.IConfigSwigWrapper,FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.Wrappers.IRequiredPropertiesConfigSwigWrapper,System.Func{FiftyOne.Pipeline.Core.Data.IFlowData,FiftyOne.Pipeline.Core.FlowElements.FlowElementBase{FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.Data.IDeviceDataPattern,FiftyOne.Pipeline.Engines.FiftyOne.Data.IFiftyOneAspectPropertyMetaData},FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.Data.IDeviceDataPattern},System.String,FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.Wrappers.ISwigFactory)">
+        <member name="E:FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.FlowElements.DeviceDetectionPatternEngine.RefreshCompleted">
+            <summary>
+            This event is fired whenever the data that this engine makes use
+            of has been updated.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.FlowElements.DeviceDetectionPatternEngine.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,FiftyOne.Pipeline.Engines.Data.IAspectEngineDataFile,FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.Wrappers.IConfigSwigWrapper,FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.Wrappers.IRequiredPropertiesConfigSwigWrapper,System.Func{FiftyOne.Pipeline.Core.FlowElements.IPipeline,FiftyOne.Pipeline.Core.FlowElements.FlowElementBase{FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.Data.IDeviceDataPattern,FiftyOne.Pipeline.Engines.FiftyOne.Data.IFiftyOneAspectPropertyMetaData},FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.Data.IDeviceDataPattern},System.String,FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.Wrappers.ISwigFactory)">
             <summary>
             Construct a new instance of the Pattern engine.
             </summary>
@@ -118,12 +125,6 @@
             Get the match metric properties. 
             </summary>
             <returns>Metric Properties</returns>
-        </member>
-        <member name="M:FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.FlowElements.DeviceDetectionPatternEngine.AddDataFile(FiftyOne.Pipeline.Engines.Data.IAspectEngineDataFile)">
-            <summary>
-            Add the specified data file to the engine
-            </summary>
-            <param name="dataFile"></param>
         </member>
         <member name="T:FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.FlowElements.DeviceDetectionPatternEngineBuilder">
             <summary>

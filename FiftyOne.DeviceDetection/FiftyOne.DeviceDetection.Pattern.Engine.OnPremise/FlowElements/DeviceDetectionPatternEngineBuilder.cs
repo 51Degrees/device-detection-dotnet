@@ -317,15 +317,15 @@ namespace FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.FlowElements
             return engine;
         }
         
-        protected override string DataFileType => "BinaryV32";
+        protected override string DefaultDataDownloadType => "BinaryV32";
         #endregion
 
-        private IDeviceDataPattern CreateAspectData(IFlowData flowData, 
+        private IDeviceDataPattern CreateAspectData(IPipeline pipeline, 
             FlowElementBase<IDeviceDataPattern, IFiftyOneAspectPropertyMetaData> engine)
         {
             return new DeviceDataPattern(
                 _loggerFactory.CreateLogger<DeviceDataPattern>(),
-                flowData,
+                pipeline,
                 engine as DeviceDetectionPatternEngine,
                 MissingPropertyService.Instance);
         }

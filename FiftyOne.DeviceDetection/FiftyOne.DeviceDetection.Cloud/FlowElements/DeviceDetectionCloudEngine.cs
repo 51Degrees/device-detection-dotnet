@@ -20,8 +20,8 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-using FiftyOne.DeviceDetection.Cloud.Converters;
 using FiftyOne.DeviceDetection.Cloud.Data;
+using FiftyOne.Pipeline.CloudRequestEngine.Data;
 using FiftyOne.Pipeline.CloudRequestEngine.FlowElements;
 using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.Exceptions;
@@ -48,69 +48,80 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
     /// </summary>
     public class DeviceDetectionCloudEngine : CloudAspectEngineBase<DeviceDataCloud, IAspectPropertyMetaData>
     {
+
         private IList<IAspectPropertyMetaData> _aspectProperties;
+        private object _aspectPropertiesLock = new object();
         private string _dataSourceTier;
 
         public DeviceDetectionCloudEngine(
             ILogger<DeviceDetectionCloudEngine> logger,
-            Func<IFlowData, FlowElementBase<DeviceDataCloud, IAspectPropertyMetaData>, DeviceDataCloud> deviceDataFactory,
-            HttpClient httpClient,
-            CloudRequestEngine engine) 
+            Func<IPipeline, FlowElementBase<DeviceDataCloud, IAspectPropertyMetaData>, DeviceDataCloud> deviceDataFactory,
+            HttpClient httpClient)
             : base(logger,
                   deviceDataFactory)
         {
             _httpClient = httpClient;
-
-            if(LoadAspectProperties(engine) == false)
-            {
-                _logger.LogCritical("Failed to load aspect properties");
-            }
         }
 
-        public override IList<IAspectPropertyMetaData> Properties => _aspectProperties;
+        public override IList<IAspectPropertyMetaData> Properties
+        {
+            get
+            {
+                if (_aspectProperties == null)
+                {
+                    lock (_aspectPropertiesLock)
+                    {
+                        if (_aspectProperties == null)
+                        {
+                            if (LoadAspectProperties(RequestEngine.Instance) == false)
+                            {
+                                throw new Exception("Failed to load aspect properties");
+                            }
+                        }
+                    }
+                }
+                return _aspectProperties;
+            }
+        }
 
         public override string DataSourceTier => _dataSourceTier;
 
         public override string ElementDataKey => "device";
 
-        public override IEvidenceKeyFilter EvidenceKeyFilter => 
+        public override IEvidenceKeyFilter EvidenceKeyFilter =>
             // This engine needs no evidence. 
             // It works from the cloud request data.
             new EvidenceKeyFilterWhitelist(new List<string>());
 
         private static JsonConverter[] JSON_CONVERTERS = new JsonConverter[]
         {
-            new Int32Converter()
+            new CloudJsonConverter()
         };
 
-        private bool _checkedForCloudEngine = false;
-        private CloudRequestEngine _cloudRequestEngine = null;
         private HttpClient _httpClient;
+
 
         protected override void ProcessEngine(IFlowData data, DeviceDataCloud aspectData)
         {
-            if (_checkedForCloudEngine == false)
-            {
-                _cloudRequestEngine = data.Pipeline.GetElement<CloudRequestEngine>();
-                _checkedForCloudEngine = true;
-            }
+            var requestData = data.GetFromElement(RequestEngine.Instance);
+            var json = requestData?.JsonResponse;
 
-            if (_cloudRequestEngine == null)
+            if (string.IsNullOrEmpty(json))
             {
                 throw new PipelineConfigurationException(
-                    $"The '{GetType().Name}' requires a 'CloudRequestEngine' " +
-                    $"before it in the Pipeline. This engine will be unable " +
+                    $"Json response from cloud request engine is null. " +
+                    $"This is probably because there is not a " +
+                    $"'CloudRequestEngine' before the '{GetType().Name}' " +
+                    $"in the Pipeline. This engine will be unable " +
                     $"to produce results until this is corrected.");
             }
             else
             {
-                var requestData = data.GetFromElement(_cloudRequestEngine);
-                var json = requestData.JsonResponse;
-
                 // Extract data from json to the aspectData instance.
                 var dictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
-                var device = JsonConvert.DeserializeObject<Dictionary<string, object>>(dictionary["device"].ToString(), 
-                    new JsonSerializerSettings() {
+                var device = JsonConvert.DeserializeObject<Dictionary<string, object>>(dictionary["device"].ToString(),
+                    new JsonSerializerSettings()
+                    {
                         Converters = JSON_CONVERTERS,
                     });
                 var noValueReasons = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
