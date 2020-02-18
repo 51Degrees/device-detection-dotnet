@@ -56,8 +56,7 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
         {
             return new DeviceDetectionCloudEngine(
                 _loggerFactory.CreateLogger<DeviceDetectionCloudEngine>(),
-                CreateData,
-                _httpClient);
+                CreateData);
         }
 
         private DeviceDataCloud CreateData(IPipeline pipeline, FlowElementBase<DeviceDataCloud, IAspectPropertyMetaData> engine)

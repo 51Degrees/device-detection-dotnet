@@ -39,7 +39,9 @@ namespace FiftyOne.DeviceDetection.Cloud.Data
 {
     public class DeviceDataCloud : DeviceDataBase, IDeviceData
     {
+        private string[] SEPERATOR = new string[] { FiftyOne.Pipeline.Core.Constants.EVIDENCE_SEPERATOR };
         private Dictionary<string, string> _noValueReasons = null;
+
         public DeviceDataCloud(ILogger<AspectDataBase> logger,
             IPipeline pipeline,
             IAspectEngine engine,
@@ -51,8 +53,16 @@ namespace FiftyOne.DeviceDetection.Cloud.Data
         public void SetNoValueReasons(Dictionary<string,string> noValueReasons)
         {
             _noValueReasons = noValueReasons
-                .Where(r => r.Key.Split('.')[0] == Engines.FirstOrDefault().ElementDataKey)
-                .ToDictionary(k => k.Key.Split('.')[1], v => v.Value);
+                .Select(r => new 
+                { 
+                    KeySegments = r.Key.Split(SEPERATOR, StringSplitOptions.RemoveEmptyEntries),
+                    Value = r.Value
+                })
+                .Where(r =>
+                {
+                    return r.KeySegments.Length >= 2 && r.KeySegments[0] == Engines.FirstOrDefault().ElementDataKey;
+                })
+                .ToDictionary(r => r.KeySegments[1], r => r.Value, StringComparer.OrdinalIgnoreCase);
         }
 
         public override IAspectPropertyValue<IReadOnlyList<string>> UserAgents => throw new NotImplementedException();
@@ -154,7 +164,14 @@ namespace FiftyOne.DeviceDetection.Cloud.Data
             var temp = new AspectPropertyValue<T>();
             if (obj == null)
             {
-                temp.NoValueMessage = _noValueReasons.Single(r => r.Key.Split('.')[1] == key).Value;
+                if(_noValueReasons.TryGetValue(key, out string value))
+                {
+                    temp.NoValueMessage = value;
+                }
+                else
+                {
+                    temp.NoValueMessage = "Reason for empty value is unknown";
+                }
             }
             else
             {

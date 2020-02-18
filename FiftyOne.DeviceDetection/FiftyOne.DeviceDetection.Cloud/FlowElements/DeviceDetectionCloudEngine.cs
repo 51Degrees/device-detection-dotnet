@@ -48,19 +48,16 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
     /// </summary>
     public class DeviceDetectionCloudEngine : CloudAspectEngineBase<DeviceDataCloud, IAspectPropertyMetaData>
     {
-
         private IList<IAspectPropertyMetaData> _aspectProperties;
         private object _aspectPropertiesLock = new object();
         private string _dataSourceTier;
 
         public DeviceDetectionCloudEngine(
             ILogger<DeviceDetectionCloudEngine> logger,
-            Func<IPipeline, FlowElementBase<DeviceDataCloud, IAspectPropertyMetaData>, DeviceDataCloud> deviceDataFactory,
-            HttpClient httpClient)
+            Func<IPipeline, FlowElementBase<DeviceDataCloud, IAspectPropertyMetaData>, DeviceDataCloud> deviceDataFactory)
             : base(logger,
                   deviceDataFactory)
         {
-            _httpClient = httpClient;
         }
 
         public override IList<IAspectPropertyMetaData> Properties
@@ -97,9 +94,6 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
         {
             new CloudJsonConverter()
         };
-
-        private HttpClient _httpClient;
-
 
         protected override void ProcessEngine(IFlowData data, DeviceDataCloud aspectData)
         {
