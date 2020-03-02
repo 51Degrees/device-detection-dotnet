@@ -38,6 +38,10 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
 
         void setAllowUnmatched(bool allow);
 
+        void setUsePerformanceGraph(bool use);
+
+        void setUsePredictiveGraph(bool use);
+
         void setLowMemory();
         void setBalanced();
         void setBalancedTemp();

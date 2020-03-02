@@ -71,10 +71,6 @@ namespace FiftyOne.DeviceDetection.Tests.Core.Data
                 _value = value;
             }
 
-            public override IAspectPropertyValue<IReadOnlyList<string>> UserAgents => throw new NotImplementedException();
-
-            public override IAspectPropertyValue<string> DeviceId => throw new NotImplementedException();
-
             protected override IAspectPropertyValue<bool> GetValueAsBool(string propertyName)
             {
                 if (propertyName == _testPropertyName)

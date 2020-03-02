@@ -38,21 +38,29 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Data
                     .Where((p, i) => { return i % 10 == 0; }))
             {
                 hash ^= property.GetHashCode();
-                hash ^= property.Component.GetHashCode();
 
-                Assert.ThrowsException<NotImplementedException>(
-                    () => { var values = property.Values; });
-                Assert.ThrowsException<NotImplementedException>(
-                    () => { var values = property.DefaultValue; });
+                foreach (var value in property.Values
+                    .Where((v, i) => { return i % 10 == 0; }))
+                {
+                    hash ^= value.GetHashCode();
+                }
+                hash ^= property.Component.GetHashCode();
+                if (property.DefaultValue != null)
+                {
+                    hash ^= property.DefaultValue.GetHashCode();
+                }
             }
             return hash;
         }
 
         public int HashValues(int hash, IWrapper wrapper)
         {
-            Assert.ThrowsException<NotImplementedException>(
-                () => { var profiles = wrapper.GetEngine().Values; });
-
+            foreach (var value in wrapper.Values
+                        .Where((v, i) => { return i % 100 == 0; }))
+            {
+                hash ^= value.GetHashCode();
+                hash ^= value.Property == null ? 0 : value.Property.GetHashCode();
+            }
             return hash;
         }
 
@@ -61,21 +69,29 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Data
             foreach (var component in wrapper.Components)
             {
                 hash ^= component.GetHashCode();
-                foreach (var property in component.Properties
-                    .Where((p, i) => { return i % 10 == 0; }))
+                foreach (var property in component.Properties.
+                    Where((p, i) => { return i % 10 == 0; }))
                 {
                     hash ^= property.GetHashCode();
-                    Assert.ThrowsException<NotImplementedException>(
-                        () => { var profile = component.DefaultProfile; });
                 }
+                hash ^= component.DefaultProfile == null ? 0 : component.DefaultProfile.GetHashCode();
             }
             return hash;
         }
 
         public int HashProfiles(int hash, IWrapper wrapper)
         {
-            Assert.ThrowsException<NotImplementedException>(
-                () => { var profiles = wrapper.GetEngine().Profiles; });
+            foreach (var profile in wrapper.Profiles
+                        .Where((p, i) => { return i % 100 == 0; }))
+            {
+                hash ^= profile.GetHashCode();
+                hash ^= profile.Component.GetHashCode();
+                foreach (var value in profile.GetValues()
+                    .Where((v, i) => { return i % 10 == 0; }))
+                {
+                    hash ^= value.GetHashCode();
+                }
+            }
             return hash;
         }
     }

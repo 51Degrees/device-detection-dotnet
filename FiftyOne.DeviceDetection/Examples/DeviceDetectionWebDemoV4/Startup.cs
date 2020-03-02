@@ -24,7 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.FlowElements;
+using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using FiftyOne.Pipeline.Core.FlowElements;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -69,9 +69,9 @@ using Microsoft.Extensions.DependencyInjection;
 ///   "PipelineOptions": {
 ///     "Elements": [
 ///       {
-///         "BuilderName": "DeviceDetectionPatternEngineBuilder",
+///         "BuilderName": "DeviceDetectionHashEngineBuilder",
 ///         "BuildParameters": {
-///           "DataFile": "51Degrees-LiteV3.2.dat",
+///           "DataFile": "51Degrees-LiteV4.1.hash",
 ///           "CreateTempDataCopy": false,
 ///           "AutoUpdate": false,
 ///           "PerformanceProfile": "LowMemory",
@@ -111,7 +111,7 @@ using Microsoft.Extensions.DependencyInjection;
 ///     public void ConfigureServices(IServiceCollection services)
 ///     {
 ///         ...
-///         services.AddSingleton<DeviceDetectionPatternEngineBuilder>();
+///         services.AddSingleton<DeviceDetectionHashEngineBuilder>();
 ///         services.AddFiftyOne(Configuration);
 ///         ...
 /// ```
@@ -195,7 +195,7 @@ namespace DeviceDetectionWebDemoV4
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddSingleton<DeviceDetectionPatternEngineBuilder>();
+            services.AddSingleton<DeviceDetectionHashEngineBuilder>();
             services.AddFiftyOne(Configuration);
         }
 

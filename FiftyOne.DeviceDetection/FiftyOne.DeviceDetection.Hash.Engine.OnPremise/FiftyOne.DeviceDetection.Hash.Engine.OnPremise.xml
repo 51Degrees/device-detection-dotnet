@@ -47,23 +47,16 @@
             <param name="showValues"></param>
             <param name="url"></param>
         </member>
-        <member name="P:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data.IDeviceDataHash.Difference">
+        <member name="M:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data.IDeviceDataHash.GetValues(System.String)">
             <summary>
-            The total difference in matching hash values found in the evidence.
-            The higher this value, the less accurate the results should be
-            considered.
+            Gets all values as a List of strings.
             </summary>
+            <param name="propertyName"></param>
+            <returns></returns>
         </member>
-        <member name="P:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data.IDeviceDataHash.Drift">
+        <member name="T:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.MatchMethods">
             <summary>
-            Returns the maximum drift for a matched substring from the character
-            position where it was expected to be found.The higher this value, the
-            less accurate the results should be considered.
-            </summary>
-        </member>
-        <member name="P:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data.IDeviceDataHash.MatchedNodes">
-            <summary>
-            Returns the number of hash nodes matched within the evidence.
+            Enumeration of possible match methods used by the Hash engine.
             </summary>
         </member>
         <member name="T:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements.DeviceDetectionHashEngine">

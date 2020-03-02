@@ -123,7 +123,13 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         {
             get
             {
-                throw new NotImplementedException();
+                using (var profiles = _engine.getMetaData().getProfiles(this))
+                {
+                    foreach (var profile in profiles)
+                    {
+                        yield return profile;
+                    }
+                }
             }
         }
 
@@ -139,7 +145,13 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         {
             get
             {
-                throw new NotImplementedException();
+                using (var values = _engine.getMetaData().getValues(this))
+                {
+                    foreach (var value in values)
+                    {
+                        yield return value;
+                    }
+                }
             }
         }
 
@@ -306,6 +318,26 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                 _deivceMetricsComponent,
                 new ValueMetaDataDefault("n/a"),
                 "The matched User-Agents.");
+            yield return new FiftyOneAspectPropertyMetaDataHash(
+                this,
+                "Iterations",
+                typeof(int),
+                "Device Metrics",
+                dataFileList,
+                true,
+                _deivceMetricsComponent,
+                new ValueMetaDataDefault("0"),
+                "The number of iterations carried out in order to find a match. This is the number of nodes in the graph which have been visited.");
+            yield return new FiftyOneAspectPropertyMetaDataHash(
+                this,
+                "Method",
+                typeof(string),
+                "Device Metrics",
+                dataFileList,
+                true,
+                _deivceMetricsComponent,
+                new ValueMetaDataDefault("NONE"),
+                "The method used to determine the match result.");
         }
 
         private DateTime GetDataFilePublishedDate()

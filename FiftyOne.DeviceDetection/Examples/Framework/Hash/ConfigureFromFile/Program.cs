@@ -97,13 +97,13 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.ConfigureFromFile
             {
                 Console.WriteLine($"Constructing pipeline from configuration file.");
 
-                // Load the assembly with the pattern engine.
+                // Load the assembly with the Hash engine.
                 // This is required because nothing else in the example 
                 // references any types from this assembly and it will
                 // need to be loaded into the app domain in order for 
                 // the PipelineBuilder to find the engine builder to use 
                 // when creating the device detection engine.
-                // (i.e. the 'DeviceDetectionPatternEngineBuilder'
+                // (i.e. the 'DeviceDetectionHashEngineBuilder'
                 // specified in appsettings.json)
                 Assembly.Load("FiftyOne.DeviceDetection.Hash.Engine.OnPremise");
 

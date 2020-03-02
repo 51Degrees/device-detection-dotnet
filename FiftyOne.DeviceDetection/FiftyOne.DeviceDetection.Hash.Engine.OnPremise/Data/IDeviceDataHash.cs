@@ -21,28 +21,17 @@
  * ********************************************************************* */
 
 using FiftyOne.Pipeline.Engines.Data;
+using System.Collections.Generic;
 
 namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 {
     public interface IDeviceDataHash : IDeviceData
     {
         /// <summary>
-        /// The total difference in matching hash values found in the evidence.
-        /// The higher this value, the less accurate the results should be
-        /// considered.
+        /// Gets all values as a List of strings.
         /// </summary>
-        IAspectPropertyValue<int> Difference { get; }
-
-        /// <summary>
-        /// Returns the maximum drift for a matched substring from the character
-        /// position where it was expected to be found.The higher this value, the
-        /// less accurate the results should be considered.
-        /// </summary>
-        IAspectPropertyValue<int> Drift { get; }
-
-        /// <summary>
-        /// Returns the number of hash nodes matched within the evidence.
-        /// </summary>
-        IAspectPropertyValue<int> MatchedNodes { get; }
+        /// <param name="propertyName"></param>
+        /// <returns></returns>
+        IAspectPropertyValue<IReadOnlyList<string>> GetValues(string propertyName);
     }
 }

@@ -25,6 +25,8 @@ using FiftyOne.Pipeline.Engines;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
+using System.Linq;
+using System.Text;
 
 /// <summary>
 /// @example Hash/Metadata/Program.cs
@@ -50,7 +52,7 @@ using System.IO;
 /// var engine = new DeviceDetectionHashEngineBuilder(loggerFactory)
 ///     .SetAutoUpdate(false)
 ///     .SetPerformanceProfile(PerformanceProfiles.LowMemory)
-///     .Build("51Degrees-LiteV3.4.trie", false);
+///     .Build("51Degrees-LiteV4.1.hash", false);
 /// ```
 /// 
 /// 2. Iterate over all properties in the data file, printing the name, value type,
@@ -69,6 +71,18 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.Metadata
     {
         public class Example : ExampleBase
         {
+            // truncate value if it contains newline (esp for the JavaScript property)
+            private string TruncateToNl(string s)
+            {
+                var lines = s.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                var result = lines.FirstOrDefault();
+                if (lines.Length > 1)
+                {
+                    result += " ...";
+                }
+                return result;
+            }
+
             public void Run(string dataFile)
             {
                 FileInfo f = new FileInfo(dataFile);
@@ -104,6 +118,31 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.Metadata
                         Console.BackgroundColor = ConsoleColor.Black;
                         Console.WriteLine($"[Category: {property.Category}]" +
                             $"({property.Type.Name}) - {property.Description}");
+
+                        // Next, output a list of the possible values this 
+                        // property can have.
+                        // Most properties in the Device Metrics category do
+                        // not have defined values so exclude them.
+                        if (property.Category != "Device Metrics")
+                        {
+                            StringBuilder values = new StringBuilder("Possible values: ");
+                            foreach (var value in property.Values.Take(20))
+                            {
+                                // add value
+                                values.Append(TruncateToNl(value.Name));
+                                // add description if exists
+                                if (string.IsNullOrEmpty(value.Description) == false)
+                                {
+                                    values.Append($"({value.Description})");
+                                }
+                                values.Append(",");
+                            }
+                            if (property.Values.Count() > 20)
+                            {
+                                values.Append($" + {property.Values.Count() - 20} more ...");
+                            }
+                            Console.WriteLine(values);
+                        }
                     }
                 }
             }
@@ -112,9 +151,9 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.Metadata
         static void Main(string[] args)
         {
 #if NETCORE
-            var defaultDataFile = "..\\..\\..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\51Degrees-LiteV3.4.trie";
+            var defaultDataFile = "..\\..\\..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\51Degrees-LiteV4.1.hash";
 #else
-            var defaultDataFile = "..\\..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\51Degrees-LiteV3.4.trie";
+            var defaultDataFile = "..\\..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\51Degrees-LiteV4.1.hash";
 #endif
             var dataFile = args.Length > 0 ? args[0] : defaultDataFile;
 

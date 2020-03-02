@@ -65,10 +65,6 @@ namespace FiftyOne.DeviceDetection.Cloud.Data
                 .ToDictionary(r => r.KeySegments[1], r => r.Value, StringComparer.OrdinalIgnoreCase);
         }
 
-        public override IAspectPropertyValue<IReadOnlyList<string>> UserAgents => throw new NotImplementedException();
-
-        public override IAspectPropertyValue<string> DeviceId => throw new NotImplementedException();
-
         /// <summary>
         /// Try to get the value from the base dictionary and convert it to the
         /// requested type. If requesting an AspectProperty then convert to the

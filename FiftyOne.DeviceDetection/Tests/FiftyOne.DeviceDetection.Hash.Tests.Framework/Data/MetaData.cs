@@ -49,5 +49,11 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Foundation.Data
         {
             MetaDataTests.Reload(Wrapper, new MetaDataHasher());
         }
+
+        [TestMethod]
+        public void MetaData_Hash_Framework_ReloadMemory()
+        {
+            MetaDataTests.ReloadMemory(Wrapper, new MetaDataHasher());
+        }
     }
 }

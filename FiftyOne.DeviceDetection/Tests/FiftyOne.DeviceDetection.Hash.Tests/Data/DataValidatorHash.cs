@@ -80,7 +80,13 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Data
 
         public void ValidateProfileIds(IFlowData data, string[] profileIds)
         {
-            // Don't check anything as Hash does not support profile overrides.
+            var elementData = data.GetFromElement(_engine);
+            var matchedProfiles = elementData.DeviceId.Value.Split('-');
+            foreach (var profileId in profileIds)
+            {
+                Assert.IsTrue(matchedProfiles.Contains(profileId),
+                    $"The profile '{profileId}' was not set in the result.");
+            }
         }
     }
 }

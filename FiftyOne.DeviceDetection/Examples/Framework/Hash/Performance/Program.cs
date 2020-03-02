@@ -54,7 +54,7 @@ using System.Threading.Tasks;
 /// var engine = new DeviceDetectionHashEngineBuilder()
 ///     .SetAutoUpdate(false)
 ///     .SetPerformanceProfile(PerformanceProfiles.MaxPerformance)
-///     .Build("51Degrees-LiteV3.4.trie", false);
+///     .Build("51Degrees-LiteV4.1.hash", false);
 /// ```
 ///
 /// 2. Start multiple threads to process a set of User-Agents, making a note of
@@ -178,10 +178,10 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.Performance
         static void Main(string[] args)
         {
 #if NETCORE
-            var defaultDataFile = "..\\..\\..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\51Degrees-LiteV3.4.trie";
+            var defaultDataFile = "..\\..\\..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\51Degrees-LiteV4.1.hash";
             var defaultUaFile = "..\\..\\..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\20000 User Agents.csv";
 #else
-            var defaultDataFile = "..\\..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\51Degrees-LiteV3.4.trie";
+            var defaultDataFile = "..\\..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\51Degrees-LiteV4.1.hash";
             var defaultUaFile = "..\\..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\20000 User Agents.csv";
 #endif
             var dataFile = args.Length > 0 ? args[0] : defaultDataFile;

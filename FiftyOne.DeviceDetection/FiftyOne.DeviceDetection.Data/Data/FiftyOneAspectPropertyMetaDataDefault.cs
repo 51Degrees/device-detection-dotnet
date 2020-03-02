@@ -39,7 +39,6 @@ namespace FiftyOne.DeviceDetection.Shared.Data
 
         public IComponentMetaData Component => GetComponent();
         public virtual IValueMetaData DefaultValue => GetDefaultValue();
-        public string Description { get; }
         public byte DisplayOrder { get; }
         public bool List { get; }
         public bool Mandatory { get; }
@@ -119,11 +118,10 @@ namespace FiftyOne.DeviceDetection.Shared.Data
             bool obsolete,
             bool show,
             bool showValues,
-            string url) : base(element, name, type, category, dataTiersWherePresent, available)
+            string url) : base(element, name, type, category, dataTiersWherePresent, available, description)
         {
             _component = component as ComponentMetaDataDefault;
             _defaultValue = defaultValue as ValueMetaDataDefault;
-            Description = description;
             DisplayOrder = displayOrder;
             List = list;
             Mandatory = mandatory;

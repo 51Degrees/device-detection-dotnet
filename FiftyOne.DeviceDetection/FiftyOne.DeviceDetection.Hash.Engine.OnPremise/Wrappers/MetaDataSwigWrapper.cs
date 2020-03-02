@@ -20,8 +20,10 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
+using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data;
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop;
+using FiftyOne.Pipeline.Engines.FiftyOne.Data;
 
 namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
 {
@@ -46,6 +48,37 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
             return _object.getPropertiesForComponent(component);
         }
 
+        public ComponentMetaDataSwig getComponentForProfile(
+            ProfileMetaDataSwig profile)
+        {
+            return _object.getComponentForProfile(profile);
+        }
+
+        public ValueMetaDataCollectionSwig getValuesForProfile(
+            ProfileMetaDataSwig profile)
+        {
+            return _object.getValuesForProfile(profile);
+        }
+
+        public ProfileMetaDataSwig getDefaultProfileForComponent(
+            ComponentMetaDataSwig component)
+        {
+            return _object.getDefaultProfileForComponent(component);
+        }
+
+        public ValueMetaDataSwig getDefaultValueForProperty(
+            PropertyMetaDataSwig property)
+        {
+            return _object.getDefaultValueForProperty(property);
+        }
+
+        public IValueCollectionSwigWrapper getValuesForProperty(
+            PropertyMetaDataSwig property,
+            DeviceDetectionHashEngine engine)
+        {
+            return new ValueCollectionSwigWrapper(_object.getValuesForProperty(property), engine);
+        }
+
         public IComponentCollectionSwigWrapper getComponents(
             DeviceDetectionHashEngine engine)
         {
@@ -56,6 +89,23 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
             DeviceDetectionHashEngine engine)
         {
             return new PropertyCollectionSwigWrapper(_object.getProperties(), engine);
-        }        
+        }
+
+        public IProfileCollectionSwigWrapper getProfiles(
+            DeviceDetectionHashEngine engine)
+        {
+            return new ProfileCollectionSwigWrapper(_object.getProfiles(), engine);
+        }
+
+        public IValueCollectionSwigWrapper getValues(
+            DeviceDetectionHashEngine engine)
+        {
+            return new ValueCollectionSwigWrapper(_object.getValues(), engine);
+        }
+
+        public PropertyMetaDataSwig getPropertyForValue(ValueMetaDataSwig value)
+        {
+            return _object.getPropertyForValue(value);
+        }
     }
 }

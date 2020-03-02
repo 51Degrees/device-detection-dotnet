@@ -33,7 +33,6 @@
   <ItemGroup>
     <ProjectReference Include="..\FiftyOne.DeviceDetection.Cloud\FiftyOne.DeviceDetection.Cloud.csproj" />
     <ProjectReference Include="..\FiftyOne.DeviceDetection.Hash.Engine.OnPremise\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.csproj" />
-    <ProjectReference Include="..\FiftyOne.DeviceDetection.Pattern.Engine.OnPremise\FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.csproj" />
   </ItemGroup>
 
 </Project>

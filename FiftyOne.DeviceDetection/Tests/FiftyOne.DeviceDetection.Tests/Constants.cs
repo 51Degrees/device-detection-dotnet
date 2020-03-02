@@ -29,8 +29,7 @@ namespace FiftyOne.DeviceDetection.TestHelpers
     public static class Constants
     {
         public const int UAS_TO_TEST = 10;
-        public const string PATTERN_DATA_FILE_NAME = "51Degrees-LiteV3.2.dat";
-        public const string HASH_DATA_FILE_NAME = "51Degrees-LiteV3.4.trie";
+        public const string HASH_DATA_FILE_NAME = "51Degrees-LiteV4.1.hash";
         public const string UA_FILE_NAME = "20000 User Agents.csv";
 
         public static string[] ExcludedProperties = { "JavascriptImageOptimiser" };

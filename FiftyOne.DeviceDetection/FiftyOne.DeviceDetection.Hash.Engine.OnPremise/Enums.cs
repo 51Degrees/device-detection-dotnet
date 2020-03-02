@@ -1,4 +1,4 @@
-/* *********************************************************************
+﻿/* *********************************************************************
  * This Original Work is copyright of 51 Degrees Mobile Experts Limited.
  * Copyright 2019 51 Degrees Mobile Experts Limited, 5 Charlotte Close,
  * Caversham, Reading, Berkshire, United Kingdom RG4 7BY.
@@ -20,22 +20,16 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-using FiftyOne.DeviceDetection.Shared.Data;
-using FiftyOne.Pipeline.Engines.FiftyOne.Data;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
+namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise
 {
-    public class ComponentMetaDataHash : ComponentMetaDataDefault
+    /// <summary>
+    /// Enumeration of possible match methods used by the Hash engine.
+    /// </summary>
+    public enum MatchMethods
     {
-        public ComponentMetaDataHash(string name) : base(name)
-        {
-        }
-
-        public ComponentMetaDataHash(string name, List<IFiftyOneAspectPropertyMetaData> properties) : base(name, properties)
-        {
-        }
+        NONE,
+        PERFORMANCE,
+        COMBINED,
+        PREDICTIVE
     }
 }

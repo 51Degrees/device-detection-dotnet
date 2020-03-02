@@ -20,49 +20,47 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
+using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data;
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop;
+using FiftyOne.Pipeline.Engines.FiftyOne.Data;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
 {
-    internal interface IMetaDataSwigWrapper
+    internal class ValueCollectionSwigWrapper : IValueCollectionSwigWrapper
     {
+        private ValueMetaDataCollectionSwig _object;
+        private DeviceDetectionHashEngine _engine;
 
-        IComponentCollectionSwigWrapper getComponents(
-            DeviceDetectionHashEngine engine);
+        public ValueCollectionSwigWrapper(ValueMetaDataCollectionSwig instance,
+            DeviceDetectionHashEngine engine)
+        {
+            _object = instance;
+            _engine = engine;
+        }
 
-        IPropertyCollectionSwigWrapper getProperties(
-            DeviceDetectionHashEngine engine);
+        public void Dispose()
+        {
+        }
 
-        IProfileCollectionSwigWrapper getProfiles(
-            DeviceDetectionHashEngine engine);
+        public ValueMetaDataSwig getByKey(ValueMetaDataKeySwig key)
+        {
+            return _object.getByKey(key);
+        }
 
-        IValueCollectionSwigWrapper getValues(
-            DeviceDetectionHashEngine engine);
+        public IEnumerator<IValueMetaData> GetEnumerator()
+        {
+            for (uint i = 0; i < _object.getSize(); i++)
+            {
+                yield return new ValueMetaData(_engine, _object.getByIndex(i));
+            }
+        }
 
-        IValueCollectionSwigWrapper getValuesForProperty(
-            PropertyMetaDataSwig property,
-            DeviceDetectionHashEngine engine);
-
-        PropertyMetaDataCollectionSwig getPropertiesForComponent(
-            ComponentMetaDataSwig component);
-
-        ComponentMetaDataSwig getComponentForProperty(
-            PropertyMetaDataSwig property);
-
-        ComponentMetaDataSwig getComponentForProfile(
-            ProfileMetaDataSwig profile);
-
-        ValueMetaDataCollectionSwig getValuesForProfile(
-            ProfileMetaDataSwig profile);
-
-        PropertyMetaDataSwig getPropertyForValue(
-            ValueMetaDataSwig value);
-
-        ProfileMetaDataSwig getDefaultProfileForComponent(
-            ComponentMetaDataSwig component);
-
-        ValueMetaDataSwig getDefaultValueForProperty(
-            PropertyMetaDataSwig property);
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }

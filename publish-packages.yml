@@ -118,7 +118,9 @@ jobs:
         ) || (
           set ISRELEASEBRANCH=false
         )
-        if "%BUILD_SOURCEBRANCHNAME%" == "master" (
+        if %FORCERELEASE% == true (
+            SET BUILD_CONFIG=Release
+        ) else if "%BUILD_SOURCEBRANCHNAME%" == "master" (
             SET BUILD_CONFIG=Release
         ) else if %ISRELEASEBRANCH% == true (
             SET BUILD_CONFIG=Release

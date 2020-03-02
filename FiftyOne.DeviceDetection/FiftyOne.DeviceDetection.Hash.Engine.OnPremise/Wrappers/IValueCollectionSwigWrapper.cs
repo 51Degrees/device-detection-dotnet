@@ -20,22 +20,16 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-using FiftyOne.DeviceDetection.Shared.Data;
+using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop;
 using FiftyOne.Pipeline.Engines.FiftyOne.Data;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
+namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
 {
-    public class ComponentMetaDataHash : ComponentMetaDataDefault
+    internal interface IValueCollectionSwigWrapper : 
+        IDisposable, IEnumerable<IValueMetaData>
     {
-        public ComponentMetaDataHash(string name) : base(name)
-        {
-        }
-
-        public ComponentMetaDataHash(string name, List<IFiftyOneAspectPropertyMetaData> properties) : base(name, properties)
-        {
-        }
+        ValueMetaDataSwig getByKey(ValueMetaDataKeySwig key);
     }
 }

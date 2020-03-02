@@ -28,6 +28,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace FiftyOne.DeviceDetection.Shared.FlowElements
@@ -54,14 +55,14 @@ namespace FiftyOne.DeviceDetection.Shared.FlowElements
         {
             byte[] data = new byte[stream.Length];
             var memoryStream = stream as MemoryStream;
-            if (memoryStream != null)
+            if (memoryStream != null && memoryStream.TryGetBuffer(out var buffer))
             {
                 // Note that the buffer may be longer 
                 // than it needs to be so we can't just copy the whole 
                 // thing.
                 // The stream 'Length' property will get the true number
                 // of elements we need to take from the buffer.
-                Array.Copy(memoryStream.GetBuffer(),
+                Array.Copy(buffer.Array,
                     data, stream.Length);
             }
             else

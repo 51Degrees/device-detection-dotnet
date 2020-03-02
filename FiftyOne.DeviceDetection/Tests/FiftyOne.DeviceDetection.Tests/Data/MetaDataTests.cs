@@ -23,6 +23,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -66,6 +67,44 @@ namespace FiftyOne.DeviceDetection.TestHelpers.Data
                 {
                     Console.WriteLine("Refresh");
                     wrapper.GetEngine().RefreshData(null);
+                    refreshes++;
+                    Thread.Sleep(50);
+                }
+            });
+            IList<Task<int>> tasks = StartHashingThreads(
+                threadCount,
+                wrapper,
+                hasher);
+            int[] hashes = Task.WhenAll(tasks).Result;
+            done = true;
+            reloader.Wait();
+            Console.WriteLine($"Refreshed the dataset {refreshes} times.");
+            for (int i = 0; i < threadCount - 1; i++)
+            {
+                Assert.AreEqual(hashes[i], hashes[i + 1], "Hashes were not equal");
+            }
+
+        }
+
+        public static void ReloadMemory(IWrapper wrapper, IMetaDataHasher hasher)
+        {
+            var masterData = File.ReadAllBytes(
+                wrapper.GetEngine().GetDataFileMetaData().DataFilePath);
+
+            int threadCount = 6;
+            int refreshes = 0;
+            bool done = false;
+            var reloader = Task.Run(() =>
+            {
+                while (done == false)
+                {
+                    var stream = new MemoryStream();
+                    stream.Write(masterData, 0, masterData.Length);
+                    stream.Seek(0, SeekOrigin.Begin);
+                    Console.WriteLine("Refresh");
+                    wrapper.GetEngine().RefreshData(
+                        wrapper.GetEngine().DataFiles[0].Identifier,
+                        stream);
                     refreshes++;
                     Thread.Sleep(50);
                 }

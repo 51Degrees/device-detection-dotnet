@@ -31,7 +31,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
     internal static class CollectionExtensions
     {
         internal static IEnumerable<IComponentMetaData> Select(
-            this ComponentMetaDataCollectionSwig source, 
+            this ComponentMetaDataCollectionSwig source,
             Func<ComponentMetaDataSwig, IComponentMetaData> selector)
         {
             for (uint i = 0; i < source.getSize(); i++)

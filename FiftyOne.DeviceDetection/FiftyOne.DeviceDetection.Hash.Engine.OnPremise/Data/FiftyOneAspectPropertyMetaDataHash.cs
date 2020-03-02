@@ -103,8 +103,5 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
             bool showValues,
             string url) : base(element, name, type, category, dataTiersWherePresent, available, component, defaultValue,description, displayOrder, list, mandatory,obsolete, show, showValues, url)
         { }
-
-        public override IValueMetaData DefaultValue => throw new NotImplementedException();
-        public override IReadOnlyList<IValueMetaData> Values => throw new NotImplementedException();
     }
 }

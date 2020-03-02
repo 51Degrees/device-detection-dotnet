@@ -21,7 +21,6 @@
  * ********************************************************************* */
 
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
-using FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.FlowElements;
 using FiftyOne.DeviceDetection.Shared.FlowElements;
 using FiftyOne.Pipeline.Core.Exceptions;
 using FiftyOne.Pipeline.Core.FlowElements;
@@ -58,7 +57,7 @@ namespace FiftyOne.DeviceDetection
         private PerformanceProfiles _performanceProfile = 
             PerformanceProfiles.Balanced;
         private DeviceDetectionAlgorithm _algorithm =
-            DeviceDetectionAlgorithm.Pattern;
+            DeviceDetectionAlgorithm.Hash;
         protected bool _shareUsageEnabled = true;
 
         private IDataUpdateService _dataUpdateService;
@@ -96,18 +95,14 @@ namespace FiftyOne.DeviceDetection
         {
             _filename = filename;
             _createTempDataCopy = createTempDataCopy;
-            if (filename.EndsWith(".dat", StringComparison.InvariantCultureIgnoreCase))
-            {
-                _algorithm = DeviceDetectionAlgorithm.Pattern;
-            }
-            else if (filename.EndsWith(".trie", StringComparison.InvariantCultureIgnoreCase))
+            if (filename.EndsWith(".hash", StringComparison.InvariantCultureIgnoreCase))
             {
                 _algorithm = DeviceDetectionAlgorithm.Hash;
             }
             else
             {
                 throw new Exception("Unrecognized filename. " +
-                    "Expected a '*.dat' pattern data file or '*.trie' hash data file."); 
+                    "Expected a '*.hash' Hash data file.");
             }
             return this;
         }
@@ -289,10 +284,6 @@ namespace FiftyOne.DeviceDetection
                 case DeviceDetectionAlgorithm.Hash:
                     var hashBuilder = new DeviceDetectionHashEngineBuilder(LoggerFactory, _dataUpdateService);
                     deviceDetectionEngine = ConfigureAndBuild(hashBuilder);
-                    break;
-                case DeviceDetectionAlgorithm.Pattern:
-                    var patternBuilder = new DeviceDetectionPatternEngineBuilder(LoggerFactory, _dataUpdateService);
-                    deviceDetectionEngine = ConfigureAndBuild(patternBuilder);
                     break;
                 default:
                     throw new PipelineConfigurationException(

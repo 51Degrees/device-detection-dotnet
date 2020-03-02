@@ -58,9 +58,9 @@ namespace FiftyOne.DeviceDetection.Hash.Tests
 
         public IEnumerable<IFiftyOneAspectPropertyMetaData> Properties => Engine.Properties;
 
-        public IEnumerable<IValueMetaData> Values => new List<IValueMetaData>();
+        public IEnumerable<IValueMetaData> Values => Engine.Values;
 
-        public IEnumerable<IProfileMetaData> Profiles => new List<IProfileMetaData>();
+        public IEnumerable<IProfileMetaData> Profiles => Engine.Profiles;
 
         public IEnumerable<IComponentMetaData> Components => Engine.Components;
 

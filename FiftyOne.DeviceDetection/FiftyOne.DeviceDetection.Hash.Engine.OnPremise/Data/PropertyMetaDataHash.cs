@@ -112,17 +112,28 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 
         public IEnumerable<IValueMetaData> GetValues()
         {
-            throw new NotImplementedException();
+            using (var values = _engine.MetaData.getValuesForProperty(_source, _engine))
+            {
+                foreach (var value in values)
+                {
+                    yield return value;
+                }
+            }
         }
 
         public IValueMetaData GetValue(string valueName)
         {
-            throw new NotImplementedException();
+            using (var values = _engine.MetaData.getValuesForProperty(_source, _engine))
+            {
+                return new ValueMetaData(_engine,
+                    values.getByKey(new ValueMetaDataKeySwig(Name, valueName)));
+            }
         }
 
         public IValueMetaData GetDefaultValue()
         {
-            throw new NotImplementedException();
+            var value = _engine.MetaData.getDefaultValueForProperty(_source);
+            return value == null ? null : new ValueMetaData(_engine, value);
         }
 
         public override int GetHashCode()
@@ -139,7 +150,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         {
             return Name.Equals(other);
         }
-        
+
         public IFlowElement Element => _engine;
 
         #region IDisposable Support

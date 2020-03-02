@@ -28,7 +28,6 @@ namespace FiftyOne.DeviceDetection
 {
     public enum DeviceDetectionAlgorithm
     {
-        Hash,
-        Pattern
+        Hash
     }
 }

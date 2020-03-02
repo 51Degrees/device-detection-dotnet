@@ -91,5 +91,23 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Core.FlowElements
         {
             ProcessTests.DeviceId(Wrapper, new DataValidatorHash(Wrapper.Engine));
         }
+
+        [TestMethod]
+        public void Process_Hash_Core_MetaDataService_DefaultProfilesIds()
+        {
+            ProcessTests.MetaDataService_DefaultProfilesIds(Wrapper);
+        }
+
+        [TestMethod]
+        public void Process_Hash_Core_MetaDataService_ComponentIdForProfile()
+        {
+            ProcessTests.MetaDataService_ComponentIdForProfile(Wrapper);
+        }
+
+        [TestMethod]
+        public void Process_Hash_Core_MetaDataService_DefaultProfileIdForComponent()
+        {
+            ProcessTests.MetaDataService_DefaultProfileIdForComponent(Wrapper);
+        }
     }
 }

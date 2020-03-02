@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.Common.TestHelpers" Version="4.1.5" />
+    <PackageReference Include="FiftyOne.Common.TestHelpers" Version="4.1.6" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,10 +17,7 @@
     <None Include="..\..\device-detection-cxx\device-detection-data\20000 User Agents.csv" Link="20000 User Agents.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\..\device-detection-cxx\device-detection-data\51Degrees-LiteV3.2.dat" Link="51Degrees-LiteV3.2.dat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\device-detection-cxx\device-detection-data\51Degrees-LiteV3.4.trie" Link="51Degrees-LiteV3.4.trie">
+    <None Include="..\..\device-detection-cxx\device-detection-data\51Degrees-LiteV4.1.hash" Link="51Degrees-LiteV4.1.hash">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
