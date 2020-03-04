@@ -10,10 +10,11 @@ This repository contains the device detection engines for the .NET implementatio
 
 ## Pre-requesites
 
-Visual Studio 2017 or later is recommended. Although Visual Studio Code can be used for working with most of the projects.
+Visual Studio 2019 or later is recommended. Although Visual Studio Code can be used for working with most of the projects.
 
 The core device detection projects are written in C and C++.
-The Pipeline engines are written in C# and target .NET Standard 2.0.3 and .NET Core 2.0.
+The Pipeline engines are written in C# and target .NET Standard 2.0.3.
+Example and test projects mostly target .NET Core 3.1 though in some cases, projects are available targeting other frameworks.
 
 ## Solutions and projects
 
@@ -46,13 +47,13 @@ Examples can be found in the `Examples/` folder, there are separate sources for 
 |Metadata|This example shows how to get all the properties from the device detection engine and print their information details.|Core / Framework|Hash / Pattern|
 |Performance|This example demonstrates the performance of the maximum performance device detection configuration profile.|Core / Framework|Hash / Pattern|
 
-### DeviceDetectionWebDemoV4
+### DeviceDetectionWebDemo
 
-This example shows how to integrate the Pipeline API with a device detection engine into an ASP.NET Core web app.
+These examples shows how to integrate the Pipeline API with a device detection engine into an ASP.NET Core web app.
 
 ## Tests
 
-Tests can be found in the `Tests/` folder. These can all be run from within Visual Studio.
+Tests can be found in the `Tests/` folder. These can all be run from within Visual Studio or (for the non-framework tests) by using the `dotnet` command line tool. 
 
 ## Project documentation
 

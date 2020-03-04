@@ -84,14 +84,14 @@
       <Project>{8dc14c9a-e641-41a0-a637-7f413a29c2a9}</Project>
       <Name>FiftyOne.DeviceDetection</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\FiftyOne.DeviceDetection.Examples.csproj">
-      <Project>{4424a1d1-e7bc-4a74-8c4f-a0c0e0655a06}</Project>
+    <ProjectReference Include="..\..\..\ExampleBase\FiftyOne.DeviceDetection.Examples.csproj">
+      <Project>{90c58aae-6b9a-4995-95f6-28649ff8eaee}</Project>
       <Name>FiftyOne.DeviceDetection.Examples</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FiftyOne.Pipeline.Engines">
-      <Version>4.1.0-beta.43</Version>
+      <Version>4.1.0-beta.44</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

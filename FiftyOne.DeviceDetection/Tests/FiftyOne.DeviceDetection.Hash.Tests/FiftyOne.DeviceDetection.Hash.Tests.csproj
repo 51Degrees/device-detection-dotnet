@@ -1,17 +1,27 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Platforms>AnyCPU;x64;x86</Platforms>
-  </PropertyGroup>
+    <TargetFrameworks>netcoreapp3.1;net462</TargetFrameworks>
 
-  <ItemGroup>
-    <PackageReference Include="Moq" Version="4.13.1" />
+    <IsPackable>false</IsPackable>
+
+    <Platforms>AnyCPU;x86;x64</Platforms>
+  </PropertyGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.1.0" />
+    <PackageReference Include="Moq" Version="4.13.1" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\FiftyOne.DeviceDetection.Data\FiftyOne.DeviceDetection.Shared.csproj" />
     <ProjectReference Include="..\..\FiftyOne.DeviceDetection.Hash.Engine.OnPremise\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.csproj" />
-    <ProjectReference Include="..\FiftyOne.DeviceDetection.Tests\FiftyOne.DeviceDetection.TestHelpers.csproj" />
+    <ProjectReference Include="..\FiftyOne.DeviceDetection.TestHelpers\FiftyOne.DeviceDetection.TestHelpers.csproj" />
   </ItemGroup>
 
 </Project>

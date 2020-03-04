@@ -26,6 +26,7 @@ using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.Data.Types;
 using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.Data;
+using FiftyOne.Pipeline.Engines.FiftyOne.Data;
 using FiftyOne.Pipeline.Engines.FlowElements;
 using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
@@ -39,7 +40,7 @@ namespace FiftyOne.DeviceDetection.Cloud.Data
 {
     public class DeviceDataCloud : DeviceDataBase, IDeviceData
     {
-        private string[] SEPERATOR = new string[] { FiftyOne.Pipeline.Core.Constants.EVIDENCE_SEPERATOR };
+        private string[] SEPERATORS = new string[] { FiftyOne.Pipeline.Core.Constants.EVIDENCE_SEPERATOR };
         private Dictionary<string, string> _noValueReasons = null;
 
         public DeviceDataCloud(ILogger<AspectDataBase> logger,
@@ -55,7 +56,7 @@ namespace FiftyOne.DeviceDetection.Cloud.Data
             _noValueReasons = noValueReasons
                 .Select(r => new 
                 { 
-                    KeySegments = r.Key.Split(SEPERATOR, StringSplitOptions.RemoveEmptyEntries),
+                    KeySegments = r.Key.Split(SEPERATORS, StringSplitOptions.RemoveEmptyEntries),
                     Value = r.Value
                 })
                 .Where(r =>
@@ -79,72 +80,12 @@ namespace FiftyOne.DeviceDetection.Cloud.Data
         {
             if (typeof(IAspectPropertyValue).IsAssignableFrom(typeof(T)))
             {
-                // Get the inner type of the AspectPropertyValue
-                object obj;
-                Type type = typeof(T);
-                Type innerType;
-                if (type == typeof(object))
-                {
-                    innerType = GetPropertyType(key);
-                }
-                else
-                {
-                    innerType = type.GenericTypeArguments[0];
-                }
-
-                if (AsDictionary().TryGetValue(key, out obj))
-                {
-                    try
-                    {
-                        IAspectPropertyValue temp = null;
-                        if (innerType == typeof(string))
-                        {
-                            temp = SetValue<string>(key, obj);
-                        }
-                        else if (innerType == typeof(double))
-                        {
-                            temp = SetValue<double>(key, obj);
-                        }
-                        else if (innerType == typeof(int))
-                        {
-                            temp = SetValue<int>(key, obj);
-                        }
-                        else if (innerType == typeof(bool))
-                        {
-                            temp = SetValue<bool>(key, obj);
-                        }
-                        else if (innerType == typeof(IReadOnlyList<string>))
-                        {
-                            temp = SetValue<IReadOnlyList<string>>(key, obj);
-                        }
-                        else if (innerType == typeof(JavaScript))
-                        {
-                            temp = SetValue<JavaScript>(key, obj);
-                        }
-                        else
-                        {
-                            throw new Exception($"Unknown property type in " +
-                                $"data. Property {key} has " +
-                                $"type {obj.GetType().Name}");
-                        }
-
-                        value = (T)temp;
-                    }
-                    catch (InvalidCastException)
-                    {
-                        throw new Exception(
-                            $"Expected property '{key}' to be of " +
-                            $"type '{typeof(T).Name}' but it is " +
-
-                            $"'{obj.GetType().Name}'");
-                    }
-                    return true;
-                }
-                value = default(T);
-                return false;
+                return CloudDataHelpers.TryGetAspectPropertyValue(this, _noValueReasons, key, out value);
             }
             else
+            {
                 return base.TryGetValue(key, out value);
+            }
         }
 
         /// <summary>
@@ -174,22 +115,6 @@ namespace FiftyOne.DeviceDetection.Cloud.Data
                 temp.Value = (T)obj;
             }
             return temp;
-        }
-
-        protected Type GetPropertyType(string propertyName)
-        {
-            Type type = typeof(object);
-            var properties = Pipeline
-                .ElementAvailableProperties[Engines[0].ElementDataKey];
-            if (properties != null)
-            {
-                var property = properties[propertyName];
-                if (property != null)
-                {
-                    type = property.Type;
-                }
-            }
-            return type;
         }
     }
 }

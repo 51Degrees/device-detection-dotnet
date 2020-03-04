@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-    <Platforms>AnyCPU;x64;x86</Platforms>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Platforms>AnyCPU;x86;x64</Platforms>
     <AssemblyName>FiftyOne.DeviceDetection.Examples.GettingStarted</AssemblyName>
   </PropertyGroup>
 
@@ -18,7 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\FiftyOne.DeviceDetection.Hash.Engine.OnPremise\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.csproj" />
     <ProjectReference Include="..\..\..\..\FiftyOne.DeviceDetection\FiftyOne.DeviceDetection.csproj" />
-    <ProjectReference Include="..\..\..\FiftyOne.DeviceDetection.Examples.csproj" />
+    <ProjectReference Include="..\..\..\ExampleBase\FiftyOne.DeviceDetection.Examples.csproj" />
   </ItemGroup>
 
 </Project>

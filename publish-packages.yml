@@ -9,9 +9,6 @@ variables:
   # using the name/value syntax.
   - name: RestoreBuildProjects
     value: '*.sln'
-    # Projects to be run unit tests for
-  - name: TestProjects
-    value: '**/*[Tt]ests/*.csproj'
     # Projects to be published as NuGet packages
   - name: PublishProjects
     value: '**/*.csproj;!**/*[Tt]ests/**/*.csproj;!**/*[Ee]xamples/**/*.csproj'
@@ -81,10 +78,7 @@ jobs:
   - job: Windows_Build_and_Release
     dependsOn: Build_Linux_Binaries
     pool:
-      name: Hosted VS2017
-      demands:
-      - msbuild
-      - visualstudio
+      vmImage: 'windows-2019'
 
     steps:
     - bash: |
@@ -132,9 +126,9 @@ jobs:
       displayName: 'Determine Build Configuration'
         
     - task: NuGetToolInstaller@1
-      displayName: 'Use NuGet 4.8.1'
+      displayName: 'Use NuGet 5.4.0'
       inputs:
-        versionSpec: 4.8.1
+        versionSpec: 5.4.0
 
     - task: NuGetCommand@2
       displayName: 'NuGet restore'
@@ -169,7 +163,7 @@ jobs:
       displayName: 'Build solutions x64'
       inputs:
         solution: '$(RestoreBuildProjects)'
-        vsVersion: '15.0'
+        vsVersion: '16.0'
         platform: 'x64'
         configuration: '$(BuildConfiguration)'
         clean: true
@@ -179,7 +173,7 @@ jobs:
       displayName: 'Build solutions x86'
       inputs:
         solution: '$(RestoreBuildProjects)'
-        vsVersion: '15.0'
+        vsVersion: '16.0'
         platform: 'x86'
         configuration: '$(BuildConfiguration)'
         clean: true
