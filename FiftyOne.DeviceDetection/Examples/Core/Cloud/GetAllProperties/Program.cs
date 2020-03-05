@@ -1,4 +1,4 @@
-/* *********************************************************************
+﻿/* *********************************************************************
  * This Original Work is copyright of 51 Degrees Mobile Experts Limited.
  * Copyright 2019 51 Degrees Mobile Experts Limited, 5 Charlotte Close,
  * Caversham, Reading, Berkshire, United Kingdom RG4 7BY.
@@ -22,53 +22,13 @@
 
 using FiftyOne.DeviceDetection;
 using FiftyOne.Pipeline.Core.FlowElements;
+using FiftyOne.Pipeline.Engines.Data;
 using System;
+using System.Collections.Generic;
 /// <summary>
-/// @example Cloud/GettingStarted/Program.cs
-///
-/// Getting started example of using 51Degrees device detection.
-/// 
-/// This example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/blob/release/v4.1.0/FiftyOne.DeviceDetection/Examples/Core/Cloud/GettingStarted/Program.cs). 
-/// (During the beta period, this repository will be private. 
-/// [Contact us](mailto:support.51degrees.com) to request access) 
-/// 
-/// To run this example, you will need to create a **resource key**. 
-/// The resource key is used as short-hand to store the particular set of 
-/// properties you are interested in as well as any associated license keys 
-/// that entitle you to increased request limits and/or paid-for properties.
-/// 
-/// You can create a resource key using the 51Degrees [Configurator](https://configure.51degrees.com).
-///
-/// Required NuGet Dependencies:
-/// - FiftyOne.DeviceDetection
-/// 
-/// The example shows how to:
-///
-/// 1. Build a new Pipeline with a cloud-based device detection engine.
-/// ```
-/// var pipeline = new DeviceDetectionPipelineBuilder()
-///     .UseCloud(resourceKey)
-///     .Build();
-/// ```
-///
-/// 2. Create a new FlowData instance ready to be populated with evidence for the
-/// Pipeline.
-/// ```
-/// var data = pipeline.CreateFlowData();
-/// ```
-///
-/// 3. Add a User-Agent string to the evidence collection and process it.
-/// ```
-/// data.AddEvidence("header.user-agent", userAgent)
-///     .Process();
-/// ```
-///
-/// 4. Extract the value of a property as a string from the results.
-/// ```
-/// Console.WriteLine("IsMobile: " + data.Get<IDeviceData>().IsMobile.Value);
-/// ```
+/// @example Cloud/GetAllProperties/Program.cs
 /// </summary>
-namespace FiftyOne.DeviceDetection.Examples.Cloud.GettingStarted
+namespace GetAllProperties
 {
     class Program
     {
@@ -83,15 +43,12 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.GettingStarted
         static void Main(string[] args)
         {
             // Obtain a resource key for free at https://configure.51degrees.com
-            // Make sure to include the 'IsMobile' property as it is used by this example.
             string resourceKey = "!!YOUR_RESOURCE_KEY!!";
 
             if (resourceKey.StartsWith("!!"))
             {
                 Console.WriteLine("You need to create a resource key at " +
                     "https://configure.51degrees.com and paste it into this example.");
-                Console.WriteLine("Make sure to include the 'IsMobile' " +
-                    "property as it is used by this example.");
             }
             else
             {
@@ -113,7 +70,7 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.GettingStarted
 #endif
         }
 
-            static void AnalyseUserAgent(string userAgent, IPipeline pipeline)
+        static void AnalyseUserAgent(string userAgent, IPipeline pipeline)
         {
             // Create the FlowData instance.
             var data = pipeline.CreateFlowData();
@@ -123,16 +80,47 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.GettingStarted
             data.Process();
             // Get device data from the flow data.
             var device = data.Get<IDeviceData>();
-            Console.WriteLine($"Does the User-Agent '{userAgent}' " +
-                $"represent a mobile device?");
-            // Output the result of the 'IsMobile' property.
-            if (device.IsMobile.HasValue)
+            Console.WriteLine($"What property values are associated with " +
+                $"the User-Agent '{userAgent}'?");
+
+            // Iterate through device data results, displaying all values.
+            foreach (var entry in device.AsDictionary())
             {
-                Console.WriteLine($"\t{device.IsMobile.Value}");
-            }
-            else
-            {
-                Console.WriteLine($"\t{device.IsMobile.NoValueMessage}");
+                Console.Write(entry.Key ?? "NULL");
+                Console.Write(" = ");
+                try
+                {
+                    bool valueWritten = false;
+                    if (entry.Value != null)
+                    {
+                        if (typeof(IReadOnlyList<string>).IsAssignableFrom(entry.Value.GetType()))
+                        {
+                            var list = entry.Value as IReadOnlyList<string>;
+                            Console.WriteLine(string.Join(", ", list));
+                            valueWritten = true;
+                        }
+
+                        if (valueWritten == false)
+                        {
+                            // Truncate any long strings to 200 characters
+                            var str = entry.Value.ToString();
+                            if(str.Length > 200)
+                            {
+                                str = str.Remove(200);
+                                str += "...";
+                            }
+                            Console.WriteLine(str);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("NULL");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"ERROR: {ex.Message}");
+                }
             }
         }
     }
