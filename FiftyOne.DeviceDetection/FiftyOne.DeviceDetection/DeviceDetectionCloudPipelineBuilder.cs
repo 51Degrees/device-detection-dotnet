@@ -53,7 +53,7 @@ namespace FiftyOne.DeviceDetection
         public override IPipeline Build()
         {
             // Configure and build the device detection engine
-            var deviceDetectionEngineBuilder = new DeviceDetectionCloudEngineBuilder(LoggerFactory, _httpClient);
+            var deviceDetectionEngineBuilder = new DeviceDetectionCloudEngineBuilder(LoggerFactory);
             if (LazyLoading)
             {
                 deviceDetectionEngineBuilder.SetLazyLoading(new LazyLoadingConfiguration(

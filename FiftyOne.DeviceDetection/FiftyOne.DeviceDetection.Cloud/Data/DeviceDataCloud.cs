@@ -87,34 +87,5 @@ namespace FiftyOne.DeviceDetection.Cloud.Data
                 return base.TryGetValue(key, out value);
             }
         }
-
-        /// <summary>
-        /// Set the value based on the type or add a no value reason if there 
-        /// is no value.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        private IAspectPropertyValue SetValue<T>(string key, object obj)
-        {
-            var temp = new AspectPropertyValue<T>();
-            if (obj == null)
-            {
-                if(_noValueReasons.TryGetValue(key, out string value))
-                {
-                    temp.NoValueMessage = value;
-                }
-                else
-                {
-                    temp.NoValueMessage = "Reason for empty value is unknown";
-                }
-            }
-            else
-            {
-                temp.Value = (T)obj;
-            }
-            return temp;
-        }
     }
 }

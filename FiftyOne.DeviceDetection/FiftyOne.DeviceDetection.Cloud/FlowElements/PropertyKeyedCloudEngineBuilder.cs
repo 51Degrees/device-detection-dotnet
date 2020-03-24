@@ -35,30 +35,30 @@ using System.Text;
 
 namespace FiftyOne.DeviceDetection.Cloud.FlowElements
 {
-    public class DeviceDetectionCloudEngineBuilder: AspectEngineBuilderBase<DeviceDetectionCloudEngineBuilder, DeviceDetectionCloudEngine>
+    public class PropertyKeyedCloudEngineBuilder: AspectEngineBuilderBase<PropertyKeyedCloudEngineBuilder, PropertyKeyedCloudEngine>
     {
         private ILoggerFactory _loggerFactory;
 
-        public DeviceDetectionCloudEngineBuilder(ILoggerFactory loggerFactory)
+        public PropertyKeyedCloudEngineBuilder(ILoggerFactory loggerFactory)
         {
             _loggerFactory = loggerFactory;
         }
 
-        public DeviceDetectionCloudEngine Build()
+        public PropertyKeyedCloudEngine Build()
         {
             return BuildEngine();
         }
 
-        protected override DeviceDetectionCloudEngine NewEngine(List<string> properties)
+        protected override PropertyKeyedCloudEngine NewEngine(List<string> properties)
         {
-            return new DeviceDetectionCloudEngine(
-                _loggerFactory.CreateLogger<DeviceDetectionCloudEngine>(),
+            return new PropertyKeyedCloudEngine(
+                _loggerFactory.CreateLogger<PropertyKeyedCloudEngine>(),
                 CreateData);
         }
 
-        private DeviceDataCloud CreateData(IPipeline pipeline, FlowElementBase<DeviceDataCloud, IAspectPropertyMetaData> engine)
+        private MultiDeviceDataCloud CreateData(IPipeline pipeline, FlowElementBase<MultiDeviceDataCloud, IAspectPropertyMetaData> engine)
         {
-            return new DeviceDataCloud(
+            return new MultiDeviceDataCloud(
                 _loggerFactory.CreateLogger<DeviceDataCloud>(),
                 pipeline,
                 (IAspectEngine)engine,

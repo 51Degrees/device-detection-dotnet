@@ -1,4 +1,4 @@
-/* *********************************************************************
+﻿/* *********************************************************************
  * This Original Work is copyright of 51 Degrees Mobile Experts Limited.
  * Copyright 2019 51 Degrees Mobile Experts Limited, 5 Charlotte Close,
  * Caversham, Reading, Berkshire, United Kingdom RG4 7BY.
@@ -21,6 +21,7 @@
  * ********************************************************************* */
 
 using FiftyOne.DeviceDetection.Cloud.Data;
+using FiftyOne.DeviceDetection.Shared.Data;
 using FiftyOne.Pipeline.CloudRequestEngine.Data;
 using FiftyOne.Pipeline.CloudRequestEngine.FlowElements;
 using FiftyOne.Pipeline.Core.Data;
@@ -29,27 +30,17 @@ using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.Data;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace FiftyOne.DeviceDetection.Cloud.FlowElements
 {
-    /// <summary>
-    /// Engine that takes the JSON response from the 
-    /// <see cref="CloudRequestEngine"/> and uses it populate a 
-    /// DeviceDataCloud instance for easier consumption.
-    /// </summary>
-    public class DeviceDetectionCloudEngine : CloudAspectEngineBase<DeviceDataCloud>
+    public class PropertyKeyedCloudEngine : CloudAspectEngineBase<MultiDeviceDataCloud>
     {
-        public DeviceDetectionCloudEngine(
-            ILogger<DeviceDetectionCloudEngine> logger,
-            Func<IPipeline, FlowElementBase<DeviceDataCloud, IAspectPropertyMetaData>, DeviceDataCloud> deviceDataFactory)
-            : base(logger,
-                  deviceDataFactory)
-        {
-        }
-        
-        public override string ElementDataKey => "device";
+        public override string ElementDataKey => "devices";
 
         public override IEvidenceKeyFilter EvidenceKeyFilter =>
             // This engine needs no evidence. 
@@ -61,7 +52,15 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
             new CloudJsonConverter()
         };
 
-        protected override void ProcessEngine(IFlowData data, DeviceDataCloud aspectData)
+        public PropertyKeyedCloudEngine(
+            ILogger<PropertyKeyedCloudEngine> logger,
+            Func<IPipeline, FlowElementBase<MultiDeviceDataCloud, IAspectPropertyMetaData>, MultiDeviceDataCloud> deviceDataFactory)
+            : base(logger,
+                  deviceDataFactory)
+        {
+        }
+
+        protected override void ProcessEngine(IFlowData data, MultiDeviceDataCloud aspectData)
         {
             var requestData = data.GetFromElement(RequestEngine.Instance);
             var json = requestData?.JsonResponse;
@@ -79,17 +78,26 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
             {
                 // Extract data from json to the aspectData instance.
                 var dictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
-                var device = JsonConvert.DeserializeObject<Dictionary<string, object>>(dictionary["device"].ToString(),
-                    new JsonSerializerSettings()
-                    {
-                        Converters = JSON_CONVERTERS,
-                    });
-                var noValueReasons = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-                JsonConvert.PopulateObject(dictionary["nullValueReasons"].ToString(), noValueReasons);
-
-                aspectData.SetNoValueReasons(noValueReasons);
-                aspectData.PopulateFromDictionary(device);
+                // Access the data relating to this engine.
+                var devices = dictionary[ElementDataKey] as JObject;
+                // Access the 'Devices' property
+                foreach(var entry in devices["devices"])
+                {
+                    // Iterate through the devices, parsing each one and
+                    // adding it to the result.
+                    var deviceData = JsonConvert.DeserializeObject<Dictionary<string, object>>(entry.First.ToString(),
+                        new JsonSerializerSettings()
+                        {
+                            Converters = JSON_CONVERTERS,
+                        });
+                    var device = new DeviceDataCloud(null, 
+                        Pipelines.First(), this, _missingPropertyService);
+                    device.PopulateFromDictionary(deviceData);
+                    aspectData.AddDevice(device);
+                }
             }
         }
+
+
     }
 }
