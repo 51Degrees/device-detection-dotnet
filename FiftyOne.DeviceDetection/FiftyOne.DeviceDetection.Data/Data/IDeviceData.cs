@@ -69,7 +69,7 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// The year in which further development of the browser version is stopped by the browser vendor.  This occurs when a new stable version of the brower is released.
 		/// </summary>
-		IAspectPropertyValue<string> BrowserDiscontinuedYear { get; }
+		IAspectPropertyValue<int> BrowserDiscontinuedYear { get; }
 		/// <summary>
 		/// Indicates the name of the browser. Many mobile browsers, by default, come with an operating system (OS). Unless specifically named, these browsers are named after the accompanying OS and/or the layout engine. 
 		/// </summary>
@@ -85,7 +85,7 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// The year in which the browser version is originally released as a Beta/Developer version by the browser vendor. This is before it is officially released as a stable version, to ensure wider testing by the community can take place.
 		/// </summary>
-		IAspectPropertyValue<string> BrowserPreviewYear { get; }
+		IAspectPropertyValue<int> BrowserPreviewYear { get; }
 		/// <summary>
 		/// Indicates the source from which browser properties have been validated. Primary browser data are retrieved from the internal test and populated manually, then they might be validated against an external source such as Caniuse or RingMark. 
 		/// </summary>
@@ -307,6 +307,10 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<bool> FormData { get; }
 		/// <summary>
+		/// Indicates the list of frequency bands supported by the device.
+		/// </summary>
+		IAspectPropertyValue<IReadOnlyList<string>> FrequencyBands { get; }
+		/// <summary>
 		/// Indicates the resolution of the device's front camera in megapixels. For a device that has a rotating camera the same value is returned for front and back megapixels' properties.
 		/// </summary>
 		IAspectPropertyValue<double> FrontCameraMegaPixels { get; }
@@ -465,7 +469,7 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if a web page is accessed through a VR headset.
 		/// </summary>
-		IAspectPropertyValue<string> InVRMode { get; }
+		IAspectPropertyValue<bool> InVRMode { get; }
 		/// <summary>
 		/// Indicates if the device is primarily a game console, such as an Xbox or Playstation.
 		/// </summary>
@@ -485,7 +489,7 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the mobile device accessing a web page emulates a desktop computer. This property is not applicable for desktops, media hubs, TVs and consoles.
 		/// </summary>
-		IAspectPropertyValue<string> IsEmulatingDesktop { get; }
+		IAspectPropertyValue<bool> IsEmulatingDesktop { get; }
 		/// <summary>
 		/// Indicates a browser that does not correctly identify the physical hardware device and instead reports an emulated device.
 		/// </summary>
@@ -533,11 +537,11 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if a web page is accessed from an application whose main function is not browsing the World Wide Web or managing emails, e.g. the Facebook App. The application must be downloaded and installed onto the device from an app marketplace such as Apple's App Store or the Google Play Store, or via a third party as an .apk file or similar. This property will return a 'False' value for mobile browsers such as Chrome Mobile or email browsers (such as Hotmail).
 		/// </summary>
-		IAspectPropertyValue<string> IsWebApp { get; }
-        /// <summary>
-        /// The number of iterations carried out in order to find a match. This is the number of nodes in the graph which have been visited.
-        /// </summary>
-        IAspectPropertyValue<int> Iterations { get; }
+		IAspectPropertyValue<bool> IsWebApp { get; }
+		/// <summary>
+		/// The number of iterations carried out in order to find a match. This is the number of nodes in the graph which have been visited.
+		/// </summary>
+		IAspectPropertyValue<int> Iterations { get; }
 		/// <summary>
 		/// Indicates if the browser supports JavaScript.
 		/// </summary>
@@ -626,10 +630,10 @@ namespace FiftyOne.DeviceDetection
 		/// Indicates if the browser supports a meter element that represents a scalar measurement within a known range or fractional value. This property does not indicate whether the browser supports the progress bar indication. For this purpose, the progress property should be used.
 		/// </summary>
 		IAspectPropertyValue<bool> Meter { get; }
-        /// <summary>
-        /// The method used to determine the match result.
-        /// </summary>
-        IAspectPropertyValue<string> Method { get; }
+		/// <summary>
+		/// The method used to determine the match result.
+		/// </summary>
+		IAspectPropertyValue<string> Method { get; }
 		/// <summary>
 		/// Indicates which version of Mobile Information Device Profile the device supports, used with Java ME and CLDC.
 		/// </summary>
@@ -657,7 +661,7 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates the number of screens the device has. This property is not applicable for a device that does not have a screen.
 		/// </summary>
-		IAspectPropertyValue<string> NumberOfScreens { get; }
+		IAspectPropertyValue<int> NumberOfScreens { get; }
 		/// <summary>
 		/// Indicates the name of the company that manufactures the device.
 		/// </summary>
@@ -677,7 +681,7 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// The year in which further development for the platform version is stopped by the platform vendor. This occurs when a new stable version of the platform is released.
 		/// </summary>
-		IAspectPropertyValue<string> PlatformDiscontinuedYear { get; }
+		IAspectPropertyValue<int> PlatformDiscontinuedYear { get; }
 		/// <summary>
 		/// Indicates the name of the operating system the device is using.
 		/// </summary>
@@ -693,7 +697,7 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// The year in which the platform version was originally released as a Beta/Developer version by the platform vendor. This is before it is officially released as a stable version, to ensure wider testing by the community can take place.
 		/// </summary>
-		IAspectPropertyValue<string> PlatformPreviewYear { get; }
+		IAspectPropertyValue<int> PlatformPreviewYear { get; }
 		/// <summary>
 		/// A measure of the popularity of this software platform (i.e. OS and version). All platforms are ordered by the number of events associated with that platform that occurred in the sampling period. The platform with the most events is ranked 1, the second 2 and so on.
 		/// </summary>
@@ -709,7 +713,7 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// The year in which the platform version was officially released to users by the platform vendor. This version is called the stable version as any bugs or difficulties highlighted in the Beta/Developer Version will have been fixed for this release.
 		/// </summary>
-		IAspectPropertyValue<string> PlatformReleaseYear { get; }
+		IAspectPropertyValue<int> PlatformReleaseYear { get; }
 		/// <summary>
 		/// Indicates the name of the company that developed the operating system.
 		/// </summary>
@@ -821,11 +825,11 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates the resolution of the device's second back camera in megapixels.
 		/// </summary>
-		IAspectPropertyValue<string> SecondBackCameraMegaPixels { get; }
+		IAspectPropertyValue<double> SecondBackCameraMegaPixels { get; }
 		/// <summary>
 		/// Indicates the resolution of the device's second front camera in megapixels.
 		/// </summary>
-		IAspectPropertyValue<string> SecondFrontCameraMegaPixels { get; }
+		IAspectPropertyValue<double> SecondFrontCameraMegaPixels { get; }
 		/// <summary>
 		/// Indicates the diagonal size of the device's second screen in inches. This property is not applicable for a device that does not have a second screen.
 		/// </summary>
@@ -873,11 +877,11 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// The Specific Absorbtion Rate (SAR) is a measure of the rate at which energy is absorbed by the human body when exposed by a radio frequency electromagnetic field. This property contains values in Watts per Kilogram (W/kg) in accordance with the European Committee for Electrotechnical Standardization (CENELEC).
 		/// </summary>
-		IAspectPropertyValue<string> SpecificAbsorbtionRateEU { get; }
+		IAspectPropertyValue<double> SpecificAbsorbtionRateEU { get; }
 		/// <summary>
 		/// The Specific Absorbtion Rate (SAR) is a measure of the rate at which energy is absorbed by the human body when exposed by a radio frequency electromagnetic field. This property contains values in Watts per Kilogram (W/kg) in accordance with the Federal Communications Commission (FCC).
 		/// </summary>
-		IAspectPropertyValue<int> SpecificAbsorbtionRateUS { get; }
+		IAspectPropertyValue<double> SpecificAbsorbtionRateUS { get; }
 		/// <summary>
 		/// A list of MIME types the device can stream. The list does not include MIME types that are only supported through the use of 3rd party applications.
 		/// </summary>
@@ -985,11 +989,11 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates the weight of the device with battery in grams.
 		/// </summary>
-		IAspectPropertyValue<string> WeightWithBattery { get; }
+		IAspectPropertyValue<double> WeightWithBattery { get; }
 		/// <summary>
 		/// Indicates the weight of the device without battery in grams.
 		/// </summary>
-		IAspectPropertyValue<string> WeightWithoutBattery { get; }
+		IAspectPropertyValue<double> WeightWithoutBattery { get; }
 		/// <summary>
 		/// Indicates if the browser supports client-to-server communication with XmlHttpRequests. If the browser supports 'Xhr2' will also support 'DataForm' element. This property may need a vendor prefix, e.g. webkit, moz, etc.
 		/// </summary>

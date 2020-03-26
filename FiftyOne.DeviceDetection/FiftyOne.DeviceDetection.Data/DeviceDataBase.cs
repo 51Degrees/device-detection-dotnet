@@ -52,11 +52,11 @@ namespace FiftyOne.DeviceDetection.Shared
 		public IAspectPropertyValue<bool> BlobBuilder { get { return GetAs<IAspectPropertyValue<bool>>("BlobBuilder"); } }
 		public IAspectPropertyValue<int> BrowserDiscontinuedAge { get { return GetAs<IAspectPropertyValue<int>>("BrowserDiscontinuedAge"); } }
 		public IAspectPropertyValue<string> BrowserDiscontinuedMonth { get { return GetAs<IAspectPropertyValue<string>>("BrowserDiscontinuedMonth"); } }
-		public IAspectPropertyValue<string> BrowserDiscontinuedYear { get { return GetAs<IAspectPropertyValue<string>>("BrowserDiscontinuedYear"); } }
+		public IAspectPropertyValue<int> BrowserDiscontinuedYear { get { return GetAs<IAspectPropertyValue<int>>("BrowserDiscontinuedYear"); } }
 		public IAspectPropertyValue<string> BrowserName { get { return GetAs<IAspectPropertyValue<string>>("BrowserName"); } }
 		public IAspectPropertyValue<int> BrowserPreviewAge { get { return GetAs<IAspectPropertyValue<int>>("BrowserPreviewAge"); } }
 		public IAspectPropertyValue<string> BrowserPreviewMonth { get { return GetAs<IAspectPropertyValue<string>>("BrowserPreviewMonth"); } }
-		public IAspectPropertyValue<string> BrowserPreviewYear { get { return GetAs<IAspectPropertyValue<string>>("BrowserPreviewYear"); } }
+		public IAspectPropertyValue<int> BrowserPreviewYear { get { return GetAs<IAspectPropertyValue<int>>("BrowserPreviewYear"); } }
 		public IAspectPropertyValue<string> BrowserPropertySource { get { return GetAs<IAspectPropertyValue<string>>("BrowserPropertySource"); } }
 		public IAspectPropertyValue<int> BrowserRank { get { return GetAs<IAspectPropertyValue<int>>("BrowserRank"); } }
 		public IAspectPropertyValue<int> BrowserReleaseAge { get { return GetAs<IAspectPropertyValue<int>>("BrowserReleaseAge"); } }
@@ -112,6 +112,7 @@ namespace FiftyOne.DeviceDetection.Shared
 		public IAspectPropertyValue<bool> FileSaver { get { return GetAs<IAspectPropertyValue<bool>>("FileSaver"); } }
 		public IAspectPropertyValue<bool> FileWriter { get { return GetAs<IAspectPropertyValue<bool>>("FileWriter"); } }
 		public IAspectPropertyValue<bool> FormData { get { return GetAs<IAspectPropertyValue<bool>>("FormData"); } }
+		public IAspectPropertyValue<IReadOnlyList<string>> FrequencyBands { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("FrequencyBands"); } }
 		public IAspectPropertyValue<double> FrontCameraMegaPixels { get { return GetAs<IAspectPropertyValue<double>>("FrontCameraMegaPixels"); } }
 		public IAspectPropertyValue<bool> Fullscreen { get { return GetAs<IAspectPropertyValue<bool>>("Fullscreen"); } }
 		public IAspectPropertyValue<bool> GeoLocation { get { return GetAs<IAspectPropertyValue<bool>>("GeoLocation"); } }
@@ -151,12 +152,12 @@ namespace FiftyOne.DeviceDetection.Shared
 		public IAspectPropertyValue<bool> Iframe { get { return GetAs<IAspectPropertyValue<bool>>("Iframe"); } }
 		public IAspectPropertyValue<bool> IndexedDB { get { return GetAs<IAspectPropertyValue<bool>>("IndexedDB"); } }
 		public IAspectPropertyValue<IReadOnlyList<string>> InternalStorageVariants { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("InternalStorageVariants"); } }
-		public IAspectPropertyValue<string> InVRMode { get { return GetAs<IAspectPropertyValue<string>>("InVRMode"); } }
+		public IAspectPropertyValue<bool> InVRMode { get { return GetAs<IAspectPropertyValue<bool>>("InVRMode"); } }
 		public IAspectPropertyValue<bool> IsConsole { get { return GetAs<IAspectPropertyValue<bool>>("IsConsole"); } }
 		public IAspectPropertyValue<bool> IsCrawler { get { return GetAs<IAspectPropertyValue<bool>>("IsCrawler"); } }
 		public IAspectPropertyValue<bool> IsDataMinimising { get { return GetAs<IAspectPropertyValue<bool>>("IsDataMinimising"); } }
 		public IAspectPropertyValue<bool> IsEmailBrowser { get { return GetAs<IAspectPropertyValue<bool>>("IsEmailBrowser"); } }
-		public IAspectPropertyValue<string> IsEmulatingDesktop { get { return GetAs<IAspectPropertyValue<string>>("IsEmulatingDesktop"); } }
+		public IAspectPropertyValue<bool> IsEmulatingDesktop { get { return GetAs<IAspectPropertyValue<bool>>("IsEmulatingDesktop"); } }
 		public IAspectPropertyValue<bool> IsEmulatingDevice { get { return GetAs<IAspectPropertyValue<bool>>("IsEmulatingDevice"); } }
 		public IAspectPropertyValue<bool> IsEReader { get { return GetAs<IAspectPropertyValue<bool>>("IsEReader"); } }
 		public IAspectPropertyValue<bool> IsHardwareGroup { get { return GetAs<IAspectPropertyValue<bool>>("IsHardwareGroup"); } }
@@ -168,8 +169,8 @@ namespace FiftyOne.DeviceDetection.Shared
 		public IAspectPropertyValue<bool> IsSmartWatch { get { return GetAs<IAspectPropertyValue<bool>>("IsSmartWatch"); } }
 		public IAspectPropertyValue<bool> IsTablet { get { return GetAs<IAspectPropertyValue<bool>>("IsTablet"); } }
 		public IAspectPropertyValue<bool> IsTv { get { return GetAs<IAspectPropertyValue<bool>>("IsTv"); } }
-		public IAspectPropertyValue<string> IsWebApp { get { return GetAs<IAspectPropertyValue<string>>("IsWebApp"); } }
-        public IAspectPropertyValue<int> Iterations { get { return GetAs<IAspectPropertyValue<int>>("Iterations"); } }
+		public IAspectPropertyValue<bool> IsWebApp { get { return GetAs<IAspectPropertyValue<bool>>("IsWebApp"); } }
+		public IAspectPropertyValue<int> Iterations { get { return GetAs<IAspectPropertyValue<int>>("Iterations"); } }
 		public IAspectPropertyValue<bool> Javascript { get { return GetAs<IAspectPropertyValue<bool>>("Javascript"); } }
 		public IAspectPropertyValue<bool> JavascriptCanManipulateCSS { get { return GetAs<IAspectPropertyValue<bool>>("JavascriptCanManipulateCSS"); } }
 		public IAspectPropertyValue<bool> JavascriptCanManipulateDOM { get { return GetAs<IAspectPropertyValue<bool>>("JavascriptCanManipulateDOM"); } }
@@ -193,26 +194,26 @@ namespace FiftyOne.DeviceDetection.Shared
 		public IAspectPropertyValue<int> MaxUsageTime { get { return GetAs<IAspectPropertyValue<int>>("MaxUsageTime"); } }
 		public IAspectPropertyValue<bool> Meter { get { return GetAs<IAspectPropertyValue<bool>>("Meter"); } }
 		public IAspectPropertyValue<string> Method { get { return GetAs<IAspectPropertyValue<string>>("Method"); } }
-        public IAspectPropertyValue<double> MIDP { get { return GetAs<IAspectPropertyValue<double>>("MIDP"); } }
+		public IAspectPropertyValue<double> MIDP { get { return GetAs<IAspectPropertyValue<double>>("MIDP"); } }
 		public IAspectPropertyValue<IReadOnlyList<string>> NativeBrand { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("NativeBrand"); } }
 		public IAspectPropertyValue<IReadOnlyList<string>> NativeDevice { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("NativeDevice"); } }
 		public IAspectPropertyValue<IReadOnlyList<string>> NativeModel { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("NativeModel"); } }
 		public IAspectPropertyValue<IReadOnlyList<string>> NativeName { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("NativeName"); } }
 		public IAspectPropertyValue<string> NativePlatform { get { return GetAs<IAspectPropertyValue<string>>("NativePlatform"); } }
-		public IAspectPropertyValue<string> NumberOfScreens { get { return GetAs<IAspectPropertyValue<string>>("NumberOfScreens"); } }
+		public IAspectPropertyValue<int> NumberOfScreens { get { return GetAs<IAspectPropertyValue<int>>("NumberOfScreens"); } }
 		public IAspectPropertyValue<string> OEM { get { return GetAs<IAspectPropertyValue<string>>("OEM"); } }
 		public IAspectPropertyValue<int> OnPowerConsumption { get { return GetAs<IAspectPropertyValue<int>>("OnPowerConsumption"); } }
 		public IAspectPropertyValue<int> PlatformDiscontinuedAge { get { return GetAs<IAspectPropertyValue<int>>("PlatformDiscontinuedAge"); } }
 		public IAspectPropertyValue<string> PlatformDiscontinuedMonth { get { return GetAs<IAspectPropertyValue<string>>("PlatformDiscontinuedMonth"); } }
-		public IAspectPropertyValue<string> PlatformDiscontinuedYear { get { return GetAs<IAspectPropertyValue<string>>("PlatformDiscontinuedYear"); } }
+		public IAspectPropertyValue<int> PlatformDiscontinuedYear { get { return GetAs<IAspectPropertyValue<int>>("PlatformDiscontinuedYear"); } }
 		public IAspectPropertyValue<string> PlatformName { get { return GetAs<IAspectPropertyValue<string>>("PlatformName"); } }
 		public IAspectPropertyValue<int> PlatformPreviewAge { get { return GetAs<IAspectPropertyValue<int>>("PlatformPreviewAge"); } }
 		public IAspectPropertyValue<string> PlatformPreviewMonth { get { return GetAs<IAspectPropertyValue<string>>("PlatformPreviewMonth"); } }
-		public IAspectPropertyValue<string> PlatformPreviewYear { get { return GetAs<IAspectPropertyValue<string>>("PlatformPreviewYear"); } }
+		public IAspectPropertyValue<int> PlatformPreviewYear { get { return GetAs<IAspectPropertyValue<int>>("PlatformPreviewYear"); } }
 		public IAspectPropertyValue<int> PlatformRank { get { return GetAs<IAspectPropertyValue<int>>("PlatformRank"); } }
 		public IAspectPropertyValue<int> PlatformReleaseAge { get { return GetAs<IAspectPropertyValue<int>>("PlatformReleaseAge"); } }
 		public IAspectPropertyValue<string> PlatformReleaseMonth { get { return GetAs<IAspectPropertyValue<string>>("PlatformReleaseMonth"); } }
-		public IAspectPropertyValue<string> PlatformReleaseYear { get { return GetAs<IAspectPropertyValue<string>>("PlatformReleaseYear"); } }
+		public IAspectPropertyValue<int> PlatformReleaseYear { get { return GetAs<IAspectPropertyValue<int>>("PlatformReleaseYear"); } }
 		public IAspectPropertyValue<string> PlatformVendor { get { return GetAs<IAspectPropertyValue<string>>("PlatformVendor"); } }
 		public IAspectPropertyValue<string> PlatformVersion { get { return GetAs<IAspectPropertyValue<string>>("PlatformVersion"); } }
 		public IAspectPropertyValue<bool> PostMessage { get { return GetAs<IAspectPropertyValue<bool>>("PostMessage"); } }
@@ -240,8 +241,8 @@ namespace FiftyOne.DeviceDetection.Shared
 		public IAspectPropertyValue<int> ScreenPixelsWidth { get { return GetAs<IAspectPropertyValue<int>>("ScreenPixelsWidth"); } }
 		public IAspectPropertyValue<JavaScript> ScreenPixelsWidthJavaScript { get { return GetAs<IAspectPropertyValue<JavaScript>>("ScreenPixelsWidthJavaScript"); } }
 		public IAspectPropertyValue<string> ScreenType { get { return GetAs<IAspectPropertyValue<string>>("ScreenType"); } }
-		public IAspectPropertyValue<string> SecondBackCameraMegaPixels { get { return GetAs<IAspectPropertyValue<string>>("SecondBackCameraMegaPixels"); } }
-		public IAspectPropertyValue<string> SecondFrontCameraMegaPixels { get { return GetAs<IAspectPropertyValue<string>>("SecondFrontCameraMegaPixels"); } }
+		public IAspectPropertyValue<double> SecondBackCameraMegaPixels { get { return GetAs<IAspectPropertyValue<double>>("SecondBackCameraMegaPixels"); } }
+		public IAspectPropertyValue<double> SecondFrontCameraMegaPixels { get { return GetAs<IAspectPropertyValue<double>>("SecondFrontCameraMegaPixels"); } }
 		public IAspectPropertyValue<double> SecondScreenInchesDiagonal { get { return GetAs<IAspectPropertyValue<double>>("SecondScreenInchesDiagonal"); } }
 		public IAspectPropertyValue<int> SecondScreenPixelsHeight { get { return GetAs<IAspectPropertyValue<int>>("SecondScreenPixelsHeight"); } }
 		public IAspectPropertyValue<int> SecondScreenPixelsWidth { get { return GetAs<IAspectPropertyValue<int>>("SecondScreenPixelsWidth"); } }
@@ -253,8 +254,8 @@ namespace FiftyOne.DeviceDetection.Shared
 		public IAspectPropertyValue<IReadOnlyList<string>> SoftwareAudioCodecsEncode { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("SoftwareAudioCodecsEncode"); } }
 		public IAspectPropertyValue<IReadOnlyList<string>> SoftwareVideoCodecsDecode { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("SoftwareVideoCodecsDecode"); } }
 		public IAspectPropertyValue<IReadOnlyList<string>> SoftwareVideoCodecsEncode { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("SoftwareVideoCodecsEncode"); } }
-		public IAspectPropertyValue<string> SpecificAbsorbtionRateEU { get { return GetAs<IAspectPropertyValue<string>>("SpecificAbsorbtionRateEU"); } }
-		public IAspectPropertyValue<int> SpecificAbsorbtionRateUS { get { return GetAs<IAspectPropertyValue<int>>("SpecificAbsorbtionRateUS"); } }
+		public IAspectPropertyValue<double> SpecificAbsorbtionRateEU { get { return GetAs<IAspectPropertyValue<double>>("SpecificAbsorbtionRateEU"); } }
+		public IAspectPropertyValue<double> SpecificAbsorbtionRateUS { get { return GetAs<IAspectPropertyValue<double>>("SpecificAbsorbtionRateUS"); } }
 		public IAspectPropertyValue<IReadOnlyList<string>> StreamingAccept { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("StreamingAccept"); } }
 		public IAspectPropertyValue<double> SuggestedImageButtonHeightMms { get { return GetAs<IAspectPropertyValue<double>>("SuggestedImageButtonHeightMms"); } }
 		public IAspectPropertyValue<double> SuggestedImageButtonHeightPixels { get { return GetAs<IAspectPropertyValue<double>>("SuggestedImageButtonHeightPixels"); } }
@@ -281,8 +282,8 @@ namespace FiftyOne.DeviceDetection.Shared
 		public IAspectPropertyValue<bool> Viewport { get { return GetAs<IAspectPropertyValue<bool>>("Viewport"); } }
 		public IAspectPropertyValue<string> WebP { get { return GetAs<IAspectPropertyValue<string>>("WebP"); } }
 		public IAspectPropertyValue<bool> WebWorkers { get { return GetAs<IAspectPropertyValue<bool>>("WebWorkers"); } }
-		public IAspectPropertyValue<string> WeightWithBattery { get { return GetAs<IAspectPropertyValue<string>>("WeightWithBattery"); } }
-		public IAspectPropertyValue<string> WeightWithoutBattery { get { return GetAs<IAspectPropertyValue<string>>("WeightWithoutBattery"); } }
+		public IAspectPropertyValue<double> WeightWithBattery { get { return GetAs<IAspectPropertyValue<double>>("WeightWithBattery"); } }
+		public IAspectPropertyValue<double> WeightWithoutBattery { get { return GetAs<IAspectPropertyValue<double>>("WeightWithoutBattery"); } }
 		public IAspectPropertyValue<bool> Xhr2 { get { return GetAs<IAspectPropertyValue<bool>>("Xhr2"); } }
 	}
 }
