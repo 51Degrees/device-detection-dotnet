@@ -90,7 +90,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cloud DeviceDetectionWebDem
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TacLookup", "FiftyOne.DeviceDetection\Examples\Core\Cloud\TacLookup\TacLookup.csproj", "{23F96DBF-F174-4ADC-A79D-70FE74349411}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NativeModelLookup", "FiftyOne.DeviceDetection\Examples\Core\Cloud\NativeModelLookup\NativeModelLookup.csproj", "{0BA4858D-7A06-4E03-96DA-809958D4F122}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NativeModelLookup", "FiftyOne.DeviceDetection\Examples\Core\Cloud\NativeModelLookup\NativeModelLookup.csproj", "{0BA4858D-7A06-4E03-96DA-809958D4F122}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

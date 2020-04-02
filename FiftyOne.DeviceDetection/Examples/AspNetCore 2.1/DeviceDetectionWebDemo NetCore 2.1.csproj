@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.1.0-beta.59" />
+    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.1.0-beta*" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
   </ItemGroup>
