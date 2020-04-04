@@ -6,13 +6,13 @@ using FiftyOne.Pipeline.Core.FlowElements;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Net.Http;
-using System.Text;
 
 namespace TacLookup
 {
     class Program
     {
-        private static string TAC = "86386802";
+        private static string TAC = "35925406";
+        private static string TAC2 = "86386802";
 
         static void Main(string[] args)
         {
@@ -24,13 +24,21 @@ namespace TacLookup
             if (resourceKey.StartsWith("!!"))
             {
                 Console.WriteLine("You need to create a resource key at " +
-                    "https://configure.51degrees.com and paste it into this example.");
-                Console.WriteLine("Make sure to include the 'HardwareVendor' " +
-                    "and 'HardwareModel' properties as they are used by this " +
-                    "example.");
+                    "https://configure.51degrees.com and paste it into the code, " +
+                    "replacing !!YOUR_RESOURCE_KEY!!.");
+                Console.WriteLine("Make sure to include the 'HardwareVendor', " +
+                    "'HardwareName' and 'HardwareModel' properties as they " +
+                    "are used by this example.");
             }
             else
             {
+                Console.WriteLine("This example shows the details of devices " +
+                    "associated with a given 'Type Allocation Code' or 'TAC'.");
+                Console.WriteLine("More background information on TACs can be " +
+                    "found through various online sources such as Wikipedia: " +
+                    "https://en.wikipedia.org/wiki/Type_Allocation_Code");
+                Console.WriteLine("----------------------------------------");
+
                 ILoggerFactory loggerFactory = new LoggerFactory();
                 HttpClient httpClient = new HttpClient();
 
@@ -50,6 +58,7 @@ namespace TacLookup
                 {
                     // Pass a TAC into the pipeline and list the matching devices.
                     AnalyseTac(TAC, pipeline);
+                    AnalyseTac(TAC2, pipeline);
                 }
             }
 #if (DEBUG)
@@ -71,25 +80,20 @@ namespace TacLookup
             Console.WriteLine($"Which devices are associated with the TAC '{tac}'?");
             foreach (var device in devices.Devices)
             {
-                StringBuilder text = new StringBuilder("\t");
-                if (device.HardwareVendor.HasValue)
+                var vendor = device.HardwareVendor;
+                var name = device.HardwareName;
+                var model = device.HardwareModel;
+
+                if (vendor.HasValue &&
+                    model.HasValue &&
+                    name.HasValue)
                 {
-                    text.Append(device.HardwareVendor.ToString());
+                    Console.WriteLine($"\t{vendor.Value} {string.Join(",", name.Value)} ({model.Value})");
                 }
                 else
                 {
-                    text.Append(device.HardwareVendor.NoValueMessage);
+                    Console.WriteLine(vendor.NoValueMessage);
                 }
-                text.Append(" ");
-                if (device.HardwareModel.HasValue)
-                {
-                    text.Append(device.HardwareModel.ToString());
-                }
-                else
-                {
-                    text.Append(device.HardwareModel.NoValueMessage);
-                }
-                Console.WriteLine(text.ToString());
             }
         }
     }

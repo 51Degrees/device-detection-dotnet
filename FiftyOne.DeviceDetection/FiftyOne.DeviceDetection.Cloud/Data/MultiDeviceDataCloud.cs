@@ -13,22 +13,29 @@ namespace FiftyOne.DeviceDetection.Cloud.Data
 {
     public class MultiDeviceDataCloud : AspectDataBase, IMultiDeviceData
     {
-        private List<IDeviceData> _devices = new List<IDeviceData>();
+        private const string DEVICE_LIST_KEY = "devices";
 
         public MultiDeviceDataCloud(ILogger<AspectDataBase> logger, IPipeline pipeline, IAspectEngine engine) : base(logger, pipeline, engine)
         {
+            this[DEVICE_LIST_KEY] = new List<IDeviceData>();
         }
+
 
         public MultiDeviceDataCloud(ILogger<AspectDataBase> logger, IPipeline pipeline, IAspectEngine engine, IMissingPropertyService missingPropertyService) : base(logger, pipeline, engine, missingPropertyService)
         {
+            this[DEVICE_LIST_KEY] = new List<IDeviceData>();
         }
 
-        public IReadOnlyList<IDeviceData> Devices => _devices;
-
+        public IReadOnlyList<IDeviceData> Devices => GetDeviceList();
         
         public void AddDevice(IDeviceData device)
         {
-            _devices.Add(device);
+            GetDeviceList().Add(device);
+        }
+
+        private List<IDeviceData> GetDeviceList()
+        {
+            return this[DEVICE_LIST_KEY] as List<IDeviceData>;
         }
     }
 }

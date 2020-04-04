@@ -35,9 +35,7 @@ using System.Threading.Tasks;
 ///
 /// Performance example of using 51Degrees device detection.
 /// 
-/// This example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/blob/release/v4.1.0/FiftyOne.DeviceDetection/Examples/Framework/Hash/Performance/Program.cs). 
-/// (During the beta period, this repository will be private. 
-/// [Contact us](mailto:support.51degrees.com) to request access)
+/// This example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/blob/master/FiftyOne.DeviceDetection/Examples/Framework/Hash/Performance/Program.cs).
 /// 
 /// This example requires a local data file. If you don't already have one, 
 /// you can obtain one from the 

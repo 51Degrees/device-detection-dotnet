@@ -24,7 +24,8 @@ using FiftyOne.DeviceDetection;
 using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.Data;
 using System;
-using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
 /// <summary>
 /// @example Cloud/GetAllProperties/Program.cs
 /// </summary>
@@ -48,7 +49,11 @@ namespace GetAllProperties
             if (resourceKey.StartsWith("!!"))
             {
                 Console.WriteLine("You need to create a resource key at " +
-                    "https://configure.51degrees.com and paste it into this example.");
+                    "https://configure.51degrees.com and paste it into the code, " +
+                    "replacing !!YOUR_RESOURCE_KEY!!.");
+                Console.WriteLine("Make sure to include all the properties " +
+                    "that you want to see displayed by this example.");
+
             }
             else
             {
@@ -84,27 +89,32 @@ namespace GetAllProperties
                 $"the User-Agent '{userAgent}'?");
 
             // Iterate through device data results, displaying all values.
-            foreach (var entry in device.AsDictionary())
+            foreach (var property in device.AsDictionary()
+                .OrderBy(p => p.Key))
             {
-                Console.Write(entry.Key ?? "NULL");
-                Console.Write(" = ");
-                try
+                var aspectProperty = property.Value as IAspectPropertyValue;
+                Console.Write($"{property.Key} = ");
+                if (aspectProperty != null)
                 {
-                    bool valueWritten = false;
-                    if (entry.Value != null)
+                    if (aspectProperty.HasValue)
                     {
-                        if (typeof(IReadOnlyList<string>).IsAssignableFrom(entry.Value.GetType()))
+                        if (aspectProperty.Value.GetType() != typeof(string) &&
+                            typeof(IEnumerable).IsAssignableFrom(aspectProperty.Value.GetType()))
                         {
-                            var list = entry.Value as IReadOnlyList<string>;
-                            Console.WriteLine(string.Join(", ", list));
-                            valueWritten = true;
+                            var collection = aspectProperty.Value as IEnumerable;
+                            string output = "";
+                            foreach (var entry in collection)
+                            {
+                                output += entry.ToString();
+                                output += ",";
+                            }
+                            Console.WriteLine(output);
                         }
-
-                        if (valueWritten == false)
+                        else
                         {
+                            var str = aspectProperty.Value.ToString();
                             // Truncate any long strings to 200 characters
-                            var str = entry.Value.ToString();
-                            if(str.Length > 200)
+                            if (str.Length > 200)
                             {
                                 str = str.Remove(200);
                                 str += "...";
@@ -114,12 +124,12 @@ namespace GetAllProperties
                     }
                     else
                     {
-                        Console.WriteLine("NULL");
+                        Console.WriteLine($"NO VALUE ({aspectProperty.NoValueMessage})");
                     }
                 }
-                catch (Exception ex)
+                else
                 {
-                    Console.WriteLine($"ERROR: {ex.Message}");
+                    Console.WriteLine($"{property.Value}");
                 }
             }
         }

@@ -6,14 +6,13 @@ using FiftyOne.Pipeline.Core.FlowElements;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Net.Http;
-using System.Text;
 
 namespace TacLookup
 {
     class Program
     {
-        private static string nativemodel1 = "iPhone11,8";
-        private static string nativemodel2 = "Moto g(4)";
+        private static string nativemodel1 = "SC-03L";
+        private static string nativemodel2 = "iPhone11,8";
 
         static void Main(string[] args)
         {
@@ -25,13 +24,16 @@ namespace TacLookup
             if (resourceKey.StartsWith("!!"))
             {
                 Console.WriteLine("You need to create a resource key at " +
-                    "https://configure.51degrees.com and paste it into this example.");
-                Console.WriteLine("Make sure to include the 'HardwareVendor' " +
-                    "and 'HardwareModel' properties as they are used by this " +
-                    "example.");
+                    "https://configure.51degrees.com and paste it into the code, " +
+                    "replacing !!YOUR_RESOURCE_KEY!!.");
+                Console.WriteLine("Make sure to include the 'HardwareVendor', " +
+                    "'HardwareName' and 'HardwareModel' properties as they " +
+                    "are used by this example.");
             }
             else
             {
+                Console.WriteLine("This example shows the details of devices " +
+                    "associated with a given 'native model name'.");
                 Console.WriteLine($"The native model name can be retrieved by " +
                     $"code running on the device (For example, a mobile app).");
                 Console.WriteLine($"For Android devices, see " +
@@ -84,25 +86,20 @@ namespace TacLookup
                 $"native model name '{nativemodel}'?");
             foreach (var device in devices.Devices)
             {
-                StringBuilder text = new StringBuilder("\t");
-                if (device.HardwareVendor.HasValue)
+                var vendor = device.HardwareVendor;
+                var name = device.HardwareName;
+                var model = device.HardwareModel;
+
+                if (vendor.HasValue &&
+                    model.HasValue &&
+                    name.HasValue)
                 {
-                    text.Append(device.HardwareVendor.ToString());
+                    Console.WriteLine($"\t{vendor.Value} {string.Join(",", name.Value)} ({model.Value})");
                 }
                 else
                 {
-                    text.Append(device.HardwareVendor.NoValueMessage);
+                    Console.WriteLine(vendor.NoValueMessage);
                 }
-                text.Append(" ");
-                if (device.HardwareModel.HasValue)
-                {
-                    text.Append(device.HardwareModel.ToString());
-                }
-                else
-                {
-                    text.Append(device.HardwareModel.NoValueMessage);
-                }
-                Console.WriteLine(text.ToString());
             }
         }
     }

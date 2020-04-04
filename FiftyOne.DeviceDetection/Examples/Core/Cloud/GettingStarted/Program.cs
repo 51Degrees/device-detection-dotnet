@@ -28,9 +28,7 @@ using System;
 ///
 /// Getting started example of using 51Degrees device detection.
 /// 
-/// This example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/blob/release/v4.1.0/FiftyOne.DeviceDetection/Examples/Core/Cloud/GettingStarted/Program.cs). 
-/// (During the beta period, this repository will be private. 
-/// [Contact us](mailto:support.51degrees.com) to request access) 
+/// This example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/blob/master/FiftyOne.DeviceDetection/Examples/Core/Cloud/GettingStarted/Program.cs). 
 /// 
 /// To run this example, you will need to create a **resource key**. 
 /// The resource key is used as short-hand to store the particular set of 
@@ -89,7 +87,8 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.GettingStarted
             if (resourceKey.StartsWith("!!"))
             {
                 Console.WriteLine("You need to create a resource key at " +
-                    "https://configure.51degrees.com and paste it into this example.");
+                    "https://configure.51degrees.com and paste it into the code, " +
+                    "replacing !!YOUR_RESOURCE_KEY!!.");
                 Console.WriteLine("Make sure to include the 'IsMobile' " +
                     "property as it is used by this example.");
             }

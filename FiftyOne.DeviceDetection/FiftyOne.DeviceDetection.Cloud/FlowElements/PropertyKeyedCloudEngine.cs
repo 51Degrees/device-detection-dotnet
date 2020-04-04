@@ -40,7 +40,7 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
 {
     public class PropertyKeyedCloudEngine : CloudAspectEngineBase<MultiDeviceDataCloud>
     {
-        public override string ElementDataKey => "devices";
+        public override string ElementDataKey => "propertykeyed";
 
         public override IEvidenceKeyFilter EvidenceKeyFilter =>
             // This engine needs no evidence. 
@@ -79,9 +79,9 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
                 // Extract data from json to the aspectData instance.
                 var dictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
                 // Access the data relating to this engine.
-                var devices = dictionary[ElementDataKey] as JObject;
+                var propertyKeyed = dictionary[ElementDataKey] as JObject;
                 // Access the 'Devices' property
-                foreach(var entry in devices["devices"])
+                foreach(var entry in propertyKeyed["devices"])
                 {
                     // Iterate through the devices, parsing each one and
                     // adding it to the result.

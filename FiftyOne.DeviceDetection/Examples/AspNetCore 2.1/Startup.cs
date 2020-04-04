@@ -39,9 +39,7 @@ using Microsoft.Extensions.DependencyInjection;
 /// This example shows how to integrate the Pipeline API with a 
 /// device detection engine into an ASP.NET Core web app.
 /// 
-/// The source code for this example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/tree/release/v4.1.0/FiftyOne.DeviceDetection/Examples/DeviceDetectionWebDemoNetCore2_1). 
-/// (During the beta period, this repository will be private. 
-/// [Contact us](mailto:support.51degrees.com) to request access)
+/// The source code for this example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/tree/master/FiftyOne.DeviceDetection/Examples/DeviceDetectionWebDemoNetCore2_1). 
 /// 
 /// This example can be configured to use the 51Degrees cloud service or a local 
 /// data file. If you don't already have data file you can obtain one from the 
