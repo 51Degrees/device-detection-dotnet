@@ -22,6 +22,7 @@
 
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop;
+using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.Data.Types;
 using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.FiftyOne.Data;
@@ -152,6 +153,8 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         }
 
         public IFlowElement Element => _engine;
+
+        public IReadOnlyList<IElementPropertyMetaData> ItemProperties { get; } = null;
 
         #region IDisposable Support
 
