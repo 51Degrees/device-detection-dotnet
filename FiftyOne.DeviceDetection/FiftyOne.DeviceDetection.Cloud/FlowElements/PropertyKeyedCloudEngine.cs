@@ -92,7 +92,15 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
                         });
                     var device = new DeviceDataCloud(null, 
                         Pipelines.First(), this, _missingPropertyService);
-                    device.PopulateFromDictionary(deviceData);
+
+                    var nullReasons = deviceData.Where(kvp => kvp.Key.EndsWith("nullreason"))
+                        .ToDictionary(kvp => kvp.Key.Remove(kvp.Key.Length - 10), 
+                            kvp => kvp.Value.ToString());
+                    var properties = deviceData.Where(kvp => nullReasons.ContainsKey(kvp.Key) == false)
+                        .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                    
+                    device.PopulateFromDictionary(properties);
+                    device.SetNoValueReasons(nullReasons);
                     aspectData.AddDevice(device);
                 }
             }

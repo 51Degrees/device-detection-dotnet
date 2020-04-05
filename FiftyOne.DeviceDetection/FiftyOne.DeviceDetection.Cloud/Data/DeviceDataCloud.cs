@@ -54,16 +54,7 @@ namespace FiftyOne.DeviceDetection.Cloud.Data
         public void SetNoValueReasons(Dictionary<string,string> noValueReasons)
         {
             _noValueReasons = noValueReasons
-                .Select(r => new 
-                { 
-                    KeySegments = r.Key.Split(SEPERATORS, StringSplitOptions.RemoveEmptyEntries),
-                    Value = r.Value
-                })
-                .Where(r =>
-                {
-                    return r.KeySegments.Length >= 2 && r.KeySegments[0] == Engines.FirstOrDefault().ElementDataKey;
-                })
-                .ToDictionary(r => r.KeySegments[1], r => r.Value, StringComparer.OrdinalIgnoreCase);
+                .ToDictionary(r => r.Key, r => r.Value, StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>

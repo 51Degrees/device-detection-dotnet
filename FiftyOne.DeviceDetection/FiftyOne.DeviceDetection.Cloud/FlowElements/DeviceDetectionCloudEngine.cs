@@ -31,6 +31,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FiftyOne.DeviceDetection.Cloud.FlowElements
 {
@@ -84,11 +85,15 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
                     {
                         Converters = JSON_CONVERTERS,
                     });
-                var noValueReasons = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-                JsonConvert.PopulateObject(dictionary["nullValueReasons"].ToString(), noValueReasons);
 
-                aspectData.SetNoValueReasons(noValueReasons);
+                var nullReasons = device.Where(kvp => kvp.Key.EndsWith("nullreason"))
+                    .ToDictionary(kvp => kvp.Key.Remove(kvp.Key.Length - 10),
+                        kvp => kvp.Value.ToString());
+                var properties = device.Where(kvp => nullReasons.ContainsKey(kvp.Key) == false)
+                    .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
                 aspectData.PopulateFromDictionary(device);
+                aspectData.SetNoValueReasons(nullReasons);
             }
         }
     }
