@@ -1,8 +1,10 @@
-﻿using FiftyOne.DeviceDetection.Cloud.FlowElements;
+﻿using FiftyOne.DeviceDetection.Cloud.Data;
+using FiftyOne.DeviceDetection.Cloud.FlowElements;
 using FiftyOne.DeviceDetection.Shared;
 using FiftyOne.DeviceDetection.Shared.Data;
 using FiftyOne.Pipeline.CloudRequestEngine.FlowElements;
 using FiftyOne.Pipeline.Core.FlowElements;
+using FiftyOne.Pipeline.Engines.Data;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Net.Http;
@@ -48,7 +50,7 @@ namespace TacLookup
                     .Build())
                 // Create the property-keyed engine to process the 
                 // response from the request engine.
-                using (var propertyKeyedEngine = new PropertyKeyedCloudEngineBuilder(loggerFactory)
+                using (var propertyKeyedEngine = new HardwareProfileCloudEngineBuilder(loggerFactory)
                     .Build())
                 // Create the pipeline using the engines.
                 using (var pipeline = new PipelineBuilder(loggerFactory)
@@ -75,10 +77,10 @@ namespace TacLookup
             data.AddEvidence(Constants.EVIDENCE_QUERY_TAC_KEY, tac);
             // Process the supplied evidence.
             data.Process();
-            // Get device data from the flow data.
-            var devices = data.Get<IMultiDeviceData>();
+            // Get result data from the flow data.
+            var result = data.Get<MultiDeviceDataCloud>();
             Console.WriteLine($"Which devices are associated with the TAC '{tac}'?");
-            foreach (var device in devices.Devices)
+            foreach (var device in result.Profiles)
             {
                 var vendor = device.HardwareVendor;
                 var name = device.HardwareName;

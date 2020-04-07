@@ -49,7 +49,7 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
                   deviceDataFactory)
         {
         }
-        
+
         public override string ElementDataKey => "device";
 
         public override IEvidenceKeyFilter EvidenceKeyFilter =>
@@ -80,21 +80,17 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
             {
                 // Extract data from json to the aspectData instance.
                 var dictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
-                var device = JsonConvert.DeserializeObject<Dictionary<string, object>>(dictionary["device"].ToString(),
+                var propertyValues = JsonConvert.DeserializeObject<Dictionary<string, object>>(dictionary["device"].ToString(),
                     new JsonSerializerSettings()
                     {
                         Converters = JSON_CONVERTERS,
                     });
 
-                var nullReasons = device.Where(kvp => kvp.Key.EndsWith("nullreason"))
-                    .ToDictionary(kvp => kvp.Key.Remove(kvp.Key.Length - 10),
-                        kvp => kvp.Value.ToString());
-                var properties = device.Where(kvp => nullReasons.ContainsKey(kvp.Key) == false)
-                    .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-
+                var device = CreateAPVDictionary(propertyValues, Properties.ToList());
                 aspectData.PopulateFromDictionary(device);
-                aspectData.SetNoValueReasons(nullReasons);
             }
         }
+
+
     }
 }

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FiftyOne.DeviceDetection.Cloud.Data
 {
-    public class MultiDeviceDataCloud : AspectDataBase, IMultiDeviceData
+    public class MultiDeviceDataCloud : AspectDataBase, IMultiProfileData<IDeviceData>
     {
         private const string DEVICE_LIST_KEY = "devices";
 
@@ -20,17 +20,16 @@ namespace FiftyOne.DeviceDetection.Cloud.Data
             this[DEVICE_LIST_KEY] = new List<IDeviceData>();
         }
 
-
         public MultiDeviceDataCloud(ILogger<AspectDataBase> logger, IPipeline pipeline, IAspectEngine engine, IMissingPropertyService missingPropertyService) : base(logger, pipeline, engine, missingPropertyService)
         {
             this[DEVICE_LIST_KEY] = new List<IDeviceData>();
         }
 
-        public IReadOnlyList<IDeviceData> Devices => GetDeviceList();
+        public IReadOnlyList<IDeviceData> Profiles => GetDeviceList();
         
-        public void AddDevice(IDeviceData device)
+        public void AddProfile(IDeviceData profile)
         {
-            GetDeviceList().Add(device);
+            GetDeviceList().Add(profile);
         }
 
         private List<IDeviceData> GetDeviceList()

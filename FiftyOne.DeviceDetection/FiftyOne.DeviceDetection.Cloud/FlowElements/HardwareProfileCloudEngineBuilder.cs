@@ -35,24 +35,24 @@ using System.Text;
 
 namespace FiftyOne.DeviceDetection.Cloud.FlowElements
 {
-    public class PropertyKeyedCloudEngineBuilder: AspectEngineBuilderBase<PropertyKeyedCloudEngineBuilder, PropertyKeyedCloudEngine>
+    public class HardwareProfileCloudEngineBuilder: AspectEngineBuilderBase<HardwareProfileCloudEngineBuilder, HardwareProfileCloudEngine>
     {
         private ILoggerFactory _loggerFactory;
 
-        public PropertyKeyedCloudEngineBuilder(ILoggerFactory loggerFactory)
+        public HardwareProfileCloudEngineBuilder(ILoggerFactory loggerFactory)
         {
             _loggerFactory = loggerFactory;
         }
 
-        public PropertyKeyedCloudEngine Build()
+        public HardwareProfileCloudEngine Build()
         {
             return BuildEngine();
         }
 
-        protected override PropertyKeyedCloudEngine NewEngine(List<string> properties)
+        protected override HardwareProfileCloudEngine NewEngine(List<string> properties)
         {
-            return new PropertyKeyedCloudEngine(
-                _loggerFactory.CreateLogger<PropertyKeyedCloudEngine>(),
+            return new HardwareProfileCloudEngine(
+                _loggerFactory.CreateLogger<HardwareProfileCloudEngine>(),
                 CreateData);
         }
 

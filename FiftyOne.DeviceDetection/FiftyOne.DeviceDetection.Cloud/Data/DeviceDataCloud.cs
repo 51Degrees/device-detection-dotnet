@@ -40,43 +40,12 @@ namespace FiftyOne.DeviceDetection.Cloud.Data
 {
     public class DeviceDataCloud : DeviceDataBase, IDeviceData
     {
-        private string[] SEPERATORS = new string[] { FiftyOne.Pipeline.Core.Constants.EVIDENCE_SEPERATOR };
-        private Dictionary<string, string> _noValueReasons = null;
-
         public DeviceDataCloud(ILogger<AspectDataBase> logger,
             IPipeline pipeline,
             IAspectEngine engine,
             IMissingPropertyService missingPropertyService)
             : base(logger, pipeline, engine, missingPropertyService)
         {
-        }
-
-        public void SetNoValueReasons(Dictionary<string,string> noValueReasons)
-        {
-            _noValueReasons = noValueReasons
-                .ToDictionary(r => r.Key, r => r.Value, StringComparer.OrdinalIgnoreCase);
-        }
-
-        /// <summary>
-        /// Try to get the value from the base dictionary and convert it to the
-        /// requested type. If requesting an AspectProperty then convert to the
-        /// inner type and set the no value reason if there is no value and a 
-        /// no value reason has been provided from the cloud request engine.
-        /// </summary>
-        /// <typeparam name="T">requested type</typeparam>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        protected override bool TryGetValue<T>(string key, out T value)
-        {
-            if (typeof(IAspectPropertyValue).IsAssignableFrom(typeof(T)))
-            {
-                return CloudDataHelpers.TryGetAspectPropertyValue(this, _noValueReasons, key, out value);
-            }
-            else
-            {
-                return base.TryGetValue(key, out value);
-            }
         }
     }
 }

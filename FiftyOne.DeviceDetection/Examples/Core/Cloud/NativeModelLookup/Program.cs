@@ -1,4 +1,5 @@
-﻿using FiftyOne.DeviceDetection.Cloud.FlowElements;
+﻿using FiftyOne.DeviceDetection.Cloud.Data;
+using FiftyOne.DeviceDetection.Cloud.FlowElements;
 using FiftyOne.DeviceDetection.Shared;
 using FiftyOne.DeviceDetection.Shared.Data;
 using FiftyOne.Pipeline.CloudRequestEngine.FlowElements;
@@ -51,7 +52,7 @@ namespace TacLookup
                     .Build())
                 // Create the property-keyed engine to process the 
                 // response from the request engine.
-                using (var propertyKeyedEngine = new PropertyKeyedCloudEngineBuilder(loggerFactory)
+                using (var propertyKeyedEngine = new HardwareProfileCloudEngineBuilder(loggerFactory)
                     .Build())
                 // Create the pipeline using the engines.
                 using (var pipeline = new PipelineBuilder(loggerFactory)
@@ -80,11 +81,11 @@ namespace TacLookup
             data.AddEvidence(Constants.EVIDENCE_QUERY_NATIVE_MODEL_KEY, nativemodel);
             // Process the supplied evidence.
             data.Process();
-            // Get device data from the flow data.
-            var devices = data.Get<IMultiDeviceData>();
+            // Get result data from the flow data.
+            var result = data.Get<MultiDeviceDataCloud>();
             Console.WriteLine($"Which devices are associated with the " +
                 $"native model name '{nativemodel}'?");
-            foreach (var device in devices.Devices)
+            foreach (var device in result.Profiles)
             {
                 var vendor = device.HardwareVendor;
                 var name = device.HardwareName;

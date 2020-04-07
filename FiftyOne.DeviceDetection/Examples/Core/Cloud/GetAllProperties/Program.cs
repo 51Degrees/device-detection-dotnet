@@ -37,9 +37,6 @@ namespace GetAllProperties
             "Mozilla/5.0 (Linux; Android 9; SAMSUNG SM-G960U) " +
             "AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/10.1 " +
             "Chrome/71.0.3578.99 Mobile Safari/537.36";
-        private static string desktopUserAgent =
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
-            "(KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36";
 
         static void Main(string[] args)
         {
@@ -63,9 +60,7 @@ namespace GetAllProperties
                     .UseCloud(resourceKey)
                     .Build())
                 {
-                    // First try a desktop User-Agent.
-                    AnalyseUserAgent(desktopUserAgent, pipeline);
-                    // Now try a mobile User-Agent.
+                    // Output details for a mobile User-Agent.
                     AnalyseUserAgent(mobileUserAgent, pipeline);
                 }
             }
@@ -92,45 +87,68 @@ namespace GetAllProperties
             foreach (var property in device.AsDictionary()
                 .OrderBy(p => p.Key))
             {
-                var aspectProperty = property.Value as IAspectPropertyValue;
-                Console.Write($"{property.Key} = ");
-                if (aspectProperty != null)
+                Console.WriteLine($"{property.Key} = {GetValueToOutput(property.Value)}");
+            }
+        }
+
+        /// <summary>
+        /// Convert the given value into a human-readable string representation 
+        /// </summary>
+        /// <param name="propertyValue">
+        /// Property value object to be converted
+        /// </param>
+        /// <returns></returns>
+        private static string GetValueToOutput(object propertyValue)
+        {
+            if(propertyValue == null)
+            {
+                return "NULL";
+            }
+
+            var basePropetyType = propertyValue.GetType();
+            var basePropertyValue = propertyValue;
+
+            if (propertyValue is IAspectPropertyValue aspectPropertyValue)
+            {
+                if (aspectPropertyValue.HasValue)
                 {
-                    if (aspectProperty.HasValue)
-                    {
-                        if (aspectProperty.Value.GetType() != typeof(string) &&
-                            typeof(IEnumerable).IsAssignableFrom(aspectProperty.Value.GetType()))
-                        {
-                            var collection = aspectProperty.Value as IEnumerable;
-                            string output = "";
-                            foreach (var entry in collection)
-                            {
-                                output += entry.ToString();
-                                output += ",";
-                            }
-                            Console.WriteLine(output);
-                        }
-                        else
-                        {
-                            var str = aspectProperty.Value.ToString();
-                            // Truncate any long strings to 200 characters
-                            if (str.Length > 200)
-                            {
-                                str = str.Remove(200);
-                                str += "...";
-                            }
-                            Console.WriteLine(str);
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine($"NO VALUE ({aspectProperty.NoValueMessage})");
-                    }
+                    // Get the type and value parameters from the 
+                    // AspectPropertyValue instance.
+                    basePropetyType = basePropetyType.GenericTypeArguments[0];
+                    basePropertyValue = aspectPropertyValue.Value;
                 }
                 else
                 {
-                    Console.WriteLine($"{property.Value}");
+                    // The property has no value so output the reason.
+                    basePropetyType = typeof(string);
+                    basePropertyValue = $"NO VALUE ({aspectPropertyValue.NoValueMessage})";
                 }
+            }
+
+            if (basePropetyType != typeof(string) &&
+                typeof(IEnumerable).IsAssignableFrom(basePropetyType))
+            {
+                // Property is an IEnumerable (that is not a string)
+                // so return a comma-separated list of values.
+                var collection = basePropertyValue as IEnumerable;
+                var output = "";
+                foreach (var entry in collection)
+                {
+                    if (output.Length > 0) { output += ","; }
+                    output += entry.ToString();
+                }
+                return output;
+            }
+            else
+            {
+                var str = basePropertyValue.ToString();
+                // Truncate any long strings to 200 characters
+                if (str.Length > 200)
+                {
+                    str = str.Remove(200);
+                    str += "...";
+                }
+                return str;
             }
         }
     }
