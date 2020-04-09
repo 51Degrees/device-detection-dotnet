@@ -46,8 +46,13 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Data
         {
             var elementData = data.GetFromElement(_engine);
             var dict = elementData.AsDictionary();
+
             foreach (var property in _engine.Properties
-                .Where(p => p.Available))
+                .Where(p => p.Available &&
+                    // The JavascriptImageOptimiser property is deprecated.
+                    // It exists in the meta-data but is never populated
+                    // so we need to ignore it here.
+                    p.Name.Equals("JavascriptImageOptimiser", StringComparison.OrdinalIgnoreCase) == false))
             {
                 Assert.IsTrue(dict.ContainsKey(property.Name));
                 IAspectPropertyValue value = dict[property.Name] as IAspectPropertyValue;

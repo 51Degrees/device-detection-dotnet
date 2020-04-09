@@ -13,7 +13,7 @@ namespace FiftyOne.DeviceDetection.Cloud.Data
 {
     public class MultiDeviceDataCloud : AspectDataBase, IMultiProfileData<IDeviceData>
     {
-        private const string DEVICE_LIST_KEY = "devices";
+        private const string DEVICE_LIST_KEY = "profiles";
 
         public MultiDeviceDataCloud(ILogger<AspectDataBase> logger, IPipeline pipeline, IAspectEngine engine) : base(logger, pipeline, engine)
         {
