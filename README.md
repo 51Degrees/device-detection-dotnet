@@ -10,50 +10,54 @@ This repository contains the device detection engines for the .NET implementatio
 
 ## Pre-requesites
 
-Visual Studio 2017 or later is recommended. Although Visual Studio Code can be used for working with most of the projects.
+Visual Studio 2019 or later is recommended. Although Visual Studio Code can be used for working with most of the projects.
 
 The core device detection projects are written in C and C++.
-The Pipeline engines are written in C# and target .NET Standard 2.0.3 and .NET Core 2.0.
+The Pipeline engines are written in C# and target .NET Standard 2.0.3.
+Example and test projects mostly target .NET Core 3.1 though in some cases, projects are available targeting other frameworks.
 
 ## Solutions and projects
 
 - **FiftyOne.DeviceDetection** - Device detection engines and related projects.
-  - *FiftyOne.DeviceDetection.Hash.** - 
-  - *FiftyOne.DeviceDetection.Pattern.** - 
-  - *FiftyOne.DeviceDetection.Shared* - 
-  - *FiftyOne.DeviceDetection* - 
-  - *FiftyOne.DeviceDetection.Cloud* - 
+  - **FiftyOne.DeviceDetection.Hash.** - .NET implementation of the device detection hash engine.
+  - **FiftyOne.DeviceDetection.Pattern.** - .NET implementation of the device detection pattern engine.
+  - **FiftyOne.DeviceDetection.Shared** - Shared classes used by the device detection engines.
+  - **FiftyOne.DeviceDetection** - Contains device detection engine builders.
+  - **FiftyOne.DeviceDetection.Cloud** - A .NET engine which retrieves device detection results by consuming the 51Degrees cloud service. This can be swapped out with either the hash or pattern engines seamlessly.
+  
+## Installation
 
+You can either reference the projects in this repository or you can reference the [NuGet][nuget] packages in your project:
+
+```
+Install-Package FiftyOne.DeviceDetection -Version 4.1.0
+```
+
+Make sure to select the latest version from [NuGet.][nuget]
 ## Examples
 
+Examples can be found in the `Examples/` folder, there are separate sources for cloud, hash and pattern implementations and solutions for .NET Core and .NET Framework. See below for a list of examples.
+
 ### Device Detection
-TBC
+
+|Example|Description|Runtime|Algortihm|
+|-------|-----------|-------|---------|
+|ConfigureFromFile|This example shows how to build a Pipeline from a configuration file.|Core / Framework|Hash / Pattern|
+|GettingStarted|This example uses 51Degrees device detection to determine whether a given User-Agent corresponds to a mobile device or not.|Core / Framework|Cloud / Hash / Pattern|
+|Metadata|This example shows how to get all the properties from the device detection engine and print their information details.|Core / Framework|Hash / Pattern|
+|Performance|This example demonstrates the performance of the maximum performance device detection configuration profile.|Core / Framework|Hash / Pattern|
+
+### DeviceDetectionWebDemo
+
+These examples shows how to integrate the Pipeline API with a device detection engine into an ASP.NET Core web app.
+
+## Tests
+
+Tests can be found in the `Tests/` folder. These can all be run from within Visual Studio or (for the non-framework tests) by using the `dotnet` command line tool. 
 
 ## Project documentation
 
-For complete documentation on the Pipeline API and associated engines, see the [51Degrees documentation site][Documenation].
-
-## Enable debugging of NuGet packages
-
-In order to debug into NuGet packages, you must be using packages that reference debug symbols. By default, this includes all pre-release packages but not final versions.
-If you have a debuggable package then you will need to configure Visual Studio to allow you to step into it:
-
-- In tools -> options -> debugging -> symbols, add the Azure DevOps symbol server: 
-![Visual Studio 2017 screenshot with symbol server added][ImageAddSymbolServer]
-- Select the ‘Load only specified modules’ option at the bottom and configure it to only load Symbols for 51Degrees modules as shown below:
-![Visual Studio 2017 configured to only load external symbols for 51Degrees libraries][ImageLoadOnlyFiftyone]
-- In tools -> options -> debugging -> general, ensure that:
-  - Enable Just My Code is off. Having this on will prevent VS stepping into any NuGet packages.
-  - Enable source server support is on.
-  - Example Source Link support is on.
-![Visual Studio 2017 configured for debugging external packages][ImageConfigureDebugger]
-
-When stepping into a method from a relevant NuGet package, you should now see the following warning message:
-![Visual Studio 2017 Source Link download warning][ImageSourceLinkDownload]
-
+For complete documentation on the Pipeline API and associated engines, see the [51Degrees documentation site][Documentation].
 
 [Documentation]: https://docs.51degrees.com
-[ImageAddSymbolServer]: file://Images/vs2017-add-symbol-server.png
-[ImageConfigureDebugger]: file://Images/vs2017-configure-debugger.png
-[ImageLoadOnlyFiftyone]: file://Images/vs2017-load-only-fiftyone.png
-[ImageSourceLinkDownload]: file://Images/vs2017-source-link-download.png
+[nuget]: https://www.nuget.org/packages/FiftyOne.DeviceDetection/

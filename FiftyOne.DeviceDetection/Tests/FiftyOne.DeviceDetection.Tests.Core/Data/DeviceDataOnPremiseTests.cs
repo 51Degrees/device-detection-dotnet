@@ -62,18 +62,14 @@ namespace FiftyOne.DeviceDetection.Tests.Core.Data
 
             internal TestResults(
                 ILogger<AspectDataBase> logger,
-                IFlowData flowData,
+                IPipeline pipeline,
                 IAspectEngine engine,
                 IMissingPropertyService missingPropertyService,
                 object value)
-                : base(logger, flowData, engine, missingPropertyService)
+                : base(logger, pipeline, engine, missingPropertyService)
             {
                 _value = value;
             }
-
-            public override IAspectPropertyValue<IReadOnlyList<string>> UserAgents => throw new NotImplementedException();
-
-            public override IAspectPropertyValue<string> DeviceId => throw new NotImplementedException();
 
             protected override IAspectPropertyValue<bool> GetValueAsBool(string propertyName)
             {
@@ -179,6 +175,8 @@ namespace FiftyOne.DeviceDetection.Tests.Core.Data
             _engine = new Mock<IAspectEngine>();
             _engine.SetupGet(e => e.ElementDataKey).Returns("test");
             _flowData = new Mock<IFlowData>();
+            var pipeline = new Mock<IPipeline>();
+            _flowData.Setup(f => f.Pipeline).Returns(pipeline.Object);
         }
 
         /// <summary>
@@ -193,7 +191,7 @@ namespace FiftyOne.DeviceDetection.Tests.Core.Data
             TestResults<IReadOnlyList<string>> results =
                 new TestResults<IReadOnlyList<string>>(
                     _logger.Object,
-                    _flowData.Object,
+                    _flowData.Object.Pipeline,
                     _engine.Object,
                     _missingPropertyService.Object,
                     expected);
@@ -220,7 +218,7 @@ namespace FiftyOne.DeviceDetection.Tests.Core.Data
             TestResults<string> results =
                 new TestResults<string>(
                     _logger.Object,
-                    _flowData.Object,
+                    _flowData.Object.Pipeline,
                     _engine.Object,
                     _missingPropertyService.Object,
                     expected);
@@ -247,7 +245,7 @@ namespace FiftyOne.DeviceDetection.Tests.Core.Data
             TestResults<bool> results =
                 new TestResults<bool>(
                     _logger.Object,
-                    _flowData.Object,
+                    _flowData.Object.Pipeline,
                     _engine.Object,
                     _missingPropertyService.Object,
                     expected);
@@ -274,7 +272,7 @@ namespace FiftyOne.DeviceDetection.Tests.Core.Data
             TestResults<int> results =
                 new TestResults<int>(
                     _logger.Object,
-                    _flowData.Object,
+                    _flowData.Object.Pipeline,
                     _engine.Object,
                     _missingPropertyService.Object,
                     expected);
@@ -301,7 +299,7 @@ namespace FiftyOne.DeviceDetection.Tests.Core.Data
             TestResults<double> results =
                 new TestResults<double>(
                     _logger.Object,
-                    _flowData.Object,
+                    _flowData.Object.Pipeline,
                     _engine.Object,
                     _missingPropertyService.Object,
                     expected);
@@ -329,7 +327,7 @@ namespace FiftyOne.DeviceDetection.Tests.Core.Data
             TestResults<JavaScript> results =
                 new TestResults<JavaScript>(
                     _logger.Object,
-                    _flowData.Object,
+                    _flowData.Object.Pipeline,
                     _engine.Object,
                     _missingPropertyService.Object,
                     expectedString);

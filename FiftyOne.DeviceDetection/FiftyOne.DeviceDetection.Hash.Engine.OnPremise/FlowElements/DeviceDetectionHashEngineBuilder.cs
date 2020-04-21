@@ -141,7 +141,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// <returns>This builder</returns>
         public override DeviceDetectionHashEngineBuilder SetAllowUnmatched(bool allow)
         {
-            _config.setAllowUnmatched(allow);
+            SwigConfig.setAllowUnmatched(allow);
             return this;
         }
 
@@ -169,6 +169,20 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             bool update)
         {
             SwigConfig.setUpdateMatchedUserAgent(update);
+            return this;
+        }
+
+        public DeviceDetectionHashEngineBuilder SetUsePerformanceGraph(
+            bool use)
+        {
+            SwigConfig.setUsePerformanceGraph(use);
+            return this;
+        }
+
+        public DeviceDetectionHashEngineBuilder SetUsePredictiveGraph(
+            bool use)
+        {
+            SwigConfig.setUsePredictiveGraph(use);
             return this;
         }
 
@@ -295,16 +309,16 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                 SwigFactory);
         }
         
-        protected override string DataFileType => "HashTrieV34";
+        protected override string DefaultDataDownloadType => "HashV4";
         #endregion
 
 
-        private IDeviceDataHash CreateAspectData(IFlowData flowData, 
+        private IDeviceDataHash CreateAspectData(IPipeline pipeline, 
             FlowElementBase<IDeviceDataHash, IFiftyOneAspectPropertyMetaData> engine)
         {
             return new DeviceDataHash(
                 _loggerFactory.CreateLogger<DeviceDataHash>(),
-                flowData,
+                pipeline,
                 engine as DeviceDetectionHashEngine,
                 MissingPropertyService.Instance);
         }

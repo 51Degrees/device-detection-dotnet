@@ -25,6 +25,7 @@ using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop;
 using FiftyOne.DeviceDetection.Shared.Data;
 using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.Data.Types;
+using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.Data;
 using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
@@ -52,39 +53,11 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         /// <param name="missingPropertyService"></param>
         internal DeviceDataHash(
             ILogger<AspectDataBase> logger,
-            IFlowData flowData,
+            IPipeline pipeline,
             DeviceDetectionHashEngine engine,
             IMissingPropertyService missingPropertyService)
-            : base(logger, flowData, engine, missingPropertyService)
+            : base(logger, pipeline, engine, missingPropertyService)
         {
-        }
-
-        #endregion
-
-        #region Public Properties
-        
-        public IAspectPropertyValue<int> Difference
-        {
-            get
-            {
-                return GetAs<IAspectPropertyValue<int>>("Difference");
-            }
-        }
-        
-        public IAspectPropertyValue<int> Drift
-        {
-            get
-            {
-                return GetAs<IAspectPropertyValue<int>>("Drift");
-            }
-        }
-
-        public IAspectPropertyValue<int> MatchedNodes
-        {
-            get
-            {
-                return GetAs<AspectPropertyValue<int>>("MatchedNodes");
-            }
         }
 
         #endregion
@@ -114,6 +87,18 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         {
             return new AspectPropertyValue<int>(
                 _resultsList.Sum(r => r.getMatchedNodes()));
+        }
+
+        private IAspectPropertyValue<string> GetMethod()
+        {
+            return new AspectPropertyValue<string>(
+                ((MatchMethods)_resultsList.Max(r => r.getMethod())).ToString());
+        }
+
+        private IAspectPropertyValue<int> GetIterations()
+        {
+            return new AspectPropertyValue<int>(
+                _resultsList.Sum(r => r.getIterations()));
         }
 
         private ResultsHashSwig GetResultsContainingProperty(string propertyName)
@@ -197,6 +182,12 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
                     obj = GetDeviceId();
                     result = true;
                 }
+                else if (key.Equals("Method", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    obj = GetMethod();
+                    result = true;
+                }
+
                 else if (key.Equals("Difference", StringComparison.InvariantCultureIgnoreCase))
                 {
                     obj = GetDifference();
@@ -210,6 +201,11 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
                 else if (key.Equals("MatchedNodes", StringComparison.InvariantCultureIgnoreCase))
                 {
                     obj = GetMatchedNodes();
+                    result = true;
+                }
+                else if (key.Equals("Iterations", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    obj = GetIterations();
                     result = true;
                 }
                 else if (key.Equals("UserAgents", StringComparison.InvariantCultureIgnoreCase))

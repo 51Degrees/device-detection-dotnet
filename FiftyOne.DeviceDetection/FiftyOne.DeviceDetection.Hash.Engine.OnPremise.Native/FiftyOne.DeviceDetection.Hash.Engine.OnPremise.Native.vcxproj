@@ -23,9 +23,13 @@
     <ProjectGuid>{03AA234A-152B-4B7C-AA09-8B52A7251CCC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>FiftyOneDeviceDetectionHashEngineOnPremiseNative</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <!-- Force Spectre mitigations off due to missing libraries on the Azure windows 2019 build agent -->
+  <PropertyGroup>
+    <SpectreMitigation></SpectreMitigation>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
@@ -237,6 +241,10 @@
     <ClCompile Include="..\DeviceDetectionHashEngineSwig_csharp.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <!-- Force Spectre mitigations off due to missing libraries on the Azure windows 2019 build agent -->
+  <PropertyGroup>
+    <SpectreMitigation></SpectreMitigation>
+  </PropertyGroup>
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
 </Project>

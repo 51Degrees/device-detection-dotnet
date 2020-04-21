@@ -20,7 +20,7 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-using FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.FlowElements;
+using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using FiftyOne.DeviceDetection.TestHelpers;
 using FiftyOne.Pipeline.Engines.FiftyOne.FlowElements;
 using FiftyOne.Pipeline.Engines.Services;
@@ -56,12 +56,12 @@ namespace FiftyOne.DeviceDetection.Tests.Core
         /// The license key to use when performing automatic update.
         /// </param>
         [DataTestMethod]
-        [DataRow(TestHelpers.Constants.PATTERN_DATA_FILE_NAME, true, false, null)]
-        [DataRow(TestHelpers.Constants.PATTERN_DATA_FILE_NAME, false, false, null)]
-        [DataRow(TestHelpers.Constants.PATTERN_DATA_FILE_NAME, true, true, null)]
-        [DataRow(TestHelpers.Constants.PATTERN_DATA_FILE_NAME, false, true, null)]
-        [DataRow(TestHelpers.Constants.PATTERN_DATA_FILE_NAME, true, false, "key1")]
-        [DataRow(TestHelpers.Constants.PATTERN_DATA_FILE_NAME, true, true, "key1")]
+        [DataRow(TestHelpers.Constants.HASH_DATA_FILE_NAME, true, false, null)]
+        [DataRow(TestHelpers.Constants.HASH_DATA_FILE_NAME, false, false, null)]
+        [DataRow(TestHelpers.Constants.HASH_DATA_FILE_NAME, true, true, null)]
+        [DataRow(TestHelpers.Constants.HASH_DATA_FILE_NAME, false, true, null)]
+        [DataRow(TestHelpers.Constants.HASH_DATA_FILE_NAME, true, false, "key1")]
+        [DataRow(TestHelpers.Constants.HASH_DATA_FILE_NAME, true, true, "key1")]
         public void DeviceDetectionPipelineBuilder_CheckConfiguration(
             string datafilename, bool autoUpdate, bool shareUsage, string licenseKey)
         {
@@ -89,12 +89,12 @@ namespace FiftyOne.DeviceDetection.Tests.Core
                 Assert.AreEqual(1, pipeline.FlowElements.Count);
             }
             Assert.IsTrue(pipeline.FlowElements.Any(
-                e => e.GetType() == typeof(DeviceDetectionPatternEngine)));
+                e => e.GetType() == typeof(DeviceDetectionHashEngine)));
 
             // Get the device detection engine element and check that it has
             // been configured as specified.
             var engine = pipeline.FlowElements.Single(
-                e => e.GetType() == typeof(DeviceDetectionPatternEngine)) as DeviceDetectionPatternEngine;
+                e => e.GetType() == typeof(DeviceDetectionHashEngine)) as DeviceDetectionHashEngine;
 
             Assert.AreEqual(autoUpdate, engine.DataFiles[0].AutomaticUpdatesEnabled);
             if(licenseKey != null)

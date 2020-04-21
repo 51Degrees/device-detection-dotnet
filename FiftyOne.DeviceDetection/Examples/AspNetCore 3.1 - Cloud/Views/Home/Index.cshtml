@@ -1,0 +1,65 @@
+﻿@model FiftyOne.DeviceDetection.IDeviceData
+@{
+    ViewData["Title"] = "Device detection example";
+    var hardwareVendor = Model.HardwareVendor;
+    var hardwareName = Model.HardwareName;
+    var deviceType = Model.DeviceType;
+    var platformVendor = Model.PlatformVendor;
+    var platformName = Model.PlatformName;
+    var platformVersion = Model.PlatformVersion;
+    var browserVendor = Model.BrowserVendor;
+    var browserName = Model.BrowserName;
+    var browserVersion = Model.BrowserVersion;
+}
+
+<h2>Example</h2>
+
+<div id="content">
+    <p>
+        Hardware Vendor: @(hardwareVendor.HasValue ? hardwareVendor.Value : $"Unknown ({hardwareVendor.NoValueMessage})")<br />
+        Hardware Name: @(hardwareName.HasValue ? string.Join(", ", hardwareName.Value) : $"Unknown ({hardwareName.NoValueMessage})")<br />
+        Device Type: @(deviceType.HasValue ? deviceType.Value : $"Unknown ({deviceType.NoValueMessage})")<br />
+        Platform Vendor: @(platformVendor.HasValue ? platformVendor.Value : $"Unknown ({platformVendor.NoValueMessage})")<br />
+        Platform Name: @(platformName.HasValue ? platformName.Value : $"Unknown ({platformName.NoValueMessage})")<br />
+        Platform Version: @(platformVersion.HasValue ? platformVersion.Value : $"Unknown ({platformVersion.NoValueMessage})")<br />
+        Browser Vendor: @(browserVendor.HasValue ? browserVendor.Value : $"Unknown ({browserVendor.NoValueMessage})")<br />
+        Browser Name: @(browserName.HasValue ? browserName.Value : $"Unknown ({browserName.NoValueMessage})")<br />
+        Browser Version: @(browserVersion.HasValue ? browserVersion.Value : $"Unknown ({browserVersion.NoValueMessage})")
+    </p>
+</div>
+
+@await Component.InvokeAsync("FiftyOneJS")
+
+<script>
+    // This function will fire when the JSON data object is updated 
+    // with information from the server.
+    // The sequence is:
+    // 1. Response contains JavaScript property 'getLatitude' that gets executed on the client
+    // 2. This triggers another call to the webserver that passes the location as evidence
+    // 3. The web server responds with new JSON data that contains the hemisphere based on the location.
+    // 4. The JavaScript integrates the new JSON data and fires the onChange callback below.
+    window.onload = function () {
+        fod.complete(function (data) {
+            var para = document.createElement("p");
+            var br = document.createElement("br");
+            var text = document.createTextNode("Updated information from client-side evidence:");
+            para.appendChild(text);
+            para.appendChild(br);
+            text = document.createTextNode("Hardware Name: " + data.device.hardwarename.join(","));
+            br = document.createElement("br");
+            para.appendChild(text);
+            para.appendChild(br);
+            text = document.createTextNode("Screen width (pixels): " + data.device.screenpixelswidth);
+            br = document.createElement("br");
+            para.appendChild(text);
+            para.appendChild(br);
+            text = document.createTextNode("Screen height (pixels): " + data.device.screenpixelsheight);
+            br = document.createElement("br");
+            para.appendChild(text);
+            para.appendChild(br);
+
+            var element = document.getElementById("content");
+            element.appendChild(para);
+        });
+    }
+</script>

@@ -33,9 +33,7 @@ using System.Reflection;
 /// 
 /// Configure from file example of using 51Degrees device detection.
 /// 
-/// This example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/blob/release/v4.1.0/FiftyOne.DeviceDetection/Examples/Framework/Hash/ConfigureFromFile/Program.cs). 
-/// (During the beta period, this repository will be private. 
-/// [Contact us](mailto:support.51degrees.com) to request access)
+/// This example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/blob/master/FiftyOne.DeviceDetection/Examples/Framework/Hash/ConfigureFromFile/Program.cs). 
 /// 
 /// This example requires a local data file. If you don't already have one, 
 /// you can obtain one from the 
@@ -97,13 +95,13 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.ConfigureFromFile
             {
                 Console.WriteLine($"Constructing pipeline from configuration file.");
 
-                // Load the assembly with the pattern engine.
+                // Load the assembly with the Hash engine.
                 // This is required because nothing else in the example 
                 // references any types from this assembly and it will
                 // need to be loaded into the app domain in order for 
                 // the PipelineBuilder to find the engine builder to use 
                 // when creating the device detection engine.
-                // (i.e. the 'DeviceDetectionPatternEngineBuilder'
+                // (i.e. the 'DeviceDetectionHashEngineBuilder'
                 // specified in appsettings.json)
                 Assembly.Load("FiftyOne.DeviceDetection.Hash.Engine.OnPremise");
 

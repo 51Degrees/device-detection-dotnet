@@ -103,63 +103,6 @@ namespace FiftyOne.DeviceDetection.Tests.Core
                 multiThreaded);
         }
 
-        [DataTestMethod]
-        // ******** Pattern with a single thread *********
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.MaxPerformance, false, false, false, DisplayName = "Pattern-MaxPerformance-NoCache-NoLazyLoad-SingleThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.HighPerformance, false, false, false, DisplayName = "Pattern-HighPerformance-NoCache-NoLazyLoad-SingleThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.LowMemory, false, false, false, DisplayName = "Pattern-LowMemory-NoCache-NoLazyLoad-SingleThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.Balanced, false, false, false, DisplayName = "Pattern-Balanced-NoCache-NoLazyLoad-SingleThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.BalancedTemp, false, false, false, DisplayName = "Pattern-BalancedTemp-NoCache-NoLazyLoad-SingleThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.MaxPerformance, true, false, false, DisplayName = "Pattern-MaxPerformance-Cache-NoLazyLoad-SingleThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.HighPerformance, true, false, false, DisplayName = "Pattern-HighPerformance-Cache-NoLazyLoad-SingleThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.LowMemory, true, false, false, DisplayName = "Pattern-LowMemory-Cache-NoLazyLoad-SingleThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.Balanced, true, false, false, DisplayName = "Pattern-Balanced-Cache-NoLazyLoad-SingleThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.BalancedTemp, true, false, false, DisplayName = "Pattern-BalancedTemp-Cache-NoLazyLoad-SingleThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.MaxPerformance, false, true, false, DisplayName = "Pattern-MaxPerformance-NoCache-LazyLoad-SingleThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.HighPerformance, false, true, false, DisplayName = "Pattern-HighPerformance-NoCache-LazyLoad-SingleThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.LowMemory, false, true, false, DisplayName = "Pattern-LowMemory-NoCache-LazyLoad-SingleThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.Balanced, false, true, false, DisplayName = "Pattern-Balanced-NoCache-LazyLoad-SingleThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.BalancedTemp, false, true, false, DisplayName = "Pattern-BalancedTemp-NoCache-LazyLoad-SingleThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.MaxPerformance, true, true, false, DisplayName = "Pattern-MaxPerformance-Cache-LazyLoad-SingleThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.HighPerformance, true, true, false, DisplayName = "Pattern-HighPerformance-Cache-LazyLoad-SingleThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.LowMemory, true, true, false, DisplayName = "Pattern-LowMemory-Cache-LazyLoad-SingleThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.Balanced, true, true, false, DisplayName = "Pattern-Balanced-Cache-LazyLoad-SingleThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.BalancedTemp, true, true, false, DisplayName = "Pattern-BalancedTemp-Cache-LazyLoad-SingleThread")]
-        // ******** Pattern with multiple threads *********
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.MaxPerformance, false, false, true, DisplayName = "Pattern-MaxPerformance-NoCache-NoLazyLoad-MultiThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.HighPerformance, false, false, true, DisplayName = "Pattern-HighPerformance-NoCache-NoLazyLoad-MultiThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.LowMemory, false, false, true, DisplayName = "Pattern-LowMemory-NoCache-NoLazyLoad-MultiThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.Balanced, false, false, true, DisplayName = "Pattern-Balanced-NoCache-NoLazyLoad-MultiThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.BalancedTemp, false, false, true, DisplayName = "Pattern-BalancedTemp-NoCache-NoLazyLoad-MultiThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.MaxPerformance, true, false, true, DisplayName = "Pattern-MaxPerformance-Cache-NoLazyLoad-MultiThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.HighPerformance, true, false, true, DisplayName = "Pattern-HighPerformance-Cache-NoLazyLoad-MultiThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.LowMemory, true, false, true, DisplayName = "Pattern-LowMemory-Cache-NoLazyLoad-MultiThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.Balanced, true, false, true, DisplayName = "Pattern-Balanced-Cache-NoLazyLoad-MultiThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.BalancedTemp, true, false, true, DisplayName = "Pattern-BalancedTemp-Cache-NoLazyLoad-MultiThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.MaxPerformance, false, true, true, DisplayName = "Pattern-MaxPerformance-NoCache-LazyLoad-MultiThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.HighPerformance, false, true, true, DisplayName = "Pattern-HighPerformance-NoCache-LazyLoad-MultiThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.LowMemory, false, true, true, DisplayName = "Pattern-LowMemory-NoCache-LazyLoad-MultiThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.Balanced, false, true, true, DisplayName = "Pattern-Balanced-NoCache-LazyLoad-MultiThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.BalancedTemp, false, true, true, DisplayName = "Pattern-BalancedTemp-NoCache-LazyLoad-MultiThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.MaxPerformance, true, true, true, DisplayName = "Pattern-MaxPerformance-Cache-LazyLoad-MultiThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.HighPerformance, true, true, true, DisplayName = "Pattern-HighPerformance-Cache-LazyLoad-MultiThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.LowMemory, true, true, true, DisplayName = "Pattern-LowMemory-Cache-LazyLoad-MultiThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.Balanced, true, true, true, DisplayName = "Pattern-Balanced-Cache-LazyLoad-MultiThread")]
-        [DataRow(Constants.PATTERN_DATA_FILE_NAME, PerformanceProfiles.BalancedTemp, true, true, true, DisplayName = "Pattern-BalancedTemp-Cache-LazyLoad-MultiThread")]
-        public void Pattern_AllConfigurations_100_UserAgents(
-            string datafileName,
-            PerformanceProfiles performanceProfile,
-            bool useCache,
-            bool useLazyLoading,
-            bool multiThreaded)
-        {
-            TestOnPremise_AllConfigurations_100_UserAgents(datafileName,
-                performanceProfile,
-                useCache,
-                useLazyLoading,
-                multiThreaded);
-        }
-
         /// <summary>
         /// This test will create a device detection pipeline based on the
         /// supplied parameters, process 1000 user agents.

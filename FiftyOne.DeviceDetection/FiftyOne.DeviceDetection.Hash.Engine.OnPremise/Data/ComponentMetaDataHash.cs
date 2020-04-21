@@ -30,8 +30,6 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 {
     public class ComponentMetaDataHash : ComponentMetaDataDefault
     {
-        public override IProfileMetaData DefaultProfile => throw new NotImplementedException();
-
         public ComponentMetaDataHash(string name) : base(name)
         {
         }

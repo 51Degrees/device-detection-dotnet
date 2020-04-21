@@ -41,14 +41,9 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
             _source = source;
         }
 
-        public IProfileMetaData DefaultProfile
-        {
-            get
-            {
-                throw new NotImplementedException("Default profile " +
-                    "not available when using a Hash engine");
-            }
-        }
+        public IProfileMetaData DefaultProfile => new ProfileMetaData(
+            _engine,
+            _engine.MetaData.getDefaultProfileForComponent(_source));
 
         public IReadOnlyList<IFiftyOneAspectPropertyMetaData> Properties =>
             GetProperties().ToList();
@@ -84,7 +79,6 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 
         public string Name => _source.getName();
 
-        // TODO - return byte through SWIG.
         public byte ComponentId => (byte)_source.getComponentIdAsInt();
 
         #region IDisposable Support
@@ -108,8 +102,6 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
             GC.SuppressFinalize(this);
         }
 
-        #endregion
-
         public override int GetHashCode()
         {
             return ComponentId;
@@ -129,5 +121,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         {
             return Name;
         }
+
+        #endregion
     }
 }

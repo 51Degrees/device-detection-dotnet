@@ -27,16 +27,42 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
 {
     internal interface IMetaDataSwigWrapper
     {
+
         IComponentCollectionSwigWrapper getComponents(
             DeviceDetectionHashEngine engine);
 
         IPropertyCollectionSwigWrapper getProperties(
             DeviceDetectionHashEngine engine);
 
+        IProfileCollectionSwigWrapper getProfiles(
+            DeviceDetectionHashEngine engine);
+
+        IValueCollectionSwigWrapper getValues(
+            DeviceDetectionHashEngine engine);
+
+        IValueCollectionSwigWrapper getValuesForProperty(
+            PropertyMetaDataSwig property,
+            DeviceDetectionHashEngine engine);
+
         PropertyMetaDataCollectionSwig getPropertiesForComponent(
             ComponentMetaDataSwig component);
 
         ComponentMetaDataSwig getComponentForProperty(
+            PropertyMetaDataSwig property);
+
+        ComponentMetaDataSwig getComponentForProfile(
+            ProfileMetaDataSwig profile);
+
+        ValueMetaDataCollectionSwig getValuesForProfile(
+            ProfileMetaDataSwig profile);
+
+        PropertyMetaDataSwig getPropertyForValue(
+            ValueMetaDataSwig value);
+
+        ProfileMetaDataSwig getDefaultProfileForComponent(
+            ComponentMetaDataSwig component);
+
+        ValueMetaDataSwig getDefaultValueForProperty(
             PropertyMetaDataSwig property);
     }
 }

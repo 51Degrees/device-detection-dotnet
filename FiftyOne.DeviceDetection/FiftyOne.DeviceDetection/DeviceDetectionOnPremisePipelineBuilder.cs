@@ -21,7 +21,6 @@
  * ********************************************************************* */
 
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
-using FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.FlowElements;
 using FiftyOne.DeviceDetection.Shared.FlowElements;
 using FiftyOne.Pipeline.Core.Exceptions;
 using FiftyOne.Pipeline.Core.FlowElements;
@@ -32,6 +31,7 @@ using FiftyOne.Pipeline.Engines.FlowElements;
 using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
 using System;
+using System.IO;
 using System.Net.Http;
 
 namespace FiftyOne.DeviceDetection
@@ -45,7 +45,7 @@ namespace FiftyOne.DeviceDetection
     {
         private string _filename;
         private bool _createTempDataCopy;
-        private byte[] _engineData;
+        private Stream _engineDataStream;
 
         private bool _autoUpdateEnabled = true;
         private bool _dataUpdateOnStartUpEnabled = true;
@@ -57,7 +57,7 @@ namespace FiftyOne.DeviceDetection
         private PerformanceProfiles _performanceProfile = 
             PerformanceProfiles.Balanced;
         private DeviceDetectionAlgorithm _algorithm =
-            DeviceDetectionAlgorithm.Pattern;
+            DeviceDetectionAlgorithm.Hash;
         protected bool _shareUsageEnabled = true;
 
         private IDataUpdateService _dataUpdateService;
@@ -95,18 +95,14 @@ namespace FiftyOne.DeviceDetection
         {
             _filename = filename;
             _createTempDataCopy = createTempDataCopy;
-            if (filename.EndsWith(".dat", StringComparison.InvariantCultureIgnoreCase))
-            {
-                _algorithm = DeviceDetectionAlgorithm.Pattern;
-            }
-            else if (filename.EndsWith(".trie", StringComparison.InvariantCultureIgnoreCase))
+            if (filename.EndsWith(".hash", StringComparison.InvariantCultureIgnoreCase))
             {
                 _algorithm = DeviceDetectionAlgorithm.Hash;
             }
             else
             {
                 throw new Exception("Unrecognized filename. " +
-                    "Expected a '*.dat' pattern data file or '*.trie' hash data file."); 
+                    "Expected a '*.hash' Hash data file.");
             }
             return this;
         }
@@ -115,8 +111,8 @@ namespace FiftyOne.DeviceDetection
         /// Set the byte array to use as a data source when 
         /// creating the engine.
         /// </summary>
-        /// <param name="data">
-        /// The entire device detection data file stored as a byte array.
+        /// <param name="dataStream">
+        /// The entire device detection data file as a <see cref="Stream"/>.
         /// </param>
         /// <param name="algorithm">
         /// The detection algorithm that the supplied data supports.
@@ -124,9 +120,9 @@ namespace FiftyOne.DeviceDetection
         /// <returns>
         /// This builder instance.
         /// </returns>
-        internal DeviceDetectionOnPremisePipelineBuilder SetEngineData(byte[] data, DeviceDetectionAlgorithm algorithm)
+        internal DeviceDetectionOnPremisePipelineBuilder SetEngineData(Stream dataStream, DeviceDetectionAlgorithm algorithm)
         {
-            _engineData = data;
+            _engineDataStream = dataStream;
             _algorithm = algorithm;
             return this;
         }
@@ -289,10 +285,6 @@ namespace FiftyOne.DeviceDetection
                     var hashBuilder = new DeviceDetectionHashEngineBuilder(LoggerFactory, _dataUpdateService);
                     deviceDetectionEngine = ConfigureAndBuild(hashBuilder);
                     break;
-                case DeviceDetectionAlgorithm.Pattern:
-                    var patternBuilder = new DeviceDetectionPatternEngineBuilder(LoggerFactory, _dataUpdateService);
-                    deviceDetectionEngine = ConfigureAndBuild(patternBuilder);
-                    break;
                 default:
                     throw new PipelineConfigurationException(
                         $"Unrecognized algorithm '{_algorithm}'.");
@@ -381,10 +373,10 @@ namespace FiftyOne.DeviceDetection
             {
                 engine = builder.Build(_filename, _createTempDataCopy);
             }
-            else if (_engineData != null ||
+            else if (_engineDataStream != null ||
                 _dataUpdateOnStartUpEnabled == true)
             {
-                engine = builder.Build(_engineData);
+                engine = builder.Build(_engineDataStream);
             }
             else
             {

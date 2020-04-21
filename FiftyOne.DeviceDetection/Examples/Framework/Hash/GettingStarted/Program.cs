@@ -29,9 +29,7 @@ using System.IO;
 /// 
 /// Getting started example of using 51Degrees device detection.
 /// 
-/// This example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/blob/release/v4.1.0/FiftyOne.DeviceDetection/Examples/Framework/Hash/GettingStarted/Program.cs). 
-/// (During the beta period, this repository will be private. 
-/// [Contact us](mailto:support.51degrees.com) to request access)
+/// This example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/blob/master/FiftyOne.DeviceDetection/Examples/Framework/Hash/GettingStarted/Program.cs). 
 /// 
 /// This example requires a local data file. If you don't already have one, 
 /// you can obtain one from the 
@@ -45,7 +43,7 @@ using System.IO;
 /// performance profile.
 /// ```
 /// var pipeline = new DeviceDetectionPipelineBuilder()
-///     .UseOnPremise("51Degrees-LiteV3.4.trie", false)
+///     .UseOnPremise("51Degrees-LiteV4.1.hash", false)
 ///     .SetAutoUpdate(false)
 ///     .SetDataFileSystemWatcher(false)
 ///     .SetDataUpdateOnStartUp(false)
@@ -142,9 +140,9 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.GettingStarted
         static void Main(string[] args)
         {
 #if NETCORE
-            var defaultDataFile = "..\\..\\..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\51Degrees-LiteV3.4.trie";
+            var defaultDataFile = "..\\..\\..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\51Degrees-LiteV4.1.hash";
 #else
-            var defaultDataFile = "..\\..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\51Degrees-LiteV3.4.trie";
+            var defaultDataFile = "..\\..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\51Degrees-LiteV4.1.hash";
 #endif
             var dataFile = args.Length > 0 ? args[0] : defaultDataFile;
             new Example().Run(dataFile);

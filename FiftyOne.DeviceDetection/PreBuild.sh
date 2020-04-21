@@ -57,7 +57,7 @@ if command -v swig >/dev/null 2>&1; then
         swig -c++ -csharp -namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop -dllimport FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll -outdir $SRCOUT -o $SCRIPTPATH/DeviceDetectionHashEngineSwig_csharp.cpp $SCRIPTPATH/FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native/hash_csharp.i
     fi
     if [ "$API" = "Pattern" ]; then
-        swig -c++ -csharp -namespace FiftyOne.DeviceDetection.Pattern.OnPremise.Interop -dllimport FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.Native.dll -outdir $SRCOUT -o $SCRIPTPATH/DeviceDetectionPatternEngineSwig_csharp.cpp $SCRIPTPATH/FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.Native/pattern_csharp.i
+        swig -c++ -csharp -namespace FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.Interop -dllimport FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.Native.dll -outdir $SRCOUT -o $SCRIPTPATH/DeviceDetectionPatternEngineSwig_csharp.cpp $SCRIPTPATH/FiftyOne.DeviceDetection.Pattern.Engine.OnPremise.Native/pattern_csharp.i
     fi
 else
     { echo >&2 "Swig is required to generate wrapper but it's not installed."; }

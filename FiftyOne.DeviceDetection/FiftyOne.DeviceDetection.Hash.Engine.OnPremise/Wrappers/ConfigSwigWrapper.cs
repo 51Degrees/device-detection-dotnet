@@ -59,6 +59,16 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
         {
             _object.setAllowUnmatched(allow);
         }
+        
+        public void setUsePerformanceGraph(bool use)
+        {
+            _object.setUsePerformanceGraph(use);
+        }
+
+        public void setUsePredictiveGraph(bool use)
+        {
+            _object.setUsePredictiveGraph(use);
+        }
 
         public void setLowMemory()
         {

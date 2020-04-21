@@ -37,8 +37,6 @@ namespace FiftyOne.DeviceDetection
     public class DeviceDetectionCloudPipelineBuilder :
         CloudPipelineBuilderBase<DeviceDetectionCloudPipelineBuilder>
     {
-        private HttpClient _httpClient;
-
         /// <summary>
         /// Internal Constructor.
         /// This builder should only be created through the 
@@ -48,49 +46,14 @@ namespace FiftyOne.DeviceDetection
         /// <param name="httpClient"></param>
         internal DeviceDetectionCloudPipelineBuilder(
             ILoggerFactory loggerFactory,
-            HttpClient httpClient) : base(loggerFactory)
+            HttpClient httpClient) : base(loggerFactory, httpClient)
         {
-            _httpClient = httpClient;
         }
 
         public override IPipeline Build()
         {
-            // Configure and build the cloud request engine
-            var cloudRequestEngineBuilder = new CloudRequestEngineBuilder(LoggerFactory, _httpClient);
-            if (LazyLoading)
-            {
-                cloudRequestEngineBuilder.SetLazyLoading(new LazyLoadingConfiguration(
-                    (int)LazyLoadingTimeout.TotalMilliseconds,
-                    LazyLoadingCancellationToken));
-            }
-            if (ResultsCache)
-            {
-                cloudRequestEngineBuilder.SetCache(new CacheConfiguration() { Size = ResultsCacheSize });
-            }
-            if (string.IsNullOrEmpty(Url) == false)
-            {
-                cloudRequestEngineBuilder.SetDataEndpoint(Url);
-            }
-            if (string.IsNullOrEmpty(EvidenceKeysEndpoint) == false)
-            {
-                cloudRequestEngineBuilder.SetEvidenceKeysEndpoint(EvidenceKeysEndpoint);
-            }
-            if (string.IsNullOrEmpty(PropertiesEndpoint) == false)
-            {
-                cloudRequestEngineBuilder.SetPropertiesEndpoint(PropertiesEndpoint);
-            }
-            if (string.IsNullOrEmpty(ResourceKey) == false)
-            {
-                cloudRequestEngineBuilder.SetResourceKey(ResourceKey);
-            }
-            if (string.IsNullOrEmpty(LicenceKey) == false)
-            {
-                cloudRequestEngineBuilder.SetLicenseKey(LicenceKey);
-            }
-            var cloudRequestEngine = cloudRequestEngineBuilder.Build();
-
             // Configure and build the device detection engine
-            var deviceDetectionEngineBuilder = new DeviceDetectionCloudEngineBuilder(LoggerFactory, _httpClient, cloudRequestEngine);
+            var deviceDetectionEngineBuilder = new DeviceDetectionCloudEngineBuilder(LoggerFactory);
             if (LazyLoading)
             {
                 deviceDetectionEngineBuilder.SetLazyLoading(new LazyLoadingConfiguration(
@@ -98,8 +61,8 @@ namespace FiftyOne.DeviceDetection
                     LazyLoadingCancellationToken));
             }
 
-            // Add the elements to the list
-            FlowElements.Add(cloudRequestEngine);
+            // Add the engine to the list (The CloudRequestEngine 
+            // will be added by the base class)
             FlowElements.Add(deviceDetectionEngineBuilder.Build());
 
             // Build and return the pipeline

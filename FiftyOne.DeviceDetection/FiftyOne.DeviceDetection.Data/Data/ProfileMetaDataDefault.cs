@@ -34,8 +34,6 @@ namespace FiftyOne.DeviceDetection.Shared.Data
     {
         public uint ProfileId => 0;
 
-        public uint SignatureCount => throw new NotImplementedException();
-
         public IComponentMetaData Component => throw new NotImplementedException();
 
         public string Name => throw new NotImplementedException();
@@ -44,7 +42,6 @@ namespace FiftyOne.DeviceDetection.Shared.Data
         {
         }
         
-
         public int CompareTo(IProfileMetaData other)
         {
             return ProfileId.CompareTo(other.ProfileId);

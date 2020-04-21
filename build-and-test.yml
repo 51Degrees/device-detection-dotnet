@@ -1,8 +1,5 @@
 pool:
-  name: Hosted VS2017
-  demands:
-  - msbuild
-  - visualstudio
+  vmImage: 'windows-2019'
   
 trigger: none
 
@@ -25,8 +22,6 @@ strategy:
 
 variables: 
   RestoreBuildProjects: '*.sln'
-    # Projects to be run unit tests for
-  TestProjects: '**/*[Tt]ests/*.csproj'
 
 steps:
 # Get the data files that are required for device detection automated system tests.
@@ -47,9 +42,9 @@ steps:
 # cause timeout errors to occur during the NuGet Restore step.
 # 4.8.1 appears to avoid this problem so sticking with that for now.
 - task: NuGetToolInstaller@0
-  displayName: 'Use NuGet 4.8.1'
+  displayName: 'Use NuGet 5.4.0'
   inputs:
-    versionSpec: 4.8.1
+    versionSpec: 5.4.0
 
 - task: NuGetCommand@2
   displayName: 'NuGet restore'
@@ -63,7 +58,7 @@ steps:
   displayName: 'Build solutions'
   inputs:
     solution: '$(RestoreBuildProjects)'
-    vsVersion: '15.0'
+    vsVersion: '16.0'
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
     clean: true
@@ -73,41 +68,49 @@ steps:
   displayName: 'Visual Studio Test Platform Installer'
   inputs:
     versionSelector: latestStable
-     
+    
 - task: VSTest@2
   displayName: 'VsTest - testAssemblies - dotnet framework'
   inputs:
     testSelector: 'testAssemblies'
     testAssemblyVer2: |
-      **\$(BuildPlatform)\*\*test*Framework.dll
+      **\$(BuildPlatform)\**\net4*\*Tests*.dll
       !**\*TestAdapter*.dll
       !**\*TestFramework*.dll
-      !**\*DeviceDetection*.Tests.dll
       !**\obj\**
     searchFolder: '$(System.DefaultWorkingDirectory)'
-    codeCoverageEnabled: true
-    otherConsoleOptions: '/Framework:Framework45 /Platform:$(BuildPlatform) /logger:console;verbosity="normal"'
+    otherConsoleOptions: '/Framework:net462 /Platform:$(BuildPlatform) /logger:console;verbosity="normal"'
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
     diagnosticsEnabled: true
+    testRunTitle: 'framework-$(BuildConfiguration)-$(BuildPlatform)'
+    vsTestVersion: toolsInstaller
+    # Disabled these options for now as it is not finding the framework tests correctly on the build agent.
+    #minimumExpectedTests: '1'
+    #failOnMinTestsNotRun: true
 
 - task: VSTest@2
   displayName: 'VsTest - testAssemblies - dotnet core'
   inputs:
     testSelector: 'testAssemblies'
     testAssemblyVer2: |
-      **\$(BuildPlatform)\*\netcoreapp2.*\*Tests*.dll
+      **\$(BuildPlatform)\**\netcoreapp*\*Tests*.dll
       !**\*TestAdapter*.dll
       !**\*TestFramework*.dll
-      !**\*DeviceDetection*.Tests.dll
       !**\obj\**
     searchFolder: '$(System.DefaultWorkingDirectory)'
     codeCoverageEnabled: true
-    otherConsoleOptions: '/Framework:.NETStandard,Version=v2.0 /Platform:$(BuildPlatform) /logger:console;verbosity="normal"'
+    otherConsoleOptions: '/Framework:netcoreapp3.1 /Platform:$(BuildPlatform) /logger:console;verbosity="normal"'
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
     diagnosticsEnabled: true
+    testRunTitle: 'core-$(BuildConfiguration)-$(BuildPlatform)'
+    minimumExpectedTests: '1'
+    failOnMinTestsNotRun: true
+    vsTestVersion: toolsInstaller
+  condition: succeededOrFailed()
     
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact'
+  condition: succeededOrFailed()
 

@@ -9,9 +9,6 @@ variables:
   # using the name/value syntax.
   - name: RestoreBuildProjects
     value: '*.sln'
-    # Projects to be run unit tests for
-  - name: TestProjects
-    value: '**/*[Tt]ests/*.csproj'
     # Projects to be published as NuGet packages
   - name: PublishProjects
     value: '**/*.csproj;!**/*[Tt]ests/**/*.csproj;!**/*[Ee]xamples/**/*.csproj'
@@ -56,9 +53,7 @@ jobs:
        find **/*.csproj -not -path '**/*Tests*/*' -and -not -path '**/*Examples*/*'
       displayName: 'List csproj files to be packaged'
 
-    - bash: |
-       chmod +x ./PreBuild.sh
-       ./PreBuild.sh pattern       
+    - bash: './PreBuild.sh pattern'
       workingDirectory: FiftyOne.DeviceDetection
       displayName: 'Make Pattern'
 
@@ -83,10 +78,7 @@ jobs:
   - job: Windows_Build_and_Release
     dependsOn: Build_Linux_Binaries
     pool:
-      name: Hosted VS2017
-      demands:
-      - msbuild
-      - visualstudio
+      vmImage: 'windows-2019'
 
     steps:
     - bash: |
@@ -120,7 +112,9 @@ jobs:
         ) || (
           set ISRELEASEBRANCH=false
         )
-        if "%BUILD_SOURCEBRANCHNAME%" == "master" (
+        if %FORCERELEASE% == true (
+            SET BUILD_CONFIG=Release
+        ) else if "%BUILD_SOURCEBRANCHNAME%" == "master" (
             SET BUILD_CONFIG=Release
         ) else if %ISRELEASEBRANCH% == true (
             SET BUILD_CONFIG=Release
@@ -132,9 +126,9 @@ jobs:
       displayName: 'Determine Build Configuration'
         
     - task: NuGetToolInstaller@1
-      displayName: 'Use NuGet 4.8.1'
+      displayName: 'Use NuGet 5.4.0'
       inputs:
-        versionSpec: 4.8.1
+        versionSpec: 5.4.0
 
     - task: NuGetCommand@2
       displayName: 'NuGet restore'
@@ -169,7 +163,7 @@ jobs:
       displayName: 'Build solutions x64'
       inputs:
         solution: '$(RestoreBuildProjects)'
-        vsVersion: '15.0'
+        vsVersion: '16.0'
         platform: 'x64'
         configuration: '$(BuildConfiguration)'
         clean: true
@@ -179,7 +173,7 @@ jobs:
       displayName: 'Build solutions x86'
       inputs:
         solution: '$(RestoreBuildProjects)'
-        vsVersion: '15.0'
+        vsVersion: '16.0'
         platform: 'x86'
         configuration: '$(BuildConfiguration)'
         clean: true
@@ -220,21 +214,6 @@ jobs:
         command: custom
         arguments: 'sign $(System.ArtifactsDirectory)\*.nupkg -CertificatePath "$(CodeSigningCert.secureFilePath)" -CertificatePassword $(CodeSigningCertPassword) -Timestamper http://timestamp.digicert.com'
 
-    # Push the package file to the internal feed. From there it can be
-    # Published to the public nuget feed when needed.
-    - task: DotNetCoreCLI@2
-      displayName: 'Publish NuGet Package'
-      inputs:
-        command: 'push'
-        packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-        nuGetFeedType: 'internal'
-        publishVstsFeed: 'd2431f86-c1e6-4d8b-8d27-311cf3614847'
-    # Only do this if:
-    # 1. The build has been successful to this point
-    # 2. The branch being built is master or develop OR the ForcePushNuget 
-    #    variable has been set to true.
-      condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), or(eq(variables['Build.SourceBranch'], 'refs/heads/develop'), or(startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'), eq('true', variables['ForcePushNuget'])))))
-
     # Add a tag to the git repository with the version number of
     # the package that has just been published
     - task: ATP.ATP-GitTag.GitTag.GitTag@5
@@ -242,10 +221,7 @@ jobs:
       inputs:
         tagUser: 'Azure DevOps'
         tagEmail: 'CIUser@51Degrees.com'
-        tag: 'v$(GitVersion.NuGetVersion)'
-    # Only create the tag if we also published a package as defined in 
-    # the previous task.
-      condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), or(eq(variables['Build.SourceBranch'], 'refs/heads/develop'), or(startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'), eq('true', variables['ForcePushNuget'])))))
+      condition: succeeded()
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact'
