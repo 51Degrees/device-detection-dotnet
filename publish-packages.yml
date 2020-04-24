@@ -196,6 +196,8 @@ jobs:
         packagesToPack: '$(PublishProjects)'
         versioningScheme: 'byEnvVar'
         versionEnvVar: 'BUILD_BUILDNUMBER'
+        feedsToUse: 'select'
+        vstsFeed: 'd2431f86-c1e6-4d8b-8d27-311cf3614847'
         
     # The secure file to download will be stored in the 
     # Pipelines/Library/SecureFiles section in Azure DevOps.
