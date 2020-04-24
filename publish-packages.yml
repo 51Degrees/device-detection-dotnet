@@ -195,8 +195,7 @@ jobs:
         command: 'pack'
         packagesToPack: '$(PublishProjects)'
         versioningScheme: 'byEnvVar'
-        versionEnvVar: 'BUILD_BUILDNUMBER'        
-        nobuild: true
+        versionEnvVar: 'BUILD_BUILDNUMBER'
         
     # The secure file to download will be stored in the 
     # Pipelines/Library/SecureFiles section in Azure DevOps.
