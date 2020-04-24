@@ -451,6 +451,10 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<double> HtmlVersion { get; }
 		/// <summary>
+		/// Indicates if the browser supports HTTP version 2.
+		/// </summary>
+		IAspectPropertyValue<bool> Http2 { get; }
+		/// <summary>
 		/// Indicates if the browser supports HTTP Live Streaming, also known as HLS.
 		/// </summary>
 		IAspectPropertyValue<string> HttpLiveStreaming { get; }
@@ -726,6 +730,10 @@ namespace FiftyOne.DeviceDetection
 		/// Indicates if the browser supports messages between different documents.
 		/// </summary>
 		IAspectPropertyValue<bool> PostMessage { get; }
+		/// <summary>
+		/// Indicates if the browser can prefetch resources without executing them.
+		/// </summary>
+		IAspectPropertyValue<bool> Preload { get; }
 		/// <summary>
 		/// Indicates a price range describing the recommended retail price of the device at the date of release, inclusive of tax (where applicable).  Prices are in United States Dollars (USD); if the price is not originally in USD it will be converted to USD using the relevant exchange rate at the time of launch. Prices are for the SIM-free version of the device (if applicable). In cases where there are several versions of the same model of the device, the price will reflect the device that was used to populate the specifications.
 		/// </summary>

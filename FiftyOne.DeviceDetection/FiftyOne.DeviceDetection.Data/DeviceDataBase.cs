@@ -148,6 +148,7 @@ namespace FiftyOne.DeviceDetection.Shared
 		public IAspectPropertyValue<IReadOnlyList<string>> Html5Video { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("Html5Video"); } }
 		public IAspectPropertyValue<bool> HtmlMediaCapture { get { return GetAs<IAspectPropertyValue<bool>>("Html-Media-Capture"); } }
 		public IAspectPropertyValue<double> HtmlVersion { get { return GetAs<IAspectPropertyValue<double>>("HtmlVersion"); } }
+		public IAspectPropertyValue<bool> Http2 { get { return GetAs<IAspectPropertyValue<bool>>("Http2"); } }
 		public IAspectPropertyValue<string> HttpLiveStreaming { get { return GetAs<IAspectPropertyValue<string>>("HttpLiveStreaming"); } }
 		public IAspectPropertyValue<bool> Iframe { get { return GetAs<IAspectPropertyValue<bool>>("Iframe"); } }
 		public IAspectPropertyValue<bool> IndexedDB { get { return GetAs<IAspectPropertyValue<bool>>("IndexedDB"); } }
@@ -217,6 +218,7 @@ namespace FiftyOne.DeviceDetection.Shared
 		public IAspectPropertyValue<string> PlatformVendor { get { return GetAs<IAspectPropertyValue<string>>("PlatformVendor"); } }
 		public IAspectPropertyValue<string> PlatformVersion { get { return GetAs<IAspectPropertyValue<string>>("PlatformVersion"); } }
 		public IAspectPropertyValue<bool> PostMessage { get { return GetAs<IAspectPropertyValue<bool>>("PostMessage"); } }
+		public IAspectPropertyValue<bool> Preload { get { return GetAs<IAspectPropertyValue<bool>>("Preload"); } }
 		public IAspectPropertyValue<string> PriceBand { get { return GetAs<IAspectPropertyValue<string>>("PriceBand"); } }
 		public IAspectPropertyValue<bool> Progress { get { return GetAs<IAspectPropertyValue<bool>>("Progress"); } }
 		public IAspectPropertyValue<string> Promise { get { return GetAs<IAspectPropertyValue<string>>("Promise"); } }
