@@ -246,6 +246,15 @@ namespace FiftyOne.DeviceDetection.Shared
 		public IAspectPropertyValue<double> SecondBackCameraMegaPixels { get { return GetAs<IAspectPropertyValue<double>>("SecondBackCameraMegaPixels"); } }
 		public IAspectPropertyValue<double> SecondFrontCameraMegaPixels { get { return GetAs<IAspectPropertyValue<double>>("SecondFrontCameraMegaPixels"); } }
 		public IAspectPropertyValue<double> SecondScreenInchesDiagonal { get { return GetAs<IAspectPropertyValue<double>>("SecondScreenInchesDiagonal"); } }
+		public IAspectPropertyValue<int> SecondScreenInchesDiagonalRounded { get { return GetAs<IAspectPropertyValue<int>>("SecondScreenInchesDiagonalRounded"); } }
+		public IAspectPropertyValue<double> SecondScreenInchesHeight { get { return GetAs<IAspectPropertyValue<double>>("SecondScreenInchesHeight"); } }
+		public IAspectPropertyValue<int> SecondScreenInchesSquare { get { return GetAs<IAspectPropertyValue<int>>("SecondScreenInchesSquare"); } }
+		public IAspectPropertyValue<double> SecondScreenInchesWidth { get { return GetAs<IAspectPropertyValue<double>>("SecondScreenInchesWidth"); } }
+		public IAspectPropertyValue<double> SecondScreenMMDiagonal { get { return GetAs<IAspectPropertyValue<double>>("SecondScreenMMDiagonal"); } }
+		public IAspectPropertyValue<int> SecondScreenMMDiagonalRounded { get { return GetAs<IAspectPropertyValue<int>>("SecondScreenMMDiagonalRounded"); } }
+		public IAspectPropertyValue<double> SecondScreenMMHeight { get { return GetAs<IAspectPropertyValue<double>>("SecondScreenMMHeight"); } }
+		public IAspectPropertyValue<int> SecondScreenMMSquare { get { return GetAs<IAspectPropertyValue<int>>("SecondScreenMMSquare"); } }
+		public IAspectPropertyValue<double> SecondScreenMMWidth { get { return GetAs<IAspectPropertyValue<double>>("SecondScreenMMWidth"); } }
 		public IAspectPropertyValue<int> SecondScreenPixelsHeight { get { return GetAs<IAspectPropertyValue<int>>("SecondScreenPixelsHeight"); } }
 		public IAspectPropertyValue<int> SecondScreenPixelsWidth { get { return GetAs<IAspectPropertyValue<int>>("SecondScreenPixelsWidth"); } }
 		public IAspectPropertyValue<bool> Selector { get { return GetAs<IAspectPropertyValue<bool>>("Selector"); } }
