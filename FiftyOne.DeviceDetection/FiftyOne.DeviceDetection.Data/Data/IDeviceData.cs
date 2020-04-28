@@ -843,6 +843,42 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<double> SecondScreenInchesDiagonal { get; }
 		/// <summary>
+		/// Indicates the diagonal size of the device's second screen in inches rounded to the nearest whole number. This property will return the value 'N/A' for desktop or for devices which do not have a second screen.
+		/// </summary>
+		IAspectPropertyValue<int> SecondScreenInchesDiagonalRounded { get; }
+		/// <summary>
+		/// Refers to the height of the device's second screen in inches. This property will return 'N/A' for desktops or for devices which do not have a second screen.
+		/// </summary>
+		IAspectPropertyValue<double> SecondScreenInchesHeight { get; }
+		/// <summary>
+		/// Indicates the area of the device's second screen in square inches rounded to the nearest whole number. This property will return the value 'N/A' for desktop or for devices which do not have a second screen.
+		/// </summary>
+		IAspectPropertyValue<int> SecondScreenInchesSquare { get; }
+		/// <summary>
+		/// Refers to the width of the device's second screen in inches. This property will return the value 'N/A' for desktop or for devices which do not have a second screen.
+		/// </summary>
+		IAspectPropertyValue<double> SecondScreenInchesWidth { get; }
+		/// <summary>
+		/// Refers to the diagonal size of the second screen of the device in millimetres. This property will return 'N/A' for desktops or for devices which do not have a second screen.
+		/// </summary>
+		IAspectPropertyValue<double> SecondScreenMMDiagonal { get; }
+		/// <summary>
+		/// Indicate the diagonal size of the device's second screen in millimetres rounded to the nearest whole number. This property will return the value 'N/A' for desktop or for devices which do not have a second screen.
+		/// </summary>
+		IAspectPropertyValue<int> SecondScreenMMDiagonalRounded { get; }
+		/// <summary>
+		/// Refers to the second screen height of the device in millimetres. This property will return 'N/A' for desktops or for devices which do not have a second screen.
+		/// </summary>
+		IAspectPropertyValue<double> SecondScreenMMHeight { get; }
+		/// <summary>
+		/// Indicates the area of the device's second screen in square millimetres rounded to the nearest whole number. This property will return the value  'N/A' for desktop or for devices which do not have a second screen.
+		/// </summary>
+		IAspectPropertyValue<int> SecondScreenMMSquare { get; }
+		/// <summary>
+		/// Refers to the second screen width of the device in millimetres. This property will return 'N/A' for desktops or for devices which do not have a second screen.
+		/// </summary>
+		IAspectPropertyValue<double> SecondScreenMMWidth { get; }
+		/// <summary>
 		/// Indicates the height of the device's second screen in pixels. This property is not applicable for a device that does not have a second screen.
 		/// </summary>
 		IAspectPropertyValue<int> SecondScreenPixelsHeight { get; }

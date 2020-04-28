@@ -309,7 +309,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                 SwigFactory);
         }
         
-        protected override string DefaultDataDownloadType => "HashV4";
+        protected override string DefaultDataDownloadType => "HashV41";
         #endregion
 
 
