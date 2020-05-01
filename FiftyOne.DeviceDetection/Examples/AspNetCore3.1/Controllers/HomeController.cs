@@ -24,6 +24,8 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using FiftyOne.Pipeline.Web.Services;
 using FiftyOne.DeviceDetection;
+using FiftyOne.Pipeline.Engines.Services;
+using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 
 namespace DeviceDetectionWebDemoNetCore3_1.Controllers
 {

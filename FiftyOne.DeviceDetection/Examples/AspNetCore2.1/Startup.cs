@@ -23,9 +23,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
+using FiftyOne.Common.Wrappers.IO;
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using FiftyOne.Pipeline.Core.FlowElements;
+using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -35,7 +39,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 
-/// @example DeviceDetectionWebDemoNetCore2_1/Startup.cs
+/// @example AspNetCore2.1/Startup.cs
 /// This example shows how to integrate the Pipeline API with a 
 /// device detection engine into an ASP.NET Core web app.
 /// 
@@ -193,6 +197,16 @@ namespace DeviceDetectionWebDemoNetCore2_1
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.AddTransient<HttpClient>();
+            services.AddSingleton<IFileWrapper, FileWrapper>();
+            services.AddSingleton<IFileSystem, RealFileSystem>();
+            services.AddSingleton<Func<TimerCallback, object, TimeSpan, Timer>>(
+                (callback, state, dueTime) =>
+                {
+                    return new Timer(callback, state, (long)dueTime.TotalMilliseconds, Timeout.Infinite);
+                });
+            // Add the DataUpdate Service
+            services.AddSingleton<IDataUpdateService, DataUpdateService>();
             services.AddSingleton<DeviceDetectionHashEngineBuilder>();
             services.AddFiftyOne(Configuration);
         }
