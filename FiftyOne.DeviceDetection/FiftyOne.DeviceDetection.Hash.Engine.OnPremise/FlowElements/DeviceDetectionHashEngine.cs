@@ -59,6 +59,8 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         private IConfigSwigWrapper _config;
         private IRequiredPropertiesConfigSwigWrapper _propertiesConfigSwig;
 
+        private static Random _rng = new Random();
+
         // The component used for metric properties.
         private ComponentMetaDataDefault _deivceMetricsComponent = new ComponentMetaDataHash("Metrics");
 
@@ -348,7 +350,11 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                 return new DateTime(
                     value.getYear(),
                     value.getMonth(),
-                    value.getDay());
+                    value.getDay(),
+                    0,
+                    0, 
+                    0,
+                    DateTimeKind.Utc);
             }
             return new DateTime();
         }
@@ -360,7 +366,11 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                 return new DateTime(
                     value.getYear(),
                     value.getMonth(),
-                    value.getDay());
+                    value.getDay(), 
+                    12,
+                    _rng.Next(0, 60), 
+                    0,
+                    DateTimeKind.Utc);
             }
             return new DateTime();
         }
