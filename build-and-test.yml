@@ -22,6 +22,7 @@ strategy:
 
 variables: 
   RestoreBuildProjects: '*.sln'
+  TestProjects: '**/*[Tt]ests/**/*.csproj'
 
 steps:
 # Get the data files that are required for device detection automated system tests.
@@ -38,13 +39,11 @@ steps:
   lfs: true
   submodules: recursive
 
-# Note - As of writing, NuGet 5.3.0 is the latest version but both this and 5.2.0
-# cause timeout errors to occur during the NuGet Restore step.
-# 4.8.1 appears to avoid this problem so sticking with that for now.
+# Install NuGet and restore packages
 - task: NuGetToolInstaller@0
-  displayName: 'Use NuGet 5.4.0'
+  displayName: 'Use NuGet 5.5.1'
   inputs:
-    versionSpec: 5.4.0
+    versionSpec: 5.5.1
 
 - task: NuGetCommand@2
   displayName: 'NuGet restore'
@@ -54,6 +53,7 @@ steps:
     feedsToUse: 'select'
     vstsFeed: 'd2431f86-c1e6-4d8b-8d27-311cf3614847'
 
+# Build
 - task: VSBuild@1
   displayName: 'Build solutions'
   inputs:
@@ -62,8 +62,8 @@ steps:
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
     clean: true
-    msbuildArchitecture: '$(BuildPlatform)'
-    
+    msbuildArchitecture: '$(BuildPlatform)'    
+   
 - task: VisualStudioTestPlatformInstaller@1
   displayName: 'Visual Studio Test Platform Installer'
   inputs:

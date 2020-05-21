@@ -32,6 +32,12 @@ using System.Collections.Generic;
 // life easier for consumers.
 namespace FiftyOne.DeviceDetection
 {
+	/// <summary>
+	/// Represents a data object containing values relating to a device.
+	/// This includes the hardware, operating system and browser as
+	/// well as crawler details if the request actually came from a 
+	/// bot or other automated system.
+	/// </summary>
 	public interface IDeviceData : IAspectData
 	{
 		/// <summary>
@@ -431,15 +437,15 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<bool> History { get; }
 		/// <summary>
-		/// Indicates if the browser supports the new markup in HTML 5 that also refers to 'New Semantic Elements' such as <header>, <nav>, <section>, <aside>,<footer> etc.
+		/// Indicates if the browser supports the new markup in HTML 5 that also refers to 'New Semantic Elements' such as <![CDATA[<header>, <nav>, <section>, <aside>,<footer>]]> etc.
 		/// </summary>
 		IAspectPropertyValue<bool> Html5 { get; }
 		/// <summary>
-		/// Lists what audio formats, if any, the browser supports using the HTML5 <audio> tag.
+		/// Lists what audio formats, if any, the browser supports using the HTML5 <![CDATA[<audio>]]> tag.
 		/// </summary>
 		IAspectPropertyValue<IReadOnlyList<string>> Html5Audio { get; }
 		/// <summary>
-		/// Lists what video formats, if any, the browser supports using the HTLM5 <video> tag.
+		/// Lists what video formats, if any, the browser supports using the HTLM5 <![CDATA[<video>]]> tag.
 		/// </summary>
 		IAspectPropertyValue<IReadOnlyList<string>> Html5Video { get; }
 		/// <summary>

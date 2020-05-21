@@ -28,11 +28,29 @@ using System.Text;
 
 namespace FiftyOne.DeviceDetection.Shared.FlowElements
 {
+
+    /// <summary>
+    /// Fluent builder that is used to create an on-premise device detection 
+    /// aspect engine.
+    /// </summary>
+    /// <typeparam name="TBuilder">
+    /// The type of engine builder for fluent methods to return.
+    /// </typeparam>
+    /// <typeparam name="TEngine">
+    /// The type of engine that will be built. 
+    /// </typeparam>
     public abstract class OnPremiseDeviceDetectionEngineBuilderBase<TBuilder, TEngine>
         : FiftyOneOnPremiseAspectEngineBuilderBase<TBuilder, TEngine>
         where TBuilder : OnPremiseDeviceDetectionEngineBuilderBase<TBuilder, TEngine>
         where TEngine : IFiftyOneAspectEngine
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="dataUpdateService">
+        /// The <see cref="IDataUpdateService"/> to use when registering
+        /// data files to check for for automatic updates.
+        /// </param>
         public OnPremiseDeviceDetectionEngineBuilderBase(
             IDataUpdateService dataUpdateService)
             : base(dataUpdateService)
@@ -41,15 +59,9 @@ namespace FiftyOne.DeviceDetection.Shared.FlowElements
 
         /// <summary>
         /// Set the maximum difference to allow when processing HTTP headers.
-        /// The meaning of difference depends on the Device Detection API being
-        /// used.
-        /// For Pattern: The difference is a combination of the difference in
-        ///              character position of matched substrings, and the
-        ///              difference in ASCII value of each character of matched
-        ///              substrings. By default this is 10.
-        /// For Hash: The difference is the difference in hash value between
-        ///           the hash that was found, and the hash that is being
-        ///           searched for. By default this is 0.
+        /// The difference is the difference in hash value between the 
+        /// hash that was found, and the hash that is being searched for.
+        /// By default this is 0.
         /// </summary>
         /// <param name="difference">Difference to allow</param>
         /// <returns>This builder</returns>
@@ -67,7 +79,7 @@ namespace FiftyOne.DeviceDetection.Shared.FlowElements
         /// True if results with no matched hash nodes or substrings should be
         /// considered valid
         /// </param>
-        /// <returns>This builder
+        /// <returns>This builder</returns>
         public abstract TBuilder SetAllowUnmatched(bool allow);
 
         /// <summary>

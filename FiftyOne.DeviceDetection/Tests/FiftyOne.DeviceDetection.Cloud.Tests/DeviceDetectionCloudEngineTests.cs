@@ -40,6 +40,7 @@ namespace FiftyOne.DeviceDetection.Cloud.Tests
     public class DeviceDetectionCloudEngineTests
     {
         private IPipeline _pipeline;
+        private const string _resource_key_env_variable = "51D_RESOURCE_KEY";
 
         [TestInitialize] 
         public void Init()
@@ -47,108 +48,130 @@ namespace FiftyOne.DeviceDetection.Cloud.Tests
 
         }
         
-        // TODO: Uncomment when cloud is updated.
-        //[TestMethod]
-        //public void Test()
-        //{
-        //    _pipeline = new DeviceDetectionPipelineBuilder(
-        //        new LoggerFactory(), new System.Net.Http.HttpClient())
-        //        .UseCloud("AQS5HKcyy086O2Kw10g")
-        //        .Build();
-        //    var data = _pipeline.CreateFlowData();
-        //    data.AddEvidence("header.user-agent", "Mozilla/5.0 (Linux; Android 8.0.0; Pixel 2 XL Build/OPD1.170816.004) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.106 Mobile Safari/537.36");
-        //    data.Process();
+        /// <summary>
+        /// Perform a simple gross error check by calling the cloud service
+        /// with a single User-Agent and validating the device type 
+        /// property is correct.
+        /// This is an integration test that uses the live cloud service
+        /// so any problems with that service could affect the result
+        /// of this test.
+        /// </summary>
+        [TestMethod]
+        public void CloudIntegrationTest()
+        {
+            var resourceKey = System.Environment.GetEnvironmentVariable(
+                _resource_key_env_variable);
 
-        //    var deviceData = data.Get<IDeviceData>();
-        //    Assert.IsNotNull(deviceData);
-        //    Assert.AreEqual("SmartPhone", deviceData.DeviceType.Value);
-        //}
+            if (resourceKey != null)
+            {
+                _pipeline = new DeviceDetectionPipelineBuilder(
+                    new LoggerFactory(), new System.Net.Http.HttpClient())
+                    .UseCloud(resourceKey)
+                    .Build();
+                var data = _pipeline.CreateFlowData();
+                data.AddEvidence("header.user-agent", 
+                    "Mozilla/5.0 (Linux; Android 8.0.0; Pixel 2 XL " +
+                    "Build/OPD1.170816.004) AppleWebKit/537.36 " +
+                    "(KHTML, like Gecko) Chrome/80.0.3987.106 " +
+                    "Mobile Safari/537.36");
+                data.Process();
+
+                var deviceData = data.Get<IDeviceData>();
+                Assert.IsNotNull(deviceData);
+                Assert.AreEqual("SmartPhone", deviceData.DeviceType.Value);
+            }
+            else
+            {
+                Assert.Inconclusive($"No resource key supplied in " +
+                    $"environment variable '{_resource_key_env_variable}'");
+            }
+        }
 
 
         // TODO - The commented out section below is more how we should be testing. 
         // i.e. not relying on the cloud request engine actually making a request.
         // Unfortunatley, everything its too tightly coupled for this to work right now.
 
-//        private DeviceDetectionCloudEngine _engine;
-//        private TestLoggerFactory _loggerFactory;
-//        private Mock<IPipeline> _pipeline;
+        //        private DeviceDetectionCloudEngine _engine;
+        //        private TestLoggerFactory _loggerFactory;
+        //        private Mock<IPipeline> _pipeline;
 
-//        private int _maxWarnings = 0;
-//        private int _maxErrors = 0;
-//        private string _testJson = "";
+        //        private int _maxWarnings = 0;
+        //        private int _maxErrors = 0;
+        //        private string _testJson = "";
 
-//        [TestInitialize]
-//        public void Init()
-//        {
-//            _loggerFactory = new TestLoggerFactory();
-//            _engine = new DeviceDetectionCloudEngine(
-//                _loggerFactory.CreateLogger<DeviceDetectionCloudEngine>(),
-//                CreateDeviceData);
-//            _pipeline = new Mock<IPipeline>();
-//        }
+        //        [TestInitialize]
+        //        public void Init()
+        //        {
+        //            _loggerFactory = new TestLoggerFactory();
+        //            _engine = new DeviceDetectionCloudEngine(
+        //                _loggerFactory.CreateLogger<DeviceDetectionCloudEngine>(),
+        //                CreateDeviceData);
+        //            _pipeline = new Mock<IPipeline>();
+        //        }
 
-//        private DeviceDataCloud CreateDeviceData(IPipeline pipeline, FlowElementBase<DeviceDataCloud, IAspectPropertyMetaData> engine)
-//        {
-//            return new DeviceDataCloud(
-//                _loggerFactory.CreateLogger<DeviceDataCloud>(),
-//                pipeline,
-//                (IAspectEngine)engine,
-//                MissingPropertyService.Instance);
-//        }
-//        private CloudRequestData CreateTestData(IPipeline pipeline)
-//        {
-//            var data = new CloudRequestData(_loggerFactory.CreateLogger<CloudRequestData>(), pipeline, null);
-//            data.JsonResponse = _testJson;
-//            return data;
-//        }
+        //        private DeviceDataCloud CreateDeviceData(IPipeline pipeline, FlowElementBase<DeviceDataCloud, IAspectPropertyMetaData> engine)
+        //        {
+        //            return new DeviceDataCloud(
+        //                _loggerFactory.CreateLogger<DeviceDataCloud>(),
+        //                pipeline,
+        //                (IAspectEngine)engine,
+        //                MissingPropertyService.Instance);
+        //        }
+        //        private CloudRequestData CreateTestData(IPipeline pipeline)
+        //        {
+        //            var data = new CloudRequestData(_loggerFactory.CreateLogger<CloudRequestData>(), pipeline, null);
+        //            data.JsonResponse = _testJson;
+        //            return data;
+        //        }
 
-//        [TestCleanup]
-//        public void Cleanup()
-//        {
-//            _loggerFactory.AssertMaxErrors(_maxErrors);
-//            _loggerFactory.AssertMaxWarnings(_maxWarnings);
-//        }
+        //        [TestCleanup]
+        //        public void Cleanup()
+        //        {
+        //            _loggerFactory.AssertMaxErrors(_maxErrors);
+        //            _loggerFactory.AssertMaxWarnings(_maxWarnings);
+        //        }
 
-//        [TestMethod]
-//        public void TestMethod1()
-//        {
-//            _testJson = @"{
-//    ""device"": {
-//    ""devicetype"": null,
-//    ""hardwarename"": null,
-//    ""hardwarevendor"": null,
-//    ""javascripthardwareprofile"": null,
-//    ""platformname"": null,
-//    ""platformvendor"": null,
-//    ""platformversion"": null,
-//    ""browsername"": null,
-//    ""browservendor"": null,
-//    ""browserversion"": null
-//  },
-//  ""javascriptProperties"": [
-//    ""device.javascripthardwareprofile""
-//  ],
-//  ""nullValueReasons"": {
-//    ""device.devicetype"": ""There were no values because the difference limit was exceeded so the results are invalid."",
-//    ""device.hardwarename"": ""There were no values because the difference limit was exceeded so the results are invalid."",
-//    ""device.hardwarevendor"": ""There were no values because the difference limit was exceeded so the results are invalid."",
-//    ""device.javascripthardwareprofile"": ""There were no values because the difference limit was exceeded so the results are invalid."",
-//    ""device.platformname"": ""There were no values because the difference limit was exceeded so the results are invalid."",
-//    ""device.platformvendor"": ""There were no values because the difference limit was exceeded so the results are invalid."",
-//    ""device.platformversion"": ""There were no values because the difference limit was exceeded so the results are invalid."",
-//    ""device.browsername"": ""There were no values because the difference limit was exceeded so the results are invalid."",
-//    ""device.browservendor"": ""There were no values because the difference limit was exceeded so the results are invalid."",
-//    ""device.browserversion"": ""There were no values because the difference limit was exceeded so the results are invalid.""
-//  }
-//}";
-//            TestPipeline pipeline = new TestPipeline(_pipeline.Object);
-//            TestFlowData testData = new TestFlowData(_loggerFactory.CreateLogger<TestFlowData>(), pipeline);
-            
-//            testData.GetOrAdd("cloudrequestdata", CreateTestData);
-//            _engine.Process(testData);
+        //        [TestMethod]
+        //        public void TestMethod1()
+        //        {
+        //            _testJson = @"{
+        //    ""device"": {
+        //    ""devicetype"": null,
+        //    ""hardwarename"": null,
+        //    ""hardwarevendor"": null,
+        //    ""javascripthardwareprofile"": null,
+        //    ""platformname"": null,
+        //    ""platformvendor"": null,
+        //    ""platformversion"": null,
+        //    ""browsername"": null,
+        //    ""browservendor"": null,
+        //    ""browserversion"": null
+        //  },
+        //  ""javascriptProperties"": [
+        //    ""device.javascripthardwareprofile""
+        //  ],
+        //  ""nullValueReasons"": {
+        //    ""device.devicetype"": ""There were no values because the difference limit was exceeded so the results are invalid."",
+        //    ""device.hardwarename"": ""There were no values because the difference limit was exceeded so the results are invalid."",
+        //    ""device.hardwarevendor"": ""There were no values because the difference limit was exceeded so the results are invalid."",
+        //    ""device.javascripthardwareprofile"": ""There were no values because the difference limit was exceeded so the results are invalid."",
+        //    ""device.platformname"": ""There were no values because the difference limit was exceeded so the results are invalid."",
+        //    ""device.platformvendor"": ""There were no values because the difference limit was exceeded so the results are invalid."",
+        //    ""device.platformversion"": ""There were no values because the difference limit was exceeded so the results are invalid."",
+        //    ""device.browsername"": ""There were no values because the difference limit was exceeded so the results are invalid."",
+        //    ""device.browservendor"": ""There were no values because the difference limit was exceeded so the results are invalid."",
+        //    ""device.browserversion"": ""There were no values because the difference limit was exceeded so the results are invalid.""
+        //  }
+        //}";
+        //            TestPipeline pipeline = new TestPipeline(_pipeline.Object);
+        //            TestFlowData testData = new TestFlowData(_loggerFactory.CreateLogger<TestFlowData>(), pipeline);
 
-//            var result = testData.Get<IDeviceData>();
-//            Assert.IsNotNull(result);
-//        }
+        //            testData.GetOrAdd("cloudrequestdata", CreateTestData);
+        //            _engine.Process(testData);
+
+        //            var result = testData.Get<IDeviceData>();
+        //            Assert.IsNotNull(result);
+        //        }
     }
 }

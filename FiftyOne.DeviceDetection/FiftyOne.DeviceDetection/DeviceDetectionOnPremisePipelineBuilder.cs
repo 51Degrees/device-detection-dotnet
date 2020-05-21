@@ -31,6 +31,7 @@ using FiftyOne.Pipeline.Engines.FlowElements;
 using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Net.Http;
 
@@ -58,7 +59,7 @@ namespace FiftyOne.DeviceDetection
             PerformanceProfiles.Balanced;
         private DeviceDetectionAlgorithm _algorithm =
             DeviceDetectionAlgorithm.Hash;
-        protected bool _shareUsageEnabled = true;
+        private bool _shareUsageEnabled = true;
 
         private IDataUpdateService _dataUpdateService;
         private HttpClient _httpClient;
@@ -68,8 +69,16 @@ namespace FiftyOne.DeviceDetection
         /// This builder should only be created through the 
         /// <see cref="DeviceDetectionPipelineBuilder"/> 
         /// </summary>
-        /// <param name="loggerFactory"></param>
-        /// <param name="dataUpdateService"></param>
+        /// <param name="loggerFactory">
+        /// The <see cref="ILoggerFactory"/> to use when creating loggers.
+        /// </param>
+        /// <param name="dataUpdateService">
+        /// The <see cref="IDataUpdateService"/> to use when registering 
+        /// data files for automatic updates.
+        /// </param>
+        /// <param name="httpClient">
+        /// The <see cref="HttpClient"/> to use for any web requests.
+        /// </param>
         internal DeviceDetectionOnPremisePipelineBuilder(
             ILoggerFactory loggerFactory,
             IDataUpdateService dataUpdateService,
@@ -91,18 +100,23 @@ namespace FiftyOne.DeviceDetection
         /// <returns>
         /// This builder instance.
         /// </returns>
+        /// <exception cref="PipelineConfigurationException">
+        /// Thrown if the filename has an unknown extension.
+        /// </exception>
         internal DeviceDetectionOnPremisePipelineBuilder SetFilename(string filename, bool createTempDataCopy)
         {
             _filename = filename;
             _createTempDataCopy = createTempDataCopy;
-            if (filename.EndsWith(".hash", StringComparison.InvariantCultureIgnoreCase))
+            if (filename.EndsWith(".hash", StringComparison.OrdinalIgnoreCase))
             {
                 _algorithm = DeviceDetectionAlgorithm.Hash;
             }
             else
             {
-                throw new Exception("Unrecognized filename. " +
-                    "Expected a '*.hash' Hash data file.");
+                throw new PipelineConfigurationException(
+                    string.Format(CultureInfo.InvariantCulture,
+                        Messages.ExceptionUnrecognizedFileExtension, 
+                        filename));
             }
             return this;
         }
@@ -161,6 +175,21 @@ namespace FiftyOne.DeviceDetection
             return this;
         }
 
+        /// <summary>
+        /// Enable/Disable update on startup.
+        /// Defaults to enabled.
+        /// If enabled, the auto update system will be used to check for
+        /// an update before the device detection engine is created.
+        /// If an update is available, it will be downloaded and applied
+        /// before the pipeline is built and returned for use so this may 
+        /// take some time.
+        /// </summary>
+        /// <param name="enabled">
+        /// True to enable update on startup. False to disable.
+        /// </param>
+        /// <returns>
+        /// This builder.
+        /// </returns>
         public DeviceDetectionOnPremisePipelineBuilder SetDataUpdateOnStartUp(bool enabled)
         {
             _dataUpdateOnStartUpEnabled = enabled;
@@ -216,15 +245,9 @@ namespace FiftyOne.DeviceDetection
 
         /// <summary>
         /// Set the maximum difference to allow when processing HTTP headers.
-        /// The meaning of difference depends on the Device Detection API being
-        /// used.
-        /// For Pattern: The difference is a combination of the difference in
-        ///              character position of matched substrings, and the
-        ///              difference in ASCII value of each character of matched
-        ///              substrings. By default this is 10.
-        /// For Hash: The difference is the difference in hash value between
-        ///           the hash that was found, and the hash that is being
-        ///           searched for. By default this is 0.
+        /// The difference is the difference in hash value between the 
+        /// hash that was found, and the hash that is being searched for. 
+        /// By default this is 0.
         /// </summary>
         /// <param name="difference">Difference to allow</param>
         /// <returns>This builder</returns>
@@ -302,7 +325,7 @@ namespace FiftyOne.DeviceDetection
             }
             else
             {
-                throw new Exception("Unexpected error creating device detection engine.");
+                throw new PipelineException(Messages.ExceptionErrorOnStartup);
             }
 
             // Create and return the pipeline
@@ -381,8 +404,7 @@ namespace FiftyOne.DeviceDetection
             else
             {
                 throw new PipelineConfigurationException(
-                    "No source for engine data. " +
-                    "Use SetFilename or SetEngineData to configure this.");
+                    Messages.ExceptionNoEngineData);
             }
 
             return engine;

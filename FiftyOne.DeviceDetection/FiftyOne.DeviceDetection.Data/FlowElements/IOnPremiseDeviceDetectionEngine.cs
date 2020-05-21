@@ -27,6 +27,10 @@ using System.Text;
 
 namespace FiftyOne.DeviceDetection.Shared.FlowElements
 {
+    /// <summary>
+    /// Interface for additional members that are unique to 
+    /// on-premise device detection engines.
+    /// </summary>
     public interface IOnPremiseDeviceDetectionEngine
     {
         /// <summary>
@@ -35,8 +39,16 @@ namespace FiftyOne.DeviceDetection.Shared.FlowElements
         /// </summary>
         event EventHandler<EventArgs> RefreshCompleted;
 
+        /// <summary>
+        /// Get meta-data for all components that are populated by
+        /// this engine.
+        /// </summary>
         IEnumerable<IComponentMetaData> Components { get; }
 
+        /// <summary>
+        /// Get meta-data for all profiles that can the returned by
+        /// this engine.
+        /// </summary>
         IEnumerable<IProfileMetaData> Profiles { get; }
     }
 }

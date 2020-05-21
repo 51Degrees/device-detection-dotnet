@@ -25,11 +25,27 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise
     /// <summary>
     /// Enumeration of possible match methods used by the Hash engine.
     /// </summary>
+#pragma warning disable CA1717 // Only FlagsAttribute enums should have plural names
+    // Would be a breaking change that we don't want to make right now.
     public enum MatchMethods
+#pragma warning restore CA1717 // Only FlagsAttribute enums should have plural names
     {
+        /// <summary>
+        /// No match was found
+        /// </summary>
         NONE,
+        /// <summary>
+        /// The performance graph was used to find a match.
+        /// </summary>
         PERFORMANCE,
+        /// <summary>
+        /// Both the performance and predictive graphs were used to find 
+        /// a match
+        /// </summary>
         COMBINED,
+        /// <summary>
+        /// The predictive graph was used to find a match.
+        /// </summary>
         PREDICTIVE
     }
 }

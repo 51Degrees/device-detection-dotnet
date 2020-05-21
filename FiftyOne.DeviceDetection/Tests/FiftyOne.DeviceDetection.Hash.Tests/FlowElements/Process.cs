@@ -32,81 +32,125 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Core.FlowElements
     [TestCategory("Process")]
     public class ProcessHashCoreTests : TestsBase
     {
-        [TestInitialize]
-        public void Init()
-        {
-            TestInitialize(PerformanceProfiles.HighPerformance);
-        }
 
-        [TestCleanup]
-        public void Cleanup()
+        [DataTestMethod]
+        [DataRow(PerformanceProfiles.HighPerformance)]
+        [DataRow(PerformanceProfiles.MaxPerformance)]
+        [DataRow(PerformanceProfiles.LowMemory)]
+        [DataRow(PerformanceProfiles.Balanced)]
+        public void Process_Hash_Core_NoEvidence(PerformanceProfiles profile)
         {
-            TestCleanup();
-        }
-
-        [TestMethod]
-        public void Process_Hash_Core_NoEvidence()
-        {
+            TestInitialize(profile);
             ProcessTests.NoEvidence(Wrapper, new DataValidatorHash(Wrapper.Engine));
         }
 
-        [TestMethod]
-        public void Process_Hash_Core_EmptyUserAgent()
+        [DataTestMethod]
+        [DataRow(PerformanceProfiles.HighPerformance)]
+        [DataRow(PerformanceProfiles.MaxPerformance)]
+        [DataRow(PerformanceProfiles.LowMemory)]
+        [DataRow(PerformanceProfiles.Balanced)]
+        public void Process_Hash_Core_EmptyUserAgent(PerformanceProfiles profile)
         {
+            TestInitialize(profile);
             ProcessTests.EmptyUserAgent(Wrapper, new DataValidatorHash(Wrapper.Engine));
         }
 
-        [TestMethod]
-        public void Process_Hash_Core_NoHeaders()
+        [DataTestMethod]
+        [DataRow(PerformanceProfiles.HighPerformance)]
+        [DataRow(PerformanceProfiles.MaxPerformance)]
+        [DataRow(PerformanceProfiles.LowMemory)]
+        [DataRow(PerformanceProfiles.Balanced)]
+        public void Process_Hash_Core_NoHeaders(PerformanceProfiles profile)
         {
+            TestInitialize(profile);
             ProcessTests.NoHeaders(Wrapper, new DataValidatorHash(Wrapper.Engine));
         }
 
-        [TestMethod]
-        public void Process_Hash_Core_NoUsefulHeaders()
+        [DataTestMethod]
+        [DataRow(PerformanceProfiles.HighPerformance)]
+        [DataRow(PerformanceProfiles.MaxPerformance)]
+        [DataRow(PerformanceProfiles.LowMemory)]
+        [DataRow(PerformanceProfiles.Balanced)]
+        public void Process_Hash_Core_NoUsefulHeaders(PerformanceProfiles profile)
         {
+            TestInitialize(profile);
             ProcessTests.NoUsefulHeaders(Wrapper, new DataValidatorHash(Wrapper.Engine));
         }
 
-        [TestMethod]
-        public void Process_Hash_Core_CaseInsensitiveKeys()
+        [DataTestMethod]
+        [DataRow(PerformanceProfiles.HighPerformance)]
+        [DataRow(PerformanceProfiles.MaxPerformance)]
+        [DataRow(PerformanceProfiles.LowMemory)]
+        [DataRow(PerformanceProfiles.Balanced)]
+        public void Process_Hash_Core_CaseInsensitiveKeys(PerformanceProfiles profile)
         {
+            TestInitialize(profile);
             ProcessTests.CaseInsensitiveEvidenceKeys(Wrapper, new DataValidatorHash(Wrapper.Engine));
         }
 
-        [TestMethod]
-        public void Process_Hash_Core_ProfileOverride()
+        [DataTestMethod]
+        [DataRow(PerformanceProfiles.HighPerformance)]
+        [DataRow(PerformanceProfiles.MaxPerformance)]
+        [DataRow(PerformanceProfiles.LowMemory)]
+        [DataRow(PerformanceProfiles.Balanced)]
+        public void Process_Hash_Core_ProfileOverride(PerformanceProfiles profile)
         {
+            TestInitialize(profile);
             ProcessTests.ProfileOverride(Wrapper, new DataValidatorHash(Wrapper.Engine));
         }
 
-        [TestMethod]
-        public void Process_Hash_Core_ProfileOverrideNoHeaders()
+        [DataTestMethod]
+        [DataRow(PerformanceProfiles.HighPerformance)]
+        [DataRow(PerformanceProfiles.MaxPerformance)]
+        [DataRow(PerformanceProfiles.LowMemory)]
+        [DataRow(PerformanceProfiles.Balanced)]
+        public void Process_Hash_Core_ProfileOverrideNoHeaders(PerformanceProfiles profile)
         {
+            TestInitialize(profile);
             ProcessTests.ProfileOverrideNoHeaders(Wrapper, new DataValidatorHash(Wrapper.Engine));
         }
 
-        [TestMethod]
-        public void Process_Hash_Core_DeviceId()
+        [DataTestMethod]
+        [DataRow(PerformanceProfiles.HighPerformance)]
+        [DataRow(PerformanceProfiles.MaxPerformance)]
+        [DataRow(PerformanceProfiles.LowMemory)]
+        [DataRow(PerformanceProfiles.Balanced)]
+        public void Process_Hash_Core_DeviceId(PerformanceProfiles profile)
         {
+            TestInitialize(profile);
             ProcessTests.DeviceId(Wrapper, new DataValidatorHash(Wrapper.Engine));
         }
 
-        [TestMethod]
-        public void Process_Hash_Core_MetaDataService_DefaultProfilesIds()
+        [DataTestMethod]
+        [DataRow(PerformanceProfiles.HighPerformance)]
+        [DataRow(PerformanceProfiles.MaxPerformance)]
+        [DataRow(PerformanceProfiles.LowMemory)]
+        [DataRow(PerformanceProfiles.Balanced)]
+        public void Process_Hash_Core_MetaDataService_DefaultProfilesIds(PerformanceProfiles profile)
         {
+            TestInitialize(profile);
             ProcessTests.MetaDataService_DefaultProfilesIds(Wrapper);
         }
 
-        [TestMethod]
-        public void Process_Hash_Core_MetaDataService_ComponentIdForProfile()
+        [DataTestMethod]
+        [DataRow(PerformanceProfiles.HighPerformance)]
+        [DataRow(PerformanceProfiles.MaxPerformance)]
+        [DataRow(PerformanceProfiles.LowMemory)]
+        [DataRow(PerformanceProfiles.Balanced)]
+        public void Process_Hash_Core_MetaDataService_ComponentIdForProfile(PerformanceProfiles profile)
         {
+            TestInitialize(profile);
             ProcessTests.MetaDataService_ComponentIdForProfile(Wrapper);
         }
 
-        [TestMethod]
-        public void Process_Hash_Core_MetaDataService_DefaultProfileIdForComponent()
+        [DataTestMethod]
+        [DataRow(PerformanceProfiles.HighPerformance)]
+        [DataRow(PerformanceProfiles.MaxPerformance)]
+        [DataRow(PerformanceProfiles.LowMemory)]
+        [DataRow(PerformanceProfiles.Balanced)]
+        public void Process_Hash_Core_MetaDataService_DefaultProfileIdForComponent(PerformanceProfiles profile)
         {
+            TestInitialize(profile);
             ProcessTests.MetaDataService_DefaultProfileIdForComponent(Wrapper);
         }
     }

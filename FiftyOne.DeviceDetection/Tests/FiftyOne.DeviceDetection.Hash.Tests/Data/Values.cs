@@ -31,45 +31,59 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Core.Data
     [TestCategory("Values")]
     public class ValuesHashCoreTests : TestsBase
     {
-        [TestInitialize]
-        public void Init()
-        {
-            TestInitialize(PerformanceProfiles.HighPerformance);
-        }
 
-        [TestCleanup]
-        public void Cleanup()
+        [DataTestMethod]
+        [DataRow(PerformanceProfiles.HighPerformance)]
+        [DataRow(PerformanceProfiles.MaxPerformance)]
+        [DataRow(PerformanceProfiles.LowMemory)]
+        [DataRow(PerformanceProfiles.Balanced)]
+        public void Values_Hash_Core_ValueTypes(PerformanceProfiles profile)
         {
-            TestCleanup();
-        }
-
-        [TestMethod]
-        public void Values_Hash_Core_ValueTypes()
-        {
+            TestInitialize(profile);
             ValueTests.ValueTypes(Wrapper);
         }
 
-        [TestMethod]
-        public void Values_Hash_Core_AvailableProperties()
+        [DataTestMethod]
+        [DataRow(PerformanceProfiles.HighPerformance)]
+        [DataRow(PerformanceProfiles.MaxPerformance)]
+        [DataRow(PerformanceProfiles.LowMemory)]
+        [DataRow(PerformanceProfiles.Balanced)]
+        public void Values_Hash_Core_AvailableProperties(PerformanceProfiles profile)
         {
+            TestInitialize(profile);
             ValueTests.AvailableProperties(Wrapper);
         }
 
-        [TestMethod]
-        public void Values_Hash_Core_TypedGetters()
+        [DataTestMethod]
+        [DataRow(PerformanceProfiles.HighPerformance)]
+        [DataRow(PerformanceProfiles.MaxPerformance)]
+        [DataRow(PerformanceProfiles.LowMemory)]
+        [DataRow(PerformanceProfiles.Balanced)]
+        public void Values_Hash_Core_TypedGetters(PerformanceProfiles profile)
         {
+            TestInitialize(profile);
             ValueTests.TypedGetters(Wrapper);
         }
 
-        [TestMethod]
-        public void Values_Hash_Core_DeviceId()
+        [DataTestMethod]
+        [DataRow(PerformanceProfiles.HighPerformance)]
+        [DataRow(PerformanceProfiles.MaxPerformance)]
+        [DataRow(PerformanceProfiles.LowMemory)]
+        [DataRow(PerformanceProfiles.Balanced)]
+        public void Values_Hash_Core_DeviceId(PerformanceProfiles profile)
         {
+            TestInitialize(profile);
             ValueTests.DeviceId(Wrapper);
         }
 
-        [TestMethod]
-        public void Values_Hash_Core_MatchedUserAgents()
+        [DataTestMethod]
+        [DataRow(PerformanceProfiles.HighPerformance)]
+        [DataRow(PerformanceProfiles.MaxPerformance)]
+        [DataRow(PerformanceProfiles.LowMemory)]
+        [DataRow(PerformanceProfiles.Balanced)]
+        public void Values_Hash_Core_MatchedUserAgents(PerformanceProfiles profile)
         {
+            TestInitialize(profile);
             ValueTests.MatchedUserAgents(Wrapper);
         }
     }

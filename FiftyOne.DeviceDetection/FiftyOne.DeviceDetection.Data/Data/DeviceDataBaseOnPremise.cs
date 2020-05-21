@@ -23,6 +23,7 @@
 using FiftyOne.DeviceDetection.Shared;
 using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.Data.Types;
+using FiftyOne.Pipeline.Core.Exceptions;
 using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.Data;
 using FiftyOne.Pipeline.Engines.FiftyOne.FlowElements;
@@ -40,8 +41,139 @@ namespace FiftyOne.DeviceDetection.Shared.Data
     /// <summary>
     /// Base class used for all 51Degrees on-premise results classes.
     /// </summary>
-    public abstract class DeviceDataBaseOnPremise : DeviceDataBase
+    public abstract class DeviceDataBaseOnPremise<TResult> : DeviceDataBase
+        where TResult : IDisposable
     {
+        /// <summary>
+        /// This inner class manages the lifetime and access to the 
+        /// swig result sets.
+        /// </summary>
+        protected class ResultsManager : IDisposable
+        {
+            private object _resultsListLock = new object();
+            private List<TResult> _resultsList = new List<TResult>();
+
+            private bool _disposed = false;
+            private object _disposeLock = new object();
+
+            /// <summary>
+            /// Get the list of result objects.
+            /// After this property accessed, the <see cref="AddResult(TResult)"/> 
+            /// method will throw an error if it is called.
+            /// </summary>
+            public IReadOnlyList<TResult> ResultsList
+            {
+                get
+                {
+                    lock (_resultsListLock)
+                    {
+                        ResultsAccessed = true;
+                        return _resultsList;
+                    }
+                }
+            }
+
+            /// <summary>
+            /// Check if there are results objects available.
+            /// </summary>
+            /// <returns>
+            /// True if there are results objects available.
+            /// </returns>
+            public bool HasResults()
+            {
+                return _resultsList.Count > 0;
+            }
+
+            /// <summary>
+            /// Add the specified result object to the list of results.
+            /// </summary>
+            /// <param name="result">
+            /// The result object to add to the list.
+            /// </param>
+            /// <exception cref="PipelineException">
+            /// Thrown if the <see cref="ResultsList"/> property for 
+            /// this instance has already been accessed.
+            /// </exception>
+            public void AddResult(TResult result)
+            {
+                lock (_resultsListLock)
+                {
+                    if (ResultsAccessed == true)
+                    {
+                        throw new PipelineException(
+                            Messages.ExceptionCannotUpdateResults);
+                    }
+
+                    _resultsList.Add(result);
+                }
+            }
+
+            /// <summary>
+            /// True if the <see cref="ResultsList"/> property for 
+            /// this instance has been accessed. False is not.
+            /// </summary>
+            public bool ResultsAccessed { get; private set; } = false;
+
+            #region IDisposable Support
+            /// <summary>
+            /// Dispose
+            /// </summary>
+            /// <param name="disposing">
+            /// False if called from the finalizer
+            /// </param>
+            protected virtual void Dispose(bool disposing)
+            {
+                if (_disposed == false)
+                {
+                    lock (_disposeLock)
+                    {
+                        if (_disposed == false)
+                        {
+                            _disposed = true;
+
+                            if (disposing)
+                            {
+                                // Dispose managed objects.
+                            }
+
+                            lock (_resultsListLock)
+                            {
+                                // Cleanup all unmanaged resources.
+                                foreach (var results in _resultsList)
+                                {
+                                    if (results != null)
+                                    {
+                                        results.Dispose();
+                                    }
+                                }
+                                _resultsList = null;
+                            }
+                        }
+                    }
+                }
+            }
+
+            /// <summary>
+            /// Finalizer
+            /// </summary>
+            ~ResultsManager()
+            {
+                // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+                Dispose(false);
+            }
+
+            /// <summary>
+            /// Dispose
+            /// </summary>
+            public void Dispose()
+            {
+                // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+                Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+            #endregion
+        }
+
         #region Private Properties
 
         private object _dataLock = new object();
@@ -49,10 +181,33 @@ namespace FiftyOne.DeviceDetection.Shared.Data
 
         private bool _dictionaryPopulated = false;
 
+        /// <summary>
+        /// A <see cref="ResultsManager"/> instance, which can be used
+        /// to add new results objects and access those that have been
+        /// added so far.
+        /// Once results are accessed, new ones cannot be added.
+        /// </summary>
+        protected ResultsManager Results { get; private set; } = new ResultsManager();
+
         #endregion
 
         #region Constructor
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="logger">
+        /// The logger for this instance to use.
+        /// </param>
+        /// <param name="pipeline">
+        /// The Pipeline this data instance has been created by.
+        /// </param>
+        /// <param name="engine">
+        /// The engine this data instance has been created by.
+        /// </param>
+        /// <param name="missingPropertyService">
+        /// The missing property service to use when a requested property
+        /// does not exist.
+        /// </param>
         protected DeviceDataBaseOnPremise(
             ILogger<AspectDataBase> logger,
             IPipeline pipeline,
@@ -65,19 +220,89 @@ namespace FiftyOne.DeviceDetection.Shared.Data
         #endregion
 
         #region Abstract Methods
-
+        /// <summary>
+        /// Check if a specified property is available in the results.
+        /// </summary>
+        /// <param name="propertyName">
+        /// The name of the property to check.
+        /// </param>
+        /// <returns>
+        /// True if the property is available. False if not.
+        /// </returns>
         protected abstract bool PropertyIsAvailable(string propertyName);
 
+        /// <summary>
+        /// Get the values this instance has for the specified property.
+        /// </summary>
+        /// <param name="propertyName">
+        /// The name of the property to get values for.
+        /// </param>
+        /// <returns>
+        /// A list of <see cref="string"/> values wrapped in a 
+        /// <see cref="IAspectPropertyValue"/> instance.
+        /// </returns>
         public abstract IAspectPropertyValue<IReadOnlyList<string>> GetValues(string propertyName);
 
+        /// <summary>
+        /// Get the string value this instance has for the specified property.
+        /// </summary>
+        /// <param name="propertyName">
+        /// The name of the property to get value for.
+        /// </param>
+        /// <returns>
+        /// A <see cref="string"/> wrapped in a 
+        /// <see cref="IAspectPropertyValue"/> instance.
+        /// </returns>
         protected abstract IAspectPropertyValue<string> GetValueAsString(string propertyName);
 
+        /// <summary>
+        /// Get the integer value this instance has for the specified property.
+        /// </summary>
+        /// <param name="propertyName">
+        /// The name of the property to get value for.
+        /// </param>
+        /// <returns>
+        /// An <see cref="int"/> wrapped in a 
+        /// <see cref="IAspectPropertyValue"/> instance.
+        /// </returns>
         protected abstract IAspectPropertyValue<int> GetValueAsInteger(string propertyName);
 
+        /// <summary>
+        /// Get the boolean value this instance has for the specified property.
+        /// </summary>
+        /// <param name="propertyName">
+        /// The name of the property to get value for.
+        /// </param>
+        /// <returns>
+        /// A <see cref="bool"/> wrapped in a 
+        /// <see cref="IAspectPropertyValue"/> instance.
+        /// </returns>
         protected abstract IAspectPropertyValue<bool> GetValueAsBool(string propertyName);
 
+        /// <summary>
+        /// Get the numeric double value this instance has for the specified 
+        /// property.
+        /// </summary>
+        /// <param name="propertyName">
+        /// The name of the property to get value for.
+        /// </param>
+        /// <returns>
+        /// A <see cref="double"/> wrapped in a 
+        /// <see cref="IAspectPropertyValue"/> instance.
+        /// </returns>
         protected abstract IAspectPropertyValue<double> GetValueAsDouble(string propertyName);
 
+        /// <summary>
+        /// Get the value this instance has for the specified property as
+        /// a <see cref="JavaScript"/> object.
+        /// </summary>
+        /// <param name="propertyName">
+        /// The name of the property to get value for.
+        /// </param>
+        /// <returns>
+        /// A <see cref="JavaScript"/> value wrapped in a 
+        /// <see cref="IAspectPropertyValue"/> instance.
+        /// </returns>
         protected abstract IAspectPropertyValue<JavaScript> GetValueAsJavaScript(string propertyName);
 
         #endregion
@@ -90,6 +315,9 @@ namespace FiftyOne.DeviceDetection.Shared.Data
         /// the dictionary on-demand.
         /// </summary>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", 
+            "CA1308:Normalize strings to uppercase", 
+            Justification = "Pipeline specification is for keys to be lower-case.")]
         public override IReadOnlyDictionary<string, object> AsDictionary()
         {
             if (_dictionaryPopulated == false)
@@ -107,32 +335,32 @@ namespace FiftyOne.DeviceDetection.Shared.Data
                         {
                             if (property.Type == typeof(string))
                             {
-                                dict[property.Name.ToLower()] =
+                                dict[property.Name.ToLowerInvariant()] =
                                     GetAs<AspectPropertyValue<string>>(property.Name);
                             }
                             else if (property.Type == typeof(double))
                             {
-                                dict[property.Name.ToLower()] =
+                                dict[property.Name.ToLowerInvariant()] =
                                     GetAs<AspectPropertyValue<double>>(property.Name);
                             }
                             else if (property.Type == typeof(int))
                             {
-                                dict[property.Name.ToLower()] =
+                                dict[property.Name.ToLowerInvariant()] =
                                     GetAs<AspectPropertyValue<int>>(property.Name);
                             }
                             else if (property.Type == typeof(bool))
                             {
-                                dict[property.Name.ToLower()] =
+                                dict[property.Name.ToLowerInvariant()] =
                                     GetAs<AspectPropertyValue<bool>>(property.Name);
                             }
                             else if (property.Type == typeof(IReadOnlyList<string>))
                             {
-                                dict[property.Name.ToLower()] =
+                                dict[property.Name.ToLowerInvariant()] =
                                     GetAs<AspectPropertyValue<IReadOnlyList<string>>>(property.Name);
                             }
                             else if (property.Type == typeof(JavaScript))
                             {
-                                dict[property.Name.ToLower()] =
+                                dict[property.Name.ToLowerInvariant()] =
                                     GetAs<AspectPropertyValue<JavaScript>>(property.Name);
                             }
                             else
@@ -152,6 +380,16 @@ namespace FiftyOne.DeviceDetection.Shared.Data
             return base.AsDictionary();
         }
         
+        /// <summary>
+        /// Get the <see cref="Type"/> for the specified property
+        /// This is based on the meta-data that is supplied by the engine.
+        /// </summary>
+        /// <param name="propertyName">
+        /// The name of the property to get the type of.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Type"/> instance for the requested property.
+        /// </returns>
         protected Type GetPropertyType(string propertyName)
         {
             Type type = typeof(object);
@@ -168,6 +406,27 @@ namespace FiftyOne.DeviceDetection.Shared.Data
             return type;
         }
 
+        /// <summary>
+        /// Try to get the value for the specified key.
+        /// This overrides the base implementation to get values using
+        /// the abstract methods on this class rather than using the
+        /// dictionary-based storage mechanism from the base-class.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The expected type of the resulting value.
+        /// </typeparam>
+        /// <param name="key">
+        /// The key to use to retrieve the value.
+        /// </param>
+        /// <param name="value">
+        /// Out parameter that will be populated with the value.
+        /// </param>
+        /// <returns>
+        /// True if that value was retrieved successfully. False if not.
+        /// </returns>
+        /// <exception cref="PipelineException">
+        /// Thrown if the value was not of the expected type.
+        /// </exception>
         protected override bool TryGetValue<T>(string key, out T value)
         {
             value = default(T);
@@ -178,7 +437,7 @@ namespace FiftyOne.DeviceDetection.Shared.Data
                 // the value from the dictionary.
                 return base.TryGetValue(key, out value);
             }
-            else
+            else if (Results.HasResults())
             {
                 // If the complete set of values has not been populated 
                 // then we don't want to retrieve values for all 
@@ -234,7 +493,7 @@ namespace FiftyOne.DeviceDetection.Shared.Data
                         }
                         catch (InvalidCastException)
                         {
-                            throw new Exception(
+                            throw new PipelineException(
                                 $"Expected property '{key}' to be of " +
                                 $"type '{typeof(T).Name}' but it is " +
                                 $"'{obj.GetType().Name}'");
@@ -243,8 +502,8 @@ namespace FiftyOne.DeviceDetection.Shared.Data
                 }
                 return result;
             }
+            return false;
         }
-
         #endregion
     }
 }

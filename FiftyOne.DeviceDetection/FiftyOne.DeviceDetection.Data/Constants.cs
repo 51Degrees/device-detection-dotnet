@@ -4,7 +4,14 @@ using System.Text;
 
 namespace FiftyOne.DeviceDetection.Shared
 {
-    public class Constants
+    /// <summary>
+    /// Class containing values for commonly used evidence keys
+    /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming",
+        "CA1707:Identifiers should not contain underscores",
+        Justification = "51Degrees coding style is for constant names " +
+            "to be all-caps with an underscore to separate words.")]
+    public static class Constants
     {
         /// <summary>
         /// The suffix that is used to identify a TAC in evidence.

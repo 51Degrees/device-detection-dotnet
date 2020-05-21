@@ -5,12 +5,12 @@
 
     <IsPackable>false</IsPackable>
 
-    <Platforms>AnyCPU;x64</Platforms>
+    <Platforms>AnyCPU;x64;x86</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="FiftyOne.Common.TestHelpers" Version="4.1.7" />
-    <PackageReference Include="FiftyOne.Pipeline.Engines.TestHelpers" Version="4.1.1" />
+    <PackageReference Include="FiftyOne.Pipeline.Engines.TestHelpers" Version="4.1.2" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     <PackageReference Include="Moq" Version="4.13.1" />

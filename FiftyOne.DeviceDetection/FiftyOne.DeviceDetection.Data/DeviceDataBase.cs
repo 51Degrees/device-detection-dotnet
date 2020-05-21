@@ -35,8 +35,30 @@ using System;
 using System.Collections.Generic;
 namespace FiftyOne.DeviceDetection.Shared
 {
+	/// <summary>
+	/// Abstract base class for properties relating to a device.
+	/// This includes the hardware, operating system and browser as
+	/// well as crawler details if the request actually came from a 
+	/// bot or other automated system.
+	/// </summary>
 	public abstract class DeviceDataBase : AspectDataBase, IDeviceData
 	{
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="logger">
+		/// The logger for this instance to use
+		/// </param>
+		/// <param name="pipeline">
+		/// The Pipeline this data instance has been created by.
+		/// </param>
+		/// <param name="engine">
+		/// The engine this data instance has been created by.
+		/// </param>
+		/// <param name="missingPropertyService">
+		/// The missing property service to use when a requested property
+		/// does not exist.
+		/// </param>
 		protected DeviceDataBase(
 			ILogger<AspectDataBase> logger,
 			IPipeline pipeline,
@@ -44,6 +66,9 @@ namespace FiftyOne.DeviceDetection.Shared
 			IMissingPropertyService missingPropertyService)
 			: base(logger, pipeline, engine, missingPropertyService) { }
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+		// This class is generated automatically. The tool that generates 
+		// this code will be updated to include comments just like IDeviceData.
 		public IAspectPropertyValue<string> AjaxRequestType { get { return GetAs<IAspectPropertyValue<string>>("AjaxRequestType"); } }
 		public IAspectPropertyValue<bool> AnimationTiming { get { return GetAs<IAspectPropertyValue<bool>>("AnimationTiming"); } }
 		public IAspectPropertyValue<double> BackCameraMegaPixels { get { return GetAs<IAspectPropertyValue<double>>("BackCameraMegaPixels"); } }
@@ -296,5 +321,6 @@ namespace FiftyOne.DeviceDetection.Shared
 		public IAspectPropertyValue<double> WeightWithBattery { get { return GetAs<IAspectPropertyValue<double>>("WeightWithBattery"); } }
 		public IAspectPropertyValue<double> WeightWithoutBattery { get { return GetAs<IAspectPropertyValue<double>>("WeightWithoutBattery"); } }
 		public IAspectPropertyValue<bool> Xhr2 { get { return GetAs<IAspectPropertyValue<bool>>("Xhr2"); } }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 	}
 }

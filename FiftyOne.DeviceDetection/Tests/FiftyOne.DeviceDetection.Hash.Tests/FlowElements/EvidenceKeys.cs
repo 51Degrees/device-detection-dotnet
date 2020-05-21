@@ -34,36 +34,45 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Core.FlowElements
     [TestCategory("EvidenceKeys")]
     public class EvidenceKeysHashCoreTests : TestsBase
     {
-        [TestInitialize]
-        public void Init()
-        {
-            TestInitialize(PerformanceProfiles.HighPerformance);
-        }
 
-        [TestCleanup]
-        public void Cleanup()
+        [DataTestMethod]
+        [DataRow(PerformanceProfiles.HighPerformance)]
+        [DataRow(PerformanceProfiles.MaxPerformance)]
+        [DataRow(PerformanceProfiles.LowMemory)]
+        [DataRow(PerformanceProfiles.Balanced)]
+        public void EvidenceKeys_Hash_Core_ContainsUserAgent(PerformanceProfiles profile)
         {
-            TestCleanup();
-        }
-
-        [TestMethod]
-        public void EvidenceKeys_Hash_Core_ContainsUserAgent()
-        {
+            TestInitialize(profile);
             EvidenceKeyTests.ContainsUserAgent(Wrapper);
         }
-        [TestMethod]
-        public void EvidenceKeys_Hash_Core_ContainsHeaderNames()
+        [DataTestMethod]
+        [DataRow(PerformanceProfiles.HighPerformance)]
+        [DataRow(PerformanceProfiles.MaxPerformance)]
+        [DataRow(PerformanceProfiles.LowMemory)]
+        [DataRow(PerformanceProfiles.Balanced)]
+        public void EvidenceKeys_Hash_Core_ContainsHeaderNames(PerformanceProfiles profile)
         {
+            TestInitialize(profile);
             EvidenceKeyTests.ContainsHeaderNames(Wrapper);
         }
-        [TestMethod]
-        public void EvidenceKeys_Hash_Core_ContainsOverrides()
+        [DataTestMethod]
+        [DataRow(PerformanceProfiles.HighPerformance)]
+        [DataRow(PerformanceProfiles.MaxPerformance)]
+        [DataRow(PerformanceProfiles.LowMemory)]
+        [DataRow(PerformanceProfiles.Balanced)]
+        public void EvidenceKeys_Hash_Core_ContainsOverrides(PerformanceProfiles profile)
         {
+            TestInitialize(profile);
             EvidenceKeyTests.ContainsOverrides(Wrapper);
         }
-        [TestMethod]
-        public void EvidenceKeys_Hash_Core_CaseInsensitiveKeys()
+        [DataTestMethod]
+        [DataRow(PerformanceProfiles.HighPerformance)]
+        [DataRow(PerformanceProfiles.MaxPerformance)]
+        [DataRow(PerformanceProfiles.LowMemory)]
+        [DataRow(PerformanceProfiles.Balanced)]
+        public void EvidenceKeys_Hash_Core_CaseInsensitiveKeys(PerformanceProfiles profile)
         {
+            TestInitialize(profile);
             EvidenceKeyTests.CaseInsensitiveKeys(Wrapper);
         }
     }

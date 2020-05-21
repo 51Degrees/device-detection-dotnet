@@ -36,7 +36,11 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         {
             for (uint i = 0; i < source.getSize(); i++)
             {
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                // The IComponentMetaData instance that is created
+                // will handle disposal
                 yield return selector(source.getByIndex(i));
+#pragma warning restore CA2000 // Dispose objects before losing scope
             }
         }
 
@@ -46,7 +50,11 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         {
             for (uint i = 0; i < source.getSize(); i++)
             {
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                // The IFiftyOneAspectPropertyMetaData instance that is created
+                // will handle disposal
                 yield return selector(source.getByIndex(i));
+#pragma warning restore CA2000 // Dispose objects before losing scope
             }
         }
 
@@ -56,7 +64,11 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         {
             for (uint i = 0; i < source.getSize(); i++)
             {
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                // The IProfileMetaData instance that is created
+                // will handle disposal
                 yield return selector(source.getByIndex(i));
+#pragma warning restore CA2000 // Dispose objects before losing scope
             }
         }
 
@@ -66,7 +78,11 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         {
             for (uint i = 0; i < source.getSize(); i++)
             {
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                // The IValueMetaData instance that is created
+                // will handle disposal
                 yield return selector(source.getByIndex(i));
+#pragma warning restore CA2000 // Dispose objects before losing scope
             }
         }
     }

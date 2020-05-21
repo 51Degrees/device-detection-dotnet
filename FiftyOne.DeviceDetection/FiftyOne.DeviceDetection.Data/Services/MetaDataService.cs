@@ -47,8 +47,22 @@ namespace FiftyOne.DeviceDetection.Shared.Services
         private bool _setAllDefaults = false;
         private readonly object _setAllDefaultsLock = new object();
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="engines">
+        /// An array of engines that are involved in populating device 
+        /// data properties.
+        /// For example, this could be one engine that populates hardware
+        /// properties and another that populates browser properties.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if a required parameter is null
+        /// </exception>
         public MetaDataService(IOnPremiseDeviceDetectionEngine[] engines)
         {
+            if (engines == null) { throw new ArgumentNullException(nameof(engines)); }
+
             _componentIdToDefaultProfileId = new ConcurrentDictionary<byte, uint?>();
             _profileIdToComponentId = new ConcurrentDictionary<uint, byte?>();
             _engines = engines;

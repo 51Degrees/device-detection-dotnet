@@ -27,7 +27,6 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
     internal class EngineSwigWrapper : IEngineSwigWrapper
     {
         private EngineHashSwig _object;
-        private SwigFactory _swigFactory = new SwigFactory();
 
         public EngineSwigWrapper(EngineHashSwig instance)
         {

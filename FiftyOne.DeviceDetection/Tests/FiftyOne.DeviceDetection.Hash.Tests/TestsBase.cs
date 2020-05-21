@@ -24,6 +24,8 @@ using FiftyOne.DeviceDetection.TestHelpers;
 using FiftyOne.Pipeline.Engines;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Constants = FiftyOne.DeviceDetection.TestHelpers.Constants;
 
 namespace FiftyOne.DeviceDetection.Hash.Tests
@@ -32,8 +34,35 @@ namespace FiftyOne.DeviceDetection.Hash.Tests
     [TestCategory("Hash")]
     public class TestsBase
     {
+        private static object _lock = new object();
+
         protected WrapperHash Wrapper { get; private set; } = null;
         protected UserAgentGenerator UserAgents { get; private set; }
+
+        [TestInitialize]
+        public void Init()
+        {
+            // If the test is running in x86 then we need to take some 
+            // extra precautions to prevent occasionally running out
+            // of memory.
+            if (IntPtr.Size == 4)
+            {
+                // Ensure that only one integration test is running at once.
+                Monitor.Enter(_lock);
+                // Force garbage collection
+                GC.Collect();
+            }
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            Wrapper?.Dispose();
+            if (IntPtr.Size == 4)
+            {
+                Monitor.Exit(_lock);
+            }
+        }
 
         protected void TestInitialize(PerformanceProfiles profile)
         {
@@ -44,12 +73,5 @@ namespace FiftyOne.DeviceDetection.Hash.Tests
                 Utils.GetFilePath(Constants.UA_FILE_NAME));
         }
 
-        public virtual void TestCleanup()
-        {
-            if (Wrapper != null)
-            {
-                Wrapper.Dispose();
-            }
-        }
     }
 }
