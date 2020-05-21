@@ -33,7 +33,7 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Core.Data
     [TestCategory("MetaData")]
     public class MetaDataHashCoreTests : TestsBase
     {
-        private const int TEST_DELAY_MS = 2000;
+        private const int TEST_DELAY_MS = 3000;
 
         //[DataTestMethod]
         //[DataRow(PerformanceProfiles.HighPerformance)]
