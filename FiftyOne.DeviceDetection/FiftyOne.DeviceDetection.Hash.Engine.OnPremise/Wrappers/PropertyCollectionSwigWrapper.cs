@@ -34,7 +34,8 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
         private PropertyMetaDataCollectionSwig _object;
         private DeviceDetectionHashEngine _engine;
 
-        public PropertyCollectionSwigWrapper(PropertyMetaDataCollectionSwig instance,
+        public PropertyCollectionSwigWrapper(
+            PropertyMetaDataCollectionSwig instance,
             DeviceDetectionHashEngine engine)
         {
             _object = instance;
@@ -43,6 +44,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
 
         public void Dispose()
         {
+            _object.Dispose();
         }
 
         public IEnumerator<IFiftyOneAspectPropertyMetaData> GetEnumerator()

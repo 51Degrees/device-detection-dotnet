@@ -44,6 +44,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
 
         public void Dispose()
         {
+            _object.Dispose();
         }
 
         public IEnumerator<IComponentMetaData> GetEnumerator()
