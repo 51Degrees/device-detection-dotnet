@@ -5,17 +5,24 @@
     <Platforms>AnyCPU;x64</Platforms>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
-	
-	<!-- NuGet package properties -->
-	<PackageId>FiftyOne.DeviceDetection.Cloud</PackageId>
-	<Title>Cloud-based device detection service for the 51Degrees Pipeline API</Title>
-	<PackageDescription>The 51Degrees Pipeline API provides a fast, modern architecture for consuming real-time digital data services. Device detection will reveal detailed properties about the hardware and software of devices that are being used to access your website or service.</PackageDescription>
-	<Authors>51D_Steve;Ben51Degrees;Joseph51Degrees</Authors>
-	<PackageLicenseExpression>EUPL-1.2</PackageLicenseExpression>
-	<PackageIconUrl>https://51degrees.com/portals/0/Logos/Square%20Logo.png?width=64</PackageIconUrl>
-	<Copyright>51Degrees Mobile Experts Limited</Copyright>
-	<PackageTags>51degrees,pipeline,data service,device detection,user-agent,cloud</PackageTags>
-	<RepositoryUrl>https://github.com/51Degrees/device-detection-dotnet</RepositoryUrl>
+    <DocumentationFile>FiftyOne.DeviceDetection.Cloud.xml</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    
+	  <!-- NuGet package properties -->
+	  <PackageId>FiftyOne.DeviceDetection.Cloud</PackageId>
+	  <Title>Cloud-based device detection service for the 51Degrees Pipeline API</Title>
+    <Description>The 51Degrees Pipeline API provides a fast, modern architecture for consuming real-time digital data services. Device detection will provide detailed information about the hardware and software of devices that are being used to access your website or service.</Description>
+	  <Authors>51D_Steve;Ben51Degrees;Joseph51Degrees</Authors>
+	  <PackageLicenseExpression>EUPL-1.2</PackageLicenseExpression>
+    <PackageIconUrl>https://51degrees.com/portals/0/Logos/Square%20Logo.png?width=64</PackageIconUrl>
+	  <Copyright>51Degrees Mobile Experts Limited</Copyright>
+	  <PackageTags>51degrees,pipeline,data service,device detection,user-agent,cloud</PackageTags>
+	  <RepositoryUrl>https://github.com/51Degrees/device-detection-dotnet</RepositoryUrl>
+    <PackageProjectUrl>www.51degrees.com</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageIcon>51d-logo.png</PackageIcon>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -24,7 +31,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.Pipeline.CloudRequestEngine" Version="4.1.1" />
+    <PackageReference Include="FiftyOne.Pipeline.CloudRequestEngine" Version="4.1.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -33,6 +44,28 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FiftyOne.DeviceDetection.Data\FiftyOne.DeviceDetection.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\Images\51d-logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Messages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Messages.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Messages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

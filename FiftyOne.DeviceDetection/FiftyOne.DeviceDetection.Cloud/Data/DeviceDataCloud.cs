@@ -38,8 +38,28 @@ using System.Text;
 
 namespace FiftyOne.DeviceDetection.Cloud.Data
 {
+    /// <summary>
+    /// A data class that makes working with device data from cloud 
+    /// services easier for the user.
+    /// </summary>
     public class DeviceDataCloud : DeviceDataBase, IDeviceData
     {
+        /// <summary>
+        /// Construct a new instance of the wrapper.
+        /// </summary>
+        /// <param name="logger">
+        /// The logger instance to use.
+        /// </param>
+        /// <param name="pipeline">
+        /// The Pipeline that created this data instance.
+        /// </param>
+        /// <param name="engine">
+        /// The engine that create this data instance.
+        /// </param>
+        /// <param name="missingPropertyService">
+        /// The <see cref="IMissingPropertyService"/> to use if a requested
+        /// property does not exist.
+        /// </param>
         public DeviceDataCloud(ILogger<AspectDataBase> logger,
             IPipeline pipeline,
             IAspectEngine engine,

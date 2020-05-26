@@ -26,8 +26,15 @@ using System.Text;
 
 namespace FiftyOne.DeviceDetection
 {
+    /// <summary>
+    /// An enumeration containing the device detection algorithms that 
+    /// are available.
+    /// </summary>
     public enum DeviceDetectionAlgorithm
     {
+        /// <summary>
+        /// The 'Hash' algorithm.
+        /// </summary>
         Hash
     }
 }

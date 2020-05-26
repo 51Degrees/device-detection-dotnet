@@ -50,6 +50,16 @@ namespace FiftyOne.DeviceDetection
         {
         }
 
+        /// <summary>
+        /// Build the pipeline using the configured values.
+        /// </summary>
+        /// <returns>
+        /// A new <see cref="IPipeline"/> instance that contains a 
+        /// <see cref="CloudRequestEngine"/> for making requests
+        /// to the 51Degrees cloud service and a 
+        /// <see cref="DeviceDetectionCloudEngine"/> to interpret the
+        /// device detection results.
+        /// </returns>
         public override IPipeline Build()
         {
             // Configure and build the device detection engine

@@ -109,7 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FiftyOne.Pipeline.Engines">
-      <Version>4.1.1</Version>
+      <Version>4.1.2</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -25,6 +25,7 @@ using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop;
 using FiftyOne.DeviceDetection.Shared.Data;
 using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.Data.Types;
+using FiftyOne.Pipeline.Core.Exceptions;
 using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.Data;
 using FiftyOne.Pipeline.Engines.Services;
@@ -35,22 +36,26 @@ using System.Linq;
 
 namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 {
-    internal class DeviceDataHash : DeviceDataBaseOnPremise, IDeviceDataHash
+    internal class DeviceDataHash : DeviceDataBaseOnPremise<ResultsHashSwig>, IDeviceDataHash
     {
-        #region Fields
-
-        private IList<ResultsHashSwig> _resultsList = new List<ResultsHashSwig>();
-
-        #endregion
-
         #region Constructor
 
         /// <summary>
         /// Construct a new instance of the wrapper.
         /// </summary>
-        /// <param name="logger"></param>
-        /// <param name="engine"></param>
-        /// <param name="missingPropertyService"></param>
+        /// <param name="logger">
+        /// The logger instance to use.
+        /// </param>
+        /// <param name="pipeline">
+        /// The Pipeline that created this data instance.
+        /// </param>
+        /// <param name="engine">
+        /// The engine that create this data instance.
+        /// </param>
+        /// <param name="missingPropertyService">
+        /// The <see cref="IMissingPropertyService"/> to use if a requested
+        /// property does not exist.
+        /// </param>
         internal DeviceDataHash(
             ILogger<AspectDataBase> logger,
             IPipeline pipeline,
@@ -65,7 +70,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         #region Internal Methods
         internal void SetResults(ResultsHashSwig results)
         {
-            _resultsList.Add(results);
+            Results.AddResult(results);
         }
         #endregion
 
@@ -74,36 +79,37 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         private IAspectPropertyValue<int> GetDrift()
         {
             return new AspectPropertyValue<int>(
-                _resultsList.Max(r => r.getDrift()));
+                Results.ResultsList.Max(r => r.getDrift()));
         }
 
         private IAspectPropertyValue<int> GetDifference()
         {
             return new AspectPropertyValue<int>(
-                _resultsList.Sum(r => r.getDifference()));
+                Results.ResultsList.Sum(r => r.getDifference()));
         }
 
         private IAspectPropertyValue<int> GetMatchedNodes()
         {
             return new AspectPropertyValue<int>(
-                _resultsList.Sum(r => r.getMatchedNodes()));
+                Results.ResultsList.Sum(r => r.getMatchedNodes()));
         }
 
         private IAspectPropertyValue<string> GetMethod()
         {
             return new AspectPropertyValue<string>(
-                ((MatchMethods)_resultsList.Max(r => r.getMethod())).ToString());
+                ((MatchMethods)Results.ResultsList
+                    .Max(r => r.getMethod())).ToString());
         }
 
         private IAspectPropertyValue<int> GetIterations()
         {
             return new AspectPropertyValue<int>(
-                _resultsList.Sum(r => r.getIterations()));
+                Results.ResultsList.Sum(r => r.getIterations()));
         }
 
         private ResultsHashSwig GetResultsContainingProperty(string propertyName)
         {
-            foreach (var results in _resultsList)
+            foreach (var results in Results.ResultsList)
             {
                 if (results.containsProperty(propertyName))
                 {
@@ -115,12 +121,12 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 
         private IAspectPropertyValue<string> GetDeviceId()
         {
-            if (_resultsList.Count == 1)
+            if (Results.ResultsList.Count == 1)
             {
                 // Only one Engine has added results, so return the device
                 // id from those results.
                 return new AspectPropertyValue<string>(
-                    _resultsList[0].getDeviceId());
+                    Results.ResultsList[0].getDeviceId());
             }
             else
             {
@@ -128,7 +134,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
                 // id from the results.
                 var result = new List<string>();
                 var deviceIds = new List<IList<string>>();
-                foreach (var results in _resultsList)
+                foreach (var results in Results.ResultsList)
                 {
                     deviceIds.Add(results.getDeviceId().Split('-'));
                 }
@@ -137,7 +143,8 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
                     var profileId = "0";
                     foreach (var deviceId in deviceIds)
                     {
-                        if (deviceId.Count > i && deviceId[i].Equals("0") == false)
+                        if (deviceId.Count > i &&
+                            deviceId[i].Equals("0", StringComparison.Ordinal) == false)
                         {
                             profileId = deviceId[i];
                             break;
@@ -153,7 +160,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         private IAspectPropertyValue<IReadOnlyList<string>> GetUserAgents()
         {
             var list = new List<string>();
-            foreach (var results in _resultsList)
+            foreach (var results in Results.ResultsList)
             {
                 for (uint i = 0; i < results.getUserAgents(); i++)
                 {
@@ -174,7 +181,8 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         protected override bool TryGetValue<T>(string key, out T value)
         {
             var result = base.TryGetValue(key, out value);
-            if (result == false)
+            if (result == false &&
+                Results.HasResults())
             {
                 object obj = null;
                 if (key.Equals("DeviceId", StringComparison.InvariantCultureIgnoreCase))
@@ -233,7 +241,8 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 
         protected override bool PropertyIsAvailable(string propertyName)
         {
-            return _resultsList.Any(r => r.containsProperty(propertyName));
+            return Results.ResultsList
+                .Any(r => r.containsProperty(propertyName));
         }
 
         protected override IAspectPropertyValue<bool> GetValueAsBool(string propertyName)
@@ -243,14 +252,16 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 
             if (results != null)
             {
-                var value = results.getValueAsBool(propertyName);
-                if (value.hasValue())
+                using (var value = results.getValueAsBool(propertyName))
                 {
-                    result.Value = value.getValue();
-                }
-                else
-                {
-                    result.NoValueMessage = value.getNoValueMessage();
+                    if (value.hasValue())
+                    {
+                        result.Value = value.getValue();
+                    }
+                    else
+                    {
+                        result.NoValueMessage = value.getNoValueMessage();
+                    }
                 }
             }
             return result;
@@ -263,14 +274,16 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 
             if (results != null)
             {
-                var value = results.getValueAsDouble(propertyName);
-                if (value.hasValue())
+                using (var value = results.getValueAsDouble(propertyName))
                 {
-                    result.Value = value.getValue();
-                }
-                else
-                {
-                    result.NoValueMessage = value.getNoValueMessage();
+                    if (value.hasValue())
+                    {
+                        result.Value = value.getValue();
+                    }
+                    else
+                    {
+                        result.NoValueMessage = value.getNoValueMessage();
+                    }
                 }
             }
             return result;
@@ -283,14 +296,16 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 
             if (results != null)
             {
-                var value = results.getValueAsInteger(propertyName);
-                if (value.hasValue())
+                using (var value = results.getValueAsInteger(propertyName))
                 {
-                    result.Value = value.getValue();
-                }
-                else
-                {
-                    result.NoValueMessage = value.getNoValueMessage();
+                    if (value.hasValue())
+                    {
+                        result.Value = value.getValue();
+                    }
+                    else
+                    {
+                        result.NoValueMessage = value.getNoValueMessage();
+                    }
                 }
             }
             return result;
@@ -303,14 +318,19 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 
             if (results != null)
             {
-                var value = results.getValues(propertyName);
-                if (value.hasValue())
+                using (var value = results.getValues(propertyName))
                 {
-                    result.Value = value.getValue().ToList();
-                }
-                else
-                {
-                    result.NoValueMessage = value.getNoValueMessage();
+                    if (value.hasValue())
+                    {
+                        using (var vector = value.getValue()) 
+                        {
+                            result.Value = vector.ToList();
+                        }
+                    }
+                    else
+                    {
+                        result.NoValueMessage = value.getNoValueMessage();
+                    }
                 }
             }
             return result;
@@ -323,14 +343,16 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 
             if (results != null)
             {
-                var value = results.getValueAsString(propertyName);
-                if (value.hasValue())
+                using (var value = results.getValueAsString(propertyName))
                 {
-                    result.Value = value.getValue();
-                }
-                else
-                {
-                    result.NoValueMessage = value.getNoValueMessage();
+                    if (value.hasValue())
+                    {
+                        result.Value = value.getValue();
+                    }
+                    else
+                    {
+                        result.NoValueMessage = value.getNoValueMessage();
+                    }
                 }
             }
             return result;
@@ -343,47 +365,21 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 
             if (results != null)
             {
-                var value = results.getValueAsString(propertyName);
-                if (value.hasValue())
+                using (var value = results.getValueAsString(propertyName))
                 {
-                    result.Value = new JavaScript(value.getValue());
-                }
-                else
-                {
-                    result.NoValueMessage = value.getNoValueMessage();
+                    if (value.hasValue())
+                    {
+                        result.Value = new JavaScript(value.getValue());
+                    }
+                    else
+                    {
+                        result.NoValueMessage = value.getNoValueMessage();
+                    }
                 }
             }
             return result;
         }
 
-        #endregion
-
-        #region Finalizer
-        private bool _disposed = false;
-        private object _disposeLock = new object();
-
-        ~DeviceDataHash()
-        {
-            if (_disposed == false)
-            {
-                lock (_disposeLock)
-                {
-                    if (_disposed == false)
-                    {
-                        _disposed = true;
-
-                        // Cleanup all unmanaged resources.
-                        foreach (var results in _resultsList)
-                        {
-                            if (results != null)
-                            {
-                                results.Dispose();
-                            }
-                        }
-                    }
-                }
-            }
-        }
         #endregion
     }
 }

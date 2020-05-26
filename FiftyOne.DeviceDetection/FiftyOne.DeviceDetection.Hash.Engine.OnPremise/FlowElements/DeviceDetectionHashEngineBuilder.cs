@@ -172,6 +172,24 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             return this;
         }
 
+        /// <summary>
+        /// Specify if the 'performance' evaluation graph should be used 
+        /// or not.
+        /// The performance graph is faster than predictive but can
+        /// be less accurate.
+        /// Note that the performance graph will always be evaluated first 
+        /// if it is enableds so if you have both performance and predictive 
+        /// enabled, you will often be getting results from just the 
+        /// performance graph.
+        /// In that situation, predictive will only be used if a match cannot
+        /// be found using the performance graph.
+        /// </summary>
+        /// <param name="use">
+        /// True to use the performance graph, false to ignore it.
+        /// </param>
+        /// <returns>
+        /// This builder.
+        /// </returns>
         public DeviceDetectionHashEngineBuilder SetUsePerformanceGraph(
             bool use)
         {
@@ -179,6 +197,24 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             return this;
         }
 
+        /// <summary>
+        /// Specify if the 'predictive' evaluation graph should be used 
+        /// or not.
+        /// The predictive graph is more accurate than performance
+        /// but is also slower.
+        /// Note that the performance graph will always be evaluated first 
+        /// if it is enabled, so if you have both performance and predictive 
+        /// enabled, you will often be getting results from just the 
+        /// performance graph.
+        /// In that situation, predictive will only be used if a match cannot
+        /// be found using the performance graph.
+        /// </summary>
+        /// <param name="use">
+        /// True to use the performance graph, false to ignore it.
+        /// </param>
+        /// <returns>
+        /// This builder.
+        /// </returns>
         public DeviceDetectionHashEngineBuilder SetUsePredictiveGraph(
             bool use)
         {
@@ -240,7 +276,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                     throw new ArgumentException(
                         $"The performance profile '{profile}' is not valid " +
                         $"for a DeviceDetectionHashEngine.",
-                        "profile");
+                        nameof(profile));
             }
             return this;
         }
@@ -293,22 +329,35 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             SwigConfig.setUseUpperPrefixHeaders(false);
             if (dataFile.Configuration.CreateTempCopy && String.IsNullOrEmpty(TempDir) == false)
             {
-                var tempDirs = new VectorStringSwig();
-                tempDirs.Add(TempDir);
-                SwigConfig.setTempDirectories(tempDirs);
+                using (var tempDirs = new VectorStringSwig())
+                {
+                    tempDirs.Add(TempDir);
+                    SwigConfig.setTempDirectories(tempDirs);
+                }
                 SwigConfig.setUseTempFile(true);
+            }
+
+            // Create swig property configuration object.
+            IRequiredPropertiesConfigSwigWrapper propertyConfig = null;
+            using (var vProperties = new VectorStringSwig(properties)) {
+                propertyConfig = SwigFactory.CreateRequiredProperties(vProperties);
             }
 
             return new DeviceDetectionHashEngine(
                 _loggerFactory,
                 dataFile,
                 SwigConfig,
-                SwigFactory.CreateRequiredProperties(new VectorStringSwig(properties)),
+                propertyConfig,
                 CreateAspectData,
                 TempDir,
                 SwigFactory);
         }
         
+        /// <summary>
+        /// Get the default value for the 'Type' parameter that is passed
+        /// to the 51Degrees Distributor service when checking for updated
+        /// data files.
+        /// </summary>
         protected override string DefaultDataDownloadType => "HashV41";
         #endregion
 

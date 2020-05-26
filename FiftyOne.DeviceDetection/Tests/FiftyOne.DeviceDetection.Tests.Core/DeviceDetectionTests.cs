@@ -44,8 +44,6 @@ namespace FiftyOne.DeviceDetection.Tests.Core
         private static UserAgentGenerator USER_AGENTS = new UserAgentGenerator(
             Utils.GetFilePath(Constants.UA_FILE_NAME));
 
-
-
         [DataTestMethod]
         // ******** Hash with a single thread *********
         [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.MaxPerformance, false, false, false, DisplayName = "Hash-MaxPerformance-NoCache-NoLazyLoad-SingleThread")]
@@ -111,8 +109,6 @@ namespace FiftyOne.DeviceDetection.Tests.Core
         /// </summary>
         /// <param name="datafileName">
         /// The filename of the data file to use for device detection.
-        /// The algorithm (hash or pattern) will be determined by the 
-        /// extension on this file.
         /// </param>
         /// <param name="performanceProfile">
         /// The performance profile to use.
@@ -170,6 +166,8 @@ namespace FiftyOne.DeviceDetection.Tests.Core
                     // complete that they exceed the configured timeout.
                     MaxDegreeOfParallelism = (multiThreaded ? 8 : 1)
                 };
+
+
                 // Create a parallel loop to actually process the user agents.
                 Parallel.ForEach(USER_AGENTS.GetRandomUserAgents(100), options,
                     (useragent) =>

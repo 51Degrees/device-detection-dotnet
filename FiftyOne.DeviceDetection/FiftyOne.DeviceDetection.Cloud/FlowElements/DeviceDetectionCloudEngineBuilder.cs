@@ -35,20 +35,49 @@ using System.Text;
 
 namespace FiftyOne.DeviceDetection.Cloud.FlowElements
 {
+    /// <summary>
+    /// Fluent builder used to create a cloud-based device detection
+    /// engine.
+    /// </summary>
     public class DeviceDetectionCloudEngineBuilder: AspectEngineBuilderBase<DeviceDetectionCloudEngineBuilder, DeviceDetectionCloudEngine>
     {
         private ILoggerFactory _loggerFactory;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="loggerFactory">
+        /// The factory to use when creating a logger.
+        /// </param>
         public DeviceDetectionCloudEngineBuilder(ILoggerFactory loggerFactory)
         {
             _loggerFactory = loggerFactory;
         }
 
+        /// <summary>
+        /// Build a new engine using the configured values.
+        /// </summary>
+        /// <returns>
+        /// A new <see cref="DeviceDetectionCloudEngine"/>
+        /// </returns>
         public DeviceDetectionCloudEngine Build()
         {
             return BuildEngine();
         }
 
+        /// <summary>
+        /// This method is called by the base class to create a new
+        /// <see cref="DeviceDetectionCloudEngine"/> instance before 
+        /// additional configuration is applied.
+        /// </summary>
+        /// <param name="properties">
+        /// A string list of the properties that the engine should populate.
+        /// In this case, this list is ignored as the resource key 
+        /// defines the properties that are returned by the cloud service.
+        /// </param>
+        /// <returns>
+        /// A new <see cref="DeviceDetectionCloudEngine"/> instance.
+        /// </returns>
         protected override DeviceDetectionCloudEngine NewEngine(List<string> properties)
         {
             return new DeviceDetectionCloudEngine(
@@ -64,6 +93,5 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
                 (IAspectEngine)engine,
                 MissingPropertyService.Instance);
         }
-
     }
 }

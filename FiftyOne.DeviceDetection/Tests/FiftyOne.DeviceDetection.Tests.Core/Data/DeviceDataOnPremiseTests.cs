@@ -56,7 +56,7 @@ namespace FiftyOne.DeviceDetection.Tests.Core.Data
         /// Test class to extend the results wrapper and add a single property.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        private class TestResults<T> : DeviceDataBaseOnPremise
+        private class TestResults<T> : DeviceDataBaseOnPremise<IDisposable>
         {
             private object _value;
 
@@ -69,6 +69,10 @@ namespace FiftyOne.DeviceDetection.Tests.Core.Data
                 : base(logger, pipeline, engine, missingPropertyService)
             {
                 _value = value;
+                // The ResultManager needs to have something added to it 
+                // in order to allow access to the values.
+                // For this test, we can just give it a null reference.
+                Results.AddResult(null);
             }
 
             protected override IAspectPropertyValue<bool> GetValueAsBool(string propertyName)

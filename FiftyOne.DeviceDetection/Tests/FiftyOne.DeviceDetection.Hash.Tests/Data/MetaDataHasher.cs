@@ -59,7 +59,7 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Data
                         .Where((v, i) => { return i % 100 == 0; }))
             {
                 hash ^= value.GetHashCode();
-                hash ^= value.Property == null ? 0 : value.Property.GetHashCode();
+                hash ^= value.GetProperty() == null ? 0 : value.GetProperty().GetHashCode();
             }
             return hash;
         }

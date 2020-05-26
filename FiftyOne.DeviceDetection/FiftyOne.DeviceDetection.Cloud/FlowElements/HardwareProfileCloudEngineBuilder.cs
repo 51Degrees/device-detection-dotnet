@@ -35,20 +35,50 @@ using System.Text;
 
 namespace FiftyOne.DeviceDetection.Cloud.FlowElements
 {
+    /// <summary>
+    /// Fluent builder used to create a cloud-based engine that can
+    /// return multiple hardware profiles from a single request.
+    /// For example, A single TAC code can match multiple hardware devices.
+    /// </summary>
     public class HardwareProfileCloudEngineBuilder: AspectEngineBuilderBase<HardwareProfileCloudEngineBuilder, HardwareProfileCloudEngine>
     {
         private ILoggerFactory _loggerFactory;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="loggerFactory">
+        /// The factory to use when creating a logger.
+        /// </param>
         public HardwareProfileCloudEngineBuilder(ILoggerFactory loggerFactory)
         {
             _loggerFactory = loggerFactory;
         }
 
+        /// <summary>
+        /// Build a new engine using the configured values.
+        /// </summary>
+        /// <returns>
+        /// A new <see cref="HardwareProfileCloudEngine"/>
+        /// </returns>
         public HardwareProfileCloudEngine Build()
         {
             return BuildEngine();
         }
 
+        /// <summary>
+        /// This method is called by the base class to create a new
+        /// <see cref="HardwareProfileCloudEngine"/> instance before 
+        /// additional configuration is applied.
+        /// </summary>
+        /// <param name="properties">
+        /// A string list of the properties that the engine should populate.
+        /// In this case, this list is ignored as the resource key 
+        /// defines the properties that are returned by the cloud service.
+        /// </param>
+        /// <returns>
+        /// A new <see cref="HardwareProfileCloudEngine"/> instance.
+        /// </returns>
         protected override HardwareProfileCloudEngine NewEngine(List<string> properties)
         {
             return new HardwareProfileCloudEngine(

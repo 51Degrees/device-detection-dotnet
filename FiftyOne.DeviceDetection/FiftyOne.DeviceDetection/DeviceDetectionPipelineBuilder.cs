@@ -22,6 +22,7 @@
 
 using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
+using System;
 using System.IO;
 using System.Net.Http;
 
@@ -130,7 +131,11 @@ namespace FiftyOne.DeviceDetection
         /// </returns>
         public DeviceDetectionCloudPipelineBuilder UseCloud(string resourceKey, string endpoint)
         {
+#pragma warning disable CA2234 // Pass system uri objects instead of strings
+            // Changing this has some unintended consequences so 
+            // leaving for now.
             return UseCloud(resourceKey).SetEndPoint(endpoint);
+#pragma warning restore CA2234 // Pass system uri objects instead of strings
         }
 
         /// <summary>
@@ -148,8 +153,14 @@ namespace FiftyOne.DeviceDetection
         /// A builder that can be used to configure and build a pipeline
         /// that will use the on-premise detection engine.
         /// </returns>
-        public DeviceDetectionOnPremisePipelineBuilder UseOnPremise(string datafile, bool createTempDataCopy)
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if a required parameter is null
+        /// </exception>
+        public DeviceDetectionOnPremisePipelineBuilder UseOnPremise(
+            string datafile, bool createTempDataCopy)
         {
+            if (datafile == null) { throw new ArgumentNullException(nameof(datafile)); }
+
             var builder = new DeviceDetectionOnPremisePipelineBuilder(
                 _loggerFactory, _dataUpdateService, _httpClient);
             builder.SetFilename(datafile, createTempDataCopy);
@@ -160,8 +171,8 @@ namespace FiftyOne.DeviceDetection
         /// Use a 51Degrees on-premise device detection engine to 
         /// perform device detection.
         /// </summary>
-        /// <param name="data">
-        /// The entire device detection data file stored in memory.
+        /// <param name="dataStream">
+        /// The device detection data file as a <see cref="Stream"/>.
         /// </param>
         /// <param name="algorithm">
         /// The detection algorithm that the supplied data supports.

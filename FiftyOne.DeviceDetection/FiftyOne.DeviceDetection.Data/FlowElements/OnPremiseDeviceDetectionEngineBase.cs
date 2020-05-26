@@ -33,10 +33,29 @@ using System.Text;
 
 namespace FiftyOne.DeviceDetection.Shared.FlowElements
 {
+    /// <summary>
+    /// On-premise device detection engine base class. 
+    /// </summary>
+    /// <typeparam name="T">
+    /// The specific type of device data instances returned by this 
+    /// engine.
+    /// </typeparam>
     public abstract class OnPremiseDeviceDetectionEngineBase<T> : 
         FiftyOneOnPremiseAspectEngineBase<T>, IOnPremiseDeviceDetectionEngine
         where T : IDeviceData
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="logger">
+        /// Logger for this engine to use.
+        /// </param>
+        /// <param name="aspectDataFactory">
+        /// The factory method to use when creating a new aspect data instance.
+        /// </param>
+        /// <param name="tempDataFilePath">
+        /// The path to use for any temporary files the engine needs to create.
+        /// </param>
         public OnPremiseDeviceDetectionEngineBase(ILogger<FiftyOneOnPremiseAspectEngineBase<T>> logger, 
             Func<IPipeline, FlowElementBase<T, IFiftyOneAspectPropertyMetaData>, T> aspectDataFactory, 
             string tempDataFilePath) :
@@ -44,6 +63,10 @@ namespace FiftyOne.DeviceDetection.Shared.FlowElements
         {
         }
 
+        /// <summary>
+        /// This event is fired after device data has been 
+        /// successfully refreshed.
+        /// </summary>
         public abstract event EventHandler<EventArgs> RefreshCompleted;
 
         /// <summary>
@@ -51,8 +74,13 @@ namespace FiftyOne.DeviceDetection.Shared.FlowElements
         /// </summary>
         /// <param name="stream"></param>
         /// <returns></returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if a required parameter is null
+        /// </exception>
         protected byte[] ReadBytesFromStream(Stream stream)
         {
+            if (stream == null) { throw new ArgumentNullException(nameof(stream)); }
+
             byte[] data = new byte[stream.Length];
             var memoryStream = stream as MemoryStream;
             if (memoryStream != null && memoryStream.TryGetBuffer(out var buffer))
@@ -83,8 +111,13 @@ namespace FiftyOne.DeviceDetection.Shared.FlowElements
         /// Add the specified data file to the engine
         /// </summary>
         /// <param name="dataFile"></param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if a required parameter is null
+        /// </exception>
         public override void AddDataFile(IAspectEngineDataFile dataFile)
         {
+            if (dataFile == null) { throw new ArgumentNullException(nameof(dataFile)); }
+
             if (DataFiles.Count > 0)
             {
                 throw new Exception($"{GetType().Name} already " +

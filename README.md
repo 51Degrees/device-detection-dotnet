@@ -19,8 +19,7 @@ Example and test projects mostly target .NET Core 3.1 though in some cases, proj
 ## Solutions and projects
 
 - **FiftyOne.DeviceDetection** - Device detection engines and related projects.
-  - **FiftyOne.DeviceDetection.Hash.** - .NET implementation of the device detection hash engine.
-  - **FiftyOne.DeviceDetection.Pattern.** - .NET implementation of the device detection pattern engine.
+  - **FiftyOne.DeviceDetection.Hash** - .NET implementation of the device detection hash engine.
   - **FiftyOne.DeviceDetection.Shared** - Shared classes used by the device detection engines.
   - **FiftyOne.DeviceDetection** - Contains device detection engine builders.
   - **FiftyOne.DeviceDetection.Cloud** - A .NET engine which retrieves device detection results by consuming the 51Degrees cloud service. This can be swapped out with either the hash or pattern engines seamlessly.
@@ -30,30 +29,38 @@ Example and test projects mostly target .NET Core 3.1 though in some cases, proj
 You can either reference the projects in this repository or you can reference the [NuGet][nuget] packages in your project:
 
 ```
-Install-Package FiftyOne.DeviceDetection -Version 4.1.0
+Install-Package FiftyOne.DeviceDetection
 ```
 
-Make sure to select the latest version from [NuGet.][nuget]
 ## Examples
 
 Examples can be found in the `Examples/` folder, there are separate sources for cloud, hash and pattern implementations and solutions for .NET Core and .NET Framework. See below for a list of examples.
 
 ### Device Detection
 
-|Example|Description|Runtime|Algortihm|
-|-------|-----------|-------|---------|
-|ConfigureFromFile|This example shows how to build a Pipeline from a configuration file.|Core / Framework|Hash / Pattern|
-|GettingStarted|This example uses 51Degrees device detection to determine whether a given User-Agent corresponds to a mobile device or not.|Core / Framework|Cloud / Hash / Pattern|
-|Metadata|This example shows how to get all the properties from the device detection engine and print their information details.|Core / Framework|Hash / Pattern|
-|Performance|This example demonstrates the performance of the maximum performance device detection configuration profile.|Core / Framework|Hash / Pattern|
+|Example|Description|Implementations|
+|-------|-----------|---------------|
+|ConfigureFromFile|This example shows how to build a Pipeline from a configuration file.|On-premise|
+|GettingStarted|This example uses 51Degrees device detection to determine whether a given User-Agent corresponds to a mobile device or not.|On-premise / Cloud|
+|Metadata|This example shows how to get all the properties from the device detection engine and print their information details.|On-premise|
+|Performance|This example demonstrates the performance of the maximum performance device detection configuration profile.|On-premise|
+|NativeModelLookup|This example demonstrates how to get device details from a native model name using the 51Degrees cloud service.|Cloud|
+|TacLookup|This example demonstrates how to get device details from a TAC (Type Allocation Code) using the 51Degrees cloud service.|Cloud|
+|GetAllProperties|This example demonstrates how to iterate through all properties in a response.|Cloud|
 
-### DeviceDetectionWebDemo
+### Web Integrations
 
-These examples shows how to integrate the Pipeline API with a device detection engine into an ASP.NET Core web app.
+These examples show how to integrate the Pipeline API into a simple web app.
+
+|Example|Description|
+|-------|-----------|
+|Cloud DeviceDetectionWebDemo NetCore 3.1|This example demonstrates how to use the 51Degrees cloud to perform device detection from an ASP.NET Core 3.1 web application|
+|DeviceDetectionWebDemo NetCore 2.1|This example demonstrates how to use on-premise device detection from an ASP.NET Core 2.1 web application|
+|DeviceDetectionWebDemo NetCore 3.1|This example demonstrates how to use on-premise device detection from an ASP.NET Core 3.1 web application|
 
 ## Tests
 
-Tests can be found in the `Tests/` folder. These can all be run from within Visual Studio or (for the non-framework tests) by using the `dotnet` command line tool. 
+Tests can be found in the `Tests/` folder. These can all be run from within Visual Studio or by using the `dotnet` command line tool. 
 
 ## Project documentation
 

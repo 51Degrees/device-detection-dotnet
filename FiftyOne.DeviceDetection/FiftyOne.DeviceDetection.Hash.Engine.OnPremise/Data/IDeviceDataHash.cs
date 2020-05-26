@@ -25,13 +25,24 @@ using System.Collections.Generic;
 
 namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 {
+    /// <summary>
+    /// Represents a data class that contains device data from an 
+    /// on-premise device detection engine. 
+    /// </summary>
     public interface IDeviceDataHash : IDeviceData
     {
         /// <summary>
-        /// Gets all values as a List of strings.
+        /// Gets all values that this instance has for a specific property.
+        /// This is used for 'list' properties that can have multiple 
+        /// values for a single profile.
         /// </summary>
-        /// <param name="propertyName"></param>
-        /// <returns></returns>
+        /// <param name="propertyName">
+        /// The property to get the values for.
+        /// </param>
+        /// <returns>
+        /// An list of strings wrapped in an <see cref="IAspectPropertyValue"/>
+        /// instance.
+        /// </returns>
         IAspectPropertyValue<IReadOnlyList<string>> GetValues(string propertyName);
     }
 }

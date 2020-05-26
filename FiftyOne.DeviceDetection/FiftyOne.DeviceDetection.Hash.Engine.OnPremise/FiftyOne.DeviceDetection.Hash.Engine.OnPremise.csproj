@@ -7,17 +7,21 @@
     <DocumentationFile>FiftyOne.DeviceDetection.Hash.Engine.OnPremise.xml</DocumentationFile>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
-	
-	<!-- NuGet package properties -->
-	<PackageId>FiftyOne.DeviceDetection.Hash.Engine.OnPremise</PackageId>
-	<Title>Hash-based device detection service for the 51Degrees Pipeline API</Title>
-	<PackageDescription>The 51Degrees Pipeline API provides a fast, modern architecture for consuming real-time digital data services. Device detection will tell detailed properties about the hardware and software of devices that are being used to access your website or service.	The 'Hash' algorithm is designed for speed over other considerations.</PackageDescription>
-	<Authors>51D_Steve;Ben51Degrees;Joseph51Degrees</Authors>
-	<PackageLicenseExpression>EUPL-1.2</PackageLicenseExpression>
-	<PackageIconUrl>https://51degrees.com/portals/0/Logos/Square%20Logo.png?width=64</PackageIconUrl>
-	<Copyright>51Degrees Mobile Experts Limited</Copyright>
-	<PackageTags>51degrees,pipeline,data service,device detection,user-agent,hash</PackageTags>
-	<RepositoryUrl>https://github.com/51Degrees/device-detection-dotnet</RepositoryUrl>
+    
+	  <!-- NuGet package properties -->
+	  <PackageId>FiftyOne.DeviceDetection.Hash.Engine.OnPremise</PackageId>
+	  <Title>On-premise device detection service for the 51Degrees Pipeline API</Title>
+    <Description>The 51Degrees Pipeline API provides a fast, modern architecture for consuming real-time digital data services. Device detection will provide detailed information about the hardware and software of devices that are being used to access your website or service.</Description>
+	  <Authors>51D_Steve;Ben51Degrees;Joseph51Degrees</Authors>
+	  <PackageLicenseExpression>EUPL-1.2</PackageLicenseExpression>
+    <PackageIconUrl>https://51degrees.com/portals/0/Logos/Square%20Logo.png?width=64</PackageIconUrl>
+	  <Copyright>51Degrees Mobile Experts Limited</Copyright>
+	  <PackageTags>51degrees,pipeline,data service,device detection,user-agent,hash</PackageTags>
+	  <RepositoryUrl>https://github.com/51Degrees/device-detection-dotnet</RepositoryUrl>
+    <PackageProjectUrl>www.51degrees.com</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageIcon>51d-logo.png</PackageIcon>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -26,6 +30,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -44,6 +52,10 @@
     </None>
     <None Include="$(ProjectDir)\..\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native\Win32\$(Configuration)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.pdb" Condition="'$(Platform)'=='x86'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.pdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\Images\51d-logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
     </None>
   </ItemGroup>
 

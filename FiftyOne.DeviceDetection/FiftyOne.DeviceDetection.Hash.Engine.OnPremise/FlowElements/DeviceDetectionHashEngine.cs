@@ -109,10 +109,17 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             AddDataFile(dataFile);
         }
 
+        /// <summary>
+        /// The key to use for this element's data in a 
+        /// <see cref="IFlowData"/> instance.
+        /// </summary>
         public override string ElementDataKey => "device";
 
         internal IMetaDataSwigWrapper MetaData => _engine.getMetaData();
 
+        /// <summary>
+        /// Get the meta-data for properties populated by this engine.
+        /// </summary>
         public override IList<IFiftyOneAspectPropertyMetaData> Properties
         {
             get
@@ -121,6 +128,10 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             }
         }
 
+        /// <summary>
+        /// Get the meta-data for profiles that may be returned by this
+        /// engine.
+        /// </summary>
         public override IEnumerable<IProfileMetaData> Profiles
         {
             get
@@ -135,6 +146,9 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             }
         }
 
+        /// <summary>
+        /// Get the meta-data for components populated by this engine.
+        /// </summary>
         public override IEnumerable<IComponentMetaData> Components
         {
             get
@@ -143,6 +157,9 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             }
         }
 
+        /// <summary>
+        /// Get the meta-data for values that can be returned by this engine.
+        /// </summary>
         public override IEnumerable<IValueMetaData> Values
         {
             get
@@ -157,13 +174,34 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             }
         }
 
+        /// <summary>
+        /// The tier of the data that is currently being used by this engine.
+        /// For example, 'Lite' or 'Enterprise'
+        /// </summary>
         public override string DataSourceTier => _engine.getType();
 
+        /// <summary>
+        /// True if the data used by this engine will automatically be
+        /// updated when a new file is available.
+        /// False if the data will only be updated manually.
+        /// </summary>
         public bool AutomaticUpdatesEnabled => _engine.getAutomaticUpdatesEnabled();
 
-
+        /// <summary>
+        /// A filter that defines the evidence that this engine can 
+        /// make use of.
+        /// </summary>
         public override IEvidenceKeyFilter EvidenceKeyFilter => _evidenceKeyFilter;
 
+        /// <summary>
+        /// Called when update data is available in order to get the 
+        /// engine to refresh it's internal data structures.
+        /// This overload is used if the data is a physical file on disk.
+        /// </summary>
+        /// <param name="dataFileIdentifier">
+        /// The identifier of the data file to update.
+        /// This engine only uses one data file so this parameter is ignored.
+        /// </param>
         public override void RefreshData(string dataFileIdentifier)
         {
             var dataFile = DataFiles.Single();
@@ -179,6 +217,20 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             RefreshCompleted?.Invoke(this, null);
         }
 
+        /// <summary>
+        /// Called when update data is available in order to get the 
+        /// engine to refresh it's internal data structures.
+        /// This overload is used when the data is presented as a 
+        /// <see cref="Stream"/>, usually a <see cref="MemoryStream"/>.
+        /// </summary>
+        /// <param name="dataFileIdentifier">
+        /// The identifier of the data file to update.
+        /// This engine only uses one data file so this parameter is ignored.
+        /// </param>
+        /// <param name="stream">
+        /// The <see cref="Stream"/> containing the data to refresh the
+        /// engine with.
+        /// </param>
         public override void RefreshData(string dataFileIdentifier, Stream stream)
         {
             var data = ReadBytesFromStream(stream);
@@ -195,8 +247,25 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             RefreshCompleted?.Invoke(this, null);
         }
 
+        /// <summary>
+        /// Perform processing for this engine
+        /// </summary>
+        /// <param name="data">
+        /// The <see cref="IFlowData"/> instance containing data for the 
+        /// current request.
+        /// </param>
+        /// <param name="deviceData">
+        /// The <see cref="IDeviceDataHash"/> instance to populate with
+        /// property values
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if a required parameter is null
+        /// </exception>
         protected override void ProcessEngine(IFlowData data, IDeviceDataHash deviceData)
         {
+            if (data == null) { throw new ArgumentNullException(nameof(data)); }
+            if (deviceData == null) { throw new ArgumentNullException(nameof(deviceData)); }
+
             using (var relevantEvidence = new EvidenceDeviceDetectionSwig())
             {
                 foreach (var evidenceItem in data.GetEvidence().AsDictionary())
@@ -212,6 +281,9 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             }
         }
 
+        /// <summary>
+        /// Dispose of any unmanaged resources.
+        /// </summary>
         protected override void UnmanagedResourcesCleanup()
         {
             if (_engine != null)
@@ -267,6 +339,10 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", 
+            "CA2000:Dispose objects before losing scope", 
+            Justification = "The created instances are used and disposed " +
+            "by the parent objects")]
         private IEnumerable<IFiftyOneAspectPropertyMetaData> GetMetricProperties()
         {
             var dataFileList = new List<string>() { "Lite", "Premium", "Enterprise" };
@@ -379,6 +455,18 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             return _engine?.getDataFileTempPath();
         }
 
+        /// <summary>
+        /// Get the value to use for the 'Type' parameter when calling
+        /// the 51Degrees Distributor service to check for a newer 
+        /// data file.
+        /// </summary>
+        /// <param name="identifier">
+        /// The identifier of the data file to get the type for.
+        /// This engine only uses one file so this parameter is ignored.
+        /// </param>
+        /// <returns>
+        /// A string
+        /// </returns>
         public override string GetDataDownloadType(string identifier)
         {
             return _engine.getType();

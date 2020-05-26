@@ -34,7 +34,8 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
         private ValueMetaDataCollectionSwig _object;
         private DeviceDetectionHashEngine _engine;
 
-        public ValueCollectionSwigWrapper(ValueMetaDataCollectionSwig instance,
+        public ValueCollectionSwigWrapper(
+            ValueMetaDataCollectionSwig instance,
             DeviceDetectionHashEngine engine)
         {
             _object = instance;
@@ -43,6 +44,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
 
         public void Dispose()
         {
+            _object.Dispose();
         }
 
         public ValueMetaDataSwig getByKey(ValueMetaDataKeySwig key)

@@ -8,6 +8,56 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Net.Http;
 
+/// <summary>
+/// @example Cloud/NativeModelLookup/Program.cs
+///
+/// Native model lookup example of using 51Degrees device detection.
+/// 
+/// This example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/blob/master/FiftyOne.DeviceDetection/Examples/Core/Cloud/NativeModelLooup/Program.cs). 
+/// 
+/// To run this example, you will need to create a **resource key**. 
+/// The resource key is used as short-hand to store the particular set of 
+/// properties you are interested in as well as any associated license keys 
+/// that entitle you to increased request limits and/or paid-for properties.
+/// 
+/// You can create a resource key using the 51Degrees [Configurator](https://configure.51degrees.com).
+///
+/// Required NuGet Dependencies:
+/// - FiftyOne.DeviceDetection
+/// 
+/// The example shows how to:
+///
+/// 1. Build a new Pipeline with a cloud-based hardware profiles engine.
+/// ```
+/// var cloudEngine = new CloudRequestEngineBuilder(loggerFactory, httpClient)
+///     .SetResourceKey(resourceKey)
+///     .Build();
+/// var hardwareProfileEngine = new HardwareProfileCloudEngineBuilder(loggerFactory)
+///     .Build();
+/// var pipeline = new PipelineBuilder(loggerFactory)
+///     .AddFlowElement(cloudEngine)
+///    .AddFlowElement(hardweareProfileEngine)
+///    .Build();
+/// ```
+///
+/// 2. Create a new FlowData instance ready to be populated with evidence for the
+/// Pipeline.
+/// ```
+/// var data = pipeline.CreateFlowData();
+/// ```
+///
+/// 3. Add a native model string to the evidence collection and process it.
+/// ```
+/// data.AddEvidence(Constants.EVIDENCE_QUERY_NATIVE_MODEL_KEY, nativemodel)
+///     .Process();
+/// ```
+///
+/// 4. Extract the value of a property as a string from the results.
+/// ```
+/// var profiles = data.Get<MultiDeviceDataCloud>().Profiles;
+/// Console.WriteLine("IsMobile: " + profiles[0].IsMobile.Value);
+/// ```
+/// </summary>
 namespace TacLookup
 {
     class Program
