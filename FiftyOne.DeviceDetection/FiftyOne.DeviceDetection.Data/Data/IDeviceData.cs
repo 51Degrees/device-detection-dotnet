@@ -1031,7 +1031,7 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the browser supports the WebP image format.
 		/// </summary>
-		IAspectPropertyValue<string> WebP { get; }
+		IAspectPropertyValue<bool> WebP { get; }
 		/// <summary>
 		/// Indicates if the browser supports background workers in JavaScript.
 		/// </summary>
