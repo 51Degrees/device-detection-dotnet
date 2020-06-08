@@ -623,6 +623,10 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<string> JavascriptVersion { get { return GetAs<IAspectPropertyValue<string>>("JavascriptVersion"); } }
 		/// <summary>
+		/// Indicates the browser supports JPEG 2000 image format.
+		/// </summary>
+		public IAspectPropertyValue<bool> Jpeg2000 { get { return GetAs<IAspectPropertyValue<bool>>("Jpeg2000"); } }
+		/// <summary>
 		/// Refers to the grade of the level the device has with the jQuery Mobile Framework, as posted by jQuery.
 		/// </summary>
 		public IAspectPropertyValue<string> jQueryMobileSupport { get { return GetAs<IAspectPropertyValue<string>>("jQueryMobileSupport"); } }
