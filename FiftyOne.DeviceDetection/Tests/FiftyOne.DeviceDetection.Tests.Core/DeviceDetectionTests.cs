@@ -137,10 +137,9 @@ namespace FiftyOne.DeviceDetection.Tests.Core
             // parameters passed to this method.
             var builder = new DeviceDetectionPipelineBuilder(
                 new NullLoggerFactory(), null, updateService.Object)
-                .UseOnPremise(datafile.FullName, false)
+                .UseOnPremise(datafile.FullName, null, false)
                 .SetPerformanceProfile(performanceProfile)
                 .SetShareUsage(false)
-                .SetAutoUpdate(false)
                 .SetDataFileSystemWatcher(false);
             if (useCache)
             {

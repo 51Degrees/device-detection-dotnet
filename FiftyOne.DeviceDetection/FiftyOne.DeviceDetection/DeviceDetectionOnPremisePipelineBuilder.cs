@@ -103,10 +103,46 @@ namespace FiftyOne.DeviceDetection
         /// <exception cref="PipelineConfigurationException">
         /// Thrown if the filename has an unknown extension.
         /// </exception>
+        [Obsolete("Call the overload that takes a license key instead. " +
+            "This method will be removed in a future version")]
         internal DeviceDetectionOnPremisePipelineBuilder SetFilename(string filename, bool createTempDataCopy)
+        {
+            return SetFilename(filename, _dataUpdateLicenseKey, createTempDataCopy);
+        }
+
+        /// <summary>
+        /// Set the filename of the device detection data file that the
+        /// engine should use.
+        /// </summary>
+        /// <param name="filename">
+        /// The data file
+        /// </param>
+        /// <param name="key">
+        /// The license key to use when checking for updates to the
+        /// data file.
+        /// This parameter can be set to null, but doing so will disable 
+        /// automatic updates. 
+        /// </param>
+        /// <param name="createTempDataCopy">
+        /// True to create a temporary copy of the data file when 
+        /// the engine is built.
+        /// This is required in order for automatic updates
+        /// to work correctly.
+        /// </param>
+        /// <returns>
+        /// This builder instance.
+        /// </returns>
+        /// <exception cref="PipelineConfigurationException">
+        /// Thrown if the filename has an unknown extension.
+        /// </exception>
+        internal DeviceDetectionOnPremisePipelineBuilder SetFilename(
+            string filename, 
+            string key, 
+            bool createTempDataCopy = true)
         {
             _filename = filename;
             _createTempDataCopy = createTempDataCopy;
+            _dataUpdateLicenseKey = key;
             if (filename.EndsWith(".hash", StringComparison.OrdinalIgnoreCase))
             {
                 _algorithm = DeviceDetectionAlgorithm.Hash;
@@ -121,6 +157,7 @@ namespace FiftyOne.DeviceDetection
             return this;
         }
 
+
         /// <summary>
         /// Set the byte array to use as a data source when 
         /// creating the engine.
@@ -134,10 +171,44 @@ namespace FiftyOne.DeviceDetection
         /// <returns>
         /// This builder instance.
         /// </returns>
+        [Obsolete("Call the overload that takes a license key instead. " +
+            "This method will be removed in a future version")]
         internal DeviceDetectionOnPremisePipelineBuilder SetEngineData(Stream dataStream, DeviceDetectionAlgorithm algorithm)
         {
             _engineDataStream = dataStream;
             _algorithm = algorithm;
+            return this;
+        }
+
+
+
+        /// <summary>
+        /// Set the byte array to use as a data source when 
+        /// creating the engine.
+        /// </summary>
+        /// <param name="dataStream">
+        /// The entire device detection data file as a <see cref="Stream"/>.
+        /// </param>
+        /// <param name="algorithm">
+        /// The detection algorithm that the supplied data supports.
+        /// </param>
+        /// <param name="key">
+        /// The license key to use when checking for updates to the
+        /// data file.
+        /// This parameter can be set to null, but doing so will disable 
+        /// automatic updates. 
+        /// </param>
+        /// <returns>
+        /// This builder instance.
+        /// </returns>
+        internal DeviceDetectionOnPremisePipelineBuilder SetEngineData(
+            Stream dataStream,
+            DeviceDetectionAlgorithm algorithm, 
+            string key)
+        {
+            _engineDataStream = dataStream;
+            _algorithm = algorithm;
+            _dataUpdateLicenseKey = key;
             return this;
         }
 
@@ -368,10 +439,8 @@ namespace FiftyOne.DeviceDetection
             builder.SetAutoUpdate(_autoUpdateEnabled);
             builder.SetDataUpdateOnStartup(_dataUpdateOnStartUpEnabled);
             builder.SetDataFileSystemWatcher(_dataFileWatcherEnabled);
-            if (_dataUpdateLicenseKey != null)
-            {
-                builder.SetDataUpdateLicenseKey(_dataUpdateLicenseKey);
-            }
+            builder.SetDataUpdateLicenseKey(_dataUpdateLicenseKey);
+
             // Configure performance profile
             builder.SetPerformanceProfile(_performanceProfile);
             // Configure concurrency

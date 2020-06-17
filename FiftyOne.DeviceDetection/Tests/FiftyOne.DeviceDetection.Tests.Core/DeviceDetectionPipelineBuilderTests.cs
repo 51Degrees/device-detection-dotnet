@@ -71,10 +71,9 @@ namespace FiftyOne.DeviceDetection.Tests.Core
             // Configure the pipeline.
             var pipeline = new DeviceDetectionPipelineBuilder(
                 new NullLoggerFactory(), null, updateService.Object)
-                .UseOnPremise(datafile.FullName, false)
+                .UseOnPremise(datafile.FullName, licenseKey, false)
                 .SetAutoUpdate(autoUpdate)
                 .SetShareUsage(shareUsage)
-                .SetDataUpdateLicenseKey(licenseKey)
                 .Build();
 
             // Check that the flow elements in the pipeline are as expected.

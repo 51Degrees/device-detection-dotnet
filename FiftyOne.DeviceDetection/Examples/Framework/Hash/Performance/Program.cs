@@ -90,10 +90,8 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.Performance
                 Console.WriteLine($"Using data file at '{f.FullName}'");
                 // Create a simple pipeline to access the engine with.
                 using (var pipeline = new DeviceDetectionPipelineBuilder()
-                    .UseOnPremise(dataFile, false)
-                    .SetAutoUpdate(false)
+                    .UseOnPremise(dataFile, null, false)
                     .SetDataFileSystemWatcher(false)
-                    .SetDataUpdateOnStartUp(false)
                     .SetShareUsage(false)
                     // Prefer maximum performance profile where all data loaded 
                     // into memory. Experiment with other profiles.
