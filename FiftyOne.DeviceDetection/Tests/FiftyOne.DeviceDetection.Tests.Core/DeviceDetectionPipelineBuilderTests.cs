@@ -95,10 +95,15 @@ namespace FiftyOne.DeviceDetection.Tests.Core
             var engine = pipeline.FlowElements.Single(
                 e => e.GetType() == typeof(DeviceDetectionHashEngine)) as DeviceDetectionHashEngine;
 
-            Assert.AreEqual(autoUpdate, engine.DataFiles[0].AutomaticUpdatesEnabled);
             if(licenseKey != null)
             {
+                Assert.AreEqual(autoUpdate, engine.DataFiles[0].AutomaticUpdatesEnabled);
                 Assert.AreEqual(licenseKey, engine.DataFiles[0].Configuration.DataUpdateLicenseKeys[0]);
+            } else
+            {
+                // If there is no license key ocnifugred then automatic updates will be
+                // disabled.
+                Assert.AreEqual(false, engine.DataFiles[0].AutomaticUpdatesEnabled);
             }
 
         }
