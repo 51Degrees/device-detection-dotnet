@@ -71,10 +71,9 @@ namespace FiftyOne.DeviceDetection.Tests.Core
             // Configure the pipeline.
             var pipeline = new DeviceDetectionPipelineBuilder(
                 new NullLoggerFactory(), null, updateService.Object)
-                .UseOnPremise(datafile.FullName, false)
+                .UseOnPremise(datafile.FullName, licenseKey, false)
                 .SetAutoUpdate(autoUpdate)
                 .SetShareUsage(shareUsage)
-                .SetDataUpdateLicenseKey(licenseKey)
                 .Build();
 
             // Check that the flow elements in the pipeline are as expected.
@@ -96,10 +95,15 @@ namespace FiftyOne.DeviceDetection.Tests.Core
             var engine = pipeline.FlowElements.Single(
                 e => e.GetType() == typeof(DeviceDetectionHashEngine)) as DeviceDetectionHashEngine;
 
-            Assert.AreEqual(autoUpdate, engine.DataFiles[0].AutomaticUpdatesEnabled);
             if(licenseKey != null)
             {
+                Assert.AreEqual(autoUpdate, engine.DataFiles[0].AutomaticUpdatesEnabled);
                 Assert.AreEqual(licenseKey, engine.DataFiles[0].Configuration.DataUpdateLicenseKeys[0]);
+            } else
+            {
+                // If there is no license key ocnifugred then automatic updates will be
+                // disabled.
+                Assert.AreEqual(false, engine.DataFiles[0].AutomaticUpdatesEnabled);
             }
 
         }

@@ -597,6 +597,10 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<string> JavascriptVersion { get; }
 		/// <summary>
+		/// Indicates the browser supports JPEG 2000 image format.
+		/// </summary>
+		IAspectPropertyValue<bool> Jpeg2000 { get; }
+		/// <summary>
 		/// Refers to the grade of the level the device has with the jQuery Mobile Framework, as posted by jQuery.
 		/// </summary>
 		IAspectPropertyValue<string> jQueryMobileSupport { get; }

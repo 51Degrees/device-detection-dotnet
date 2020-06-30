@@ -10,21 +10,35 @@
     var browserVendor = Model.BrowserVendor;
     var browserName = Model.BrowserName;
     var browserVersion = Model.BrowserVersion;
+    var screenWidth = Model.ScreenPixelsWidth;
+    var screenHeight = Model.ScreenPixelsHeight;
 }
 
 <h2>Example</h2>
 
 <div id="content">
     <p>
-        Hardware Vendor: @(hardwareVendor.HasValue ? hardwareVendor.Value : $"Unknown ({hardwareVendor.NoValueMessage})")<br />
-        Hardware Name: @(hardwareName.HasValue ? string.Join(", ", hardwareName.Value) : $"Unknown ({hardwareName.NoValueMessage})")<br />
-        Device Type: @(deviceType.HasValue ? deviceType.Value : $"Unknown ({deviceType.NoValueMessage})")<br />
-        Platform Vendor: @(platformVendor.HasValue ? platformVendor.Value : $"Unknown ({platformVendor.NoValueMessage})")<br />
-        Platform Name: @(platformName.HasValue ? platformName.Value : $"Unknown ({platformName.NoValueMessage})")<br />
-        Platform Version: @(platformVersion.HasValue ? platformVersion.Value : $"Unknown ({platformVersion.NoValueMessage})")<br />
-        Browser Vendor: @(browserVendor.HasValue ? browserVendor.Value : $"Unknown ({browserVendor.NoValueMessage})")<br />
-        Browser Name: @(browserName.HasValue ? browserName.Value : $"Unknown ({browserName.NoValueMessage})")<br />
-        Browser Version: @(browserVersion.HasValue ? browserVersion.Value : $"Unknown ({browserVersion.NoValueMessage})")
+        The following values are determined by sever-side device detection
+        on the first request:
+    </p>
+    <p>
+        <b>Hardware Vendor:</b> @(hardwareVendor.HasValue ? hardwareVendor.Value : $"Unknown ({hardwareVendor.NoValueMessage})")<br />
+        <b>Hardware Name:</b> @(hardwareName.HasValue ? string.Join(", ", hardwareName.Value) : $"Unknown ({hardwareName.NoValueMessage})")<br />
+        <b>Device Type:</b> @(deviceType.HasValue ? deviceType.Value : $"Unknown ({deviceType.NoValueMessage})")<br />
+        <b>Platform Vendor:</b> @(platformVendor.HasValue ? platformVendor.Value : $"Unknown ({platformVendor.NoValueMessage})")<br />
+        <b>Platform Name:</b> @(platformName.HasValue ? platformName.Value : $"Unknown ({platformName.NoValueMessage})")<br />
+        <b>Platform Version:</b> @(platformVersion.HasValue ? platformVersion.Value : $"Unknown ({platformVersion.NoValueMessage})")<br />
+        <b>Browser Vendor:</b> @(browserVendor.HasValue ? browserVendor.Value : $"Unknown ({browserVendor.NoValueMessage})")<br />
+        <b>Browser Name:</b> @(browserName.HasValue ? browserName.Value : $"Unknown ({browserName.NoValueMessage})")<br />
+        <b>Browser Version:</b> @(browserVersion.HasValue ? browserVersion.Value : $"Unknown ({browserVersion.NoValueMessage})")<br />
+        <b>Screen width (pixels):</b> @(screenWidth.HasValue ? screenWidth.Value.ToString() : $"Unknown ({screenWidth.NoValueMessage})")<br />
+        <b>Screen height (pixels):</b> @(screenHeight.HasValue ? screenHeight.Value.ToString() : $"Unknown ({screenHeight.NoValueMessage})")
+    </p>
+    <p>
+        The information shown below is determined from JavaScript running on the client-side that is able to obtain additional evidence. If no additional information appears then it may indicate an external problem such as JavaScript being disabled in your browser.
+    </p>
+    <p>
+        Note that the 'Hardware Name' field is intended to illustrate detection of Apple device models as this cannot be determined server-side. This can be tested to some extent using most emulators such as those in the 'developer tools' menu in Google Chrome. However, using real devices will result in more precise model numbers.
     </p>
 </div>
 
@@ -34,32 +48,34 @@
     // This function will fire when the JSON data object is updated 
     // with information from the server.
     // The sequence is:
-    // 1. Response contains JavaScript property 'getLatitude' that gets executed on the client
-    // 2. This triggers another call to the webserver that passes the location as evidence
-    // 3. The web server responds with new JSON data that contains the hemisphere based on the location.
-    // 4. The JavaScript integrates the new JSON data and fires the onChange callback below.
+    // 1. Response contains JavaScript properties 'ScreenPixelsHeightJavaScript', 'ScreenPixelWidthJavaScript' and 'JavaScriptHardwareProfile'. These are executed on the client.
+    // 2. This triggers another call to the webserver that includes the evidence gathered by these JavaScript properties.
+    // 3. The web server responds with new JSON data that contains the updated property values based on the new evidence.
+    // 4. The JavaScript integrates the new JSON data and fires the 'complete' callback below.
     window.onload = function () {
         fod.complete(function (data) {
-            var para = document.createElement("p");
-            var br = document.createElement("br");
-            var text = document.createTextNode("Updated information from client-side evidence:");
-            para.appendChild(text);
-            para.appendChild(br);
-            text = document.createTextNode("Hardware Name: " + data.device.hardwarename.join(","));
-            br = document.createElement("br");
-            para.appendChild(text);
-            para.appendChild(br);
-            text = document.createTextNode("Screen width (pixels): " + data.device.screenpixelswidth);
-            br = document.createElement("br");
-            para.appendChild(text);
-            para.appendChild(br);
-            text = document.createTextNode("Screen height (pixels): " + data.device.screenpixelsheight);
-            br = document.createElement("br");
-            para.appendChild(text);
-            para.appendChild(br);
+            let fieldValues = [];
+            fieldValues.push([ "Hardware Name: ",  data.device.hardwarename.join(", ") ]);
+            fieldValues.push([ "Screen width (pixels): ", data.device.screenpixelswidth ]);
+            fieldValues.push([ "Screen height (pixels): ", data.device.screenpixelsheight ]);
+            displayValues(fieldValues);            
+        });
 
+        function displayValues(fieldValues) {
+            var para = document.createElement("p");
+            fieldValues.forEach(function (entry) {
+                var br = document.createElement("br");
+                var bold = document.createElement('b');
+                var fieldname = document.createTextNode(entry[0]);
+                var fieldvalue = document.createTextNode(entry[1]);
+                bold.appendChild(fieldname);
+                para.appendChild(bold);
+                para.appendChild(fieldvalue);
+                para.appendChild(br);
+            });
+            
             var element = document.getElementById("content");
             element.appendChild(para);
-        });
+        }
     }
 </script>
