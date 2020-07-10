@@ -26,45 +26,14 @@ using System;
 /// <summary>
 /// @example Cloud/GettingStarted/Program.cs
 ///
-/// Getting started example of using 51Degrees device detection.
+/// @include{doc} exmaple-getting-started-cloud.txt
 /// 
 /// This example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/blob/master/FiftyOne.DeviceDetection/Examples/Core/Cloud/GettingStarted/Program.cs). 
 /// 
-/// To run this example, you will need to create a **resource key**. 
-/// The resource key is used as short-hand to store the particular set of 
-/// properties you are interested in as well as any associated license keys 
-/// that entitle you to increased request limits and/or paid-for properties.
-/// 
-/// You can create a resource key using the 51Degrees [Configurator](https://configure.51degrees.com).
+/// @include{doc} resourcekey.txt
 ///
 /// Required NuGet Dependencies:
 /// - FiftyOne.DeviceDetection
-/// 
-/// The example shows how to:
-///
-/// 1. Build a new Pipeline with a cloud-based device detection engine.
-/// ```
-/// var pipeline = new DeviceDetectionPipelineBuilder()
-///     .UseCloud(resourceKey)
-///     .Build();
-/// ```
-///
-/// 2. Create a new FlowData instance ready to be populated with evidence for the
-/// Pipeline.
-/// ```
-/// var data = pipeline.CreateFlowData();
-/// ```
-///
-/// 3. Add a User-Agent string to the evidence collection and process it.
-/// ```
-/// data.AddEvidence("header.user-agent", userAgent)
-///     .Process();
-/// ```
-///
-/// 4. Extract the value of a property as a string from the results.
-/// ```
-/// Console.WriteLine("IsMobile: " + data.Get<IDeviceData>().IsMobile.Value);
-/// ```
 /// </summary>
 namespace FiftyOne.DeviceDetection.Examples.Cloud.GettingStarted
 {
@@ -94,7 +63,7 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.GettingStarted
             }
             else
             {
-                // Create the pipeline
+                // Build a new Pipeline with a cloud-based device detection engine.
                 using (var pipeline = new DeviceDetectionPipelineBuilder()
                     // Tell it that we want to use cloud and pass our resource key.
                     .UseCloud(resourceKey)
@@ -114,9 +83,10 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.GettingStarted
 
             static void AnalyseUserAgent(string userAgent, IPipeline pipeline)
         {
-            // Create the FlowData instance.
+            // Create a new FlowData instance ready to be populated with evidence for the
+            // Pipeline.
             var data = pipeline.CreateFlowData();
-            // Add a User-Agent as evidence.
+            // Add a User-Agent string to the evidence collection.
             data.AddEvidence(FiftyOne.Pipeline.Core.Constants.EVIDENCE_QUERY_USERAGENT_KEY, userAgent);
             // Process the supplied evidence.
             data.Process();

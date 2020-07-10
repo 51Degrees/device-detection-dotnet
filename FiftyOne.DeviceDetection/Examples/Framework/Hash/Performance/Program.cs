@@ -33,50 +33,14 @@ using System.Threading.Tasks;
 /// <summary>
 /// @example Hash/Performance/Program.cs
 ///
-/// Performance example of using 51Degrees device detection.
+/// @include{doc} example-performance-hash.txt
 /// 
 /// This example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/blob/master/FiftyOne.DeviceDetection/Examples/Framework/Hash/Performance/Program.cs).
 /// 
-/// This example requires a local data file. If you don't already have one, 
-/// you can obtain one from the 
-/// [device-detection-data](https://github.com/51Degrees/device-detection-data) 
-/// GitHub repository.
+/// @include{doc} example-require-datafile.txt
 /// 
 /// Required NuGet Dependencies:
 /// - FiftyOne.DeviceDetection
-///
-/// The example shows how to:
-///
-/// 1. Build a new on-premise Hash engine with the maximum performance profile.
-/// ```
-/// var engine = new DeviceDetectionHashEngineBuilder()
-///     .SetAutoUpdate(false)
-///     .SetPerformanceProfile(PerformanceProfiles.MaxPerformance)
-///     .Build("51Degrees-LiteV4.1.hash", false);
-/// ```
-///
-/// 2. Start multiple threads to process a set of User-Agents, making a note of
-/// the time at which processing was started.
-/// ```
-/// var starts = DateTime.UtcNow;
-///
-/// Parallel.ForEach(Report(GetUserAgents(uaFile, count).ToList(), count, maxDistinctUAs, 40),
-///     userAgent =>
-/// {
-/// ...
-/// }
-/// ```
-///
-/// 3. Wait for all processing to finish, and make a note of the time elapsed
-/// since the processing was started.
-/// ```
-/// var time = DateTime.UtcNow - starts;
-/// ```
-///
-/// 4. Output the average time to process a single User-Agent.
-/// ```
-/// Console.WriteLine($"Average {(double)time.TotalMilliseconds / (double)count} ms per User-Agent");
-/// ```
 /// </summary>
 namespace FiftyOne.DeviceDetection.Examples.Hash.Performance
 {
@@ -88,7 +52,8 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.Performance
             {
                 FileInfo f = new FileInfo(dataFile);
                 Console.WriteLine($"Using data file at '{f.FullName}'");
-                // Create a simple pipeline to access the engine with.
+                // Build a pipeline containing a Device Detection Hash engine 
+                // using the Device Detection Pipeline Builder.
                 using (var pipeline = new DeviceDetectionPipelineBuilder()
                     .UseOnPremise(dataFile, null, false)
                     .SetDataFileSystemWatcher(false)
@@ -123,6 +88,8 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.Performance
                     Console.WriteLine($"Processing {count} User-Agents from {uaFile}");
                     Console.WriteLine($"The {count} process calls will use a " +
                         $"maximum of {maxDistinctUAs} distinct User-Agents");
+                    // Start multiple threads to process a set of User - Agents, making a note of
+                    // the time at which processing was started.
                     Parallel.ForEach(Report(GetUserAgents(uaFile, count).ToList(), count, maxDistinctUAs, 40),
                         new ParallelOptions()
                         {
@@ -161,7 +128,10 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.Performance
                         }
                         
                     });
+                    // Wait for all processing to finish, and make a note of the time elapsed
+                    // since the processing was started.
                     var time = DateTime.UtcNow - starts;
+                    // Output the average time to process a single User-Agent.
                     Console.WriteLine($"Average {(double)time.TotalMilliseconds / (double)count} ms per User-Agent");
                     Console.WriteLine($"IsMobile = True  : {isMobileTrue}");
                     Console.WriteLine($"IsMobile = False : {isMobileFalse}");
