@@ -31,37 +31,14 @@ using System.Text;
 /// <summary>
 /// @example Hash/Metadata/Program.cs
 ///
-/// Metadata example of using 51Degrees device detection.
+/// @include{doc} example-metadata-hash.txt
 /// 
 /// This example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/blob/master/FiftyOne.DeviceDetection/Examples/Framework/Hash/Metadata/Program.cs). 
 /// 
-/// This example requires a local data file. If you don't already have one, 
-/// you can obtain one from the 
-/// [device-detection-data](https://github.com/51Degrees/device-detection-data) 
-/// GitHub repository.
+/// @include{doc} example-require-datafile.txt
 /// 
 /// Required NuGet Dependencies:
 /// - FiftyOne.DeviceDetection
-///
-/// The example shows how to:
-///
-/// 1. Build a new on-premise Hash engine with the low memory performance profile.
-/// ```
-/// var engine = new DeviceDetectionHashEngineBuilder(loggerFactory)
-///     .SetAutoUpdate(false)
-///     .SetPerformanceProfile(PerformanceProfiles.LowMemory)
-///     .Build("51Degrees-LiteV4.1.hash", false);
-/// ```
-/// 
-/// 2. Iterate over all properties in the data file, printing the name, value type,
-/// and description for each one.
-/// ```
-/// foreach (var property in engine.Properties)
-/// {
-///     Console.WriteLine($"{property.Name}[Category: {property.Category}]" +
-///         $"({property.Type.Name}) - {property.Description}");
-/// }
-/// ```
 /// </summary>
 namespace FiftyOne.DeviceDetection.Examples.Hash.Metadata
 {
@@ -69,7 +46,7 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.Metadata
     {
         public class Example : ExampleBase
         {
-            // truncate value if it contains newline (esp for the JavaScript property)
+            // Truncate value if it contains newline (esp for the JavaScript property)
             private string TruncateToNl(string s)
             {
                 var lines = s.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
@@ -91,6 +68,7 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.Metadata
                 Console.WriteLine($"Press any key to continue.");
                 Console.ReadKey();
 
+                // Build a new on-premise Hash engine with the low memory performance profile.
                 using (var ddEngine = new DeviceDetectionHashEngineBuilder(
                     new LoggerFactory())
                     .SetAutoUpdate(false)
@@ -105,6 +83,8 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.Metadata
                     // Finally build the engine.
                     .Build(dataFile, false))
                 {
+                    // Iterate over all properties in the data file, printing the name, value type,
+                    // and description for each one.
                     foreach (var property in ddEngine.Properties)
                     {
                         // Output some details about the property.

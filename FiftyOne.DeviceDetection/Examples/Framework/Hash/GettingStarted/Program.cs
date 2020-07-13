@@ -27,51 +27,14 @@ using System.IO;
 /// <summary>
 /// @example Hash/GettingStarted/Program.cs
 /// 
-/// Getting started example of using 51Degrees device detection.
+/// @include{doc} example-getting-started-hash.txt
 /// 
 /// This example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/blob/master/FiftyOne.DeviceDetection/Examples/Framework/Hash/GettingStarted/Program.cs). 
 /// 
-/// This example requires a local data file. If you don't already have one, 
-/// you can obtain one from the 
-/// [device-detection-data](https://github.com/51Degrees/device-detection-data) 
-/// GitHub repository.
+/// @include{doc} example-require-datafile.txt
 /// 
 /// Required NuGet Dependencies:
 /// - FiftyOne.DeviceDetection
-/// 
-/// 1. Build a new Pipeline to use an on-premise Hash engine with the low memory
-/// performance profile.
-/// ```
-/// var pipeline = new DeviceDetectionPipelineBuilder()
-///     .UseOnPremise("51Degrees-LiteV4.1.hash", false)
-///     .SetAutoUpdate(false)
-///     .SetDataFileSystemWatcher(false)
-///     .SetDataUpdateOnStartUp(false)
-///     .SetPerformanceProfile(PerformanceProfiles.LowMemory)
-///     .Build();
-/// ```
-///
-/// 2. Create a new FlowData instance ready to be populated with evidence for the
-/// Pipeline.
-/// ```
-/// var data = pipeline.CreateFlowData();
-/// ```
-///
-/// 3. Process a single HTTP User-Agent string to retrieve the values associated
-/// with the User-Agent for the selected properties.
-/// ```
-/// data.AddEvidence("header.user-agent", mobileUserAgent)
-///     .Process();
-/// ```
-///
-/// 4. Extract the value of a property as a string from the results.
-/// ```
-/// var isMobile = data.Get<IDeviceData>().IsMobile;
-/// if (isMobile.HasValue)
-/// {
-///     Console.WriteLine("IsMobile: " + isMobile.Value);
-/// }
-/// ```
 /// </summary>
 namespace FiftyOne.DeviceDetection.Examples.Hash.GettingStarted
 {
@@ -91,7 +54,9 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.GettingStarted
             {
                 FileInfo f = new FileInfo(dataFile);
                 Console.WriteLine($"Using data file at '{f.FullName}'");
-                // Create a simple pipeline to access the engine with.
+                // Use the DeviceDetectionPipelineBuilder to build a new Pipeline 
+                // to use an on-premise Hash engine with the low memory
+                // performance profile.
                 using (var pipeline = new DeviceDetectionPipelineBuilder()
                     .UseOnPremise(dataFile, false)
                     .SetAutoUpdate(false)

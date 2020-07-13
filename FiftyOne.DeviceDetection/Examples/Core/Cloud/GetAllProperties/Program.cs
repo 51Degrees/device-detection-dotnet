@@ -28,6 +28,10 @@ using System.Collections;
 using System.Linq;
 /// <summary>
 /// @example Cloud/GetAllProperties/Program.cs
+/// 
+/// @include{doc} example-get-all-properties-cloud.txt
+/// 
+/// @include{doc} example-require-resourcekey.txt
 /// </summary>
 namespace GetAllProperties
 {

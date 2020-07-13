@@ -48,9 +48,11 @@ namespace FiftyOne.DeviceDetection
         private bool _createTempDataCopy;
         private Stream _engineDataStream;
 
-        private bool _autoUpdateEnabled = true;
-        private bool _dataUpdateOnStartUpEnabled = true;
-        private bool _dataFileWatcherEnabled = true;
+        private bool? _autoUpdateEnabled = null;
+        private bool? _dataUpdateOnStartUpEnabled = null;
+        private bool? _dataFileSystemWatcherEnabled = null;
+        private int? _updatePollingInterval = null;
+        private int? _updateRandomisationMax = null;
         private string _dataUpdateLicenseKey = null;
         private ushort? _concurrency = null;
         private int? _difference = null;
@@ -285,6 +287,72 @@ namespace FiftyOne.DeviceDetection
         }
 
         /// <summary>
+        /// Set the time between checks for a new data file made by the FiftyOne.Pipeline.Engines.Services.DataUpdateService.
+        /// Default = 30 minutes.
+        /// </summary>
+        /// <param name="pollingIntervalSeconds">
+        /// The number of seconds between checks.
+        /// </param>
+        /// <returns>
+        /// This builder instance.
+        /// </returns>
+        public DeviceDetectionOnPremisePipelineBuilder SetUpdatePollingInterval(int pollingIntervalSeconds)
+        {
+            _updatePollingInterval = pollingIntervalSeconds;
+            return this;
+        }
+
+        /// <summary>
+        /// Set the time between checks for a new data file made by the FiftyOne.Pipeline.Engines.Services.DataUpdateService.
+        /// Default = 30 minutes.
+        /// </summary>
+        /// <param name="pollingInterval">
+        /// The time between checks.
+        /// </param>
+        /// <returns>
+        /// This builder instance.
+        /// </returns>
+        public DeviceDetectionOnPremisePipelineBuilder SetUpdatePollingInterval(TimeSpan pollingInterval)
+        {
+            _updatePollingInterval = (int)pollingInterval.TotalSeconds;
+            return this;
+        }
+
+        /// <summary>
+        /// A random element can be added to the FiftyOne.Pipeline.Engines.Services.DataUpdateService
+        /// polling interval. This option sets the maximum length of this random addition.
+        /// Default = 10 minutes.
+        /// </summary>
+        /// <param name="maximumDeviationSeconds">
+        /// The maximum time added to the data update polling interval.
+        /// </param>
+        /// <returns>
+        /// This builder instance.
+        /// </returns>
+        public DeviceDetectionOnPremisePipelineBuilder SetUpdateRandomisationMax(int maximumDeviationSeconds)
+        {
+            _updateRandomisationMax = maximumDeviationSeconds;
+            return this;
+        }
+
+        /// <summary>
+        /// A random element can be added to the FiftyOne.Pipeline.Engines.Services.DataUpdateService
+        /// polling interval. This option sets the maximum length of this random addition.
+        /// Default = 10 minutes.
+        /// </summary>
+        /// <param name="maximumDeviation">
+        /// The maximum time added to the data update polling interval.
+        /// </param>
+        /// <returns>
+        /// This builder instance.
+        /// </returns>
+        public DeviceDetectionOnPremisePipelineBuilder SetUpdateRandomisationMax(TimeSpan maximumDeviation)
+        {
+            _updateRandomisationMax = (int)maximumDeviation.TotalSeconds;
+            return this;
+        }
+
+        /// <summary>
         /// Set the performance profile for the device detection engine.
         /// Defaults to balanced.
         /// </summary>
@@ -360,7 +428,7 @@ namespace FiftyOne.DeviceDetection
         /// <returns></returns>
         public DeviceDetectionOnPremisePipelineBuilder SetDataFileSystemWatcher(bool enabled)
         {
-            _dataFileWatcherEnabled = enabled;
+            _dataFileSystemWatcherEnabled = enabled;
             return this;
         }
 
@@ -435,10 +503,33 @@ namespace FiftyOne.DeviceDetection
                     (int)LazyLoadingTimeout.TotalMilliseconds,
                     LazyLoadingCancellationToken));
             }
-            // Configure auto update
-            builder.SetAutoUpdate(_autoUpdateEnabled);
-            builder.SetDataUpdateOnStartup(_dataUpdateOnStartUpEnabled);
-            builder.SetDataFileSystemWatcher(_dataFileWatcherEnabled);
+
+            // Configure auto update.
+            if (_autoUpdateEnabled.HasValue)
+            {
+                builder.SetAutoUpdate(_autoUpdateEnabled.Value);
+            }
+            // Configure data update on startup.
+            if (_dataUpdateOnStartUpEnabled.HasValue)
+            {
+                builder.SetDataUpdateOnStartup(_dataUpdateOnStartUpEnabled.Value);
+            }
+            // Configure file system watcher.
+            if (_dataFileSystemWatcherEnabled.HasValue)
+            {
+                builder.SetDataFileSystemWatcher(_dataFileSystemWatcherEnabled.Value);
+            }
+            // Configure update poilling interval.
+            if (_updatePollingInterval.HasValue)
+            {
+                builder.SetUpdatePollingInterval(_updatePollingInterval.Value);
+            }
+            // Configure update polling interval randomisation.
+            if (_updateRandomisationMax.HasValue)
+            {
+                builder.SetUpdateRandomisationMax(_updateRandomisationMax.Value);
+            }
+
             builder.SetDataUpdateLicenseKey(_dataUpdateLicenseKey);
 
             // Configure performance profile

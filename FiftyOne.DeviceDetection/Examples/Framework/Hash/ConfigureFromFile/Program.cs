@@ -31,51 +31,15 @@ using System.Reflection;
 /// <summary>
 /// @example Hash/ConfigureFromFile/Program.cs
 /// 
-/// Configure from file example of using 51Degrees device detection.
+/// @include{doc} example-configure-from-file-hash.txt
 /// 
 /// This example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/blob/master/FiftyOne.DeviceDetection/Examples/Framework/Hash/ConfigureFromFile/Program.cs). 
 /// 
-/// This example requires a local data file. If you don't already have one, 
-/// you can obtain one from the 
-/// [device-detection-data](https://github.com/51Degrees/device-detection-data) 
-/// GitHub repository.
+/// @include{doc} example-require-datafile.txt
 /// 
 /// Required NuGet Dependencies:
 /// - FiftyOne.DeviceDetection
 /// - Microsoft.Extensions.Configuration.Json OR Microsoft.Extensions.Configuration.Xml
-/// 
-/// The example shows how to:
-/// 
-/// 1. Create a Pipeline configuration from a JSON or XML file.
-/// ```
-/// var config = new ConfigurationBuilder()
-///     .AddJsonFile("appsettings.json")
-///     // OR .AddXmlFile("App.config")
-///     .Build();
-/// PipelineOptions options = new PipelineOptions();
-/// config.Bind("PipelineOptions", options);
-/// ```
-/// 
-/// 2. Build a new Pipeline from the configuration.
-/// ```
-/// var pipeline = new FiftyOnePipelineBuilder()
-///     .BuildFromConfiguration(options)
-/// ```
-/// 3. Create a new FlowData instance ready to be populated with evidence for the
-/// Pipeline.
-/// ```
-/// var data = pipeline.CreateFlowData();
-/// ```
-/// 4. Process a single HTTP User-Agent string to retrieve the values associated
-/// with the User-Agent for the selected properties.
-/// ```
-/// data.AddEvidence(Pipeline.Core.Constants.EVIDENCE_HEADER_USERAGENT_KEY, mobileUserAgent)
-///     .Process();
-/// ```
-/// 5. Extract the value of a property as a string from the results.
-/// ```
-/// Console.WriteLine($"IsMobile: {data.Get<IDeviceData>().IsMobile.Value}");
-/// ```
 /// </summary>
 namespace FiftyOne.DeviceDetection.Examples.Hash.ConfigureFromFile
 {
@@ -129,6 +93,12 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.ConfigureFromFile
                 }
             }
 
+            /// <summary>
+            /// Process a single HTTP User-Agent string to retrieve the values associated
+            /// with the User-Agent for the selected properties.
+            /// </summary>
+            /// <param name="userAgent"></param>
+            /// <param name="pipeline"></param>
             private void AnalyseUserAgent(string userAgent, IPipeline pipeline)
             {
                 // Create the FlowData instance.
