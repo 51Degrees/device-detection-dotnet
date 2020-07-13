@@ -309,6 +309,15 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         /// </summary>
         public IReadOnlyList<IElementPropertyMetaData> ItemProperties { get; } = null;
 
+        /// <inheritdoc/>
+        public IReadOnlyDictionary<string, IElementPropertyMetaData> ItemPropertyDictionary => null;
+
+        /// <inheritdoc/>
+        public bool DelayExecution => false;
+
+        /// <inheritdoc/>
+        public IReadOnlyList<string> EvidenceProperties => null;
+
         #region IDisposable Support
         /// <summary>
         /// Dispose

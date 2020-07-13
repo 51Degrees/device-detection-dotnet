@@ -104,7 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FiftyOne.Pipeline.Engines">
-      <Version>4.1.4</Version>
+      <Version>4.1.7</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
