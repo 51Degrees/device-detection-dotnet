@@ -58,10 +58,7 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.GettingStarted
                 // to use an on-premise Hash engine with the low memory
                 // performance profile.
                 using (var pipeline = new DeviceDetectionPipelineBuilder()
-                    .UseOnPremise(dataFile, false)
-                    .SetAutoUpdate(false)
-                    .SetDataFileSystemWatcher(false)
-                    .SetDataUpdateOnStartUp(false)
+                    .UseOnPremise(dataFile, null, false)
                     // Prefer low memory profile where all data streamed 
                     // from disk on-demand. Experiment with other profiles.
                     //.SetPerformanceProfile(PerformanceProfiles.HighPerformance)
