@@ -23,6 +23,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace FiftyOne.DeviceDetection.TestHelpers.FlowElements
@@ -55,8 +56,19 @@ namespace FiftyOne.DeviceDetection.TestHelpers.FlowElements
 
         public static void ContainsOverrides(IWrapper wrapper)
         {
-            Assert.IsTrue(wrapper.GetEngine().EvidenceKeyFilter.Include("query.51d_screenpixelswidth"));
-            Assert.IsTrue(wrapper.GetEngine().EvidenceKeyFilter.Include("cookie.51d_screenpixelswidth"));
+
+            if (wrapper.GetEngine().Properties
+                .Where(p => p.Name == "ScreenPixelsHeightJavaScript" ||
+                            p.Name == "ScreenPixelsWidthJavaScript")
+                .Count() == 2)
+            {
+                Assert.IsTrue(wrapper.GetEngine().EvidenceKeyFilter.Include("query.51d_screenpixelswidth"));
+                Assert.IsTrue(wrapper.GetEngine().EvidenceKeyFilter.Include("cookie.51d_screenpixelswidth"));
+            } 
+            else
+            {
+                Assert.Inconclusive("ScreenPixels Width & Height JavaSript properties are not in the data set.");
+            }
         }
     }
 }

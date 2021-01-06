@@ -21,8 +21,11 @@ strategy:
       BuildPlatform: x64      
 
 variables: 
-  RestoreBuildProjects: '*.sln'
-  TestProjects: '**/*[Tt]ests/**/*.csproj'
+  - group: InternalKeys
+  - name: RestoreBuildProjects
+    value: '*.sln'
+  - name: TestProjects
+    value: '**/*[Tt]ests/**/*.csproj'
 
 steps:
 # Get the data files that are required for device detection automated system tests.
@@ -98,6 +101,7 @@ steps:
       !**\*TestAdapter*.dll
       !**\*TestFramework*.dll
       !**\obj\**
+      !**\performance_tests.dll
     searchFolder: '$(System.DefaultWorkingDirectory)'
     codeCoverageEnabled: true
     otherConsoleOptions: '/Framework:netcoreapp3.1 /Platform:$(BuildPlatform) /logger:console;verbosity="normal"'
@@ -110,6 +114,32 @@ steps:
     vsTestVersion: toolsInstaller
   condition: succeededOrFailed()
     
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      cd performance-tests/
+      mkdir build
+      cd build
+      cmake ..
+      cmake --build .
+      cd ..
+
+- task: PowerShell@2
+  inputs:
+    filePath: '$(System.DefaultWorkingDirectory)/performance-tests/build/runPerf.ps1'
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
+    arguments: '-c $(BuildConfiguration)'
+  condition: eq(variables['BuildPlatform'], 'x64')
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'performance-tests/build'
+    ArtifactName: 'perfout-$(BuildConfiguration)-$(BuildPlatform)'
+    publishLocation: 'Container'
+  displayName: 'Publish Performance Artifacts'
+  condition: succeededOrFailed()
+
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact'
   condition: succeededOrFailed()

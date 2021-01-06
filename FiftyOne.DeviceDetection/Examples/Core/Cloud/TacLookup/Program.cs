@@ -1,10 +1,8 @@
 ﻿using FiftyOne.DeviceDetection.Cloud.Data;
 using FiftyOne.DeviceDetection.Cloud.FlowElements;
 using FiftyOne.DeviceDetection.Shared;
-using FiftyOne.DeviceDetection.Shared.Data;
 using FiftyOne.Pipeline.CloudRequestEngine.FlowElements;
 using FiftyOne.Pipeline.Core.FlowElements;
-using FiftyOne.Pipeline.Engines.Data;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Net.Http;
@@ -21,30 +19,16 @@ using System.Net.Http;
 /// Required NuGet Dependencies:
 /// - FiftyOne.DeviceDetection
 /// </summary>
-namespace TacLookup
+namespace FiftyOne.DeviceDetection.Examples.Cloud.TacLookup
 {
-    class Program
+    public class Program
     {
-        private static string TAC = "35925406";
-        private static string TAC2 = "86386802";
-
-        static void Main(string[] args)
+        public class Example
         {
-            // Obtain a resource key for free at https://configure.51degrees.com
-            // Make sure to include the 'HardwareVendor' and 'HardwareModel' 
-            // properties as they are used by this example.
-            string resourceKey = "!!YOUR_RESOURCE_KEY!!";
+            private static string TAC = "35925406";
+            private static string TAC2 = "86386802";
 
-            if (resourceKey.StartsWith("!!"))
-            {
-                Console.WriteLine("You need to create a resource key at " +
-                    "https://configure.51degrees.com and paste it into the code, " +
-                    "replacing !!YOUR_RESOURCE_KEY!!.");
-                Console.WriteLine("Make sure to include the 'HardwareVendor', " +
-                    "'HardwareName' and 'HardwareModel' properties as they " +
-                    "are used by this example.");
-            }
-            else
+            public void Run(string resourceKey)
             {
                 Console.WriteLine("This example shows the details of devices " +
                     "associated with a given 'Type Allocation Code' or 'TAC'.");
@@ -75,41 +59,65 @@ namespace TacLookup
                     AnalyseTac(TAC2, pipeline);
                 }
             }
+
+            static void AnalyseTac(string tac, IPipeline pipeline)
+            {
+                // Create the FlowData instance.
+                using (var data = pipeline.CreateFlowData())
+                {
+                    // Add the TAC as evidence.
+                    data.AddEvidence(Constants.EVIDENCE_QUERY_TAC_KEY, tac);
+                    // Process the supplied evidence.
+                    data.Process();
+                    // Get result data from the flow data.
+                    var result = data.Get<MultiDeviceDataCloud>();
+                    Console.WriteLine($"Which devices are associated with the TAC '{tac}'?");
+                    foreach (var device in result.Profiles)
+                    {
+                        var vendor = device.HardwareVendor;
+                        var name = device.HardwareName;
+                        var model = device.HardwareModel;
+
+                        // Check that the properties have values.
+                        if (vendor.HasValue &&
+                            model.HasValue &&
+                            name.HasValue)
+                        {
+                            Console.WriteLine($"\t{vendor.Value} {string.Join(",", name.Value)} ({model.Value})");
+                        }
+                        else
+                        {
+                            Console.WriteLine(vendor.NoValueMessage);
+                        }
+                    }
+                }
+            }
+        }
+
+        static void Main(string[] args)
+        {
+            // Obtain a resource key for free at https://configure.51degrees.com
+            // Make sure to include the 'HardwareVendor' and 'HardwareModel' 
+            // properties as they are used by this example.
+            string resourceKey = "!!YOUR_RESOURCE_KEY!!";
+
+            if (resourceKey.StartsWith("!!"))
+            {
+                Console.WriteLine("You need to create a resource key at " +
+                    "https://configure.51degrees.com and paste it into the code, " +
+                    "replacing !!YOUR_RESOURCE_KEY!!.");
+                Console.WriteLine("Make sure to include the 'HardwareVendor', " +
+                    "'HardwareName' and 'HardwareModel' properties as they " +
+                    "are used by this example.");
+            }
+            else
+            {
+                new Example().Run(resourceKey);
+            }
 #if (DEBUG)
             Console.WriteLine("Done. Press any key to exit.");
             Console.ReadKey();
 #endif
-        }
-
-        static void AnalyseTac(string tac, IPipeline pipeline)
-        {
-            // Create the FlowData instance.
-            var data = pipeline.CreateFlowData();
-            // Add the TAC as evidence.
-            data.AddEvidence(Constants.EVIDENCE_QUERY_TAC_KEY, tac);
-            // Process the supplied evidence.
-            data.Process();
-            // Get result data from the flow data.
-            var result = data.Get<MultiDeviceDataCloud>();
-            Console.WriteLine($"Which devices are associated with the TAC '{tac}'?");
-            foreach (var device in result.Profiles)
-            {
-                var vendor = device.HardwareVendor;
-                var name = device.HardwareName;
-                var model = device.HardwareModel;
-
-                // Check that the properties have values.
-                if (vendor.HasValue &&
-                    model.HasValue &&
-                    name.HasValue)
-                {
-                    Console.WriteLine($"\t{vendor.Value} {string.Join(",", name.Value)} ({model.Value})");
-                }
-                else
-                {
-                    Console.WriteLine(vendor.NoValueMessage);
-                }
-            }
         }
     }
 }

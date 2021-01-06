@@ -802,6 +802,9 @@ class DeviceDetectionHashEngineModulePINVOKE {
   [global::System.Runtime.InteropServices.DllImport("FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll", EntryPoint="CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_ResultsHashSwig_getDrift__SWIG_1___")]
   public static extern int ResultsHashSwig_getDrift__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
 
+  [global::System.Runtime.InteropServices.DllImport("FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll", EntryPoint="CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_ResultsHashSwig_getTrace___")]
+  public static extern string ResultsHashSwig_getTrace(global::System.Runtime.InteropServices.HandleRef jarg1);
+
   [global::System.Runtime.InteropServices.DllImport("FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll", EntryPoint="CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_ResultsHashSwig_getMatchedNodes___")]
   public static extern int ResultsHashSwig_getMatchedNodes(global::System.Runtime.InteropServices.HandleRef jarg1);
 
@@ -871,6 +874,9 @@ class DeviceDetectionHashEngineModulePINVOKE {
   [global::System.Runtime.InteropServices.DllImport("FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll", EntryPoint="CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_ConfigHashSwig_setUsePredictiveGraph___")]
   public static extern void ConfigHashSwig_setUsePredictiveGraph(global::System.Runtime.InteropServices.HandleRef jarg1, bool jarg2);
 
+  [global::System.Runtime.InteropServices.DllImport("FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll", EntryPoint="CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_ConfigHashSwig_setTraceRoute___")]
+  public static extern void ConfigHashSwig_setTraceRoute(global::System.Runtime.InteropServices.HandleRef jarg1, bool jarg2);
+
   [global::System.Runtime.InteropServices.DllImport("FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll", EntryPoint="CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_ConfigHashSwig_getStrings___")]
   public static extern global::System.IntPtr ConfigHashSwig_getStrings(global::System.Runtime.InteropServices.HandleRef jarg1);
 
@@ -903,6 +909,9 @@ class DeviceDetectionHashEngineModulePINVOKE {
 
   [global::System.Runtime.InteropServices.DllImport("FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll", EntryPoint="CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_ConfigHashSwig_getConcurrency___")]
   public static extern ushort ConfigHashSwig_getConcurrency(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll", EntryPoint="CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_ConfigHashSwig_getTraceRoute___")]
+  public static extern bool ConfigHashSwig_getTraceRoute(global::System.Runtime.InteropServices.HandleRef jarg1);
 
   [global::System.Runtime.InteropServices.DllImport("FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll", EntryPoint="CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_delete_ConfigHashSwig___")]
   public static extern void delete_ConfigHashSwig(global::System.Runtime.InteropServices.HandleRef jarg1);

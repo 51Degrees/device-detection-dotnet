@@ -36,39 +36,43 @@ namespace FiftyOne.DeviceDetection.TestHelpers.Data
     {
         public static void DeviceId(IWrapper wrapper)
         {
-            var data = wrapper.Pipeline.CreateFlowData();
-            data.AddEvidence("header.user-agent", Constants.MobileUserAgent)
-                .Process();
-            var elementData = data.Get(wrapper.GetEngine().ElementDataKey);
-            IDeviceData device = (IDeviceData)elementData;
-            Assert.IsNotNull(device.DeviceId,
-                "The device id should not be null.");
-            Assert.IsTrue(string.IsNullOrEmpty(device.DeviceId.Value) == false,
-                "The device id should not be empty.");
+            using (var data = wrapper.Pipeline.CreateFlowData())
+            {
+                data.AddEvidence("header.user-agent", Constants.MobileUserAgent)
+                    .Process();
+                var elementData = data.Get(wrapper.GetEngine().ElementDataKey);
+                IDeviceData device = (IDeviceData)elementData;
+                Assert.IsNotNull(device.DeviceId,
+                    "The device id should not be null.");
+                Assert.IsTrue(string.IsNullOrEmpty(device.DeviceId.Value) == false,
+                    "The device id should not be empty.");
+            }
         }
 
         public static void MatchedUserAgents(IWrapper wrapper)
         {
-            var data = wrapper.Pipeline.CreateFlowData();
-            data.AddEvidence("header.user-agent", Constants.MobileUserAgent)
-                    .Process();
-            var elementData = data.Get(wrapper.GetEngine().ElementDataKey);
-            IDeviceData device = (IDeviceData)elementData;
-            Assert.AreEqual(1, device.UserAgents.Value.Count);
-            foreach (var matchedUa in device.UserAgents.Value)
+            using (var data = wrapper.Pipeline.CreateFlowData())
             {
-                foreach (var substring in matchedUa.Split('_', '{', '}'))
+                data.AddEvidence("header.user-agent", Constants.MobileUserAgent)
+                        .Process();
+                var elementData = data.Get(wrapper.GetEngine().ElementDataKey);
+                IDeviceData device = (IDeviceData)elementData;
+                Assert.AreEqual(1, device.UserAgents.Value.Count);
+                foreach (var matchedUa in device.UserAgents.Value)
                 {
-                    Assert.IsTrue(Constants.MobileUserAgent.Contains(substring),
-                        $"The matched substring '{substring}' does not " +
-                        $"exist in the original User-Agent.");
-                    var index = matchedUa.IndexOf(substring);
-                    var original = Constants.MobileUserAgent
-                        .Substring(index, substring.Length);
-                    Assert.AreEqual(substring, original,
-                        $"Expected to find substring '{original}' at character " +
-                        $"position {index} but the substring found was " +
-                        $"{substring}.");
+                    foreach (var substring in matchedUa.Split('_', '{', '}'))
+                    {
+                        Assert.IsTrue(Constants.MobileUserAgent.Contains(substring),
+                            $"The matched substring '{substring}' does not " +
+                            $"exist in the original User-Agent.");
+                        var index = matchedUa.IndexOf(substring);
+                        var original = Constants.MobileUserAgent
+                            .Substring(index, substring.Length);
+                        Assert.AreEqual(substring, original,
+                            $"Expected to find substring '{original}' at character " +
+                            $"position {index} but the substring found was " +
+                            $"{substring}.");
+                    }
                 }
             }
         }
@@ -76,118 +80,123 @@ namespace FiftyOne.DeviceDetection.TestHelpers.Data
 
         public static void ValueTypes(IWrapper wrapper)
         {
-            var data = wrapper.Pipeline.CreateFlowData();
-            data.AddEvidence("header.user-agent", Constants.MobileUserAgent)
-                    .Process();
-            var elementData = data.Get(wrapper.GetEngine().ElementDataKey);
-            foreach (var property in wrapper.GetEngine().Properties
-                .Where(p => p.Available))
+            using (var data = wrapper.Pipeline.CreateFlowData())
             {
-                Type expectedType = property.Type;
-                var value = elementData[property.Name];
-                Assert.IsNotNull(value);
-
-                if (value != null)
+                data.AddEvidence("header.user-agent", Constants.MobileUserAgent)
+                        .Process();
+                var elementData = data.Get(wrapper.GetEngine().ElementDataKey);
+                foreach (var property in wrapper.GetEngine().Properties
+                    .Where(p => p.Available))
                 {
-                    Assert.IsTrue(expectedType.IsAssignableFrom(
-                        value.GetType().GenericTypeArguments[0]),
-                        $"Value of '{property.Name}' was of type " +
-                        $"{value.GetType()} but should have been " +
-                        $"{expectedType}.");
+                    Type expectedType = property.Type;
+                    var value = elementData[property.Name];
+                    Assert.IsNotNull(value);
+
+                    if (value != null)
+                    {
+                        Assert.IsTrue(expectedType.IsAssignableFrom(
+                            value.GetType().GenericTypeArguments[0]),
+                            $"Value of '{property.Name}' was of type " +
+                            $"{value.GetType()} but should have been " +
+                            $"{expectedType}.");
+                    }
                 }
             }
-
         }
 
         public static void AvailableProperties(IWrapper wrapper)
         {
-            var data = wrapper.Pipeline.CreateFlowData();
-            data.AddEvidence("header.user-agent", Constants.MobileUserAgent)
-                    .Process();
-            var elementData = data.Get(wrapper.GetEngine().ElementDataKey);
-            foreach (var property in wrapper.GetEngine().Properties)
+            using (var data = wrapper.Pipeline.CreateFlowData())
             {
-                var dict = elementData.AsDictionary();
+                data.AddEvidence("header.user-agent", Constants.MobileUserAgent)
+                        .Process();
+                var elementData = data.Get(wrapper.GetEngine().ElementDataKey);
+                foreach (var property in wrapper.GetEngine().Properties)
+                {
+                    var dict = elementData.AsDictionary();
 
-                Assert.AreEqual(property.Available, dict.ContainsKey(property.Name),
-                    $"Property '{property.Name}' " +
-                    $"{(property.Available ? "should" : "should not")} be in the results.");
+                    Assert.AreEqual(property.Available, dict.ContainsKey(property.Name),
+                        $"Property '{property.Name}' " +
+                        $"{(property.Available ? "should" : "should not")} be in the results.");
+                }
             }
         }
 
         public static void TypedGetters(IWrapper wrapper)
         {
-            var data = wrapper.Pipeline.CreateFlowData();
-            data.AddEvidence("header.user-agent", Constants.MobileUserAgent)
-                    .Process();
-            var elementData = data.Get(wrapper.GetEngine().ElementDataKey);
-            var missingGetters = new List<string>();
-            foreach (var property in wrapper.GetEngine().Properties
-                .Where(p => Constants.ExcludedProperties.Contains(p.Name) == false))
+            using (var data = wrapper.Pipeline.CreateFlowData())
             {
-                var cleanPropertyName = property.Name
-                    .Replace("/", "")
-                    .Replace("-", "");
-                var classProperty = elementData.GetType().GetProperties()
-                    .Where(p => p.Name == cleanPropertyName)
-                    .FirstOrDefault();
-                if (classProperty != null)
+                data.AddEvidence("header.user-agent", Constants.MobileUserAgent)
+                        .Process();
+                var elementData = data.Get(wrapper.GetEngine().ElementDataKey);
+                var missingGetters = new List<string>();
+                foreach (var property in wrapper.GetEngine().Properties
+                    .Where(p => Constants.ExcludedProperties.Contains(p.Name) == false))
                 {
-                    var accessor = classProperty.GetAccessors().FirstOrDefault();
-                    if (property.Available == true)
+                    var cleanPropertyName = property.Name
+                        .Replace("/", "")
+                        .Replace("-", "");
+                    var classProperty = elementData.GetType().GetProperties()
+                        .Where(p => p.Name == cleanPropertyName)
+                        .FirstOrDefault();
+                    if (classProperty != null)
                     {
-                        var value = accessor.Invoke(elementData, null);
-                        Assert.IsNotNull(value,
-                            $"The typed getter for '{property.Name}' should " +
-                            $"not have returned a null value.");
+                        var accessor = classProperty.GetAccessors().FirstOrDefault();
+                        if (property.Available == true)
+                        {
+                            var value = accessor.Invoke(elementData, null);
+                            Assert.IsNotNull(value,
+                                $"The typed getter for '{property.Name}' should " +
+                                $"not have returned a null value.");
+                        }
+                        else
+                        {
+                            try
+                            {
+                                var value = accessor.Invoke(elementData, null);
+                                Assert.Fail(
+                                    $"The property getter for '{property.Name}' " +
+                                    $"should have thrown a " +
+                                    $"PropertyMissingException.");
+                            }
+                            catch (TargetInvocationException e)
+                            {
+                                Assert.IsInstanceOfType(
+                                    e.InnerException,
+                                    typeof(PropertyMissingException),
+                                    $"The property getter for '{property.Name}' " +
+                                    $"should have thrown a " +
+                                    $"PropertyMissingException, but the exception " +
+                                    $"was of type '{e.InnerException.GetType()}'.");
+                            }
+                        }
                     }
                     else
                     {
-                        try
-                        {
-                            var value = accessor.Invoke(elementData, null);
-                            Assert.Fail(
-                                $"The property getter for '{property.Name}' " +
-                                $"should have thrown a " +
-                                $"PropertyMissingException.");
-                        }
-                        catch (TargetInvocationException e)
-                        {
-                            Assert.IsInstanceOfType(
-                                e.InnerException,
-                                typeof(PropertyMissingException),
-                                $"The property getter for '{property.Name}' " +
-                                $"should have thrown a " +
-                                $"PropertyMissingException, but the exception " +
-                                $"was of type '{e.InnerException.GetType()}'.");
-                        }
+                        missingGetters.Add(property.Name);
                     }
                 }
-                else
+                if (missingGetters.Count > 0)
                 {
-                    missingGetters.Add(property.Name);
-                }
-            }
-            if (missingGetters.Count > 0)
-            {
-                if (missingGetters.Count == 1)
-                {
-                    Assert.Inconclusive($"The property '{missingGetters[0]}' " +
-                    $"is missing a getter in the DeviceData class. This is not " +
-                    $"a serious issue, and the property can still be used " +
-                    $"through the AsDictionary method, but it is an indication " +
-                    $"that the API should be updated in order to enable the " +
-                    $"the strongly typed getter for this property.");
-                }
-                else
-                {
-                    Assert.Inconclusive($"The properties " +
-                    $"{string.Join(", ", missingGetters.Select(p => "'" + p + "'"))} " +
-                    $"are missing getters in the DeviceData class. This is not " +
-                    $"a serious issue, and the properties can still be used " +
-                    $"through the AsDictionary method, but it is an indication " +
-                    $"that the API should be updated in order to enable the " +
-                    $"the strongly typed getter for these properties.");
+                    if (missingGetters.Count == 1)
+                    {
+                        Assert.Inconclusive($"The property '{missingGetters[0]}' " +
+                        $"is missing a getter in the DeviceData class. This is not " +
+                        $"a serious issue, and the property can still be used " +
+                        $"through the AsDictionary method, but it is an indication " +
+                        $"that the API should be updated in order to enable the " +
+                        $"the strongly typed getter for this property.");
+                    }
+                    else
+                    {
+                        Assert.Inconclusive($"The properties " +
+                        $"{string.Join(", ", missingGetters.Select(p => "'" + p + "'"))} " +
+                        $"are missing getters in the DeviceData class. This is not " +
+                        $"a serious issue, and the properties can still be used " +
+                        $"through the AsDictionary method, but it is an indication " +
+                        $"that the API should be updated in order to enable the " +
+                        $"the strongly typed getter for these properties.");
+                    }
                 }
             }
         }

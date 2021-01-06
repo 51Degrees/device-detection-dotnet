@@ -56,8 +56,14 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.AutomaticUpdates.UpdateOnStartU
     {
         public class Example : ExampleBase
         {
-            public void Run(string dataFile, string licenseKey)
+            private string dataFile = "51Degrees.hash";
+
+            public void Run(string originalDataFile, string licenseKey)
             {
+                // Copy the original data file to another location as we do not 
+                // want to preserve the original for other examples.
+                File.Copy(originalDataFile, dataFile, true);
+
                 FileInfo f = new FileInfo(dataFile);
                 Console.WriteLine($"Using data file at '{f.FullName}'");
 
@@ -119,7 +125,6 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.AutomaticUpdates.UpdateOnStartU
                     Console.WriteLine("There was no update available at this time.");
                 }
                 Console.WriteLine($"Data file published date: {updatedPublishedDate}");
-
             }
         }
 

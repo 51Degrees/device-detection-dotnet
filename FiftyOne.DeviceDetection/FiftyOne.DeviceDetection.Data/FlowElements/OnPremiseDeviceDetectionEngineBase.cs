@@ -99,7 +99,10 @@ namespace FiftyOne.DeviceDetection.Shared.FlowElements
                 int counter = 0;
                 while (bytesRead == 1024)
                 {
-                    bytesRead = stream.Read(data, 0 + counter * 1024, 1024);
+                    bytesRead = stream.Read(
+                        data,
+                        0 + counter * 1024,
+                        Math.Min(1024, (int)(stream.Length - stream.Position)));
                     counter++;
                 }
             }

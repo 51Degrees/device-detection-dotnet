@@ -46,57 +46,35 @@ namespace FiftyOne.DeviceDetection.Tests.Core
 
         [DataTestMethod]
         // ******** Hash with a single thread *********
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.MaxPerformance, false, false, false, DisplayName = "Hash-MaxPerformance-NoCache-NoLazyLoad-SingleThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.HighPerformance, false, false, false, DisplayName = "Hash-HighPerformance-NoCache-NoLazyLoad-SingleThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.LowMemory, false, false, false, DisplayName = "Hash-LowMemory-NoCache-NoLazyLoad-SingleThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.Balanced, false, false, false, DisplayName = "Hash-Balanced-NoCache-NoLazyLoad-SingleThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.BalancedTemp, false, false, false, DisplayName = "Hash-BalancedTemp-NoCache-NoLazyLoad-SingleThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.MaxPerformance, true, false, false, DisplayName = "Hash-MaxPerformance-Cache-NoLazyLoad-SingleThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.HighPerformance, true, false, false, DisplayName = "Hash-HighPerformance-Cache-NoLazyLoad-SingleThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.LowMemory, true, false, false, DisplayName = "Hash-LowMemory-Cache-NoLazyLoad-SingleThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.Balanced, true, false, false, DisplayName = "Hash-Balanced-Cache-NoLazyLoad-SingleThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.BalancedTemp, true, false, false, DisplayName = "Hash-BalancedTemp-Cache-NoLazyLoad-SingleThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.MaxPerformance, false, true, false, DisplayName = "Hash-MaxPerformance-NoCache-LazyLoad-SingleThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.HighPerformance, false, true, false, DisplayName = "Hash-HighPerformance-NoCache-LazyLoad-SingleThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.LowMemory, false, true, false, DisplayName = "Hash-LowMemory-NoCache-LazyLoad-SingleThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.Balanced, false, true, false, DisplayName = "Hash-Balanced-NoCache-LazyLoad-SingleThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.BalancedTemp, false, true, false, DisplayName = "Hash-BalancedTemp-NoCache-LazyLoad-SingleThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.MaxPerformance, true, true, false, DisplayName = "Hash-MaxPerformance-Cache-LazyLoad-SingleThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.HighPerformance, true, true, false, DisplayName = "Hash-HighPerformance-Cache-LazyLoad-SingleThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.LowMemory, true, true, false, DisplayName = "Hash-LowMemory-Cache-LazyLoad-SingleThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.Balanced, true, true, false, DisplayName = "Hash-Balanced-Cache-LazyLoad-SingleThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.BalancedTemp, true, true, false, DisplayName = "Hash-BalancedTemp-Cache-LazyLoad-SingleThread")]
+        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.MaxPerformance, false, false, DisplayName = "Hash-MaxPerformance-NoLazyLoad-SingleThread")]
+        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.HighPerformance, false, false, DisplayName = "Hash-HighPerformance-NoLazyLoad-SingleThread")]
+        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.LowMemory, false, false, DisplayName = "Hash-LowMemory-NoLazyLoad-SingleThread")]
+        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.Balanced, false, false, DisplayName = "Hash-Balanced-NoLazyLoad-SingleThread")]
+        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.BalancedTemp, false, false, DisplayName = "Hash-BalancedTemp-NoLazyLoad-SingleThread")]
+        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.MaxPerformance, true, false, DisplayName = "Hash-MaxPerformance-LazyLoad-SingleThread")]
+        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.HighPerformance, true, false, DisplayName = "Hash-HighPerformance-LazyLoad-SingleThread")]
+        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.LowMemory, true, false, DisplayName = "Hash-LowMemory-LazyLoad-SingleThread")]
+        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.Balanced, true, false, DisplayName = "Hash-Balanced-LazyLoad-SingleThread")]
+        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.BalancedTemp, true, false, DisplayName = "Hash-BalancedTemp-LazyLoad-SingleThread")]
         // ******** Hash with multiple threads *********
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.MaxPerformance, false, false, true, DisplayName = "Hash-MaxPerformance-NoCache-NoLazyLoad-MultiThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.HighPerformance, false, false, true, DisplayName = "Hash-HighPerformance-NoCache-NoLazyLoad-MultiThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.LowMemory, false, false, true, DisplayName = "Hash-LowMemory-NoCache-NoLazyLoad-MultiThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.Balanced, false, false, true, DisplayName = "Hash-Balanced-NoCache-NoLazyLoad-MultiThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.BalancedTemp, false, false, true, DisplayName = "Hash-BalancedTemp-NoCache-NoLazyLoad-MultiThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.MaxPerformance, true, false, true, DisplayName = "Hash-MaxPerformance-Cache-NoLazyLoad-MultiThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.HighPerformance, true, false, true, DisplayName = "Hash-HighPerformance-Cache-NoLazyLoad-MultiThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.LowMemory, true, false, true, DisplayName = "Hash-LowMemory-Cache-NoLazyLoad-MultiThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.Balanced, true, false, true, DisplayName = "Hash-Balanced-Cache-NoLazyLoad-MultiThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.BalancedTemp, true, false, true, DisplayName = "Hash-BalancedTemp-Cache-NoLazyLoad-MultiThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.MaxPerformance, false, true, true, DisplayName = "Hash-MaxPerformance-NoCache-LazyLoad-MultiThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.HighPerformance, false, true, true, DisplayName = "Hash-HighPerformance-NoCache-LazyLoad-MultiThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.LowMemory, false, true, true, DisplayName = "Hash-LowMemory-NoCache-LazyLoad-MultiThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.Balanced, false, true, true, DisplayName = "Hash-Balanced-NoCache-LazyLoad-MultiThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.BalancedTemp, false, true, true, DisplayName = "Hash-BalancedTemp-NoCache-LazyLoad-MultiThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.MaxPerformance, true, true, true, DisplayName = "Hash-MaxPerformance-Cache-LazyLoad-MultiThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.HighPerformance, true, true, true, DisplayName = "Hash-HighPerformance-Cache-LazyLoad-MultiThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.LowMemory, true, true, true, DisplayName = "Hash-LowMemory-Cache-LazyLoad-MultiThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.Balanced, true, true, true, DisplayName = "Hash-Balanced-Cache-LazyLoad-MultiThread")]
-        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.BalancedTemp, true, true, true, DisplayName = "Hash-BalancedTemp-Cache-LazyLoad-MultiThread")]
+        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.MaxPerformance, false, true, DisplayName = "Hash-MaxPerformance-NoLazyLoad-MultiThread")]
+        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.HighPerformance, false, true, DisplayName = "Hash-HighPerformance-NoLazyLoad-MultiThread")]
+        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.LowMemory, false, true, DisplayName = "Hash-LowMemory-NoLazyLoad-MultiThread")]
+        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.Balanced, false, true, DisplayName = "Hash-Balanced-NoLazyLoad-MultiThread")]
+        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.BalancedTemp, false, true, DisplayName = "Hash-BalancedTemp-NoLazyLoad-MultiThread")]
+        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.MaxPerformance, true, true, DisplayName = "Hash-MaxPerformance-LazyLoad-MultiThread")]
+        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.HighPerformance, true, true, DisplayName = "Hash-HighPerformance-LazyLoad-MultiThread")]
+        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.LowMemory, true, true, DisplayName = "Hash-LowMemory-LazyLoad-MultiThread")]
+        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.Balanced, true, true, DisplayName = "Hash-Balanced-LazyLoad-MultiThread")]
+        [DataRow(Constants.HASH_DATA_FILE_NAME, PerformanceProfiles.BalancedTemp, true, true, DisplayName = "Hash-BalancedTemp-LazyLoad-MultiThread")]
         public void Hash_AllConfigurations_100_UserAgents(
             string datafileName,
             PerformanceProfiles performanceProfile,
-            bool useCache,
             bool useLazyLoading,
             bool multiThreaded)
         {
             TestOnPremise_AllConfigurations_100_UserAgents(datafileName,
                 performanceProfile,
-                useCache,
                 useLazyLoading,
                 multiThreaded);
         }
@@ -113,9 +91,6 @@ namespace FiftyOne.DeviceDetection.Tests.Core
         /// <param name="performanceProfile">
         /// The performance profile to use.
         /// </param>
-        /// <param name="useCache">
-        /// Whether or not to use a c# cache results cache in the pipeline.
-        /// </param>
         /// <param name="useLazyLoading">
         /// Whether or not to use the lazy loading feature.
         /// </param>
@@ -126,7 +101,6 @@ namespace FiftyOne.DeviceDetection.Tests.Core
         public void TestOnPremise_AllConfigurations_100_UserAgents(
             string datafileName,
             PerformanceProfiles performanceProfile,
-            bool useCache,
             bool useLazyLoading,
             bool multiThreaded)
         {
@@ -141,10 +115,6 @@ namespace FiftyOne.DeviceDetection.Tests.Core
                 .SetPerformanceProfile(performanceProfile)
                 .SetShareUsage(false)
                 .SetDataFileSystemWatcher(false);
-            if (useCache)
-            {
-                builder.UseResultsCache();
-            }
             if (useLazyLoading)
             {
                 builder.UseLazyLoading();
@@ -172,30 +142,32 @@ namespace FiftyOne.DeviceDetection.Tests.Core
                     (useragent) =>
                     {
                         // Create the flow data instance
-                        var flowData = pipeline.CreateFlowData();
-
-                        // Add the user agent to the flow data 
-                        // and process it
-                        flowData.AddEvidence(
-                                Pipeline.Core.Constants.EVIDENCE_HTTPHEADER_PREFIX +
-                                Pipeline.Core.Constants.EVIDENCE_SEPERATOR + "User-Agent", useragent)
-                            .Process();
-
-                        // Make sure no errors occurred. If any did then
-                        // cancel the parallel process.
-                        if (flowData.Errors != null)
+                        using (var flowData = pipeline.CreateFlowData())
                         {
-                            Assert.AreEqual(0, flowData.Errors.Count,
-                                $"Expected no errors but got {flowData.Errors.Count}" +
-                                $":{Environment.NewLine}{ReportErrors(flowData.Errors)}");
-                            cancellationSource.Cancel();
-                        }
 
-                        // Get the device data instance and access the
-                        // IsMobile property to ensure we can get 
-                        // data out.
-                        var deviceData = flowData.Get<IDeviceData>();
-                        var result = deviceData.IsMobile;
+                            // Add the user agent to the flow data 
+                            // and process it
+                            flowData.AddEvidence(
+                                    Pipeline.Core.Constants.EVIDENCE_HTTPHEADER_PREFIX +
+                                    Pipeline.Core.Constants.EVIDENCE_SEPERATOR + "User-Agent", useragent)
+                                .Process();
+
+                            // Make sure no errors occurred. If any did then
+                            // cancel the parallel process.
+                            if (flowData.Errors != null)
+                            {
+                                Assert.AreEqual(0, flowData.Errors.Count,
+                                    $"Expected no errors but got {flowData.Errors.Count}" +
+                                    $":{Environment.NewLine}{ReportErrors(flowData.Errors)}");
+                                cancellationSource.Cancel();
+                            }
+
+                            // Get the device data instance and access the
+                            // IsMobile property to ensure we can get 
+                            // data out.
+                            var deviceData = flowData.Get<IDeviceData>();
+                            var result = deviceData.IsMobile;
+                        }
                     });
             }
         }

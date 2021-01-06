@@ -90,5 +90,45 @@ namespace FiftyOne.DeviceDetection.Shared.FlowElements
         /// <param name="concurrency">Expected concurrent accesses</param>
         /// <returns>This builder</returns>
         public abstract TBuilder SetConcurrency(ushort concurrency);
+
+        /// <summary>
+        /// Specify if the 'performance' evaluation graph should be used 
+        /// or not.
+        /// The performance graph is faster than predictive but can
+        /// be less accurate.
+        /// Note that the performance graph will always be evaluated first 
+        /// if it is enableds so if you have both performance and predictive 
+        /// enabled, you will often be getting results from just the 
+        /// performance graph.
+        /// In that situation, predictive will only be used if a match cannot
+        /// be found using the performance graph.
+        /// </summary>
+        /// <param name="use">
+        /// True to use the performance graph, false to ignore it.
+        /// </param>
+        /// <returns>
+        /// This builder.
+        /// </returns>
+        public abstract TBuilder SetUsePerformanceGraph(bool use);
+
+        /// <summary>
+        /// Specify if the 'predictive' evaluation graph should be used 
+        /// or not.
+        /// The predictive graph is more accurate than performance
+        /// but is also slower.
+        /// Note that the performance graph will always be evaluated first 
+        /// if it is enabled, so if you have both performance and predictive 
+        /// enabled, you will often be getting results from just the 
+        /// performance graph.
+        /// In that situation, predictive will only be used if a match cannot
+        /// be found using the performance graph.
+        /// </summary>
+        /// <param name="use">
+        /// True to use the performance graph, false to ignore it.
+        /// </param>
+        /// <returns>
+        /// This builder.
+        /// </returns>
+        public abstract TBuilder SetUsePredictiveGraph(bool use);
     }
 }

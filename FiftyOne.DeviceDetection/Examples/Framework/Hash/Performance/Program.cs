@@ -64,6 +64,8 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.Performance
                     //.SetPerformanceProfile(PerformanceProfiles.LowMemory)
                     //.SetPerformanceProfile(PerformanceProfiles.Balanced)
                     //.UseResultsCache()
+                    .SetUsePerformanceGraph(true)
+                    .SetUsePredictiveGraph(false)
                     .Build())
                 {
                     Run(uaFile, count, pipeline);
@@ -100,31 +102,33 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.Performance
                     {
                         // Create a new flow data to add evidence to and get 
                         // device data back again.
-                        var data = pipeline.CreateFlowData();
-                        // Add the User-Agent as evidence to the flow data.
-                        data.AddEvidence("header.User-Agent", userAgent)
-                                    .Process();
-
-                        // Get the device from the engine.
-                        var device = data.Get<IDeviceData>();
-
-                        // Update the counters depending on the IsMobile
-                        // result.
-                        var isMobile = device.IsMobile;
-                        if (isMobile.HasValue)
+                        using (var data = pipeline.CreateFlowData())
                         {
-                            if (isMobile.Value)
+                            // Add the User-Agent as evidence to the flow data.
+                            data.AddEvidence("header.User-Agent", userAgent)
+                                        .Process();
+
+                            // Get the device from the engine.
+                            var device = data.Get<IDeviceData>();
+
+                            // Update the counters depending on the IsMobile
+                            // result.
+                            var isMobile = device.IsMobile;
+                            if (isMobile.HasValue)
                             {
-                                Interlocked.Increment(ref isMobileTrue);
+                                if (isMobile.Value)
+                                {
+                                    Interlocked.Increment(ref isMobileTrue);
+                                }
+                                else
+                                {
+                                    Interlocked.Increment(ref isMobileFalse);
+                                }
                             }
                             else
                             {
-                                Interlocked.Increment(ref isMobileFalse);
+                                Interlocked.Increment(ref isMobileUnknown);
                             }
-                        }
-                        else
-                        {
-                            Interlocked.Increment(ref isMobileUnknown);
                         }
                         
                     });

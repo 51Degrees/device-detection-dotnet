@@ -77,24 +77,26 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.GettingStarted
             private void AnalyseUserAgent(string userAgent, IPipeline pipeline)
             {
                 // Create the FlowData instance.
-                var data = pipeline.CreateFlowData();
-                // Add a User-Agent from a desktop as evidence.
-                data.AddEvidence(FiftyOne.Pipeline.Core.Constants.EVIDENCE_QUERY_USERAGENT_KEY, userAgent);
-                // Process the supplied evidence.
-                data.Process();
-                // Get device data from the flow data.
-                var device = data.Get<IDeviceData>();
-                var isMobile = device.IsMobile;
-                Console.WriteLine($"Does the User-Agent '{userAgent}' " +
-                    $"represent a mobile device?");
-                // Output the value of the 'IsMobile' property.
-                if (isMobile.HasValue)
+                using (var data = pipeline.CreateFlowData())
                 {
-                    Console.WriteLine($"\t{isMobile.Value}");
-                }
-                else
-                {
-                    Console.WriteLine($"\t{isMobile.NoValueMessage}");
+                    // Add a User-Agent from a desktop as evidence.
+                    data.AddEvidence(FiftyOne.Pipeline.Core.Constants.EVIDENCE_QUERY_USERAGENT_KEY, userAgent);
+                    // Process the supplied evidence.
+                    data.Process();
+                    // Get device data from the flow data.
+                    var device = data.Get<IDeviceData>();
+                    var isMobile = device.IsMobile;
+                    Console.WriteLine($"Does the User-Agent '{userAgent}' " +
+                        $"represent a mobile device?");
+                    // Output the value of the 'IsMobile' property.
+                    if (isMobile.HasValue)
+                    {
+                        Console.WriteLine($"\t{isMobile.Value}");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"\t{isMobile.NoValueMessage}");
+                    }
                 }
             }
         }

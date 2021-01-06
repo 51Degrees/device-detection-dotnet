@@ -57,6 +57,8 @@ namespace FiftyOne.DeviceDetection
         private ushort? _concurrency = null;
         private int? _difference = null;
         private bool? _allowUnmatched = null;
+        private bool? _usePerformanceGraph = null;
+        private bool? _usePredictiveGraph = null;
         private PerformanceProfiles _performanceProfile = 
             PerformanceProfiles.Balanced;
         private DeviceDetectionAlgorithm _algorithm =
@@ -417,6 +419,56 @@ namespace FiftyOne.DeviceDetection
         }
 
         /// <summary>
+        /// Specify if the 'performance' evaluation graph should be used 
+        /// or not.
+        /// The performance graph is faster than predictive but can
+        /// be less accurate.
+        /// Note that the performance graph will always be evaluated first 
+        /// if it is enableds so if you have both performance and predictive 
+        /// enabled, you will often be getting results from just the 
+        /// performance graph.
+        /// In that situation, predictive will only be used if a match cannot
+        /// be found using the performance graph.
+        /// </summary>
+        /// <param name="use">
+        /// True to use the performance graph, false to ignore it.
+        /// </param>
+        /// <returns>
+        /// This builder.
+        /// </returns>
+        public DeviceDetectionOnPremisePipelineBuilder SetUsePerformanceGraph(
+            bool use)
+        {
+            _usePerformanceGraph = use;
+            return this;
+        }
+
+        /// <summary>
+        /// Specify if the 'predictive' evaluation graph should be used 
+        /// or not.
+        /// The predictive graph is more accurate than performance
+        /// but is also slower.
+        /// Note that the performance graph will always be evaluated first 
+        /// if it is enabled, so if you have both performance and predictive 
+        /// enabled, you will often be getting results from just the 
+        /// performance graph.
+        /// In that situation, predictive will only be used if a match cannot
+        /// be found using the performance graph.
+        /// </summary>
+        /// <param name="use">
+        /// True to use the performance graph, false to ignore it.
+        /// </param>
+        /// <returns>
+        /// This builder.
+        /// </returns>
+        public DeviceDetectionOnPremisePipelineBuilder SetUsePredictiveGraph(
+            bool use)
+        {
+            _usePredictiveGraph = use;
+            return this;
+        }
+
+        /// <summary>
         /// The <see cref="DataUpdateService"/> has the ability to watch a 
         /// file on disk and refresh the engine as soon as that file is 
         /// updated.
@@ -549,6 +601,17 @@ namespace FiftyOne.DeviceDetection
             {
                 builder.SetAllowUnmatched(_allowUnmatched.Value);
             }
+            // Configure performance graph
+            if (_usePerformanceGraph.HasValue)
+            {
+                builder.SetUsePerformanceGraph(_usePerformanceGraph.Value);
+            }
+            // Configure predictive graph
+            if (_usePredictiveGraph.HasValue)
+            {
+                builder.SetUsePredictiveGraph(_usePredictiveGraph.Value);
+            }
+
             // Build the engine
             TEngine engine = default(TEngine);
 

@@ -20,30 +20,16 @@ using System.Net.Http;
 /// Required NuGet Dependencies:
 /// - FiftyOne.DeviceDetection
 /// </summary>
-namespace TacLookup
+namespace FiftyOne.DeviceDetection.Examples.Cloud.NativeModelLookup
 {
-    class Program
+    public class Program
     {
-        private static string nativemodel1 = "SC-03L";
-        private static string nativemodel2 = "iPhone11,8";
-
-        static void Main(string[] args)
+        public class Example
         {
-            // Obtain a resource key for free at https://configure.51degrees.com
-            // Make sure to include the 'HardwareVendor' and 'HardwareModel' 
-            // properties as they are used by this example.
-            string resourceKey = "!!YOUR_RESOURCE_KEY!!";
+            private static string nativemodel1 = "SC-03L";
+            private static string nativemodel2 = "iPhone11,8";
 
-            if (resourceKey.StartsWith("!!"))
-            {
-                Console.WriteLine("You need to create a resource key at " +
-                    "https://configure.51degrees.com and paste it into the code, " +
-                    "replacing !!YOUR_RESOURCE_KEY!!.");
-                Console.WriteLine("Make sure to include the 'HardwareVendor', " +
-                    "'HardwareName' and 'HardwareModel' properties as they " +
-                    "are used by this example.");
-            }
-            else
+            public void Run(string resourceKey)
             {
                 Console.WriteLine("This example shows the details of devices " +
                     "associated with a given 'native model name'.");
@@ -79,41 +65,65 @@ namespace TacLookup
                     AnalyseTac(nativemodel2, pipeline);
                 }
             }
+
+            static void AnalyseTac(string nativemodel, IPipeline pipeline)
+            {
+                // Create the FlowData instance.
+                using (var data = pipeline.CreateFlowData())
+                {
+                    // Add the native model key as evidence.
+                    data.AddEvidence(Constants.EVIDENCE_QUERY_NATIVE_MODEL_KEY, nativemodel);
+                    // Process the supplied evidence.
+                    data.Process();
+                    // Get result data from the flow data.
+                    var result = data.Get<MultiDeviceDataCloud>();
+                    Console.WriteLine($"Which devices are associated with the " +
+                        $"native model name '{nativemodel}'?");
+                    foreach (var device in result.Profiles)
+                    {
+                        var vendor = device.HardwareVendor;
+                        var name = device.HardwareName;
+                        var model = device.HardwareModel;
+
+                        if (vendor.HasValue &&
+                            model.HasValue &&
+                            name.HasValue)
+                        {
+                            Console.WriteLine($"\t{vendor.Value} {string.Join(",", name.Value)} ({model.Value})");
+                        }
+                        else
+                        {
+                            Console.WriteLine(vendor.NoValueMessage);
+                        }
+                    }
+                }
+            }
+        }
+
+        static void Main(string[] args)
+        {
+            // Obtain a resource key for free at https://configure.51degrees.com
+            // Make sure to include the 'HardwareVendor' and 'HardwareModel' 
+            // properties as they are used by this example.
+            string resourceKey = "!!YOUR_RESOURCE_KEY!!";
+
+            if (resourceKey.StartsWith("!!"))
+            {
+                Console.WriteLine("You need to create a resource key at " +
+                    "https://configure.51degrees.com and paste it into the code, " +
+                    "replacing !!YOUR_RESOURCE_KEY!!.");
+                Console.WriteLine("Make sure to include the 'HardwareVendor', " +
+                    "'HardwareName' and 'HardwareModel' properties as they " +
+                    "are used by this example.");
+            }
+            else
+            {
+                new Example().Run(resourceKey);
+            }
 #if (DEBUG)
             Console.WriteLine("Done. Press any key to exit.");
             Console.ReadKey();
 #endif
-        }
-
-        static void AnalyseTac(string nativemodel, IPipeline pipeline)
-        {
-            // Create the FlowData instance.
-            var data = pipeline.CreateFlowData();
-            // Add the native model key as evidence.
-            data.AddEvidence(Constants.EVIDENCE_QUERY_NATIVE_MODEL_KEY, nativemodel);
-            // Process the supplied evidence.
-            data.Process();
-            // Get result data from the flow data.
-            var result = data.Get<MultiDeviceDataCloud>();
-            Console.WriteLine($"Which devices are associated with the " +
-                $"native model name '{nativemodel}'?");
-            foreach (var device in result.Profiles)
-            {
-                var vendor = device.HardwareVendor;
-                var name = device.HardwareName;
-                var model = device.HardwareModel;
-
-                if (vendor.HasValue &&
-                    model.HasValue &&
-                    name.HasValue)
-                {
-                    Console.WriteLine($"\t{vendor.Value} {string.Join(",", name.Value)} ({model.Value})");
-                }
-                else
-                {
-                    Console.WriteLine(vendor.NoValueMessage);
-                }
-            }
         }
     }
 }

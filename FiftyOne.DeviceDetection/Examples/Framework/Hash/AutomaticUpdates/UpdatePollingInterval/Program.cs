@@ -27,6 +27,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 
 /// <summary>
 /// @example Hash/AutomaticUpdates/UpdatePollingInterval/Program.cs
@@ -61,9 +62,19 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.AutomaticUpdates.UpdatePollingI
             private IPipeline pipeline;
             private int updatePollingInterval = 30;
             private int pollingIntervalRandomisation = 10;
+            private EventWaitHandle ewh;
+            private string dataFile = "51Degrees.hash";
 
-            public void Run(string dataFile, string licenseKey)
+            public void Run(string originalDataFile, string licenseKey)
             {
+                // Copy the original data file to another location as we do not 
+                // want to preserve the original for other examples.
+                File.Copy(originalDataFile, dataFile, true);
+
+                // Create an event wait handler to wait for the update complete
+                //event so that the example runs during the update process.
+                ewh = new EventWaitHandle(false, EventResetMode.AutoReset);
+                
                 FileInfo f = new FileInfo(dataFile);
                 Console.WriteLine($"Using data file at '{f.FullName}'");
 
@@ -118,8 +129,9 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.AutomaticUpdates.UpdatePollingI
 
                 Console.WriteLine($"The pipeline has now been set up to poll for updates every {updatePollingInterval} seconds, " +
                     $"a random ammount of time up to {pollingIntervalRandomisation} seconds will be added.");
-                Console.WriteLine("Press a key to end the program.");
-                Console.ReadKey();
+
+                // Wait for the update complete event.
+                ewh.WaitOne();
             }
 
             private void LogPublishedDate<T>(object sender, T e) where T : DataUpdateEventArgs
@@ -133,6 +145,8 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.AutomaticUpdates.UpdatePollingI
                 if (e is DataUpdateCompleteArgs completeArgs)
                 {
                     Console.WriteLine($"Update completed. Status {completeArgs.Status}");
+                    // Set the event wait handler once the update is completed.
+                    ewh.Set();
                 }
                 else
                 {

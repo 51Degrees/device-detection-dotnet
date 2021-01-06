@@ -58,15 +58,21 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.Metadata
                 return result;
             }
 
-            public void Run(string dataFile)
+            public void Run(string dataFile, bool test = false)
             {
                 FileInfo f = new FileInfo(dataFile);
                 Console.WriteLine($"Using data file at '{f.FullName}'");
                 Console.WriteLine($"This example will use the meta-data exposed " +
                     $"by the device detection engine to display the names and " +
                     $"details of all the properties it can populate.");
-                Console.WriteLine($"Press any key to continue.");
-                Console.ReadKey();
+                // Give the user time to to read previous message as this 
+                // example prints a lot of information to the console. Skip if
+                // run by a unit test.
+                if (test == false)
+                {
+                    Console.WriteLine($"Press any key to continue.");
+                    Console.ReadKey();
+                }
 
                 // Build a new on-premise Hash engine with the low memory performance profile.
                 using (var ddEngine = new DeviceDetectionHashEngineBuilder(

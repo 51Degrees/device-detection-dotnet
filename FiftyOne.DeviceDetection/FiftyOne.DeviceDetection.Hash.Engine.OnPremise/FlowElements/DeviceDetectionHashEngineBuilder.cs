@@ -35,6 +35,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers;
+using FiftyOne.Pipeline.Engines.Configuration;
 
 namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
 {
@@ -190,7 +191,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// <returns>
         /// This builder.
         /// </returns>
-        public DeviceDetectionHashEngineBuilder SetUsePerformanceGraph(
+        public override DeviceDetectionHashEngineBuilder SetUsePerformanceGraph(
             bool use)
         {
             SwigConfig.setUsePerformanceGraph(use);
@@ -215,7 +216,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// <returns>
         /// This builder.
         /// </returns>
-        public DeviceDetectionHashEngineBuilder SetUsePredictiveGraph(
+        public override DeviceDetectionHashEngineBuilder SetUsePredictiveGraph(
             bool use)
         {
             SwigConfig.setUsePredictiveGraph(use);
@@ -293,6 +294,27 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         {
             SwigConfig.setConcurrency(concurrency);
             return this;
+        }
+
+        /// <summary>
+        /// Override the SetCache method so it cannot be called successfully
+        /// for the Device-detection Hash Engine.
+        /// </summary>
+        /// <exception cref="NotSupportedException"></exception>
+        public override DeviceDetectionHashEngineBuilder SetCache(CacheConfiguration cacheConfig)
+        {
+            throw new NotSupportedException(Messages.ExceptionSetCache);
+        }
+
+        /// <summary>
+        /// Override the SetCacheSize method so it cannot be called successfully
+        /// for the Device-detection Hash Engine.
+        /// </summary>
+        /// <param name="cacheSize"></param>
+        /// <exception cref="NotSupportedException"></exception>
+        public override DeviceDetectionHashEngineBuilder SetCacheSize(int cacheSize)
+        {
+            throw new NotSupportedException(Messages.ExceptionSetCache);
         }
 
         #endregion
