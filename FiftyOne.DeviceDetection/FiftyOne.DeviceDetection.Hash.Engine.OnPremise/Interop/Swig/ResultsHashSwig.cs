@@ -82,6 +82,12 @@ internal class ResultsHashSwig : ResultsDeviceDetectionSwig {
     return ret;
   }
 
+  public string getTrace() {
+    string ret = DeviceDetectionHashEngineModulePINVOKE.ResultsHashSwig_getTrace(swigCPtr);
+    if (DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Pending) throw DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
   public int getMatchedNodes() {
     int ret = DeviceDetectionHashEngineModulePINVOKE.ResultsHashSwig_getMatchedNodes(swigCPtr);
     if (DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Pending) throw DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Retrieve();

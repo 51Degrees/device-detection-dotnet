@@ -27,6 +27,7 @@ using FiftyOne.Pipeline.Engines.FiftyOne.Data;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -89,5 +90,28 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Core.FlowElements
             var engine = _builder.Build(new MemoryStream());
             Assert.AreEqual(engine, engine.DataFiles.ElementAt(0).Engine);
         }
+
+        ///<summary>
+        ///Check that an exception is thrown when attempting to add a cache to the
+        ///on-premise engine.
+        ///</summary>
+        [TestMethod]
+        [ExpectedException(typeof(NotSupportedException))]
+        public void EngineBuilder_CacheSizeDisabled()
+        {
+            _ = _builder.SetCacheSize(100);
+        }
+
+        ///<summary>
+        ///Check that an exception is thrown when attempting to add a cache to the
+        ///on-premise engine.
+        ///</summary>
+        [TestMethod]
+        [ExpectedException(typeof(NotSupportedException))]
+        public void EngineBuilder_CacheDisabled()
+        {
+            _ = _builder.SetCache(new Pipeline.Engines.Configuration.CacheConfiguration());
+        }
     }
 }
+

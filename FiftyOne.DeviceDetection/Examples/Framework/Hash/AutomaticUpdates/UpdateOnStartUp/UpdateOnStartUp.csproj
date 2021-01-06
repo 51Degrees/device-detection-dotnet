@@ -8,10 +8,11 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>FiftyOne.DeviceDetection.Examples.Hash.AutomaticUpdates.UpdateOnStartUp</RootNamespace>
     <AssemblyName>FiftyOne.DeviceDetection.Examples.Hash.AutomaticUpdates.UpdateOnStartUp</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -104,7 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FiftyOne.Pipeline.Engines">
-      <Version>4.1.10</Version>
+      <Version>4.2.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

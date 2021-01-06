@@ -22,6 +22,7 @@
 
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop;
+using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers;
 using FiftyOne.DeviceDetection.Shared.Data;
 using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.Data.Types;
@@ -36,8 +37,9 @@ using System.Linq;
 
 namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 {
-    internal class DeviceDataHash : DeviceDataBaseOnPremise<ResultsHashSwig>, IDeviceDataHash
+    internal class DeviceDataHash : DeviceDataBaseOnPremise<IResultsSwigWrapper>, IDeviceDataHash, IDisposable
     {
+        private bool disposedValue;
         #region Constructor
 
         /// <summary>
@@ -68,8 +70,9 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         #endregion
 
         #region Internal Methods
-        internal void SetResults(ResultsHashSwig results)
+        internal void SetResults(IResultsSwigWrapper results)
         {
+            CheckState();
             Results.AddResult(results);
         }
         #endregion
@@ -107,7 +110,21 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
                 Results.ResultsList.Sum(r => r.getIterations()));
         }
 
-        private ResultsHashSwig GetResultsContainingProperty(string propertyName)
+        /// <summary>
+        /// Get a single native results instance. If there is only one available,
+        /// that is what is returned. If there are more, then the first one which
+        /// contains values for the requested property is returned.
+        ///</summary>
+        ///<param name="propertyName">used to select results from list</param>
+        ///<returns>single native results instance</returns>
+        private IResultsSwigWrapper GetSingleResults(string propertyName)
+        {
+            CheckState();
+            return Results.ResultsList.Count == 1 ?
+                Results.ResultsList[0] : GetResultsContainingProperty(propertyName);
+        }
+
+        private IResultsSwigWrapper GetResultsContainingProperty(string propertyName)
         {
             foreach (var results in Results.ResultsList)
             {
@@ -180,6 +197,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 
         protected override bool TryGetValue<T>(string key, out T value)
         {
+            CheckState();
             var result = base.TryGetValue(key, out value);
             if (result == false &&
                 Results.HasResults())
@@ -241,6 +259,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 
         protected override bool PropertyIsAvailable(string propertyName)
         {
+            CheckState();
             return Results.ResultsList
                 .Any(r => r.containsProperty(propertyName));
         }
@@ -248,7 +267,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         protected override IAspectPropertyValue<bool> GetValueAsBool(string propertyName)
         {
             var result = new AspectPropertyValue<bool>();
-            var results = GetResultsContainingProperty(propertyName);
+            var results = GetSingleResults(propertyName);
 
             if (results != null)
             {
@@ -270,7 +289,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         protected override IAspectPropertyValue<double> GetValueAsDouble(string propertyName)
         {
             var result = new AspectPropertyValue<double>();
-            var results = GetResultsContainingProperty(propertyName);
+            var results = GetSingleResults(propertyName);
 
             if (results != null)
             {
@@ -292,7 +311,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         protected override IAspectPropertyValue<int> GetValueAsInteger(string propertyName)
         {
             var result = new AspectPropertyValue<int>();
-            var results = GetResultsContainingProperty(propertyName);
+            var results = GetSingleResults(propertyName);
 
             if (results != null)
             {
@@ -314,7 +333,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         public override IAspectPropertyValue<IReadOnlyList<string>> GetValues(string propertyName)
         {
             var result = new AspectPropertyValue<IReadOnlyList<string>>();
-            var results = GetResultsContainingProperty(propertyName);
+            var results = GetSingleResults(propertyName);
 
             if (results != null)
             {
@@ -339,7 +358,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         protected override IAspectPropertyValue<string> GetValueAsString(string propertyName)
         {
             var result = new AspectPropertyValue<string>();
-            var results = GetResultsContainingProperty(propertyName);
+            var results = GetSingleResults(propertyName);
 
             if (results != null)
             {
@@ -361,7 +380,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         protected override IAspectPropertyValue<JavaScript> GetValueAsJavaScript(string propertyName)
         {
             var result = new AspectPropertyValue<JavaScript>();
-            var results = GetResultsContainingProperty(propertyName);
+            var results = GetSingleResults(propertyName);
 
             if (results != null)
             {
@@ -378,6 +397,46 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
                 }
             }
             return result;
+        }
+
+        private void CheckState()
+        {
+            if (disposedValue == true)
+            {
+                throw new InvalidOperationException("The DeviceDataHash instance has " +
+                    "been closed, and cannot be used. Any result processing should " +
+                    "be carried out within a 'try-with-resource' block which " +
+                    "closes the FlowData and any AutoCloseable elements.");
+            }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                foreach (var result in Results.ResultsList)
+                {
+                    try
+                    {
+                        result.Dispose();
+                    }
+                    catch (ObjectDisposedException e)
+                    {
+                        Logger.LogError("Failed to close native results instance. " +
+                            "A DeviceDataHash instance contains native unmanaged " +
+                            "memory which needs to be closed. Failing to close " +
+                            "could lead to memory leaks.", e);
+                    }
+                }
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion

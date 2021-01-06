@@ -37,15 +37,59 @@ using System;
 /// </summary>
 namespace FiftyOne.DeviceDetection.Examples.Cloud.GettingStarted
 {
-    class Program
+    public class Program
     {
-        private static string mobileUserAgent =
-            "Mozilla/5.0 (Linux; Android 9; SAMSUNG SM-G960U) " +
-            "AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/10.1 " +
-            "Chrome/71.0.3578.99 Mobile Safari/537.36";
-        private static string desktopUserAgent =
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
-            "(KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36";
+        public class Example
+        {
+            private static string mobileUserAgent =
+                "Mozilla/5.0 (Linux; Android 9; SAMSUNG SM-G960U) " +
+                "AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/10.1 " +
+                "Chrome/71.0.3578.99 Mobile Safari/537.36";
+            private static string desktopUserAgent =
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
+                "(KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36";
+
+            public void Run(string resourceKey)
+            {
+                // Build a new Pipeline with a cloud-based device detection engine.
+                using (var pipeline = new DeviceDetectionPipelineBuilder()
+                    // Tell it that we want to use cloud and pass our resource key.
+                    .UseCloud(resourceKey)
+                    .Build())
+                {
+                    // First try a desktop User-Agent.
+                    AnalyseUserAgent(desktopUserAgent, pipeline);
+                    // Now try a mobile User-Agent.
+                    AnalyseUserAgent(mobileUserAgent, pipeline);
+                }
+            }
+
+            static void AnalyseUserAgent(string userAgent, IPipeline pipeline)
+            {
+                // Create a new FlowData instance ready to be populated with evidence for the
+                // Pipeline.
+                using (var data = pipeline.CreateFlowData())
+                {
+                    // Add a User-Agent string to the evidence collection.
+                    data.AddEvidence(FiftyOne.Pipeline.Core.Constants.EVIDENCE_QUERY_USERAGENT_KEY, userAgent);
+                    // Process the supplied evidence.
+                    data.Process();
+                    // Get device data from the flow data.
+                    var device = data.Get<IDeviceData>();
+                    Console.WriteLine($"Does the User-Agent '{userAgent}' " +
+                        $"represent a mobile device?");
+                    // Output the result of the 'IsMobile' property.
+                    if (device.IsMobile.HasValue)
+                    {
+                        Console.WriteLine($"\t{device.IsMobile.Value}");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"\t{device.IsMobile.NoValueMessage}");
+                    }
+                }
+            }
+        }
 
         static void Main(string[] args)
         {
@@ -63,46 +107,12 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.GettingStarted
             }
             else
             {
-                // Build a new Pipeline with a cloud-based device detection engine.
-                using (var pipeline = new DeviceDetectionPipelineBuilder()
-                    // Tell it that we want to use cloud and pass our resource key.
-                    .UseCloud(resourceKey)
-                    .Build())
-                {
-                    // First try a desktop User-Agent.
-                    AnalyseUserAgent(desktopUserAgent, pipeline);
-                    // Now try a mobile User-Agent.
-                    AnalyseUserAgent(mobileUserAgent, pipeline);
-                }
+                new Example().Run(resourceKey);
             }
 #if (DEBUG)
             Console.WriteLine("Done. Press any key to exit.");
             Console.ReadKey();
 #endif
-        }
-
-            static void AnalyseUserAgent(string userAgent, IPipeline pipeline)
-        {
-            // Create a new FlowData instance ready to be populated with evidence for the
-            // Pipeline.
-            var data = pipeline.CreateFlowData();
-            // Add a User-Agent string to the evidence collection.
-            data.AddEvidence(FiftyOne.Pipeline.Core.Constants.EVIDENCE_QUERY_USERAGENT_KEY, userAgent);
-            // Process the supplied evidence.
-            data.Process();
-            // Get device data from the flow data.
-            var device = data.Get<IDeviceData>();
-            Console.WriteLine($"Does the User-Agent '{userAgent}' " +
-                $"represent a mobile device?");
-            // Output the result of the 'IsMobile' property.
-            if (device.IsMobile.HasValue)
-            {
-                Console.WriteLine($"\t{device.IsMobile.Value}");
-            }
-            else
-            {
-                Console.WriteLine($"\t{device.IsMobile.NoValueMessage}");
-            }
         }
     }
 }

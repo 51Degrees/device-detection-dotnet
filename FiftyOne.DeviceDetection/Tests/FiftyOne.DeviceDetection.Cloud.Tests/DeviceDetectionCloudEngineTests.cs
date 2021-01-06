@@ -68,17 +68,19 @@ namespace FiftyOne.DeviceDetection.Cloud.Tests
                     new LoggerFactory(), new System.Net.Http.HttpClient())
                     .UseCloud(resourceKey)
                     .Build();
-                var data = _pipeline.CreateFlowData();
-                data.AddEvidence("header.user-agent", 
-                    "Mozilla/5.0 (Linux; Android 8.0.0; Pixel 2 XL " +
-                    "Build/OPD1.170816.004) AppleWebKit/537.36 " +
-                    "(KHTML, like Gecko) Chrome/80.0.3987.106 " +
-                    "Mobile Safari/537.36");
-                data.Process();
+                using (var data = _pipeline.CreateFlowData())
+                {
+                    data.AddEvidence("header.user-agent",
+                        "Mozilla/5.0 (Linux; Android 8.0.0; Pixel 2 XL " +
+                        "Build/OPD1.170816.004) AppleWebKit/537.36 " +
+                        "(KHTML, like Gecko) Chrome/80.0.3987.106 " +
+                        "Mobile Safari/537.36");
+                    data.Process();
 
-                var deviceData = data.Get<IDeviceData>();
-                Assert.IsNotNull(deviceData);
-                Assert.AreEqual("SmartPhone", deviceData.DeviceType.Value);
+                    var deviceData = data.Get<IDeviceData>();
+                    Assert.IsNotNull(deviceData);
+                    Assert.AreEqual("SmartPhone", deviceData.DeviceType.Value);
+                }
             }
             else
             {

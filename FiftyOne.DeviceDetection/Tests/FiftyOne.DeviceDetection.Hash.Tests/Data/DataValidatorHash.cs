@@ -69,6 +69,20 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Data
                     else
                     {
                         Assert.IsFalse(value.HasValue);
+                        if (EvidenceContainsUserAgent(data) == false)
+                        {
+                            Assert.AreEqual("The evidence required to determine" +
+                                " this property was not supplied. The most" +
+                                " common evidence passed to this engine is" +
+                                " 'header.user-agent'.", value.NoValueMessage);
+                        } else
+                        {
+                            Assert.AreEqual("No matching profiles could be " +
+                                "found for the supplied evidence. A 'best " +
+                                "guess' can be returned by configuring more " +
+                                "lenient matching rules. See " +
+                                "https://51degrees.com/documentation/4.1/_device_detection__features__false_positive_control.html", value.NoValueMessage);
+                        }
                     }
                 }
             }
@@ -92,6 +106,11 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Data
                 Assert.IsTrue(matchedProfiles.Contains(profileId),
                     $"The profile '{profileId}' was not set in the result.");
             }
+        }
+
+        private bool EvidenceContainsUserAgent(IFlowData data)
+        {
+            return data.TryGetEvidence("header.user-agent", out object _);
         }
     }
 }

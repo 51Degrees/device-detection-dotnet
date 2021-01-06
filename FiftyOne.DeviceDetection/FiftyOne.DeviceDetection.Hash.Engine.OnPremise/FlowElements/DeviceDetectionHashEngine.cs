@@ -277,7 +277,8 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                             evidenceItem.Value.ToString()));
                     }
                 }
-                (deviceData as DeviceDataHash).SetResults(_engine.process(relevantEvidence));
+                (deviceData as DeviceDataHash).SetResults(
+                    new ResultsSwigWrapper(_engine.process(relevantEvidence)));
             }
         }
 
@@ -286,6 +287,10 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// </summary>
         protected override void UnmanagedResourcesCleanup()
         {
+            if(_config.Object != null)
+            {
+                _config.Object.Dispose();
+            }
             if (_engine != null)
             {
                 _engine.Dispose();

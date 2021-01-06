@@ -11130,6 +11130,67 @@ SWIGEXPORT int SWIGSTDCALL CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremise
 }
 
 
+SWIGEXPORT char * SWIGSTDCALL CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_ResultsHashSwig_getTrace___(void * jarg1) {
+  char * jresult ;
+  ResultsHash *arg1 = (ResultsHash *) 0 ;
+  std::string result;
+  
+  arg1 = (ResultsHash *)jarg1; 
+  {
+    try {
+      result = (arg1)->getTrace();;
+    }
+    catch(FatalException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    }
+    catch(NotImplementedException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    }
+    catch(InvalidPropertyException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    }
+    catch(EvidenceException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    }
+    catch(TooManyValuesException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    }
+    catch(NoValuesAvailableException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    }	
+    catch(StatusCodeException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    }
+    catch(runtime_error& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    }
+    catch(invalid_argument& e) {
+      {
+        SWIG_CSharpException(SWIG_ValueError, e.what()); return 0; 
+      };
+    }
+  }
+  jresult = SWIG_csharp_string_callback((&result)->c_str()); 
+  return jresult;
+}
+
+
 SWIGEXPORT int SWIGSTDCALL CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_ResultsHashSwig_getMatchedNodes___(void * jarg1) {
   int jresult ;
   ResultsHash *arg1 = (ResultsHash *) 0 ;
@@ -12491,6 +12552,65 @@ SWIGEXPORT void SWIGSTDCALL CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremis
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_ConfigHashSwig_setTraceRoute___(void * jarg1, unsigned int jarg2) {
+  ConfigHash *arg1 = (ConfigHash *) 0 ;
+  bool arg2 ;
+  
+  arg1 = (ConfigHash *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  {
+    try {
+      (arg1)->setTraceRoute(arg2);;
+    }
+    catch(FatalException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return ; 
+      };
+    }
+    catch(NotImplementedException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return ; 
+      };
+    }
+    catch(InvalidPropertyException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return ; 
+      };
+    }
+    catch(EvidenceException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return ; 
+      };
+    }
+    catch(TooManyValuesException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return ; 
+      };
+    }
+    catch(NoValuesAvailableException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return ; 
+      };
+    }	
+    catch(StatusCodeException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return ; 
+      };
+    }
+    catch(runtime_error& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return ; 
+      };
+    }
+    catch(invalid_argument& e) {
+      {
+        SWIG_CSharpException(SWIG_ValueError, e.what()); return ; 
+      };
+    }
+  }
+}
+
+
 SWIGEXPORT void * SWIGSTDCALL CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_ConfigHashSwig_getStrings___(void * jarg1) {
   void * jresult ;
   ConfigHash *arg1 = (ConfigHash *) 0 ;
@@ -13110,6 +13230,67 @@ SWIGEXPORT unsigned short SWIGSTDCALL CSharp_FiftyOnefDeviceDetectionfHashfEngin
   {
     try {
       result = (uint16_t)(arg1)->getConcurrency();;
+    }
+    catch(FatalException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    }
+    catch(NotImplementedException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    }
+    catch(InvalidPropertyException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    }
+    catch(EvidenceException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    }
+    catch(TooManyValuesException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    }
+    catch(NoValuesAvailableException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    }	
+    catch(StatusCodeException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    }
+    catch(runtime_error& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    }
+    catch(invalid_argument& e) {
+      {
+        SWIG_CSharpException(SWIG_ValueError, e.what()); return 0; 
+      };
+    }
+  }
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_ConfigHashSwig_getTraceRoute___(void * jarg1) {
+  unsigned int jresult ;
+  ConfigHash *arg1 = (ConfigHash *) 0 ;
+  bool result;
+  
+  arg1 = (ConfigHash *)jarg1; 
+  {
+    try {
+      result = (bool)(arg1)->getTraceRoute();;
     }
     catch(FatalException& e) {
       {

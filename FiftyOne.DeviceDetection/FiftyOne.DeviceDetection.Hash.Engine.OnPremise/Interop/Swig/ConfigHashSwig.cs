@@ -88,6 +88,11 @@ internal class ConfigHashSwig : ConfigDeviceDetectionSwig {
     if (DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Pending) throw DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Retrieve();
   }
 
+  public void setTraceRoute(bool trace) {
+    DeviceDetectionHashEngineModulePINVOKE.ConfigHashSwig_setTraceRoute(swigCPtr, trace);
+    if (DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Pending) throw DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Retrieve();
+  }
+
   public CollectionConfigSwig getStrings() {
     CollectionConfigSwig ret = new CollectionConfigSwig(DeviceDetectionHashEngineModulePINVOKE.ConfigHashSwig_getStrings(swigCPtr), true);
     if (DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Pending) throw DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Retrieve();
@@ -150,6 +155,12 @@ internal class ConfigHashSwig : ConfigDeviceDetectionSwig {
 
   public override ushort getConcurrency() {
     ushort ret = DeviceDetectionHashEngineModulePINVOKE.ConfigHashSwig_getConcurrency(swigCPtr);
+    if (DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Pending) throw DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public bool getTraceRoute() {
+    bool ret = DeviceDetectionHashEngineModulePINVOKE.ConfigHashSwig_getTraceRoute(swigCPtr);
     if (DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Pending) throw DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }

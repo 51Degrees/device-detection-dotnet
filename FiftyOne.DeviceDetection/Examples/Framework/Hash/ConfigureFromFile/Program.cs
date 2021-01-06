@@ -55,7 +55,7 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.ConfigureFromFile
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
                 "(KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36";
 
-            public void Run()
+            public void Run(string configFile)
             {
                 Console.WriteLine($"Constructing pipeline from configuration file.");
 
@@ -72,9 +72,9 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.ConfigureFromFile
                 // Create the configuration object
                 var config = new ConfigurationBuilder()
 #if NETCORE
-                    .AddJsonFile("appsettings.json")
+                    .AddJsonFile(configFile)
 #else
-                    .AddXmlFile("App.config")
+                    .AddXmlFile(configFile)
 #endif
                     .Build();
                 // Bind the configuration to a pipeline options instance
@@ -102,30 +102,37 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.ConfigureFromFile
             private void AnalyseUserAgent(string userAgent, IPipeline pipeline)
             {
                 // Create the FlowData instance.
-                var data = pipeline.CreateFlowData();
-                // Add a User-Agent from a desktop as evidence.
-                data.AddEvidence(FiftyOne.Pipeline.Core.Constants.EVIDENCE_QUERY_USERAGENT_KEY, userAgent);
-                // Process the supplied evidence.
-                data.Process();
-                // Get device data from the flow data.
-                var device = data.Get<IDeviceData>();
-                Console.WriteLine($"Does the User-Agent '{userAgent}' " +
-                    $"represent a mobile device?");
-                // Output the result of the 'IsMobile' property.
-                if (device.IsMobile.HasValue)
+                using (var data = pipeline.CreateFlowData())
                 {
-                    Console.WriteLine($"\t{device.IsMobile.Value}");
-                }
-                else
-                {
-                    Console.WriteLine($"\t{device.IsMobile.NoValueMessage}");
+                    // Add a User-Agent from a desktop as evidence.
+                    data.AddEvidence(FiftyOne.Pipeline.Core.Constants.EVIDENCE_QUERY_USERAGENT_KEY, userAgent);
+                    // Process the supplied evidence.
+                    data.Process();
+                    // Get device data from the flow data.
+                    var device = data.Get<IDeviceData>();
+                    Console.WriteLine($"Does the User-Agent '{userAgent}' " +
+                        $"represent a mobile device?");
+                    // Output the result of the 'IsMobile' property.
+                    if (device.IsMobile.HasValue)
+                    {
+                        Console.WriteLine($"\t{device.IsMobile.Value}");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"\t{device.IsMobile.NoValueMessage}");
+                    }
                 }
             }
         }
 
         static void Main(string[] args)
         {
-            new Example().Run();
+            
+#if NETCORE
+            new Example().Run("appsettings.json");
+#else
+            new Example().Run("App.config");
+#endif
 #if (DEBUG)
             Console.WriteLine("Complete. Press key to exit.");
             Console.ReadKey();

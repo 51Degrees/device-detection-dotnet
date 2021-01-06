@@ -35,69 +35,85 @@ namespace FiftyOne.DeviceDetection.TestHelpers.FlowElements
     {
         public static void NoEvidence(IWrapper wrapper, IDataValidator validator)
         {
-            var data = wrapper.Pipeline.CreateFlowData();
-            data.Process();
-            validator.ValidateData(data, false);
+            using (var data = wrapper.Pipeline.CreateFlowData())
+            {
+                data.Process();
+                validator.ValidateData(data, false);
+            }
         }
 
         public static void EmptyUserAgent(IWrapper wrapper, IDataValidator validator)
         {
-            var data = wrapper.Pipeline.CreateFlowData();
-            data.AddEvidence("header.user-agent", "")
-                .Process();
-            validator.ValidateData(data, false);
+            using (var data = wrapper.Pipeline.CreateFlowData())
+            {
+                data.AddEvidence("header.user-agent", "")
+                    .Process();
+                validator.ValidateData(data, false);
+            }
         }
 
         public static void NoHeaders(IWrapper wrapper, IDataValidator validator)
         {
-            var data = wrapper.Pipeline.CreateFlowData();
-            data.AddEvidence("irrelevant.evidence", "some evidence")
-                .Process();
-            validator.ValidateData(data, false);
+            using (var data = wrapper.Pipeline.CreateFlowData())
+            {
+                data.AddEvidence("irrelevant.evidence", "some evidence")
+                    .Process();
+                validator.ValidateData(data, false);
+            }
         }
 
         public static void NoUsefulHeaders(IWrapper wrapper, IDataValidator validator)
         {
-            var data = wrapper.Pipeline.CreateFlowData();
-            data.AddEvidence("header.irrelevant-header", "some evidence")
-                .Process();
-            validator.ValidateData(data, false);
+            using (var data = wrapper.Pipeline.CreateFlowData())
+            {
+                data.AddEvidence("header.irrelevant-header", "some evidence")
+                    .Process();
+                validator.ValidateData(data, false);
+            }
         }
 
         public static void CaseInsensitiveEvidenceKeys(IWrapper wrapper, IDataValidator validator)
         {
-            var data = wrapper.Pipeline.CreateFlowData();
-            data.AddEvidence("header.USER-AGENT",  Constants.MobileUserAgent)
-                .Process();
-            validator.ValidateData(data);
+            using (var data = wrapper.Pipeline.CreateFlowData())
+            {
+                data.AddEvidence("header.USER-AGENT", Constants.MobileUserAgent)
+                    .Process();
+                validator.ValidateData(data);
+            }
         }
 
         public static void ProfileOverride(IWrapper wrapper, IDataValidator validator)
         {
             string[] profileIds = { "12280", "17779", "17470", "18092" };
-            var data = wrapper.Pipeline.CreateFlowData();
-            data.AddEvidence("header.user-agent", "some user agent")
-                .AddEvidence("query.51D_ProfileIds", string.Join("|", profileIds))
-                .Process();
-            validator.ValidateProfileIds(data, profileIds);
+            using (var data = wrapper.Pipeline.CreateFlowData())
+            {
+                data.AddEvidence("header.user-agent", "some user agent")
+                    .AddEvidence("query.51D_ProfileIds", string.Join("|", profileIds))
+                    .Process();
+                validator.ValidateProfileIds(data, profileIds);
+            }
         }
 
         public static void ProfileOverrideNoHeaders(IWrapper wrapper, IDataValidator validator)
         {
             string[] profileIds = { "12280", "17779", "17470", "18092" };
-            var data = wrapper.Pipeline.CreateFlowData();
-            data.AddEvidence("query.51D_ProfileIds", string.Join("|", profileIds))
-                .Process();
-            validator.ValidateProfileIds(data, profileIds);
+            using (var data = wrapper.Pipeline.CreateFlowData())
+            {
+                data.AddEvidence("query.51D_ProfileIds", string.Join("|", profileIds))
+                    .Process();
+                validator.ValidateProfileIds(data, profileIds);
+            }
         }
 
         public static void DeviceId(IWrapper wrapper, IDataValidator validator)
         {
             string[] profileIds = { "12280", "17779", "17470", "18092" };
-            var data = wrapper.Pipeline.CreateFlowData();
-            data.AddEvidence("query.51D_ProfileIds", string.Join("-", profileIds))
-                .Process();
-            validator.ValidateProfileIds(data, profileIds);
+            using (var data = wrapper.Pipeline.CreateFlowData())
+            {
+                data.AddEvidence("query.51D_ProfileIds", string.Join("-", profileIds))
+                    .Process();
+                validator.ValidateProfileIds(data, profileIds);
+            }
         }
 
         public static void MetaDataService_DefaultProfilesIds(IWrapper wrapper)

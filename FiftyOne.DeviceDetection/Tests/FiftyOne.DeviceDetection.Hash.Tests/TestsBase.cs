@@ -34,8 +34,7 @@ namespace FiftyOne.DeviceDetection.Hash.Tests
     [TestCategory("Hash")]
     public class TestsBase
     {
-        private static object _lock = new object();
-
+        private static Semaphore _lock = new Semaphore(1, 1);
         protected WrapperHash Wrapper { get; private set; } = null;
         protected UserAgentGenerator UserAgents { get; private set; }
 
@@ -48,7 +47,7 @@ namespace FiftyOne.DeviceDetection.Hash.Tests
             if (IntPtr.Size == 4)
             {
                 // Ensure that only one integration test is running at once.
-                Monitor.Enter(_lock);
+                _lock.WaitOne();
                 // Force garbage collection
                 GC.Collect();
             }
@@ -60,7 +59,7 @@ namespace FiftyOne.DeviceDetection.Hash.Tests
             Wrapper?.Dispose();
             if (IntPtr.Size == 4)
             {
-                Monitor.Exit(_lock);
+                _lock.Release();
             }
         }
 
