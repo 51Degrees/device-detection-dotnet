@@ -2,7 +2,7 @@
 
 ![51Degrees](https://51degrees.com/DesktopModules/FiftyOne/Distributor/Logo.ashx?utm_source=github&utm_medium=repository&utm_content=readme_main&utm_campaign=dotnet-open-source "Data rewards the curious") **Pipeline API**
 
-[Developer Documentation](https://docs.51degrees.com?utm_source=github&utm_medium=repository&utm_content=documentation&utm_campaign=dotnet-open-source "developer documentation")
+[Developer Documentation](https://51degrees.com/device-detection-dotnet/4.2/index.html?utm_source=github&utm_medium=repository&utm_content=documentation&utm_campaign=dotnet-open-source "developer documentation")
 
 ## Introduction
 
@@ -66,5 +66,5 @@ Tests can be found in the `Tests/` folder. These can all be run from within Visu
 
 For complete documentation on the Pipeline API and associated engines, see the [51Degrees documentation site][Documentation].
 
-[Documentation]: https://docs.51degrees.com
+[Documentation]: https://51degrees.com/documentation/4.2/index.html
 [nuget]: https://www.nuget.org/packages/FiftyOne.DeviceDetection/
