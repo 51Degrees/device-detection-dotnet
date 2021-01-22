@@ -65,6 +65,14 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<bool> BlobBuilder { get; }
 		/// <summary>
+		/// Refers to the list of audio codecs in specific formats supported for Decode by the Web Browser. This list of codecs is supported for playback on a basic browser installation.
+		/// </summary>
+		IAspectPropertyValue<IReadOnlyList<string>> BrowserAudioCodecsDecode { get; }
+		/// <summary>
+		/// Refers to the list of audio codecs in specific formats supported for Encode by the Web Browser. This list of codecs is supported for capture on a basic browser installation.
+		/// </summary>
+		IAspectPropertyValue<IReadOnlyList<string>> BrowserAudioCodecsEncode { get; }
+		/// <summary>
 		/// Indicates the age in months of the browser since the BrowserDiscontinuedYear and BrowserDiscontinuedMonth.
 		/// </summary>
 		IAspectPropertyValue<int> BrowserDiscontinuedAge { get; }
@@ -76,6 +84,10 @@ namespace FiftyOne.DeviceDetection
 		/// The year in which further development of the browser version is stopped by the browser vendor.  This occurs when a new stable version of the brower is released.
 		/// </summary>
 		IAspectPropertyValue<int> BrowserDiscontinuedYear { get; }
+		/// <summary>
+		/// Indicates the name of the browser without the default OS or layout engine.
+		/// </summary>
+		IAspectPropertyValue<string> BrowserFamily { get; }
 		/// <summary>
 		/// Indicates the name of the browser. Many mobile browsers, by default, come with an operating system (OS). Unless specifically named, these browsers are named after the accompanying OS and/or the layout engine. 
 		/// </summary>
@@ -120,6 +132,14 @@ namespace FiftyOne.DeviceDetection
 		/// Indicates the version or subversion of the browser.
 		/// </summary>
 		IAspectPropertyValue<string> BrowserVersion { get; }
+		/// <summary>
+		/// Refers to the list of video codecs in specific formats supported for Decode by the Web Browser. This list of codecs is supported for playback on a basic browser installation.
+		/// </summary>
+		IAspectPropertyValue<IReadOnlyList<string>> BrowserVideoCodecsDecode { get; }
+		/// <summary>
+		/// Refers to the list of video codecs in specific formats supported for Encode by the Web Browser. This list of codecs is supported for capture on a basic browser installation.
+		/// </summary>
+		IAspectPropertyValue<IReadOnlyList<string>> BrowserVideoCodecsEncode { get; }
 		/// <summary>
 		/// Indicates the list of camera types the device has. If the device has a rotating camera, this property refers to both front and back facing cameras.
 		/// </summary>
