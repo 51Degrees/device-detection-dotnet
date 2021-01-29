@@ -91,6 +91,14 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<bool> BlobBuilder { get { return GetAs<IAspectPropertyValue<bool>>("BlobBuilder"); } }
 		/// <summary>
+		/// Refers to the list of audio codecs in specific formats supported for Decode by the Web Browser. This list of codecs is supported for playback on a basic browser installation.
+		/// </summary>
+		public IAspectPropertyValue<IReadOnlyList<string>> BrowserAudioCodecsDecode { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("BrowserAudioCodecsDecode"); } }
+		/// <summary>
+		/// Refers to the list of audio codecs in specific formats supported for Encode by the Web Browser. This list of codecs is supported for capture on a basic browser installation.
+		/// </summary>
+		public IAspectPropertyValue<IReadOnlyList<string>> BrowserAudioCodecsEncode { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("BrowserAudioCodecsEncode"); } }
+		/// <summary>
 		/// Indicates the age in months of the browser since the BrowserDiscontinuedYear and BrowserDiscontinuedMonth.
 		/// </summary>
 		public IAspectPropertyValue<int> BrowserDiscontinuedAge { get { return GetAs<IAspectPropertyValue<int>>("BrowserDiscontinuedAge"); } }
@@ -102,6 +110,10 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// The year in which further development of the browser version is stopped by the browser vendor.  This occurs when a new stable version of the brower is released.
 		/// </summary>
 		public IAspectPropertyValue<int> BrowserDiscontinuedYear { get { return GetAs<IAspectPropertyValue<int>>("BrowserDiscontinuedYear"); } }
+		/// <summary>
+		/// Indicates the name of the browser without the default OS or layout engine.
+		/// </summary>
+		public IAspectPropertyValue<string> BrowserFamily { get { return GetAs<IAspectPropertyValue<string>>("BrowserFamily"); } }
 		/// <summary>
 		/// Indicates the name of the browser. Many mobile browsers, by default, come with an operating system (OS). Unless specifically named, these browsers are named after the accompanying OS and/or the layout engine. 
 		/// </summary>
@@ -146,6 +158,14 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// Indicates the version or subversion of the browser.
 		/// </summary>
 		public IAspectPropertyValue<string> BrowserVersion { get { return GetAs<IAspectPropertyValue<string>>("BrowserVersion"); } }
+		/// <summary>
+		/// Refers to the list of video codecs in specific formats supported for Decode by the Web Browser. This list of codecs is supported for playback on a basic browser installation.
+		/// </summary>
+		public IAspectPropertyValue<IReadOnlyList<string>> BrowserVideoCodecsDecode { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("BrowserVideoCodecsDecode"); } }
+		/// <summary>
+		/// Refers to the list of video codecs in specific formats supported for Encode by the Web Browser. This list of codecs is supported for capture on a basic browser installation.
+		/// </summary>
+		public IAspectPropertyValue<IReadOnlyList<string>> BrowserVideoCodecsEncode { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("BrowserVideoCodecsEncode"); } }
 		/// <summary>
 		/// Indicates the list of camera types the device has. If the device has a rotating camera, this property refers to both front and back facing cameras.
 		/// </summary>
