@@ -705,6 +705,14 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<int> OnPowerConsumption { get; }
 		/// <summary>
+		/// The ratio of the resolution in physical pixels to the resolution in CSS pixels. This is approximated by screen resolution and screen size when the value is not known.
+		/// </summary>
+		IAspectPropertyValue<double> PixelRatio { get; }
+		/// <summary>
+		/// JavaScript that can override the property value found by the server using information on the client device. This property is applicable for browsers that support pixel ratio cookie.
+		/// </summary>
+		IAspectPropertyValue<JavaScript> PixelRatioJavascript { get; }
+		/// <summary>
 		/// Indicates the age in months of the operating system since the PlatformReleaseYear and PlatformReleaseMonth.
 		/// </summary>
 		IAspectPropertyValue<int> PlatformDiscontinuedAge { get; }
