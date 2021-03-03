@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DeviceDataHashDisposed" xml:space="preserve">
+    <value>The DeviceDataHash instance has been closed, and cannot be used. Any result processing should be carried out within a 'try-with-resource' block which closes the FlowData and any AutoCloseable elements.</value>
+  </data>
+  <data name="DeviceDataHashFailedToDispose" xml:space="preserve">
+    <value>Failed to close native results instance. A DeviceDataHash instance contains native unmanaged memory which needs to be closed. Failing to close could lead to memory leaks.</value>
+  </data>
   <data name="ExceptionSetCache" xml:space="preserve">
     <value>A results cache cannot be configured in the Device-Detection Hash engine. The overhead of having to manage native object lifetimes when a cache is enabled outweighs the benefit of the cache.</value>
   </data>

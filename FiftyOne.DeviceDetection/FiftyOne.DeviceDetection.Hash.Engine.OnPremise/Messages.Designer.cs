@@ -61,6 +61,24 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The DeviceDataHash instance has been closed, and cannot be used. Any result processing should be carried out within a &apos;try-with-resource&apos; block which closes the FlowData and any AutoCloseable elements..
+        /// </summary>
+        internal static string DeviceDataHashDisposed {
+            get {
+                return ResourceManager.GetString("DeviceDataHashDisposed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to close native results instance. A DeviceDataHash instance contains native unmanaged memory which needs to be closed. Failing to close could lead to memory leaks..
+        /// </summary>
+        internal static string DeviceDataHashFailedToDispose {
+            get {
+                return ResourceManager.GetString("DeviceDataHashFailedToDispose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A results cache cannot be configured in the Device-Detection Hash engine. The overhead of having to manage native object lifetimes when a cache is enabled outweighs the benefit of the cache..
         /// </summary>
         internal static string ExceptionSetCache {

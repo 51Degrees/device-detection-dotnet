@@ -39,7 +39,7 @@ namespace FiftyOne.DeviceDetection.Hash.Tests
         protected UserAgentGenerator UserAgents { get; private set; }
 
         [TestInitialize]
-        public void Init()
+        public virtual void Init()
         {
             // If the test is running in x86 then we need to take some 
             // extra precautions to prevent occasionally running out
@@ -54,7 +54,7 @@ namespace FiftyOne.DeviceDetection.Hash.Tests
         }
 
         [TestCleanup]
-        public void Cleanup()
+        public virtual void Cleanup()
         {
             Wrapper?.Dispose();
             if (IntPtr.Size == 4)

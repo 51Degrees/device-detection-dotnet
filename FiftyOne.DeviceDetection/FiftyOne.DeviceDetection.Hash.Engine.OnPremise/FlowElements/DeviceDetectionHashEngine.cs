@@ -277,8 +277,12 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                             evidenceItem.Value.ToString()));
                     }
                 }
-                (deviceData as DeviceDataHash).SetResults(
-                    new ResultsSwigWrapper(_engine.process(relevantEvidence)));
+
+                // The results object is disposed in the dispose method of the 
+                // DeviceDataHash object.
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                (deviceData as DeviceDataHash).SetResults(new ResultsSwigWrapper(_engine.process(relevantEvidence)));
+#pragma warning restore CA2000 // Dispose objects before losing scope
             }
         }
 

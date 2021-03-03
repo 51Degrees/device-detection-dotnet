@@ -403,10 +403,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         {
             if (disposedValue == true)
             {
-                throw new InvalidOperationException("The DeviceDataHash instance has " +
-                    "been closed, and cannot be used. Any result processing should " +
-                    "be carried out within a 'try-with-resource' block which " +
-                    "closes the FlowData and any AutoCloseable elements.");
+                throw new InvalidOperationException(Messages.DeviceDataHashDisposed);
             }
         }
 
@@ -422,10 +419,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
                     }
                     catch (ObjectDisposedException e)
                     {
-                        Logger.LogError("Failed to close native results instance. " +
-                            "A DeviceDataHash instance contains native unmanaged " +
-                            "memory which needs to be closed. Failing to close " +
-                            "could lead to memory leaks.", e);
+                        Logger.LogError(Messages.DeviceDataHashFailedToDispose, e);
                     }
                 }
                 disposedValue = true;
