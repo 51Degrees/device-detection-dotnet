@@ -19,7 +19,7 @@ variables:
 jobs:
   - job: Build_Linux_Binaries
     pool:
-      name: Ubuntu 18
+      vmImage: ubuntu-18.04 
       
     steps:
     
@@ -32,6 +32,13 @@ jobs:
        git config --global --add filter.lfs.process "git-lfs filter-process"
        git config --global --add filter.lfs.clean "git-lfs clean -- %f"
       displayName: 'Configure git lfs'
+      
+    - bash: |
+       sudo apt-get update
+       sudo apt-get -y install \
+         gcc-multilib \
+         g++-multilib
+      displayName: 'Install gcc-multilib and g++-multilib packages'
 
     - checkout: self
       lfs: true
@@ -53,10 +60,6 @@ jobs:
        find **/*.csproj -not -path '**/*Tests*/*' -and -not -path '**/*Examples*/*'
       displayName: 'List csproj files to be packaged'
 
-    - bash: './PreBuild.sh pattern'
-      workingDirectory: FiftyOne.DeviceDetection
-      displayName: 'Make Pattern'
-
     - bash: './PreBuild.sh hash'
       workingDirectory: FiftyOne.DeviceDetection
       displayName: 'Make Hash'
@@ -65,7 +68,7 @@ jobs:
       displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
       inputs:
         SourceFolder: '$(build.sourcesdirectory)'
-        Contents: 'FiftyOne.DeviceDetection/dlls/linux/*/*'
+        Contents: 'FiftyOne.DeviceDetection/dlls/linux/*/*.dll'
         TargetFolder: '$(build.artifactstagingdirectory)'
         OverWrite: true
 
