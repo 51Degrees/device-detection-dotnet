@@ -29,6 +29,22 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
@@ -53,6 +69,7 @@
     <None Include="$(ProjectDir)\..\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native\Win32\$(Configuration)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.pdb" Condition="'$(Platform)'=='x86'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.pdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="..\..\.editorconfig" Link="Interop\Swig\.editorconfig" />
     <None Include="..\..\Images\51d-logo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>

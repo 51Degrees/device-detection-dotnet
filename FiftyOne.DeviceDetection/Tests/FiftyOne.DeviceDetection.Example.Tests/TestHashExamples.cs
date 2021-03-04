@@ -71,7 +71,7 @@ namespace FiftyOne.DeviceDetection.Example.Tests
 #if NETCORE
                 DataFile = "..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\51Degrees-LiteV4.1.hash";
 #else
-                DataFile = "..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\51Degrees-LiteV4.1.hash";
+                DataFile = "..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\51Degrees-LiteV4.1.hash";
 #endif
             }
 
@@ -82,7 +82,7 @@ namespace FiftyOne.DeviceDetection.Example.Tests
 #if NETCORE
                 UserAgentsFile = "..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\20000 User Agents.csv";
 #else
-                UserAgentsFile = "..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\20000 User Agents.csv";
+                UserAgentsFile = "..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\20000 User Agents.csv";
 #endif
             }
         }

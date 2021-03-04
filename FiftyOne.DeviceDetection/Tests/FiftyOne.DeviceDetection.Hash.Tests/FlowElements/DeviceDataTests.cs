@@ -26,7 +26,7 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
             new Mock<IMissingPropertyService>();
 
         [TestInitialize]
-        public void Init()
+        public override void Init()
         {
             base.Init();
             TestInitialize(PerformanceProfiles.HighPerformance);
@@ -40,7 +40,7 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
         }
 
         [TestCleanup]
-        public void Cleanup()
+        public override void Cleanup()
         {
             base.Cleanup();
         }
@@ -234,7 +234,7 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
                 }
                 catch (PropertyMissingException e)
                 {
-
+                    Assert.AreEqual("test description", e.Message);
                 }
                 results.Verify(r => r.containsProperty(It.IsAny<string>()), Times.Once);
             }
@@ -275,7 +275,7 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
                 }
                 catch (PropertyMissingException e)
                 {
-
+                    Assert.AreEqual("test description", e.Message);
                 }
                 results1.Verify(r => r.containsProperty(It.IsAny<string>()), Times.Once);
                 results2.Verify(r => r.containsProperty(It.IsAny<string>()), Times.Once);

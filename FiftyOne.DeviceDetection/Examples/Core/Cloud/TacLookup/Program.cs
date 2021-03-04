@@ -28,7 +28,7 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.TacLookup
             private static string TAC = "35925406";
             private static string TAC2 = "86386802";
 
-            public void Run(string resourceKey)
+            public void Run(string resourceKey, string cloudEndPoint = "")
             {
                 Console.WriteLine("This example shows the details of devices " +
                     "associated with a given 'Type Allocation Code' or 'TAC'.");
@@ -40,10 +40,19 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.TacLookup
                 ILoggerFactory loggerFactory = new LoggerFactory();
                 HttpClient httpClient = new HttpClient();
 
+                // Create a cloud request engine builder
+                var cloudRequestEngineBuilder = new CloudRequestEngineBuilder(loggerFactory, httpClient)
+                    .SetResourceKey(resourceKey);
+
+                // If a cloud endpoint has been provided then set the
+                // cloud pipeline endpoint. 
+                if (string.IsNullOrWhiteSpace(cloudEndPoint) == false)
+                {
+                    cloudRequestEngineBuilder.SetEndPoint(cloudEndPoint);
+                }
+
                 // Create the cloud request engine
-                using (var cloudEngine = new CloudRequestEngineBuilder(loggerFactory, httpClient)
-                    .SetResourceKey(resourceKey)
-                    .Build())
+                using (var cloudEngine = cloudRequestEngineBuilder.Build())
                 // Create the property-keyed engine to process the 
                 // response from the request engine.
                 using (var propertyKeyedEngine = new HardwareProfileCloudEngineBuilder(loggerFactory)

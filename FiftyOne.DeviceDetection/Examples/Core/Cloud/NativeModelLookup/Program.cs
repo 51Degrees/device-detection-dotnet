@@ -29,7 +29,7 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.NativeModelLookup
             private static string nativemodel1 = "SC-03L";
             private static string nativemodel2 = "iPhone11,8";
 
-            public void Run(string resourceKey)
+            public void Run(string resourceKey, string cloudEndPoint = "")
             {
                 Console.WriteLine("This example shows the details of devices " +
                     "associated with a given 'native model name'.");
@@ -44,10 +44,19 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.NativeModelLookup
                 ILoggerFactory loggerFactory = new LoggerFactory();
                 HttpClient httpClient = new HttpClient();
 
-                // Create the cloud request engine
-                using (var cloudEngine = new CloudRequestEngineBuilder(loggerFactory, httpClient)
-                    .SetResourceKey(resourceKey)
-                    .Build())
+                // Create a cloud request engine builder
+                var cloudRequestEngineBuilder = new CloudRequestEngineBuilder(loggerFactory, httpClient)
+                    .SetResourceKey(resourceKey);
+
+                // If a cloud endpoint has been provided then set the
+                // cloud pipeline endpoint. 
+                if (string.IsNullOrWhiteSpace(cloudEndPoint) == false)
+                {
+                    cloudRequestEngineBuilder.SetEndPoint(cloudEndPoint);
+                }
+
+                // Create the cloud request engine.
+                using (var cloudEngine = cloudRequestEngineBuilder.Build())
                 // Create the property-keyed engine to process the 
                 // response from the request engine.
                 using (var propertyKeyedEngine = new HardwareProfileCloudEngineBuilder(loggerFactory)
