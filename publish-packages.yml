@@ -129,9 +129,9 @@ jobs:
       displayName: 'Determine Build Configuration'
         
     - task: NuGetToolInstaller@1
-      displayName: 'Use NuGet 5.4.0'
+      displayName: 'Use NuGet 5.8.0'
       inputs:
-        versionSpec: 5.4.0
+        versionSpec: 5.8.0
 
     - task: NuGetCommand@2
       displayName: 'NuGet restore'
