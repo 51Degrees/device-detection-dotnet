@@ -37,10 +37,12 @@ namespace FiftyOne.DeviceDetection.Example.Tests
     public class TestCloudExamples
     {
         private string ResourceKey;
+        private string CloudEndPoint;
 
         /// <summary>
-        /// Init method - specify Resource Key to run examples here or 
+        /// Init method. Specify Resource Key to run examples here or 
         /// set a Resource Key in an environment variable called 'ResourceKey'.
+        /// Get cloud endpoint url from environment variables or use default.
         /// </summary>
         [TestInitialize]
         public void Init()
@@ -55,6 +57,16 @@ namespace FiftyOne.DeviceDetection.Example.Tests
                 Assert.Fail("ResourceKey must be specified in the Init method" +
                     " or as an Environment variable");
             }
+
+            var cloudEndPoint = Environment.GetEnvironmentVariable("51D_CLOUD_ENDPOINT");
+            if(string.IsNullOrWhiteSpace(cloudEndPoint) == false)
+            {
+                CloudEndPoint = cloudEndPoint;
+            } 
+            else
+            {
+                CloudEndPoint = string.Empty;
+            }
         }
 
         /// <summary>
@@ -64,7 +76,7 @@ namespace FiftyOne.DeviceDetection.Example.Tests
         public void Example_Cloud_GetAllProperties()
         {
             var example = new Examples.Cloud.GetAllProperties.Program.Example();
-            example.Run(ResourceKey);
+            example.Run(ResourceKey, CloudEndPoint);
         }
 
         /// <summary>
@@ -74,7 +86,7 @@ namespace FiftyOne.DeviceDetection.Example.Tests
         public void Example_Cloud_GettingStarted()
         {
             var example = new Examples.Cloud.GettingStarted.Program.Example();
-            example.Run(ResourceKey);
+            example.Run(ResourceKey, CloudEndPoint);
         }
 
         /// <summary>
@@ -84,7 +96,7 @@ namespace FiftyOne.DeviceDetection.Example.Tests
         public void Example_Cloud_NativeModelLookup()
         {
             var example = new Examples.Cloud.NativeModelLookup.Program.Example();
-            example.Run(ResourceKey);
+            example.Run(ResourceKey, CloudEndPoint);
         }
 
         /// <summary>
@@ -94,7 +106,7 @@ namespace FiftyOne.DeviceDetection.Example.Tests
         public void Example_Cloud_TacLookup()
         {
             var example = new Examples.Cloud.TacLookup.Program.Example();
-            example.Run(ResourceKey);
+            example.Run(ResourceKey, CloudEndPoint);
         }
     }
 }

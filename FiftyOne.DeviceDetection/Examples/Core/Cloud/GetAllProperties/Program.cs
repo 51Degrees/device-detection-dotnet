@@ -44,13 +44,21 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.GetAllProperties
                 "AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/10.1 " +
                 "Chrome/71.0.3578.99 Mobile Safari/537.36";
 
-            public void Run(string resourceKey)
+            public void Run(string resourceKey, string cloudEndPoint = "")
             {
-                // Create the pipeline
-                using (var pipeline = new DeviceDetectionPipelineBuilder()
+                var builder = new DeviceDetectionPipelineBuilder()
                     // Tell it that we want to use cloud and pass our resource key.
-                    .UseCloud(resourceKey)
-                    .Build())
+                    .UseCloud(resourceKey);
+
+                // If a cloud endpoint has been provided then set the
+                // cloud pipeline endpoint. 
+                if (string.IsNullOrWhiteSpace(cloudEndPoint) == false) 
+                {
+                    builder.SetEndPoint(cloudEndPoint);
+                }
+
+                // Create the pipeline
+                using (var pipeline = builder.Build())
                 {
                     // Output details for a mobile User-Agent.
                     AnalyseUserAgent(mobileUserAgent, pipeline);

@@ -49,13 +49,22 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.GettingStarted
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
                 "(KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36";
 
-            public void Run(string resourceKey)
+            public void Run(string resourceKey, string cloudEndPoint = "")
             {
-                // Build a new Pipeline with a cloud-based device detection engine.
-                using (var pipeline = new DeviceDetectionPipelineBuilder()
+                // Create a pipeline builder.
+                DeviceDetectionCloudPipelineBuilder builder = new DeviceDetectionPipelineBuilder()
                     // Tell it that we want to use cloud and pass our resource key.
-                    .UseCloud(resourceKey)
-                    .Build())
+                    .UseCloud(resourceKey);
+
+                // If a cloud endpoint has been provided then set the
+                // cloud pipeline endpoint. 
+                if (string.IsNullOrWhiteSpace(cloudEndPoint) == false)
+                {
+                    builder.SetEndPoint(cloudEndPoint);
+                }
+
+                // Create the pipeline
+                using (var pipeline = builder.Build())
                 {
                     // First try a desktop User-Agent.
                     AnalyseUserAgent(desktopUserAgent, pipeline);

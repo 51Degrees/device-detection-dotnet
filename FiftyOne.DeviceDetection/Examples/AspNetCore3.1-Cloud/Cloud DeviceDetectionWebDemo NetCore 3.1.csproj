@@ -31,7 +31,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.2.0" />
+    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.2.2-beta.3" />
   </ItemGroup>
 
   <ItemGroup>
