@@ -180,7 +180,7 @@ namespace FiftyOne.DeviceDetection
         /// The license key to use when checking for updates to the
         /// data file.
         /// A license key can be obtained from the 
-        /// [51Degrees website](https://www.51degrees.com/pricing).
+        /// [51Degrees website](https://51degrees.com/pricing).
         /// If you have no license key then this parameter can be 
         /// set to null, but doing so will disable automatic updates. 
         /// </param>
@@ -248,7 +248,7 @@ namespace FiftyOne.DeviceDetection
         /// The license key to use when checking for updates to the
         /// data file.
         /// A license key can be obtained from the 
-        /// [51Degrees website](https://www.51degrees.com/pricing).
+        /// [51Degrees website](https://51degrees.com/pricing).
         /// If you have no license key then this parameter can be 
         /// set to null, but doing so will disable automatic updates. 
         /// </param>
