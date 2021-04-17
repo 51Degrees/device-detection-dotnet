@@ -19,7 +19,7 @@
 	  <Copyright>51Degrees Mobile Experts Limited</Copyright>
 	  <PackageTags>51degrees,pipeline,data service,device detection,user-agent,cloud</PackageTags>
 	  <RepositoryUrl>https://github.com/51Degrees/device-detection-dotnet</RepositoryUrl>
-    <PackageProjectUrl>www.51degrees.com</PackageProjectUrl>
+    <PackageProjectUrl>51degrees.com</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <PackageIcon>51d-logo.png</PackageIcon>
     <NeutralLanguage>en</NeutralLanguage>
@@ -31,7 +31,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.Pipeline.CloudRequestEngine" Version="4.2.2" />
+    <PackageReference Include="FiftyOne.Pipeline.CloudRequestEngine" Version="4.2.3" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
