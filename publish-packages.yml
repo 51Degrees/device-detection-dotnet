@@ -132,7 +132,8 @@ jobs:
       displayName: 'Use NuGet 5.8.0'
       inputs:
         versionSpec: 5.8.0
--     task: UseDotNet@2
+    
+    - task: UseDotNet@2
       displayName: "Configure dotnet"
       inputs:
         version: 3.1.x
