@@ -39,7 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.2.3-beta.5" />
+    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.2.3" />
   </ItemGroup>
 
   <ItemGroup>

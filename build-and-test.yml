@@ -55,7 +55,12 @@ steps:
     restoreSolution: '$(RestoreBuildProjects)'
     feedsToUse: 'select'
     vstsFeed: 'd2431f86-c1e6-4d8b-8d27-311cf3614847'
-
+- task: UseDotNet@2
+  displayName: "Configure dotnet"
+  inputs:
+    version: 3.1.x
+    performMultiLevelLookup: true
+    packageType: sdk
 # Build
 - task: VSBuild@1
   displayName: 'Build solutions'
