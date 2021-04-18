@@ -133,13 +133,6 @@ jobs:
       inputs:
         versionSpec: 5.8.0
     
-    - task: UseDotNet@2
-      displayName: "Configure dotnet"
-      inputs:
-        version: 3.1.x
-        performMultiLevelLookup: true
-        packageType: sdk
-    
     - task: NuGetCommand@2
       displayName: 'NuGet restore'
       inputs:
