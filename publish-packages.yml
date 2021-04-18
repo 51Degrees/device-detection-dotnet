@@ -169,6 +169,13 @@ jobs:
        dir FiftyOne.DeviceDetection\linux
       displayName: 'Move Linux Binaries'
 
+    - task: UseDotNet@2
+      displayName: "Configure dotnet 3.1"
+      inputs:
+        version: 3.1.x
+        performMultiLevelLookup: true
+        packageType: sdk
+
     - task: VSBuild@1
       displayName: 'Build solutions x64'
       inputs:
