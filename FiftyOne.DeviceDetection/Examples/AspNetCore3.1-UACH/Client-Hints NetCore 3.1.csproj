@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Platforms>AnyCPU;x64;x86</Platforms>
+    <RootNamespace>Client_Hints_NetCore_31</RootNamespace>
+    <AssemblyName>Client_Hints_NetCore_31</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -30,9 +32,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.2.3" />
+    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.3.0-beta.4" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <ProjectReference Include="..\..\FiftyOne.DeviceDetection\FiftyOne.DeviceDetection.csproj" />
   </ItemGroup>
