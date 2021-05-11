@@ -141,12 +141,12 @@ jobs:
         feedsToUse: 'select'
         vstsFeed: 'd2431f86-c1e6-4d8b-8d27-311cf3614847'
 
-    - task: gittools.gitversion.gitversion-task.GitVersion@4
+    - task: gittools.gitversion.gitversion-task.GitVersion@5
       displayName: 'Determine Version Number'
       # Give this task a name so we can use the variables it sets later. 
       name: GitVersion
       inputs:
-        preferBundledVersion: false
+        preferBundledVersion: true
 
     - task: DownloadBuildArtifacts@0
       displayName: 'Download Build Artifacts'
