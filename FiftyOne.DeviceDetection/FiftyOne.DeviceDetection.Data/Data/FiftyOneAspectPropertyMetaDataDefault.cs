@@ -137,6 +137,7 @@ namespace FiftyOne.DeviceDetection.Shared.Data
         /// <param name="available"></param>
         /// <param name="component"></param>
         /// <param name="defaultValue"></param>
+        /// <param name="values"></param>
         /// <param name="description"></param>
         public FiftyOneAspectPropertyMetaDataDefault(
             IAspectEngine element,
@@ -147,6 +148,7 @@ namespace FiftyOne.DeviceDetection.Shared.Data
             bool available,
             ComponentMetaDataDefault component,
             ValueMetaDataDefault defaultValue,
+            IEnumerable<ValueMetaDataDefault> values,
             string description)
             : this(element,
                 name,
@@ -156,6 +158,7 @@ namespace FiftyOne.DeviceDetection.Shared.Data
                 available,
                 component,
                 defaultValue,
+                values,
                 description,
                 255,
                 false, false, false, true, true, string.Empty)
@@ -173,6 +176,7 @@ namespace FiftyOne.DeviceDetection.Shared.Data
         /// <param name="available"></param>
         /// <param name="component"></param>
         /// <param name="defaultValue"></param>
+        /// <param name="values"></param>
         /// <param name="description"></param>
         /// <param name="displayOrder"></param>
         /// <param name="list"></param>
@@ -197,6 +201,7 @@ namespace FiftyOne.DeviceDetection.Shared.Data
             bool available,
             ComponentMetaDataDefault component,
             ValueMetaDataDefault defaultValue,
+            IEnumerable<ValueMetaDataDefault> values,
             string description,
             byte displayOrder,
             bool list,
@@ -223,7 +228,11 @@ namespace FiftyOne.DeviceDetection.Shared.Data
             _component.AddProperty(this);
             // Set the property of the default value to this.
             _defaultValue.SetProperty(this);
-            _values = new List<IValueMetaData>() { _defaultValue };
+            _values = values.Select(v =>
+            {
+                v.SetProperty(this);
+                return (IValueMetaData)v;
+            }).ToList();
         }
 
         /// <summary>

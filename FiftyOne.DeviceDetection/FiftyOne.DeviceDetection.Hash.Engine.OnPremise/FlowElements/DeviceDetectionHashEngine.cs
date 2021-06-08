@@ -364,6 +364,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                 true,
                 _deivceMetricsComponent,
                 new ValueMetaDataDefault("0"),
+                Enumerable.Empty<ValueMetaDataDefault>(),
                 "Indicates the number of hash nodes matched within the evidence.");
             yield return new FiftyOneAspectPropertyMetaDataHash(
                 this,
@@ -374,6 +375,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                 true,
                 _deivceMetricsComponent,
                 new ValueMetaDataDefault("0"),
+                Enumerable.Empty<ValueMetaDataDefault>(),
                 "Used when detection method is not Exact or None. This is an integer value and the larger the value the less confident the detector is in this result.");
             yield return new FiftyOneAspectPropertyMetaDataHash(
                 this,
@@ -384,6 +386,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                 true,
                 _deivceMetricsComponent,
                 new ValueMetaDataDefault("0"),
+                Enumerable.Empty<ValueMetaDataDefault>(),
                 "Total difference in character positions where the substrings hashes were found away from where they were expected.");
             yield return new FiftyOneAspectPropertyMetaDataHash(
                 this,
@@ -394,6 +397,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                 true,
                 _deivceMetricsComponent,
                 new ValueMetaDataDefault("0-0-0-0"),
+                Enumerable.Empty<ValueMetaDataDefault>(),
                 "Consists of four components separated by a hyphen symbol: Hardware-Platform-Browser-IsCrawler where each Component represents an ID of the corresponding Profile.");
             yield return new FiftyOneAspectPropertyMetaDataHash(
                 this,
@@ -404,6 +408,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                 true,
                 _deivceMetricsComponent,
                 new ValueMetaDataDefault("n/a"),
+                Enumerable.Empty<ValueMetaDataDefault>(),
                 "The matched User-Agents.");
             yield return new FiftyOneAspectPropertyMetaDataHash(
                 this,
@@ -414,6 +419,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                 true,
                 _deivceMetricsComponent,
                 new ValueMetaDataDefault("0"),
+                Enumerable.Empty<ValueMetaDataDefault>(),
                 "The number of iterations carried out in order to find a match. This is the number of nodes in the graph which have been visited.");
             yield return new FiftyOneAspectPropertyMetaDataHash(
                 this,
@@ -424,6 +430,13 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                 true,
                 _deivceMetricsComponent,
                 new ValueMetaDataDefault("NONE"),
+                new List<ValueMetaDataDefault>()
+                {
+                    new ValueMetaDataDefault("NONE"),
+                    new ValueMetaDataDefault("PERFORMANCE"),
+                    new ValueMetaDataDefault("COMBINED"),
+                    new ValueMetaDataDefault("PREDICTIVE")
+                },
                 "The method used to determine the match result.");
         }
 
