@@ -1,0 +1,5 @@
+variables:
+- name: nugetVersion # NuGet version that we should use across stages
+  value: 5.8.0
+- name: imageName # The agent that we support for .NET
+  value: windows-2019

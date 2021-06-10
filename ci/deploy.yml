@@ -1,0 +1,160 @@
+# Disable automatic runs of this pipeline when changes are pushed to the repository.
+trigger: none
+
+# Disable automatic runs of this pipeline when a PR is create.
+pr: none
+
+# Include the shared variables.
+variables:
+- template: shared-variables.yml
+
+# Add the pipeline that builds the packages as a resource.
+# This allows the deployment pipeline to be triggered whenever
+# the build pipeline completes.
+resources:
+  pipelines:
+  - pipeline: build-pipeline # The name for the triggering build pipeline within this script
+    source: device-detection-dotnet-create-packages # Name of the pipeline from here: https://51degrees.visualstudio.com/Pipeline/_build
+    trigger: true
+
+stages:
+# This should be triggered automatically.
+- stage: publish_internal
+  displayName: Publish Internal
+  jobs:
+  # Note - A 'deployment' job will automatically download the artifacts created by the triggering pipeline.
+  - deployment: deploy_internal
+    displayName: Deploy Internal
+    pool:
+      vmImage: 'ubuntu-18.04'
+      workspace:
+        clean: all
+    environment: packages-internal
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          #- bash: 'ls -R "$(PIPELINE.WORKSPACE)"'
+          #  displayName: 'List files and directories'
+          - template: shared-extract-and-publish-packages.yml
+            parameters:
+              nugetFeedType: 'internal'
+              nugetVersion: $(nugetVersion)
+
+# This stage is only triggered if done from a master branch and is approved by
+# a list of approvers specified in the environment.
+- stage: publish_nuget
+  displayName: Publish to NuGet.org
+  dependsOn: []
+  condition: eq(variables['build.sourceBranch'], 'refs/heads/master')
+  jobs:
+  - deployment: deploy_nuget
+    displayName: Deploy to NuGet
+    pool:
+      vmImage: 'ubuntu-18.04'
+      workspace:
+        clean: all
+    environment: nuget
+    strategy:
+      runOnce:
+        deploy:
+          steps: 
+          
+          - template: shared-extract-and-publish-packages.yml
+            parameters:
+              nugetFeedType: 'external'
+              nugetVersion: $(nugetVersion)
+
+- stage: publish_github
+  displayName: Publish to GitHub
+  dependsOn: publish_nuget
+  jobs:
+  - deployment: deploy_github
+    displayName: Deploy to GitHub
+    pool:
+      vmImage: 'ubuntu-18.04'
+      workspace:
+        clean: all
+    environment: github
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          
+          - task: DownloadSecureFile@1
+            displayName: 'Download ssh private key'
+            name: githubsshkey
+            inputs:
+              secureFile: 'gihhub-ssh-key'
+              retryCount: 5
+              steps:
+              
+          - task: DownloadSecureFile@1
+            displayName: 'Download ssh public key'
+            name: githubsshkeypublic
+            inputs:
+              secureFile: 'gihhub-ssh-key-public'
+              retryCount: 5
+              
+          - bash: |
+             # Copy ssh keys to expected location
+             mkdir ~/.ssh
+             mv $(githubsshkey.secureFilePath) ~/.ssh/id_rsa
+             mv $(githubsshkeypublic.secureFilePath) ~/.ssh/id_rsa.pub
+             if [ ! -f ~/.ssh/id_rsa ] && [ ! -f ~/.ssh/id_rsa ]; then
+               echo "Failed to obtain ssh keys."
+               exit 1               
+             fi
+             
+             # Have to change permissions on key files in order for SSH to work with them.
+             chmod 600 ~/.ssh/id_rsa
+             chmod 600 ~/.ssh/id_rsa.pub
+             export id_rsa_perm=`stat -c '%a' ~/.ssh/id_rsa`
+             export id_rsa_pub_perm=`stat -c '%a' ~/.ssh/id_rsa.pub`
+             if [ "$id_rsa_perm" != "600" ] && [ "$id_rsa_pub_perm" != "600" ]; then
+                echo "Failed to change permission on key files."
+                exit 1
+             fi
+             
+             # Uncomment the line below to debug issues with SSH
+             #ssh -vT git@github.com
+             
+             echo "Cloning git repository"
+             git clone https://a:$(System.AccessToken)@dev.azure.com/51degrees/$(System.TeamProject)/_git/$(Build.Repository.Name) source
+             if [ ! -d source ]; then
+               echo "Failed to checkout repository."
+               exit 1
+             fi
+             
+             cd source
+             
+             echo "Checking out branch '$(Build.SourceBranchName)'"
+             git checkout $(Build.SourceBranchName)
+             if [ $? != 0 ]; then
+               echo "Failed to checkout branch '$(Build.SourceBranchName)'."
+               exit 1
+             fi
+             
+             echo "Adding GitHub remote"
+             git remote add github git@github.com:51Degrees/$(Build.Repository.Name).git
+             if [ $? != 0 ]; then
+               echo "Failed to add GitHub remote."
+               exit 1
+             fi
+             
+             echo "Pushing branch '$(Build.SourceBranchName)' to GitHub"
+             git push github $(Build.SourceBranchName)
+             if [ $? != 0 ]; then
+               echo "Failed to push branch '$(Build.SourceBranchName)' to GitHub."
+               exit 1
+             fi
+             
+             echo "Pushing tag '$(Build.BuildNumber)' to GitHub"
+             git push github $(Build.BuildNumber)
+             if [ $? != 0 ]; then
+               echo "Failed to push tag '$(Build.BuildNumber)' to GitHub."
+               exit 1
+             fi
+             
+            displayName: 'Push to GitHub'
+            failOnStderr: true

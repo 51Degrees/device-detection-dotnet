@@ -1,37 +1,52 @@
-trigger:
-  - master
-  - develop
-  - release/*  
-    
-variables: 
+parameters:
+- name: targetPublishConfig # Target build configuration to publish
+  type: string
+  default: 'Release'
+- name: nugetVersion # NuGet version to use
+  type: string
+  default: 5.8.0
+- name: imageName # Name of the agent to work on
+- name: dependency # Name of the stage that this stage depends on
+
+stages:
+- stage: CreatePackages
+  dependsOn: ${{ parameters.dependency }}
+
+  variables:
   - group: CertificateVariables
   # Because we are pulling in a group, we need to define local variables 
   # using the name/value syntax.
   - name: RestoreBuildProjects
     value: '*.sln'
-    # Projects to be published as NuGet packages
+    # Projects to test
   - name: PublishProjects
     value: '**/*.csproj;!**/*[Tt]ests/**/*.csproj;!**/*[Ee]xamples/**/*.csproj'
     # Access token for the git repository. Used by the git tag task.
   - name: system_accesstoken
     value: $(System.AccessToken)
         
-jobs:
+  jobs:
+  # This build the Linux binaries for C module to be published
   - job: Build_Linux_Binaries
     pool:
-      vmImage: ubuntu-18.04 
+      vmImage: ubuntu-18.04
       
     steps:
     
     # Get the data files that are required for device detection automated system tests.
     - bash: |
        git lfs install
+       if [ $? != 0 ]; then
+         echo "ERROR: Failed to install lfs."
+       fi
+
        ls
        git config --global --add filter.lfs.required true
        git config --global --add filter.lfs.smudge "git-lfs smudge -- %f"
        git config --global --add filter.lfs.process "git-lfs filter-process"
        git config --global --add filter.lfs.clean "git-lfs clean -- %f"
       displayName: 'Configure git lfs'
+      failOnStderr: true
       
     - bash: |
        sudo apt-get update
@@ -39,16 +54,18 @@ jobs:
          gcc-multilib \
          g++-multilib
       displayName: 'Install gcc-multilib and g++-multilib packages'
-
+      failOnStderr: true
+    
     - checkout: self
       lfs: true
       submodules: recursive
-
+    
     - bash: |
        shopt -s globstar
        ls -d -1 **/*.csproj
       displayName: 'List all csproj files in repository'
-
+      failOnStderr: true
+    
     # This step displays the projects that will match the pattern in the 'PublishProjects'
     # variable.
     # If example or test projects (or any other that should not be packaged) are listed
@@ -59,11 +76,12 @@ jobs:
        shopt -s globstar
        find **/*.csproj -not -path '**/*Tests*/*' -and -not -path '**/*Examples*/*'
       displayName: 'List csproj files to be packaged'
-
+      failOnStderr: true
+    
     - bash: './PreBuild.sh hash'
       workingDirectory: FiftyOne.DeviceDetection
       displayName: 'Make Hash'
-
+    
     - task: CopyFiles@2
       displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
       inputs:
@@ -71,27 +89,36 @@ jobs:
         Contents: 'FiftyOne.DeviceDetection/dlls/linux/*/*.dll'
         TargetFolder: '$(build.artifactstagingdirectory)'
         OverWrite: true
-
+    
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact: resources'
       inputs:
         PathtoPublish: '$(build.artifactstagingdirectory)'
         ArtifactName: resources
-
-  - job: Windows_Build_and_Release
+    
+    # Build the Windows binaries for C module, and create packages with both Window
+    # and Linux binaries.
+  - job: CreatePackages
+    displayName: Create Packages
     dependsOn: Build_Linux_Binaries
+    
     pool:
-      vmImage: 'windows-2019'
-
+      vmImage: ${{ parameters.imageName }}
+      
     steps:
     - bash: |
        git lfs install
+       if [ $? != 0 ]; then
+         echo "ERROR: Failed to install lfs."
+       fi
        ls
+
        git config --global --add filter.lfs.required true
        git config --global --add filter.lfs.smudge "git-lfs smudge -- %f"
        git config --global --add filter.lfs.process "git-lfs filter-process"
        git config --global --add filter.lfs.clean "git-lfs clean -- %f"
       displayName: 'Configure git lfs'
+      failOnStderr: true
       
     # The lines below are needed to allow the pipeline access to the
     # OAuth access token that controls write access to the git repository. 
@@ -100,38 +127,12 @@ jobs:
       lfs: true
       submodules: recursive
       persistCredentials: true
-    # Useful snippets for debugging.
-    # List all contents of a directory:
-    #- script: |
-    #    ls -d $(System.ArtifactsDirectory)/*
 
-    # Use a script to set the BuildConfiguration variable.
-    # If building from master then build the Release configuration. 
-    # Otherwise, build the Debug configuration.
-    - script: |
-        echo Current branch is "%BUILD_SOURCEBRANCH%"
-        echo %BUILD_SOURCEBRANCH% |findstr /b "refs/heads/release/*" > nul && (
-          set ISRELEASEBRANCH=true
-        ) || (
-          set ISRELEASEBRANCH=false
-        )
-        if %FORCERELEASE% == true (
-            SET BUILD_CONFIG=Release
-        ) else if "%BUILD_SOURCEBRANCHNAME%" == "master" (
-            SET BUILD_CONFIG=Release
-        ) else if %ISRELEASEBRANCH% == true (
-            SET BUILD_CONFIG=Release
-        ) else (
-            SET BUILD_CONFIG=Debug
-        )
-        echo ##vso[task.setvariable variable=BuildConfiguration]%BUILD_CONFIG%
-        echo BuildConfiguration set to '%BUILD_CONFIG%'
-      displayName: 'Determine Build Configuration'
-        
+    # Install NuGet and restore packages
     - task: NuGetToolInstaller@1
-      displayName: 'Use NuGet 5.8.0'
+      displayName: 'Use NuGet ${{ parameters.nugetVersion }}'
       inputs:
-        versionSpec: 5.8.0
+        versionSpec: ${{ parameters.nugetVersion }}
     
     - task: NuGetCommand@2
       displayName: 'NuGet restore'
@@ -147,20 +148,26 @@ jobs:
       name: GitVersion
       inputs:
         preferBundledVersion: true
-
+    
+    # Download the Linux binaries
     - task: DownloadBuildArtifacts@0
-      displayName: 'Download Build Artifacts'
+      displayName: 'Download Linux Build Artifacts'
       inputs:
-        downloadType: specific
-        itemPattern: '**/*'
+        artifactName: 'resources'
         downloadPath: '$(build.sourcesdirectory)/'
-
+    
+    # Move Linux binaries to where it can be searched for in the package.
     - script: |
        dir resources\FiftyOne.DeviceDetection
        dir
        move resources\FiftyOne.DeviceDetection\dlls\linux FiftyOne.DeviceDetection\
+       if %errorlevel% neq 0 (
+         echo "Failed to move Linux binaries to target location."
+         exit 1
+       )
        dir FiftyOne.DeviceDetection\linux
-      displayName: 'Move Linux Binaries'
+
+      displayName: 'Move Binaries'
 
     - task: UseDotNet@2
       displayName: "Configure dotnet 3.1"
@@ -169,23 +176,25 @@ jobs:
         performMultiLevelLookup: true
         packageType: sdk
 
+    # Build the C binaries for Windows 64bit
     - task: VSBuild@1
       displayName: 'Build solutions x64'
       inputs:
         solution: '$(RestoreBuildProjects)'
         vsVersion: '16.0'
         platform: 'x64'
-        configuration: '$(BuildConfiguration)'
+        configuration: '${{ parameters.targetPublishConfig }}'
         clean: true
         msbuildArchitecture: 'x64'
 
+    # Build the C binaries for Windows 32bit
     - task: VSBuild@1
       displayName: 'Build solutions x86'
       inputs:
         solution: '$(RestoreBuildProjects)'
         vsVersion: '16.0'
         platform: 'x86'
-        configuration: '$(BuildConfiguration)'
+        configuration: '${{ parameters.targetPublishConfig }}'
         clean: true
         msbuildArchitecture: 'x86'
 
@@ -196,7 +205,8 @@ jobs:
         SearchPattern: '**/bin/**/*.pdb'
         SymbolServerType: 'TeamServices'
         SymbolsVersion: '$(GitVersion.NuGetVersion)'
-
+      condition: and(succeeded(), eq('${{ parameters.targetPublishConfig }}', 'Debug'))
+    
     # The nuget package version uses the BUILD_BUILDNUMER environment variable.
     # This has been set by the GitVersion task above.
     - task: DotNetCoreCLI@2
@@ -204,6 +214,7 @@ jobs:
       inputs:
         command: 'pack'
         packagesToPack: '$(PublishProjects)'
+        configurationToPack: '${{ parameters.targetPublishConfig }}'
         versioningScheme: 'byEnvVar'
         versionEnvVar: 'BUILD_BUILDNUMBER'
         
@@ -213,8 +224,8 @@ jobs:
       displayName: 'Download Code Signing Certificate'
       name: CodeSigningCert
       inputs:
-        secureFile: ' 51Degrees.mobi Code Signing Certificate.pfx'
-
+        secureFile: '51Degrees.mobi Code Signing Certificate.pfx'
+    
     # Sign the Nuget package with the file downloaded previously.
     # The password is stored in the Pipelines/Library/VariableGroups
     # section in Azure DevOps.
@@ -223,6 +234,11 @@ jobs:
       inputs:
         command: custom
         arguments: 'sign $(System.ArtifactsDirectory)\*.nupkg -CertificatePath "$(CodeSigningCert.secureFilePath)" -CertificatePassword $(CodeSigningCertPassword) -Timestamper http://timestamp.digicert.com'
+    
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact'
+      inputs:
+        PathtoPublish: '$(build.artifactstagingdirectory)'
 
     # Add a tag to the git repository with the version number of
     # the package that has just been published
@@ -231,8 +247,8 @@ jobs:
       inputs:
         tagUser: 'Azure DevOps'
         tagEmail: 'CIUser@51Degrees.com'
-      condition: succeeded()
-
+      condition: and(succeeded(), eq('${{ parameters.targetPublishConfig }}', 'Release'))
+    
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact'
       inputs:

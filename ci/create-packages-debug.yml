@@ -1,0 +1,17 @@
+# Debug build is only needed for investigating issues so should be manually triggered only
+trigger: none
+
+# Don't trigger for a pull request.
+pr: none
+
+# Use shared variables
+variables:
+- template: shared-variables.yml
+
+# Perform build, test and create packages
+stages:
+- template: shared-build-test-create.yml
+  parameters:
+    targetPublishConfig: 'Debug' # Specify the target build configuration to publish.
+    nugetVersion: $(nugetVersion)
+    imageName: $(imageName)

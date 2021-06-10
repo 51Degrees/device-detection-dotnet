@@ -1,0 +1,27 @@
+trigger:
+  - master
+  - develop
+  - release/*
+
+# Don't trigger for a pull request
+pr: none
+
+# Schedule to run overnight
+schedules:
+- cron: "0 20 * * *"
+  displayName: Daily overnight build
+  branches:
+    include:
+    - develop
+
+# Use shared variables
+variables:
+- template: shared-variables.yml
+
+# Perform Build, Test and Create
+stages:
+- template: shared-build-test-create.yml
+  parameters:
+    targetPublishConfig: 'Release' # Specify the target build configuration to publish
+    nugetVersion: $(nugetVersion)
+    imageName: $(imageName)

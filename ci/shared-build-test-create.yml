@@ -1,0 +1,21 @@
+parameters:
+- name: targetPublishConfig # The target build configuration to publish
+  type: string
+  default: 'Release'
+- name: nugetVersion # The NuGet version to use
+- name: imageName # The agent to work on.
+
+stages:
+# Build and Test the current source code
+- template: shared-build-and-test-stage.yml
+  parameters:
+    nugetVersion: ${{ parameters.nugetVersion }}
+    imageName: ${{ parameters.imageName }}
+
+# Build source and create packages
+- template: shared-create-packages-stage.yml
+  parameters:
+    dependency: Build_and_Test # Name of the build and test stage
+    nugetVersion: ${{ parameters.nugetVersion }}
+    imageName: ${{ parameters.imageName }}
+    targetPublishConfig: ${{ parameters.targetPublishConfig }}

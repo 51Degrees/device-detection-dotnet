@@ -1,0 +1,28 @@
+parameters:
+- name: nugetVersion
+- name: nugetFeedType
+
+steps:
+
+# Install NuGet and restore packages
+- task: NuGetToolInstaller@1
+  displayName: 'Use NuGet ${{ parameters.nugetVersion }}'
+  inputs:
+    versionSpec: ${{ parameters.nugetVersion }}
+
+- task: NuGetCommand@2
+  displayName: 'NuGet publish internal'
+  inputs:
+    command: push
+    packagesToPush: '$(PIPELINE.WORKSPACE)/build-pipeline/drop/**/*.nupkg;!$(PIPELINE.WORKSPACE)/build-pipeline/drop/**/*.symbols.nupkg'
+    publishVstsFeed: 'd2431f86-c1e6-4d8b-8d27-311cf3614847'
+  condition: and(succeeded(), eq('${{ parameters.nugetFeedType }}', 'internal'))
+  
+- task: NuGetCommand@2
+  displayName: 'NuGet publish external'
+  inputs:
+    command: push
+    packagesToPush: '$(PIPELINE.WORKSPACE)/build-pipeline/drop/**/*.nupkg;!$(PIPELINE.WORKSPACE)/build-pipeline/drop/**/*.symbols.nupkg'
+    nuGetFeedType: external
+    publishFeedCredentials: 'NuGet.org - Release'
+  condition: and(succeeded(), eq('${{ parameters.nugetFeedType }}', 'external'))
