@@ -6,6 +6,7 @@ parameters:
   type: string
   default: 5.8.0
 - name: imageName # Name of the agent to work on
+- name: linuxImage # Name of the linux image
 - name: dependency # Name of the stage that this stage depends on
 
 stages:
@@ -29,7 +30,7 @@ stages:
   # This build the Linux binaries for C module to be published
   - job: Build_Linux_Binaries
     pool:
-      vmImage: ubuntu-18.04
+      vmImage: ${{ parameters.linuxImage }}
       
     steps:
     

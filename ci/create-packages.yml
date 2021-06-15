@@ -25,3 +25,4 @@ stages:
     targetPublishConfig: 'Release' # Specify the target build configuration to publish
     nugetVersion: $(nugetVersion)
     imageName: $(imageName)
+    linuxImage: $(linuxImage)

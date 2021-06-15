@@ -4,6 +4,7 @@ parameters:
   default: 'Release'
 - name: nugetVersion # The NuGet version to use
 - name: imageName # The agent to work on.
+- name: linuxImage # Name of the linux Image.
 
 stages:
 # Build and Test the current source code
@@ -18,4 +19,5 @@ stages:
     dependency: Build_and_Test # Name of the build and test stage
     nugetVersion: ${{ parameters.nugetVersion }}
     imageName: ${{ parameters.imageName }}
+    linuxImage: ${{ parameters.linuxImage }
     targetPublishConfig: ${{ parameters.targetPublishConfig }}

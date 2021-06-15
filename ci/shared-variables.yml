@@ -3,3 +3,5 @@ variables:
   value: 5.8.0
 - name: imageName # The agent that we support for .NET
   value: windows-2019
+- name: linuxImage
+  value: ubuntu-18.04
