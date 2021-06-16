@@ -66,10 +66,10 @@ namespace FiftyOne.DeviceDetection.Hash.Tests
         protected void TestInitialize(PerformanceProfiles profile)
         {
             Wrapper = new WrapperHash(
-                Utils.GetFilePath(Constants.HASH_DATA_FILE_NAME),
+                TestHelpers.Utils.GetFilePath(Constants.HASH_DATA_FILE_NAME),
                 profile);
             UserAgents = new UserAgentGenerator(
-                Utils.GetFilePath(Constants.UA_FILE_NAME));
+                TestHelpers.Utils.GetFilePath(Constants.UA_FILE_NAME));
         }
 
     }
