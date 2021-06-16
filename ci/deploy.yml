@@ -1,0 +1,77 @@
+# Disable automatic runs of this pipeline when changes are pushed to the repository.
+trigger: none
+
+# Disable automatic runs of this pipeline when a PR is create.
+pr: none
+
+# Include the shared variables.
+variables:
+- template: shared-variables.yml
+- name: targetBranch
+  value: 'refs/heads/master'
+
+# Add the pipeline that builds the packages as a resource.
+# This allows the deployment pipeline to be triggered whenever
+# the build pipeline completes.
+resources:
+  pipelines:
+  - pipeline: build-pipeline # The name for the triggering build pipeline within this script
+    source: device-detection-dotnet-create-packages # Name of the pipeline from here: https://51degrees.visualstudio.com/Pipeline/_build
+    trigger: true
+  repositories:
+  - repository: ciTemplates # Id of the repository used to reference to in this script
+    type: git
+    name: common-ci # Name of the actual repository
+
+stages:
+# This should be triggered automatically.
+- stage: publish_internal
+  displayName: Publish Internal
+  jobs:
+  # Note - A 'deployment' job will automatically download the artifacts created by the triggering pipeline.
+  - deployment: deploy_internal
+    displayName: Deploy Internal
+    pool:
+      vmImage: $(linuxImage)
+      workspace:
+        clean: all
+    environment: packages-internal
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          #- bash: 'ls -R "$(PIPELINE.WORKSPACE)"'
+          #  displayName: 'List files and directories'
+          - template: shared-extract-and-publish-packages.yml
+            parameters:
+              nugetFeedType: 'internal'
+              nugetVersion: $(nugetVersion)
+
+# This stage is only triggered if done from a master branch and is approved by
+# a list of approvers specified in the environment.
+- stage: publish_nuget
+  displayName: Publish to NuGet.org
+  dependsOn: []
+  condition: eq(variables['build.sourceBranch'], variables['targetBranch'])
+  jobs:
+  - deployment: deploy_nuget
+    displayName: Deploy to NuGet
+    pool:
+      vmImage: $(linuxImage)
+      workspace:
+        clean: all
+    environment: nuget
+    strategy:
+      runOnce:
+        deploy:
+          steps: 
+          
+          - template: shared-extract-and-publish-packages.yml
+            parameters:
+              nugetFeedType: 'external'
+              nugetVersion: $(nugetVersion)
+
+- template: shared-publish-github-stage.yml@ciTemplates
+  parameters:
+    imageName: $(linuxImage)
+    branchName: ${{ variables.targetBranch }}

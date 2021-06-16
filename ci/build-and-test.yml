@@ -1,0 +1,13 @@
+# No push trigger. However, by default without PR trigger specified,
+# this is run when a PR is created.
+trigger: none
+
+# Use shared variables
+variables:
+- template: shared-variables.yml
+
+stages:
+- template: shared-build-and-test-stage.yml
+  parameters:
+    imageName: $(imageName)
+    nugetVersion: $(nugetVersion)

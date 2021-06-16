@@ -8,7 +8,7 @@ set(EXTERNAL_INSTALL_LOCATION ${CMAKE_BINARY_DIR}/external)
 ExternalProject_Add(ApacheBench
     GIT_REPOSITORY https://github.com/51degrees/apachebench
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION}
-    GIT_TAG origin/feature/wait-for-endpoint
+    GIT_TAG origin/main
     STEP_TARGETS build
     EXCLUDE_FROM_ALL TRUE
 )

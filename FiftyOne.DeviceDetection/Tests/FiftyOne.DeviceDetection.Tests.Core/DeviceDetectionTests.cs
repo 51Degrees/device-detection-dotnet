@@ -42,7 +42,7 @@ namespace FiftyOne.DeviceDetection.Tests.Core
     public class DeviceDetectionTests
     {
         private static UserAgentGenerator USER_AGENTS = new UserAgentGenerator(
-            Utils.GetFilePath(Constants.UA_FILE_NAME));
+            TestHelpers.Utils.GetFilePath(Constants.UA_FILE_NAME));
 
         [DataTestMethod]
         // ******** Hash with a single thread *********
@@ -104,7 +104,7 @@ namespace FiftyOne.DeviceDetection.Tests.Core
             bool useLazyLoading,
             bool multiThreaded)
         {
-            var datafile = Utils.GetFilePath(datafileName);
+            var datafile = TestHelpers.Utils.GetFilePath(datafileName);
             var updateService = new Mock<IDataUpdateService>();
 
             // Configure the pipeline builder based on the 
