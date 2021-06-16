@@ -19,5 +19,5 @@ stages:
     dependency: Build_and_Test # Name of the build and test stage
     nugetVersion: ${{ parameters.nugetVersion }}
     imageName: ${{ parameters.imageName }}
-    linuxImage: ${{ parameters.linuxImage }
+    linuxImage: ${{ parameters.linuxImage }}
     targetPublishConfig: ${{ parameters.targetPublishConfig }}
