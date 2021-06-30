@@ -2,6 +2,14 @@
 # this is run when a PR is created.
 trigger: none
 
+# Schedule to run overnight
+schedules:
+- cron: "0 20 * * *"
+  displayName: Daily overnight build
+  branches:
+    include:
+    - develop
+
 # Use shared variables
 variables:
 - template: shared-variables.yml
