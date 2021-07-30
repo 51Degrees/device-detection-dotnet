@@ -3,6 +3,9 @@ parameters:
 - name: nugetVersion
   type: string
   default: 5.8.0
+- name: runTests
+  type: string
+  default: 'On'
 
 stages:
 - stage: Build_and_Test
@@ -10,6 +13,7 @@ stages:
   jobs:
   - job: Build_and_Test
     displayName: Build and Test
+    condition: ne(${{ parameters.runTests }}, 'Off')
   
     pool:
       vmImage: ${{ parameters.imageName }}
@@ -73,7 +77,7 @@ stages:
         command: 'restore'
         restoreSolution: '$(RestoreBuildProjects)'
         feedsToUse: 'select'
-        vstsFeed: 'd2431f86-c1e6-4d8b-8d27-311cf3614847'
+        vstsFeed: '$(InternalFeedId)'
     
     - task: UseDotNet@2
       displayName: "Configure dotnet"
