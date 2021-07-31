@@ -2,12 +2,34 @@
 # this is run when a PR is created.
 trigger: none
 
+# Schedule to run overnight
+schedules:
+- cron: "0 20 * * *"
+  displayName: Daily overnight build
+  branches:
+    include:
+    - develop
+
 # Use shared variables
 variables:
 - template: shared-variables.yml
+- group: CIAutomation # Required to access CI variables
+
+resources:
+  repositories:
+  - repository: ciTemplates # Id of the repository used to reference to in this script
+    type: git
+    name: common-ci # Name of the actual repository
 
 stages:
 - template: shared-build-and-test-stage.yml
   parameters:
     imageName: $(imageName)
     nugetVersion: $(nugetVersion)
+    runTests: variables['RunTests']
+
+# Try to complete the corresponding pull request if
+# this is triggered by one.    
+- template: shared-auto-complete-pr-stage.yml@ciTemplates
+  parameters:
+    stageDependencies: [Build_and_Test]

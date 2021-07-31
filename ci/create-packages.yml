@@ -6,23 +6,22 @@ trigger:
 # Don't trigger for a pull request
 pr: none
 
-# Schedule to run overnight
-schedules:
-- cron: "0 20 * * *"
-  displayName: Daily overnight build
-  branches:
-    include:
-    - develop
-
 # Use shared variables
 variables:
 - template: shared-variables.yml
 
-# Perform Build, Test and Create
+resources:
+  repositories:
+    - repository: ciTemplates # Id of the repository used to reference to in this script
+      type: git
+      name: common-ci # Name of the actual repository
+
 stages:
-- template: shared-build-test-create.yml
+# Build source and create packages
+- template: shared-create-packages-stage.yml
   parameters:
-    targetPublishConfig: 'Release' # Specify the target build configuration to publish
     nugetVersion: $(nugetVersion)
     imageName: $(imageName)
     linuxImage: $(linuxImage)
+    targetPublishConfig: 'Release'
+    templates: 'ciTemplates'
