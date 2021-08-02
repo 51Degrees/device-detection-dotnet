@@ -9,6 +9,7 @@ variables:
 - template: shared-variables.yml
 - name: targetBranch
   value: 'refs/heads/master'
+- group: CIAutomation
 
 # Add the pipeline that builds the packages as a resource.
 # This allows the deployment pipeline to be triggered whenever
@@ -42,36 +43,8 @@ stages:
           steps:
           #- bash: 'ls -R "$(PIPELINE.WORKSPACE)"'
           #  displayName: 'List files and directories'
-          - template: shared-extract-and-publish-packages.yml
+          - template: dotnet/shared-extract-and-publish-packages.yml@ciTemplates
             parameters:
               nugetFeedType: 'internal'
               nugetVersion: $(nugetVersion)
-
-# This stage is only triggered if done from a master branch and is approved by
-# a list of approvers specified in the environment.
-- stage: publish_nuget
-  displayName: Publish to NuGet.org
-  dependsOn: []
-  condition: eq(variables['build.sourceBranch'], variables['targetBranch'])
-  jobs:
-  - deployment: deploy_nuget
-    displayName: Deploy to NuGet
-    pool:
-      vmImage: $(linuxImage)
-      workspace:
-        clean: all
-    environment: nuget
-    strategy:
-      runOnce:
-        deploy:
-          steps: 
-          
-          - template: shared-extract-and-publish-packages.yml
-            parameters:
-              nugetFeedType: 'external'
-              nugetVersion: $(nugetVersion)
-
-- template: shared-publish-github-stage.yml@ciTemplates
-  parameters:
-    imageName: $(linuxImage)
-    branchName: ${{ variables.targetBranch }}
+              feed: $(InternalFeedId)
