@@ -37,12 +37,13 @@ unameOut="$(uname -s)"
 case "${unameOut}" in
     Linux*)
     OS=linux
-    LDARGS="$LDARGS -static-libgcc -static-libstdc++"
+    LDARGS="$LDARGS -static-libgcc -static-libstdc++ -latomic"
     ;;
     Darwin*)
     OS=mac
     CC_CMD=clang
     CXX_CMD=clang++
+    GCCARGS="$GCCARGS -Wno-atomic-alignment"
     ;;
 #    CYGWIN*)    OS=Cygwin;;
 #    MINGW*)     OS=MinGw;;
