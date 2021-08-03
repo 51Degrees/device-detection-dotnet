@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -81,13 +81,13 @@
       <HintPath>..\..\..\..\..\packages\FiftyOne.Caching.4.1.10\lib\netstandard2.0\FiftyOne.Caching.dll</HintPath>
     </Reference>
     <Reference Include="FiftyOne.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\packages\FiftyOne.Common.4.1.8\lib\netstandard2.0\FiftyOne.Common.dll</HintPath>
+      <HintPath>..\..\..\..\..\packages\FiftyOne.Common.4.3.1\lib\netstandard2.0\FiftyOne.Common.dll</HintPath>
     </Reference>
     <Reference Include="FiftyOne.Pipeline.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\packages\FiftyOne.Pipeline.Core.4.3.1-bug-cloud-request-default-host.2\lib\netstandard2.0\FiftyOne.Pipeline.Core.dll</HintPath>
+      <HintPath>..\..\..\..\..\packages\FiftyOne.Pipeline.Core.4.3.1\lib\netstandard2.0\FiftyOne.Pipeline.Core.dll</HintPath>
     </Reference>
     <Reference Include="FiftyOne.Pipeline.Engines, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\packages\FiftyOne.Pipeline.Engines.4.3.1-bug-cloud-request-default-host.2\lib\netstandard2.0\FiftyOne.Pipeline.Engines.dll</HintPath>
+      <HintPath>..\..\..\..\..\packages\FiftyOne.Pipeline.Engines.4.3.1\lib\netstandard2.0\FiftyOne.Pipeline.Engines.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Configuration, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\..\packages\Microsoft.Extensions.Configuration.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.dll</HintPath>
