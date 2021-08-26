@@ -178,6 +178,6 @@ if [ "$API" = "Hash" ]; then
         test_execution $CXX_CMD $M $GXXARGS_WRAPPER $SCRIPTPATH/DeviceDetectionHashEngineSwig_csharp.cpp -o obj/DeviceDetectionHashEngineSwig_csharp.o
 
         # Shared Library
-        test_execution $CXX_CMD $M $LDARGS obj/*.o -o $RES/$OS/$ARCH/libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll -L$RES/$OS/$ARCH -lDeviceDetectionHashEngine-$OS-$ARCH
+        test_execution $CXX_CMD $M obj/*.o -o $RES/$OS/$ARCH/libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll -L$RES/$OS/$ARCH -lDeviceDetectionHashEngine-$OS-$ARCH $LDARGS
     done
 fi
