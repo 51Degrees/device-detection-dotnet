@@ -77,11 +77,11 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<int> BrowserDiscontinuedAge { get; }
 		/// <summary>
-		/// The month in which further development of the browser version is stopped by the browser vendor.  This occurs when a new stable version of the brower is released.
+		/// The month in which further development of the browser version is stopped by the browser vendor. This occurs when a new stable version of the browser is released.
 		/// </summary>
 		IAspectPropertyValue<string> BrowserDiscontinuedMonth { get; }
 		/// <summary>
-		/// The year in which further development of the browser version is stopped by the browser vendor.  This occurs when a new stable version of the brower is released.
+		/// The year in which further development of the browser version is stopped by the browser vendor. This occurs when a new stable version of the browser is released.
 		/// </summary>
 		IAspectPropertyValue<int> BrowserDiscontinuedYear { get; }
 		/// <summary>
@@ -928,6 +928,18 @@ namespace FiftyOne.DeviceDetection
 		/// Indicates if the browser supports the querySelector() method that returns the first element matching a specified CSS selector(s) in the document.
 		/// </summary>
 		IAspectPropertyValue<bool> Selector { get; }
+		/// <summary>
+		/// Client hint that represents the browser's brand. This property accepts the values SEC-CH-UA,SEC-CH-UA-Full-Version. The default value is Unknown for this property.
+		/// </summary>
+		IAspectPropertyValue<string> SetHeaderBrowserAcceptCH { get; }
+		/// <summary>
+		/// Client hint that represents the hardware's brand. This property accepts the values SEC-CH-UA-Model,SEC-CH-UA-Mobile,SEC-CH-UA-Arch. The default value is Unknown for this property.
+		/// </summary>
+		IAspectPropertyValue<string> SetHeaderHardwareAcceptCH { get; }
+		/// <summary>
+		/// Client hint that represents the platform's brand. This property accepts the values SEC-CH-UA-Platform,SEC-CH-UA-Platform-Version. The default value is Unknown for this property.
+		/// </summary>
+		IAspectPropertyValue<string> SetHeaderPlatformAcceptCH { get; }
 		/// <summary>
 		/// Indicates the primary marketing name of the System on Chip (chipset) which includes the CPU, GPU and modem. e.g. Snapdragon S4
 		/// </summary>

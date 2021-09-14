@@ -103,11 +103,11 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<int> BrowserDiscontinuedAge { get { return GetAs<IAspectPropertyValue<int>>("BrowserDiscontinuedAge"); } }
 		/// <summary>
-		/// The month in which further development of the browser version is stopped by the browser vendor.  This occurs when a new stable version of the brower is released.
+		/// The month in which further development of the browser version is stopped by the browser vendor. This occurs when a new stable version of the browser is released.
 		/// </summary>
 		public IAspectPropertyValue<string> BrowserDiscontinuedMonth { get { return GetAs<IAspectPropertyValue<string>>("BrowserDiscontinuedMonth"); } }
 		/// <summary>
-		/// The year in which further development of the browser version is stopped by the browser vendor.  This occurs when a new stable version of the brower is released.
+		/// The year in which further development of the browser version is stopped by the browser vendor. This occurs when a new stable version of the browser is released.
 		/// </summary>
 		public IAspectPropertyValue<int> BrowserDiscontinuedYear { get { return GetAs<IAspectPropertyValue<int>>("BrowserDiscontinuedYear"); } }
 		/// <summary>
@@ -954,6 +954,18 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// Indicates if the browser supports the querySelector() method that returns the first element matching a specified CSS selector(s) in the document.
 		/// </summary>
 		public IAspectPropertyValue<bool> Selector { get { return GetAs<IAspectPropertyValue<bool>>("Selector"); } }
+		/// <summary>
+		/// Client hint that represents the browser's brand. This property accepts the values SEC-CH-UA,SEC-CH-UA-Full-Version. The default value is Unknown for this property.
+		/// </summary>
+		public IAspectPropertyValue<string> SetHeaderBrowserAcceptCH { get { return GetAs<IAspectPropertyValue<string>>("SetHeaderBrowserAccept-CH"); } }
+		/// <summary>
+		/// Client hint that represents the hardware's brand. This property accepts the values SEC-CH-UA-Model,SEC-CH-UA-Mobile,SEC-CH-UA-Arch. The default value is Unknown for this property.
+		/// </summary>
+		public IAspectPropertyValue<string> SetHeaderHardwareAcceptCH { get { return GetAs<IAspectPropertyValue<string>>("SetHeaderHardwareAccept-CH"); } }
+		/// <summary>
+		/// Client hint that represents the platform's brand. This property accepts the values SEC-CH-UA-Platform,SEC-CH-UA-Platform-Version. The default value is Unknown for this property.
+		/// </summary>
+		public IAspectPropertyValue<string> SetHeaderPlatformAcceptCH { get { return GetAs<IAspectPropertyValue<string>>("SetHeaderPlatformAccept-CH"); } }
 		/// <summary>
 		/// Indicates the primary marketing name of the System on Chip (chipset) which includes the CPU, GPU and modem. e.g. Snapdragon S4
 		/// </summary>

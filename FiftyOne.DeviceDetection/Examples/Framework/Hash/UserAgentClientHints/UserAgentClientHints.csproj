@@ -84,10 +84,10 @@
       <HintPath>..\..\..\..\..\packages\FiftyOne.Common.4.3.2\lib\netstandard2.0\FiftyOne.Common.dll</HintPath>
     </Reference>
     <Reference Include="FiftyOne.Pipeline.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\packages\FiftyOne.Pipeline.Core.4.3.2\lib\netstandard2.0\FiftyOne.Pipeline.Core.dll</HintPath>
+      <HintPath>..\..\..\..\..\packages\FiftyOne.Pipeline.Core.4.3.3\lib\netstandard2.0\FiftyOne.Pipeline.Core.dll</HintPath>
     </Reference>
     <Reference Include="FiftyOne.Pipeline.Engines, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\packages\FiftyOne.Pipeline.Engines.4.3.2\lib\netstandard2.0\FiftyOne.Pipeline.Engines.dll</HintPath>
+      <HintPath>..\..\..\..\..\packages\FiftyOne.Pipeline.Engines.4.3.3\lib\netstandard2.0\FiftyOne.Pipeline.Engines.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Configuration, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\..\packages\Microsoft.Extensions.Configuration.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.dll</HintPath>
