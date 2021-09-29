@@ -1,4 +1,5 @@
 parameters:
+- name: stageName # Name of the stage.
 - name: imageName # Name of the agent to work on.
 - name: nugetVersion
   type: string
@@ -8,7 +9,8 @@ parameters:
   default: 'On'
 
 stages:
-- stage: Build_and_Test
+- stage: ${{ parameters.stageName }}
+  dependsOn: []
 
   jobs:
   - job: Build_and_Test

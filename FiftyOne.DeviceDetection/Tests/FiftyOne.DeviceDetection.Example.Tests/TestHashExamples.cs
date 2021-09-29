@@ -21,6 +21,7 @@
  * ********************************************************************* */
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Runtime.InteropServices;
 using System;
 using System.IO;
 
@@ -75,6 +76,11 @@ namespace FiftyOne.DeviceDetection.Example.Tests
 #endif
             }
 
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
+				Console.WriteLine("Getting Linux Path.");
+				DataFile = "../../../../../../device-detection-cxx/device-detection-data/51Degrees-LiteV4.1.hash";
+			}
+
             // Set User-Agents file for performance example.
             UserAgentsFile = Environment.GetEnvironmentVariable("USERAGENTSFILE");
             if (string.IsNullOrWhiteSpace(UserAgentsFile))
@@ -84,8 +90,13 @@ namespace FiftyOne.DeviceDetection.Example.Tests
 #else
                 UserAgentsFile = "..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\20000 User Agents.csv";
 #endif
-            }
+            }	
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
+				Console.WriteLine("Getting Linux Path.");
+				UserAgentsFile = "../../../../../../device-detection-cxx/device-detection-data/20000 User Agents.csv";
+			}			
         }
+
 
         /// <summary>
         /// Test the ConfigureFromFile example.

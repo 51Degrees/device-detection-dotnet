@@ -22,9 +22,18 @@ resources:
     name: common-ci # Name of the actual repository
 
 stages:
+
 - template: shared-build-and-test-stage.yml
   parameters:
+    stageName: 'Windows'
     imageName: $(imageName)
+    nugetVersion: $(nugetVersion)
+    runTests: variables['RunTests']
+
+- template: shared-build-and-test-stage-linux.yml
+  parameters:
+    stageName: 'Linux'
+    imageName: $(linuxImage)
     nugetVersion: $(nugetVersion)
     runTests: variables['RunTests']
 
@@ -32,4 +41,4 @@ stages:
 # this is triggered by one.    
 - template: shared-auto-complete-pr-stage.yml@ciTemplates
   parameters:
-    stageDependencies: [Build_and_Test]
+    stageDependencies: [Windows, Linux]
