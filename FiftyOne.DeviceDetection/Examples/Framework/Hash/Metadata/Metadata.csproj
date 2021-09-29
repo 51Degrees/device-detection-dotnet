@@ -190,8 +190,5 @@
       <Version>2.1.1</Version>
     </PackageReference>
   </ItemGroup>
-  <Import Condition="'$(OS)' == 'Windows_NT'" Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Condition="'$(OS)' != 'Windows_NT'" Name="build">
-    <Message Text="Skip = Skipping Metadata on Linux." />
-  </Target>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
