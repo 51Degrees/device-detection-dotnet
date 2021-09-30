@@ -11,7 +11,7 @@ SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 
 if [ "$API" = "Hash" ]; then
     SRCOUT=$SCRIPTPATH/FiftyOne.DeviceDetection.$API.Engine.OnPremise/Interop/Swig
-    RES=$SCRIPTPATH/dlls
+    RES=$SCRIPTPATH
 else
     echo >&2 "No API name supplied. Use hash as an argument."
     exit 1

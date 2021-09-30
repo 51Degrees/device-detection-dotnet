@@ -1,0 +1,97 @@
+parameters:
+- name: stageName # Name of the stage.
+- name: imageName # Name of the agent to work on.
+- name: nugetVersion
+  type: string
+  default: 5.8.0
+- name: runTests
+  type: string
+  default: 'On'
+
+stages:
+- stage: ${{ parameters.stageName }}
+  dependsOn: []
+
+  jobs:
+  - job: Build_and_Test
+    displayName: Build and Test
+    condition: ne(${{ parameters.runTests }}, 'Off')
+  
+    pool:
+      vmImage: ${{ parameters.imageName }}
+    
+    # Configure this to run for both Debug and Release configurations
+    strategy:
+      maxParallel: 2
+      matrix:
+        debug:
+          BuildConfiguration: LinuxDebug
+        release:
+          BuildConfiguration: LinuxRelease
+
+    variables:
+      - group: InternalKeys    
+      - name: RestoreBuildProjects
+        value: '**/FiftyOne.DeviceDetection.sln'
+        # Projects to test
+      - name: TestProjects
+        value: '**/*[Tt]ests/**/*.csproj'
+        # Projects to be published as NuGet packages
+    
+    steps:
+    # Get the data files that are required for device detection automated system tests.
+    - powershell: |
+        git lfs install
+        if (-Not $?) {
+          "ERROR: Failed to install git lft."
+          exit 1
+        }
+        ls
+       
+        git config --global --add filter.lfs.required true
+        git config --global --add filter.lfs.smudge "git-lfs smudge -- %f"
+        git config --global --add filter.lfs.process "git-lfs filter-process"
+        git config --global --add filter.lfs.clean "git-lfs clean -- %f"
+      displayName: 'Configure git lfs'
+      failOnStderr: true
+    
+    - checkout: self
+      lfs: true
+      submodules: recursive
+
+    - bash: |
+       shopt -s globstar
+       ls -d -1 **/*.csproj
+      displayName: 'List all csproj files in repository'
+      failOnStderr: true
+
+    - bash: |
+       sudo apt-get install gcc-multilib g++-multilib
+      displayName: 'Install GCC'
+      failOnStderr: true
+
+    # Restore NuGet packages using the dotnet core CLI.
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore NuGet Packages'
+      inputs:
+        command: 'restore'
+        projects: '$(RestoreBuildProjects)'
+        feedsToUse: 'select'
+        vstsFeed: '$(InternalFeedId)'
+
+    # Build the package using the dotnet CLI.
+    - task: DotNetCoreCLI@2
+      displayName: 'Build Solutions'
+      inputs:
+        command: 'build'
+        projects: '$(RestoreBuildProjects)'
+        arguments: '-c $(BuildConfiguration)'
+
+    # Run the unit tests using the dotnet CLI. 
+    - task: DotNetCoreCLI@2
+      displayName: 'Dotnet Test - $(BuildConfiguration)'
+      inputs:
+        command: 'test'
+        projects:  '$(RestoreBuildProjects)'  
+        arguments: '-c $(BuildConfiguration) --no-build'
+        

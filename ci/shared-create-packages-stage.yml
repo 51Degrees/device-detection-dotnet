@@ -92,7 +92,7 @@ stages:
       displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
       inputs:
         SourceFolder: '$(build.sourcesdirectory)'
-        Contents: 'FiftyOne.DeviceDetection/dlls/linux/*/*.dll'
+        Contents: 'FiftyOne.DeviceDetection/linux/*/*.dll'
         TargetFolder: '$(build.artifactstagingdirectory)'
         OverWrite: true
     
@@ -163,7 +163,7 @@ stages:
     - script: |
        dir resources\FiftyOne.DeviceDetection
        dir
-       move resources\FiftyOne.DeviceDetection\dlls\linux FiftyOne.DeviceDetection\
+       move resources\FiftyOne.DeviceDetection\linux FiftyOne.DeviceDetection\
        if %errorlevel% neq 0 (
          echo "Failed to move Linux binaries to target location."
          exit 1

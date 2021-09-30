@@ -22,9 +22,15 @@
     <RepositoryType>git</RepositoryType>
     <PackageIcon>51d-logo.png</PackageIcon>
     <NeutralLanguage>en</NeutralLanguage>
+    <Configurations>Debug;Release;LinuxRelease;LinuxDebug</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='LinuxDebug'">
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
@@ -33,7 +39,15 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LinuxDebug|x64'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LinuxRelease|x64'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
@@ -41,7 +55,15 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LinuxDebug|x86'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LinuxRelease|x86'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
@@ -56,19 +78,30 @@
     </PackageReference>
   </ItemGroup>
 
+  <PropertyGroup Condition="'$(OS)' != 'Windows_NT'">
+      <PreBuildEvent>../../../../../PreBuild.sh hash</PreBuildEvent>
+  </PropertyGroup>
+
   <ItemGroup>
-    <None Include="$(ProjectDir)\..\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native\$(Platform)\$(Configuration)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="'$(Platform)' == 'x64'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
+    <None Include="$(ProjectDir)\..\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native\$(Platform)\$(Configuration)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="'$(Platform)' == 'x64' AND '$(OS)' == 'Windows_NT'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="$(ProjectDir)\..\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native\Win32\$(Configuration)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="'$(Platform)'=='x86'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
+    <None Include="$(ProjectDir)\..\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native\Win32\$(Configuration)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="'$(Platform)'=='x86' AND '$(OS)' == 'Windows_NT'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="$(ProjectDir)\..\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native\$(Platform)\$(Configuration)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.pdb" Condition="'$(Platform)' == 'x64'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.pdb">
+    <None Include="$(ProjectDir)\..\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native\$(Platform)\$(Configuration)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.pdb" Condition="'$(Platform)' == 'x64' AND '$(OS)' == 'Windows_NT'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.pdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="$(ProjectDir)\..\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native\Win32\$(Configuration)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.pdb" Condition="'$(Platform)'=='x86'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.pdb">
+    <None Include="$(ProjectDir)\..\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native\Win32\$(Configuration)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.pdb" Condition="'$(Platform)'=='x86' AND '$(OS)' == 'Windows_NT'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.pdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="$(ProjectDir)\..\linux\x86\libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="'$(Platform)' == 'x86' AND '$(OS)' != 'Windows_NT'" Link="libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="$(ProjectDir)\..\linux\x64\libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="'$(Platform)' != 'x86' AND '$(OS)' != 'Windows_NT'" Link="libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+
     <None Include="..\..\.editorconfig" Link="Interop\Swig\.editorconfig" />
     <None Include="..\..\Images\51d-logo.png">
       <Pack>True</Pack>
