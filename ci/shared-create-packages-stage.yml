@@ -21,7 +21,10 @@ stages:
     value: '*.sln'
     # Projects to test
   - name: PublishProjects
-    value: '**/*.csproj;!**/*[Tt]ests/**/*.csproj;!**/*[Ee]xamples/**/*.csproj'
+    value: |
+      **/*.csproj
+      !**/*[Tt]ests/**/*.csproj
+      !**/*[Ee]xamples/**/*.csproj
     # Access token for the git repository. Used by the git tag task.
   - name: system_accesstoken
     value: $(System.AccessToken)
@@ -111,6 +114,7 @@ stages:
     
     variables:
       GitVersionNuGetVer: $[ dependencies.Versioning.outputs['SetGitVersionVars.GitVersionNuGetVer'] ]
+      GitVersionSemVer: $[ dependencies.Versioning.outputs['SetGitVersionVars.GitVersionSemVer'] ]
     
     pool:
       vmImage: ${{ parameters.imageName }}
@@ -207,21 +211,18 @@ stages:
       inputs: 
         SearchPattern: '**/bin/**/*.pdb'
         SymbolServerType: 'TeamServices'
-        SymbolsVersion: '$(GitVersionNuGetVer)'
+        SymbolsVersion: '$(GitVersionSemVer)'
       condition: and(succeeded(), eq('${{ parameters.targetPublishConfig }}', 'Debug'))
-    
-    # The nuget package version uses the BUILD_BUILDNUMER environment variable.
-    # This has been set by the GitVersion task above.
+
+    # The nuget package version uses the GitVersionSemVer variable.
+    # This has been set by the GitVersion task above. 
     - task: DotNetCoreCLI@2
       displayName: 'Build NuGet Package'
       inputs:
-        command: 'pack'
-        packagesToPack: '$(PublishProjects)'
-        configurationToPack: '${{ parameters.targetPublishConfig }}'
-        versioningScheme: 'byEnvVar'
-        versionEnvVar: 'BUILD_BUILDNUMBER'
-      env:
-        BUILD_BUILDNUMBER: $(GitVersionNuGetVer)
+        command: 'custom'
+        projects: $(PublishProjects)
+        custom: 'pack'
+        arguments: '--output $(System.ArtifactsDirectory) --configuration ${{ parameters.targetPublishConfig }} /p:PackageVersion=$(GitVersionSemVer) /p:Version=$(GitVersionSemVer)'
         
     - template: dotnet/shared-code-signing-steps.yml@${{ parameters.templates }}
       parameters:
