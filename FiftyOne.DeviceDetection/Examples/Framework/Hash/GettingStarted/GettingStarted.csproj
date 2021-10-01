@@ -185,7 +185,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FiftyOne.Pipeline.Engines">
-      <Version>4.3.3</Version>
+      <Version>4.4.0-cloud-engine-exceptions.1</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
