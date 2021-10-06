@@ -79,6 +79,19 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to load the Device Detection native library, common causes include: 
+        ///    - Missing dependencies:
+        ///        o On Windows, the Visual C++ runtime is not installed, see the Visual Studio download page for the latest C++ Redistributable: https://visualstudio.microsoft.com/downloads/
+        ///        o On Linux, the libatomic shared object is missing. On Debian based distributions, run ‘apt install libatomic1’; on RedHat based distributions, run ‘&lt;yum|dnf&gt; install libatomic’.
+        ///    - The DLL file was not copied to [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string DLLException {
+            get {
+                return ResourceManager.GetString("DLLException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A results cache cannot be configured in the Device-Detection Hash engine. The overhead of having to manage native object lifetimes when a cache is enabled outweighs the benefit of the cache..
         /// </summary>
         internal static string ExceptionSetCache {

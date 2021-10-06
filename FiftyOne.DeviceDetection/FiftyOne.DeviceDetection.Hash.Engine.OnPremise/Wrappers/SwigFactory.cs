@@ -40,20 +40,59 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
         {
             EngineFromFile = (fileName, config, requiredProperties) =>
             {
-                var engine = new EngineHashSwig(fileName, config.Object, requiredProperties.Object);
-                return new EngineSwigWrapper(engine);
+                Func<IEngineSwigWrapper> action = () =>
+                {
+                    var engine = new EngineHashSwig(fileName, config.Object, requiredProperties.Object);
+                    return new EngineSwigWrapper(engine);
+                };
+                return DllExceptionHandler(action);
             };
             EngineFromData = (data, dataSize, config, requiredProperties) =>
             {
-                var engine = new EngineHashSwig(data, dataSize, config.Object, requiredProperties.Object);
-                return new EngineSwigWrapper(engine);
+                Func<IEngineSwigWrapper> action = () =>
+                {
+                    var engine = new EngineHashSwig(data, dataSize, config.Object, requiredProperties.Object);
+                    return new EngineSwigWrapper(engine);
+                };
+                return DllExceptionHandler(action);
             };
             RequiredPropertiesFactory = (properties) =>
             {
-                var instance = new RequiredPropertiesConfigSwig(properties);
-                return new RequiredPropertiesConfigSwigWrapper(instance);
+                Func<IRequiredPropertiesConfigSwigWrapper> action = () =>
+                {
+                    var instance = new RequiredPropertiesConfigSwig(properties);
+                    return new RequiredPropertiesConfigSwigWrapper(instance);
+                };
+                return DllExceptionHandler(action);
             };
-            ConfigFactory = () => { return new ConfigSwigWrapper(new ConfigHashSwig()); };
+           
+            ConfigFactory = () => {
+                Func<IConfigSwigWrapper> action = () =>
+                {
+                    return new ConfigSwigWrapper(new ConfigHashSwig());
+                };
+                return DllExceptionHandler(action);
+            };
+        }
+
+        public static T DllExceptionHandler<T>(Func<T> action) 
+        {
+            try
+            {
+                return action();
+            }
+            catch (TypeInitializationException ex)
+            {
+                throw new Exception(Messages.DLLException, ex);
+            }
+            catch (BadImageFormatException ex)
+            {
+                throw new Exception(Messages.DLLException, ex);
+            }
+            catch (DllNotFoundException ex)
+            {
+                throw new Exception(Messages.DLLException, ex);
+            }
         }
 
         public IEngineSwigWrapper CreateEngine(string fileName,

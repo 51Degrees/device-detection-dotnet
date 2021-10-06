@@ -81,10 +81,8 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
 
         /// <summary>
         /// Perform the processing for this engine:
-        /// 1. Get the JSON data from the <see cref="CloudRequestEngine"/> 
-        /// response.
-        /// 2. Extract properties relevant to this engine.
-        /// 3. Deserialize JSON data to populate a 
+        /// 1. Extract properties relevant to this engine from the JSON.
+        /// 2. Deserialize JSON data to populate a 
         /// <see cref="DeviceDataCloud"/> instance.
         /// </summary>
         /// <param name="data">
@@ -95,41 +93,27 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
         /// The <see cref="DeviceDataCloud"/> instance to populate with
         /// values.
         /// </param>
+        /// <param name="json">
+        /// The JSON data from the <see cref="CloudRequestEngine"/> 
+        /// response.
+        /// </param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if a required parameter is null
         /// </exception>
-        protected override void ProcessEngine(IFlowData data, DeviceDataCloud aspectData)
+        protected override void ProcessCloudEngine(IFlowData data, DeviceDataCloud aspectData, string json)
         {
-            if (data == null) { throw new ArgumentNullException(nameof(data)); }
-            if (aspectData == null) { throw new ArgumentNullException(nameof(aspectData)); }
+            if (aspectData == null) throw new ArgumentNullException(nameof(aspectData));
 
-            var requestData = data.GetFromElement(RequestEngine.GetInstance());
-            var json = requestData?.JsonResponse;
+            // Extract data from JSON to the aspectData instance.
+            var dictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+            var propertyValues = JsonConvert.DeserializeObject<Dictionary<string, object>>(dictionary["device"].ToString(),
+                new JsonSerializerSettings()
+                {
+                    Converters = JSON_CONVERTERS,
+                });
 
-            if (string.IsNullOrEmpty(json))
-            {
-                throw new PipelineConfigurationException(
-                    $"Json response from cloud request engine is null. " +
-                    $"This is probably because there is not a " +
-                    $"'CloudRequestEngine' before the '{GetType().Name}' " +
-                    $"in the Pipeline. This engine will be unable " +
-                    $"to produce results until this is corrected.");
-            }
-            else
-            {
-                // Extract data from JSON to the aspectData instance.
-                var dictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
-                var propertyValues = JsonConvert.DeserializeObject<Dictionary<string, object>>(dictionary["device"].ToString(),
-                    new JsonSerializerSettings()
-                    {
-                        Converters = JSON_CONVERTERS,
-                    });
-
-                var device = CreateAPVDictionary(propertyValues, Properties.ToList());
-                aspectData.PopulateFromDictionary(device);
-            }
+            var device = CreateAPVDictionary(propertyValues, Properties.ToList());
+            aspectData.PopulateFromDictionary(device);
         }
-
-
     }
 }
