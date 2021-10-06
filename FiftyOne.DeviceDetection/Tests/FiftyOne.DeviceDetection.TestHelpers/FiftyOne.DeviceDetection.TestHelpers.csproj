@@ -23,7 +23,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.Common.TestHelpers" Version="4.3.2" />
+    <PackageReference Include="FiftyOne.Common.TestHelpers" Version="4.3.4" />
   </ItemGroup>
 
   <ItemGroup>
