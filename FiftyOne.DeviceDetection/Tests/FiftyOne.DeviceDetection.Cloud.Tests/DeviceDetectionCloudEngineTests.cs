@@ -131,9 +131,10 @@ namespace FiftyOne.DeviceDetection.Cloud.Tests
             catch(Exception ex)
             {
                 exception = true;
+
                 Assert.IsTrue(ex.Message.Contains(
-                    $"This resource key is not authorized " +
-                    $"for use with domain: '{origin ?? ""}'."), 
+                    $"This Resource Key is not authorized " +
+                    $"for use with this domain: '{origin ?? ""}'."), 
                     $"Exception did not contain expected text " +
                     $"({ex.Message})");
             }
