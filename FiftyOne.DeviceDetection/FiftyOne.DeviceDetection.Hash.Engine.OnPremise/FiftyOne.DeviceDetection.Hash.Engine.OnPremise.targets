@@ -4,17 +4,17 @@
   <!-- Ensure that for Framework projects the correct DLL is copied to the build directory -->
   
   <ItemGroup Condition=" '$(Platform)' == 'x64' ">
-    <Content Include="$(MSBuildThisFileDirectory)..\runtimes\win-x64\native\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
+    <None Include="$(MSBuildThisFileDirectory)..\runtimes\win-x64\native\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll</Link>
-    </Content>
+    </None>
   </ItemGroup>
 
   <ItemGroup Condition=" '$(Platform)' == 'x86' OR '$(Platform)' == 'AnyCPU' ">
-    <Content Include="$(MSBuildThisFileDirectory)..\runtimes\win-x86\native\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
+    <None Include="$(MSBuildThisFileDirectory)..\runtimes\win-x86\native\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll</Link>
-    </Content>
+    </None>
   </ItemGroup>
 
 </Project>
