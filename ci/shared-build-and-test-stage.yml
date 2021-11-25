@@ -7,6 +7,8 @@ parameters:
 - name: runTests
   type: string
   default: 'On'
+- name: sourcesDir # Root path to source code
+- name: buildDir # Root build directory
 
 stages:
 - stage: ${{ parameters.stageName }}
@@ -45,6 +47,8 @@ stages:
       - name: TestProjects
         value: '**/*[Tt]ests/**/*.csproj'
         # Projects to be published as NuGet packages
+      - name: DataFilePath
+        value: '${{ parameters.buildDir }}/51DDataFiles'
     
     steps:
     # Get the data files that are required for device detection automated system tests.
@@ -88,6 +92,30 @@ stages:
         performMultiLevelLookup: true
         packageType: sdk   
        
+    # Download the latest V4 TAC hash file from the distributor
+    - task: PowerShell@2
+      displayName: PowerShell - download latest tac file
+      inputs:
+        targetType: 'inline'
+        script: |
+          # Install all modules
+          Write-Host ${{ parameters.sourcesDir }}
+          $Env:PSModulePath += ";${{ parameters.sourcesDir }}\ci\common-ci\scripts\modules"
+          Write-Host "Module Path: $($Env:PSModulePath)"
+          
+          if (!$(Get-DataFile -licenseKey "$(DeviceDetectionLicenseKey)" -dataType "HashV41" -product "V4TAC" -fullFilePath "TAC-HashV41.hash.gz")) {
+              Write-Host "# FAILED"
+              exit 1
+          }
+        workingDirectory: '${{ parameters.buildDir }}'
+        
+    # Extract the V4 TAC Hash file to the data file staging folder.
+    - task: ExtractFiles@1
+      displayName: 'Extract latest tac file'
+      inputs:
+        archiveFilePatterns: '${{ parameters.buildDir }}/*hash.gz'
+        destinationFolder: '$(DataFilePath)'
+           
     - task: VisualStudioTestPlatformInstaller@1
       displayName: 'Visual Studio Test Platform Installer'
       inputs:
@@ -138,12 +166,20 @@ stages:
         vsTestVersion: 'toolsInstaller'
         codeCoverageEnabled: true
         otherConsoleOptions: '/Framework:netcoreapp3.1 /Platform:$(BuildPlatform) /logger:console;verbosity="normal"'
-        testRunTitle: 'core-$(BuildConfiguration)-$(BuildPlatform)'
+        testRunTitle: 'Windows-core-$(BuildConfiguration)-$(BuildPlatform)'
         platform: '$(BuildPlatform)'
         configuration: '$(BuildConfiguration)'
         failOnMinTestsNotRun: true
         diagnosticsEnabled: true
         collectDumpOn: 'always'
+      env:
+        SUPER_RESOURCE_KEY: $(SuperResourceKey_NoSupportedIO)
+        DEVICE_DETECTION_DATAFILE: '$(DataFilePath)/TAC-HashV41.hash'
+        ACCEPTCH_BROWSER_KEY: $(AcceptChBrowserKey)
+        ACCEPTCH_HARDWARE_KEY: $(AcceptChHardwareKey)
+        ACCEPTCH_PLATFORM_KEY: $(AcceptChPlatformKey)
+        ACCEPTCH_NONE_KEY: $(AcceptChNoneKey)  
+        51D_CLOUD_ENDPOINT: 'https://cloud.51degrees.com/api/v4'
       condition: succeededOrFailed()
     
       # Build the performance test project. This will only target the x64 platform.

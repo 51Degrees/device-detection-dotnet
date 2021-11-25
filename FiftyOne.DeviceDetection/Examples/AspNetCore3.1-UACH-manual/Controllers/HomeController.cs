@@ -43,17 +43,23 @@ namespace Client_Hints_Not_Integrated_NetCore_31.Controllers
 
         public IActionResult Index()
         {
-            using(var flowData = _pipeline.CreateFlowData())
-            {
-                // Add evidence
-                _evidenceService.AddEvidenceFromRequest(flowData, Request);
-                // Process
-                flowData.Process();
-                // Set response headers
-                SetHeaderService.SetHeaders(Response.HttpContext, flowData);
-                // Send results to view
-                return View(flowData);
-            }
+            var flowData = _pipeline.CreateFlowData();
+            // Register the flow data instance for disposal
+            // when the response is sent.
+            // If we just have a 'using' block then it will
+            // be disposed before the view can access the
+            // values that it needs.
+            HttpContext.Response.RegisterForDispose(flowData);
+
+            // Add evidence
+            _evidenceService.AddEvidenceFromRequest(flowData, Request);
+            // Process
+            flowData.Process();
+            // Set response headers
+            SetHeaderService.SetHeaders(Response.HttpContext, flowData);
+
+            // Send results to view
+            return View(flowData);
         }
     }
 }
