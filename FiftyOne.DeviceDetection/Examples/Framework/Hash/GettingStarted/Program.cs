@@ -22,6 +22,7 @@
 using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 /// <summary>
@@ -42,13 +43,29 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.GettingStarted
     {
         public class Example : ExampleBase
         {
-            private static string mobileUserAgent =
+            private const string mobileUserAgent =
                "Mozilla/5.0 (Linux; Android 9; SAMSUNG SM-G960U) " +
                "AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/10.1 " +
                "Chrome/71.0.3578.99 Mobile Safari/537.36";
-            private static string desktopUserAgent =
+            private const string desktopUserAgent =
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
                 "(KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36";
+
+            /// <summary>
+            /// User Agent Client Hint headers for platform name and version
+            /// for Windows 11.
+            /// </summary>
+            private static readonly KeyValuePair<string, string>[] platformUach
+                = new KeyValuePair<string, string>[]
+            {
+                new KeyValuePair<string, string>("User-Agent", "NOT SET"),
+                new KeyValuePair<string, string>(
+                    "Sec-CH-UA-Platform",
+                    "Windows"),
+                new KeyValuePair<string, string>(
+                    "Sec-CH-UA-Platform-Version",
+                    "14.0.0"),
+            };
 
             public void Run(string dataFile)
             {
@@ -71,6 +88,53 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.GettingStarted
                     Console.WriteLine();
                     // Now try a mobile User-Agent.
                     AnalyseUserAgent(mobileUserAgent, pipeline);
+                    Console.WriteLine();
+                    // Now try the User Agent Client Hints.
+                    AnalyseUach(platformUach, pipeline);
+                }
+            }
+
+            private void AnalyseUach(
+                KeyValuePair<string, string>[] evidence, 
+                IPipeline pipeline)
+            {
+                // Create the FlowData instance.
+                using (var data = pipeline.CreateFlowData())
+                {
+                    // Add a User-Agent from a desktop as evidence.
+                    Console.WriteLine(
+                        "Get the platform name and version for;");
+                    foreach (var item in evidence)
+                    {
+                        data.AddEvidence(
+                            Pipeline.Core.Constants.EVIDENCE_HTTPHEADER_PREFIX + 
+                            "." + item.Key, item.Value);
+                        Console.WriteLine(item.Key + "; " + item.Value);
+                    }
+                    // Process the supplied evidence.
+                    data.Process();
+                    // Get device data from the flow data.
+                    var device = data.Get<IDeviceData>();
+                    // Output the value of the 'PlatformName' property.
+                    if (device.PlatformName.HasValue)
+                    {
+                        Console.WriteLine($"\t{device.PlatformName.Value}");
+                    }
+                    else
+                    {
+                        Console.WriteLine(
+                            $"\t{device.PlatformName.NoValueMessage}");
+                    }
+                    // Output the value of the 'PlatformVersion' property.
+                    if (device.PlatformVersion.HasValue)
+                    {
+                        Console.WriteLine($"\t{device.PlatformVersion.Value}");
+                    }
+                    else
+                    {
+                        Console.WriteLine(
+                            $"\t{device.PlatformVersion.NoValueMessage}");
+                    }
                 }
             }
 
@@ -79,8 +143,10 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.GettingStarted
                 // Create the FlowData instance.
                 using (var data = pipeline.CreateFlowData())
                 {
-                    // Add a User-Agent from a desktop as evidence.
-                    data.AddEvidence(FiftyOne.Pipeline.Core.Constants.EVIDENCE_QUERY_USERAGENT_KEY, userAgent);
+                    // Add a User-Agent provided as evidence.
+                    data.AddEvidence(
+                        Pipeline.Core.Constants.EVIDENCE_QUERY_USERAGENT_KEY, 
+                        userAgent);
                     // Process the supplied evidence.
                     data.Process();
                     // Get device data from the flow data.

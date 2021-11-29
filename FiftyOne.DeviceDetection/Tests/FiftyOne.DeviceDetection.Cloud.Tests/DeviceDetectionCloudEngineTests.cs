@@ -41,7 +41,7 @@ namespace FiftyOne.DeviceDetection.Cloud.Tests
     public class DeviceDetectionCloudEngineTests
     {
         private IPipeline _pipeline;
-        private const string _resource_key_env_variable = "51D_RESOURCE_KEY";
+        private const string _resource_key_env_variable = "SUPER_RESOURCE_KEY";
 
         [TestInitialize] 
         public void Init()

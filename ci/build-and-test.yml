@@ -29,14 +29,18 @@ stages:
     imageName: $(imageName)
     nugetVersion: $(nugetVersion)
     runTests: variables['RunTests']
-
+    sourcesDir: '$(Build.SourcesDirectory)'
+    buildDir: $(Agent.BuildDirectory)
+    
 - template: shared-build-and-test-stage-linux.yml
   parameters:
     stageName: 'Linux'
     imageName: $(linuxImage)
     nugetVersion: $(nugetVersion)
     runTests: variables['RunTests']
-
+    sourcesDir: '$(Build.SourcesDirectory)'
+    buildDir: $(Agent.BuildDirectory)
+    
 # Try to complete the corresponding pull request if
 # this is triggered by one.    
 - template: shared-auto-complete-pr-stage.yml@ciTemplates

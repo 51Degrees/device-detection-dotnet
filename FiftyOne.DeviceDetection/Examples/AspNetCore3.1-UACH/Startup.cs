@@ -22,9 +22,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
+using FiftyOne.Pipeline.Core.Configuration;
 using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.AspNetCore.Builder;
@@ -42,18 +45,6 @@ using Microsoft.Extensions.DependencyInjection;
 /// 
 /// The source code for this example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/tree/master/FiftyOne.DeviceDetection/Examples/AspNetCore3.1-UACH). 
 /// 
-/// This example can be configured to use the 51Degrees cloud service or a local 
-/// data file. If you don't already have data file you can obtain one from the 
-/// [device-detection-data](https://github.com/51Degrees/device-detection-data) 
-/// GitHub repository.
-/// 
-/// To use the cloud service you will need to create a **resource key**. 
-/// The resource key is used as short-hand to store the particular set of 
-/// properties you are interested in as well as any associated license keys 
-/// that entitle you to increased request limits and/or paid-for properties.
-/// 
-/// You can create a resource key using the 51Degrees [Configurator](https://configure.51degrees.com).
-/// 
 /// Required NuGet Dependencies:
 /// - [Microsoft.AspNetCore.App](https://www.nuget.org/packages/Microsoft.AspNetCore.App/)
 /// - [FiftyOne.DeviceDetection](https://www.nuget.org/packages/FiftyOne.DeviceDetection/)
@@ -62,7 +53,6 @@ using Microsoft.Extensions.DependencyInjection;
 /// 1. Add Pipeline configuration options to appsettings.json. 
 /// (or a separate file if you prefer. Just don't forget to add that 
 /// file to your startup.cs)
-/// Example on-premise configuration:
 /// ```{json}
 /// {
 ///   "PipelineOptions": {
@@ -83,26 +73,7 @@ using Microsoft.Extensions.DependencyInjection;
 /// }
 /// ```
 /// 
-/// Example cloud configuration:
-/// ```{json}
-/// {
-///   "PipelineOptions": {
-///     "Elements": [
-///       {
-///         "BuilderName": "CloudRequestEngineBuilder",
-///         "BuildParameters": {
-///           "ResourceKey": "YourKey" 
-///         }
-///       },
-///       {
-///         "BuilderName": "DeviceDetectionCloudEngineBuilder"
-///       }
-///     ]
-///   }
-/// }
-/// ```
-/// 
-/// 3. Add builders and the Pipeline to the server's services.
+/// 2. Add builders and the Pipeline to the server's services.
 /// ```{cs}
 /// public class Startup
 /// {
@@ -115,7 +86,7 @@ using Microsoft.Extensions.DependencyInjection;
 ///         ...
 /// ```
 /// 
-/// 4. Configure the server to use the Pipeline which has just been set up.
+/// 3. Configure the server to use the Pipeline which has just been set up.
 /// ```{cs}
 /// public class Startup
 /// {
@@ -126,7 +97,7 @@ using Microsoft.Extensions.DependencyInjection;
 ///         ...
 /// ```
 /// 
-/// 5. Inject the `IFlowDataProvider` into a controller.
+/// 4. Inject the `IFlowDataProvider` into a controller.
 /// ```{cs}
 /// public class HomeController : Controller
 /// {
@@ -139,7 +110,7 @@ using Microsoft.Extensions.DependencyInjection;
 /// }
 /// ```
 /// 
-/// 6. Pass the results contained in the flow data to the view.
+/// 5. Pass the results contained in the flow data to the view.
 /// ```{cs}
 /// public class HomeController : Controller
 /// {
@@ -152,7 +123,7 @@ using Microsoft.Extensions.DependencyInjection;
 ///     ...
 /// ```
 /// 
-/// 7. Display device details in the view.
+/// 6. Display device details in the view.
 /// ```{cs}
 /// @model FiftyOne.DeviceDetection.IDeviceData
 /// ...
@@ -174,6 +145,32 @@ namespace Client_Hints_NetCore_31
 {
     public class Startup
     {
+        /// <summary>
+        /// The ASP.NET TestServer infrastructure seems to cause the 
+        /// User-Agent header to be split into multiple values using 
+        /// spaces as a delimiter.
+        /// These are them combined using commas as a delimiter.
+        /// Essentially, replacing spaces with commas in the User-Agent.
+        /// This causes the device detection to fail so we deal with
+        /// it via a custom middleware.
+        /// </summary>
+        private class UserAgentCorrectionMiddleware
+        {
+            private readonly RequestDelegate next;
+
+            public UserAgentCorrectionMiddleware(RequestDelegate next)
+            {
+                this.next = next;
+            }
+
+            public async Task Invoke(HttpContext httpContext)
+            {
+                var val = httpContext.Request.Headers["User-Agent"];
+                httpContext.Request.Headers.Remove("User-Agent");
+                httpContext.Request.Headers["User-Agent"] = new Microsoft.Extensions.Primitives.StringValues(string.Join(" ", val));
+                await this.next(httpContext);
+            }
+        }
 
         public Startup(IConfiguration configuration)
         {
@@ -185,6 +182,40 @@ namespace Client_Hints_NetCore_31
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // This section is not generally necessary. We're just checking
+            // if the resource key has been set to a new value so we can
+            // warn the user if it has not.
+            // --------------------------------------------------------------
+            var pipelineConfig = new PipelineOptions();
+            Configuration.Bind("PipelineOptions", pipelineConfig);
+            var engineConfig = pipelineConfig.Elements.Where(e =>
+                e.BuilderName.Contains(nameof(DeviceDetectionHashEngine),
+                    StringComparison.OrdinalIgnoreCase));
+            if (engineConfig.Count() > 0)
+            {
+                object dataFile = null;
+                if (engineConfig.Any(c => c.BuildParameters
+                         .TryGetValue("DataFile", out dataFile) == true))
+                {
+                    var dataFileStr = dataFile.ToString();
+                    string dataFilePath =
+                        Path.IsPathRooted(dataFileStr) ?
+                        dataFileStr :
+                        Path.Combine(Environment.CurrentDirectory, dataFileStr);
+                    if (File.Exists(dataFilePath) == false)
+                    {
+                        throw new Exception($"No data file found at " +
+                            $"'{dataFilePath}'. This location can be set " +
+                            $"using the 'DataFile' entry in the " +
+                            $"appsettings.json file. Also, note that the " +
+                            $"free 'lite' data file is insufficient to run " +
+                            $"this example. A paid-for file can be obtained " +
+                            $"from http://51degrees.com/pricing.");
+                    }
+                }
+            }
+            // --------------------------------------------------------------
+
             services.AddControllersWithViews();
 
             services.Configure<CookiePolicyOptions>(options =>
@@ -206,6 +237,7 @@ namespace Client_Hints_NetCore_31
             app.UseExceptionHandler("/Home/Error");
             app.UseHsts();
 
+            app.UseMiddleware<UserAgentCorrectionMiddleware>();
             app.UseFiftyOne();
             app.UseHttpsRedirection();
             app.UseStaticFiles();

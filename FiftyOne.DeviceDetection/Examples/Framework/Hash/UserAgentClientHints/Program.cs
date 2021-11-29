@@ -68,11 +68,17 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.UserAgentClientHints
         public class Example : ExampleBase
         {
             private static string mobileUserAgent =
-               "Mozilla/5.0 (Linux; Android 9; SAMSUNG SM-G960U) " +
-               "AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/10.1 " +
-               "Chrome/71.0.3578.99 Mobile Safari/537.36";
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
+                "AppleWebKit/537.36 (KHTML, like Gecko) " +
+                "Chrome/95.0.4638.69 Safari/537.36 Edg/95.0.1020.44";
             private static string secchuaValue =
                 "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\"";
+
+            private static string secchPlatformValue = "Windows";
+            // A platform version field >= 13 indicates Windows 11.
+            // https://docs.microsoft.com/en-us/microsoft-edge/web-platform/how-to-detect-win11
+            private static string secchPlatformVersionValue = "14.0.0";
+
 
             public void Run(string dataFile)
             {
@@ -84,13 +90,18 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.UserAgentClientHints
                 Console.WriteLine($"The sec-ch-ua value can be used to " +
                     $"determine the browser of the connecting device, " +
                     $"but not other components such as the hardware.");
+                Console.WriteLine($"Similarly, sec-ch-ua-platform and " +
+                    $"platform-version value can be used to " +
+                    $"determine the platform/operating system.");
                 Console.WriteLine($"We show this by first performing " +
-                    $"detection with sec-ch-ua only.");
+                    $"detection with the sec-ch-ua fields only.");
                 Console.WriteLine($"We then repeat with the user-agent " +
                     $"header only.");
-                Console.WriteLine($"Finally, we use both sec-ch-ua and " +
-                    "user-agent. Note that sec-ch-ua takes priority " +
-                    "over the user-agent for detection of the browser.");
+                Console.WriteLine($"Finally, we use both sec-ch-ua  fields " +
+                    "and user-agent. Note that sec-ch-ua takes priority " +
+                    "over the user-agent for detection of the browser and" +
+                    "sec-ch-ua-platform and platform-version act similarly " +
+                    "for the platform.");
                 Console.WriteLine($"---------------------------------------");
                 // Use the DeviceDetectionPipelineBuilder to build a new Pipeline 
                 // to use an on-premise Hash engine with the low memory
@@ -126,6 +137,10 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.UserAgentClientHints
                     {
                         data.AddEvidence(Pipeline.Core.Constants.EVIDENCE_QUERY_PREFIX +
                             Pipeline.Core.Constants.EVIDENCE_SEPERATOR + "sec-ch-ua", secchuaValue);
+                        data.AddEvidence(Pipeline.Core.Constants.EVIDENCE_QUERY_PREFIX +
+                            Pipeline.Core.Constants.EVIDENCE_SEPERATOR + "sec-ch-ua-platform", secchPlatformValue);
+                        data.AddEvidence(Pipeline.Core.Constants.EVIDENCE_QUERY_PREFIX +
+                            Pipeline.Core.Constants.EVIDENCE_SEPERATOR + "sec-ch-ua-platform-version", secchPlatformVersionValue);
                     }
                     // Also add a standard user-agent if requested
                     if (setUserAgent)
@@ -141,10 +156,17 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.UserAgentClientHints
 
                     var browserName = device.BrowserName;
                     var browserVersion = device.BrowserVersion;
-                    var isMobile = device.IsMobile;
+                    var platformName = device.PlatformName;
+                    var platformVersion = device.PlatformVersion;
+                    var hardwareVendor = device.HardwareVendor;
+                    var hardwareModel = device.HardwareModel;
 
-                    var secchua = setSecChUa ? secchuaValue : "NOT_SET";
-                    Console.WriteLine($"Sec-CH-UA = '{secchua}'");
+                    var chua = setSecChUa ? secchuaValue : "NOT_SET";
+                    var plat = setSecChUa ? secchPlatformValue : "NOT_SET";
+                    var platV = setSecChUa ? secchPlatformVersionValue : "NOT_SET";
+                    Console.WriteLine($"Sec-CH-UA = '{chua}'");
+                    Console.WriteLine($"Sec-CH-UA-Platform = '{plat}'");
+                    Console.WriteLine($"Sec-CH-UA-Platform-Version = '{platV}'");
                     var ua = setUserAgent ? mobileUserAgent : "NOT_SET";
                     Console.WriteLine($"User-Agent = '{ua}'");
 
@@ -161,14 +183,31 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.UserAgentClientHints
                     {
                         Console.WriteLine($"\tBrowser = {browserName.NoValueMessage}");
                     }
-                    // Output the value of the 'IsMobile' property.
-                    if (isMobile.HasValue)
+                    // Output the Platform
+                    if (platformName.HasValue && platformVersion.HasValue)
                     {
-                        Console.WriteLine($"\tIsMobile = {isMobile.Value}");
+                        Console.WriteLine($"\tPlatform = {platformName.Value} {platformVersion.Value}");
+                    }
+                    else if (platformName.HasValue)
+                    {
+                        Console.WriteLine($"\tPlatform = {platformName.Value} (version unknown)");
                     }
                     else
                     {
-                        Console.WriteLine($"\tIsMobile = {isMobile.NoValueMessage}");
+                        Console.WriteLine($"\tPlatform = {platformName.NoValueMessage}");
+                    }
+                    // Output the Hardware
+                    if (hardwareVendor.HasValue && hardwareModel.HasValue)
+                    {
+                        Console.WriteLine($"\tDevice = {hardwareVendor.Value} {hardwareModel.Value}");
+                    }
+                    else if (hardwareVendor.HasValue)
+                    {
+                        Console.WriteLine($"\tDevice = {hardwareVendor.Value} (model unknown)");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"\tDevice = {hardwareVendor.NoValueMessage}");
                     }
                 }
             }

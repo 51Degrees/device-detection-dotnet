@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+
+    <Configurations>Debug;Release;LinuxDebug;LinuxRelease</Configurations>
+
+    <Platforms>AnyCPU;x64;x86</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.1.21" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.1.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.1.0" />
+    <PackageReference Include="coverlet.collector" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Examples\AspNetCore3.1-UACH-manual\Client-Hints Not Integrated NetCore 3.1.csproj" />
+    <ProjectReference Include="..\..\Examples\AspNetCore3.1-UACH\Client-Hints NetCore 3.1.csproj" />
+    <ProjectReference Include="..\..\Examples\Cloud-AspNetCore3.1-UACH-manual\Cloud - Client-Hints Not Integrated NetCore 3.1.csproj" />
+    <ProjectReference Include="..\..\Examples\Cloud-AspNetCore3.1-UACH\Cloud - Client-Hints NetCore 3.1.csproj" />
+  </ItemGroup>
+
+</Project>
