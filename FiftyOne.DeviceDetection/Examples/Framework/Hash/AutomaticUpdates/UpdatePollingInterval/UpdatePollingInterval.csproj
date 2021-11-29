@@ -181,7 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FiftyOne.Pipeline.Engines">
-      <Version>4.3.8</Version>
+      <Version>4.3.11</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
