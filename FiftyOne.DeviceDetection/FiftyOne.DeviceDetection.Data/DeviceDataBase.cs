@@ -66,6 +66,50 @@ namespace FiftyOne.DeviceDetection.Shared
 			IMissingPropertyService missingPropertyService)
 			: base(logger, pipeline, engine, missingPropertyService) { }
 
+		protected static readonly IReadOnlyDictionary<string, Type> ComplexTypes =
+			new Dictionary<string, Type>()
+			{
+				{ "HardwareName", typeof(IReadOnlyList<string>) },
+				{ "CcppAccept", typeof(IReadOnlyList<string>) },
+				{ "SupportedBearers", typeof(IReadOnlyList<string>) },
+				{ "StreamingAccept", typeof(IReadOnlyList<string>) },
+				{ "ExpansionSlotType", typeof(IReadOnlyList<string>) },
+				{ "Html5Video", typeof(IReadOnlyList<string>) },
+				{ "Html5Audio", typeof(IReadOnlyList<string>) },
+				{ "CameraTypes", typeof(IReadOnlyList<string>) },
+				{ "HardwareImages", typeof(IReadOnlyList<string>) },
+				{ "SupportedChargerTypes", typeof(IReadOnlyList<string>) },
+				{ "SatelliteNavigationTypes", typeof(IReadOnlyList<string>) },
+				{ "SupportedSensorTypes", typeof(IReadOnlyList<string>) },
+				{ "Durability", typeof(IReadOnlyList<string>) },
+				{ "SupportedSIMCardTypes", typeof(IReadOnlyList<string>) },
+				{ "SupportedCameraFeatures", typeof(IReadOnlyList<string>) },
+				{ "SupportedI/O", typeof(IReadOnlyList<string>) },
+				{ "BrowserAudioCodecsDecode", typeof(IReadOnlyList<string>) },
+				{ "BrowserVideoCodecsDecode", typeof(IReadOnlyList<string>) },
+				{ "NativeBrand", typeof(IReadOnlyList<string>) },
+				{ "NativeDevice", typeof(IReadOnlyList<string>) },
+				{ "NativeModel", typeof(IReadOnlyList<string>) },
+				{ "NativeName", typeof(IReadOnlyList<string>) },
+				{ "DeviceCertifications", typeof(IReadOnlyList<string>) },
+				{ "HardwareAudioCodecsDecode", typeof(IReadOnlyList<string>) },
+				{ "HardwareVideoCodecsDecode", typeof(IReadOnlyList<string>) },
+				{ "SoftwareAudioCodecsDecode", typeof(IReadOnlyList<string>) },
+				{ "SoftwareAudioCodecsEncode", typeof(IReadOnlyList<string>) },
+				{ "SoftwareVideoCodecsDecode", typeof(IReadOnlyList<string>) },
+				{ "SoftwareVideoCodecsEncode", typeof(IReadOnlyList<string>) },
+				{ "HardwareAudioCodecsEncode", typeof(IReadOnlyList<string>) },
+				{ "HardwareVideoCodecsEncode", typeof(IReadOnlyList<string>) },
+				{ "BrowserAudioCodecsEncode", typeof(IReadOnlyList<string>) },
+				{ "BrowserVideoCodecsEncode", typeof(IReadOnlyList<string>) },
+				{ "HardwareModelVariants", typeof(IReadOnlyList<string>) },
+				{ "InternalStorageVariants", typeof(IReadOnlyList<string>) },
+				{ "DeviceRAMVariants", typeof(IReadOnlyList<string>) },
+				{ "FrequencyBands", typeof(IReadOnlyList<string>) },
+				{ "TAC", typeof(IReadOnlyList<string>) },
+				{ "UserAgents", typeof(IReadOnlyList<string>) }
+			};
+
 		/// <summary>
 		/// Indicates what ajax request format should be used.
 		/// </summary>
@@ -863,7 +907,7 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<int> ScreenMMDiagonalRounded { get { return GetAs<IAspectPropertyValue<int>>("ScreenMMDiagonalRounded"); } }
 		/// <summary>
-		/// Refers to the screen height of the device in millimetres. This property will return 'Unknown' for desktops or for devices which do not have an integrated screen.
+		/// Refers to the screen height of the device in millimetres. This property will return 'Unknown' for desktops or for devices which do not have an integrated screen. For devices such as tablets or TV which are predominantly used in landscape mode, the screen height will be the smaller value compared to the screen width.
 		/// </summary>
 		public IAspectPropertyValue<double> ScreenMMHeight { get { return GetAs<IAspectPropertyValue<double>>("ScreenMMHeight"); } }
 		/// <summary>
@@ -871,7 +915,7 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<int> ScreenMMSquare { get { return GetAs<IAspectPropertyValue<int>>("ScreenMMSquare"); } }
 		/// <summary>
-		/// Refers to the screen width of the device in millimetres. This property will return 'Unknown' for desktops or for devices which do not have an integrated screen.
+		/// Refers to the screen width of the device in millimetres. This property will return 'Unknown' for desktops or for devices which do not have an integrated screen. For devices such as tablets or TV which are predominantly used in landscape mode, the screen height will be the smaller value compared to the screen width.
 		/// </summary>
 		public IAspectPropertyValue<double> ScreenMMWidth { get { return GetAs<IAspectPropertyValue<double>>("ScreenMMWidth"); } }
 		/// <summary>
@@ -955,15 +999,15 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<bool> Selector { get { return GetAs<IAspectPropertyValue<bool>>("Selector"); } }
 		/// <summary>
-		/// Client hint that represents the browser's brand. This property accepts the values SEC-CH-UA,SEC-CH-UA-Full-Version. The default value is Unknown for this property.
+		/// Contains the Accept-CH HTTP header values to add to the HTTP response for the browser component. UACH values Sec-CH-UA, and Sec-CH-UA-Full-Version are relevant. The default value is Unknown if the browser does not fully support UACH.
 		/// </summary>
 		public IAspectPropertyValue<string> SetHeaderBrowserAcceptCH { get { return GetAs<IAspectPropertyValue<string>>("SetHeaderBrowserAccept-CH"); } }
 		/// <summary>
-		/// Client hint that represents the hardware's brand. This property accepts the values SEC-CH-UA-Model,SEC-CH-UA-Mobile,SEC-CH-UA-Arch. The default value is Unknown for this property.
+		/// Contains the Accept-CH HTTP header values to add to the HTTP response for the hardware component. UACH values Sec-CH-UA-Model, Sec-CH-UA-Mobile, and Sec-CH-UA-Arch are relevant. The default value is Unknown if the browser does not fully support UACH.
 		/// </summary>
 		public IAspectPropertyValue<string> SetHeaderHardwareAcceptCH { get { return GetAs<IAspectPropertyValue<string>>("SetHeaderHardwareAccept-CH"); } }
 		/// <summary>
-		/// Client hint that represents the platform's brand. This property accepts the values SEC-CH-UA-Platform,SEC-CH-UA-Platform-Version. The default value is Unknown for this property.
+		/// Contains the Accept-CH HTTP header values to add to the HTTP response for the platform component. UACH values Sec-CH-UA-Platform, and Sec-CH-UA-Platform-Version are relevant. The default value is Unknown if the browser does not fully support UACH.
 		/// </summary>
 		public IAspectPropertyValue<string> SetHeaderPlatformAcceptCH { get { return GetAs<IAspectPropertyValue<string>>("SetHeaderPlatformAccept-CH"); } }
 		/// <summary>

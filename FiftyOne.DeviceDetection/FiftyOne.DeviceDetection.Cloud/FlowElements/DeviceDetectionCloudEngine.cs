@@ -115,5 +115,26 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
             var device = CreateAPVDictionary(propertyValues, Properties.ToList());
             aspectData.PopulateFromDictionary(device);
         }
+
+        protected override Type GetPropertyType(
+            PropertyMetaData propertyMetaData,
+            Type parentObjectType)
+        {
+            if (propertyMetaData == null)
+            {
+                throw new ArgumentNullException(nameof(propertyMetaData));
+            }
+            if (propertyMetaData.Type == "Array" &&
+                DeviceDataCloud.TryGetComplexType(
+                    propertyMetaData.Name,
+                    out var type))
+            {
+                return type;
+            }
+            else
+            {
+                return base.GetPropertyType(propertyMetaData, parentObjectType);
+            }
+        }
     }
 }
