@@ -61,7 +61,7 @@
   <ItemGroup>
     <PackageReference Include="FiftyOne.Common.TestHelpers" Version="4.3.4" />
     <PackageReference Include="FiftyOne.Pipeline.Engines.TestHelpers" Version="4.3.13" />
-    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.3.12" />
+    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.3.13" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     <PackageReference Include="Moq" Version="4.13.1" />
