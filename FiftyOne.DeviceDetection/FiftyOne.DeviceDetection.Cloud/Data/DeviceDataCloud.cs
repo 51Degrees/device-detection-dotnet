@@ -67,5 +67,19 @@ namespace FiftyOne.DeviceDetection.Cloud.Data
             : base(logger, pipeline, engine, missingPropertyService)
         {
         }
+
+        internal static bool TryGetPropertyType(string propertyName, out Type type)
+        {
+            if (PropertyTypes.ContainsKey(propertyName))
+            {
+                type = PropertyTypes[propertyName];
+                return true;
+            }
+            else
+            {
+                type = null;
+                return false;
+            }
+        }
     }
 }
