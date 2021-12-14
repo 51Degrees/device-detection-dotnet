@@ -124,8 +124,7 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
             {
                 throw new ArgumentNullException(nameof(propertyMetaData));
             }
-            if (propertyMetaData.Type == "Array" &&
-                DeviceDataCloud.TryGetComplexType(
+            if (DeviceDataCloud.TryGetPropertyType(
                     propertyMetaData.Name,
                     out var type))
             {

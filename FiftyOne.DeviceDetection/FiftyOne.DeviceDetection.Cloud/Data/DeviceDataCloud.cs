@@ -68,11 +68,11 @@ namespace FiftyOne.DeviceDetection.Cloud.Data
         {
         }
 
-        internal static bool TryGetComplexType(string propertyName, out Type type)
+        internal static bool TryGetPropertyType(string propertyName, out Type type)
         {
-            if (ComplexTypes.ContainsKey(propertyName))
+            if (PropertyTypes.ContainsKey(propertyName))
             {
-                type = ComplexTypes[propertyName];
+                type = PropertyTypes[propertyName];
                 return true;
             }
             else

@@ -63,5 +63,28 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
                 Pipelines[0], this, 
                 MissingPropertyService.Instance);
         }
+
+        protected override Type GetPropertyType(PropertyMetaData propertyMetaData, Type parentObjectType)
+        {
+            if (propertyMetaData == null)
+            {
+                throw new ArgumentNullException(nameof(propertyMetaData));
+            }
+            if (parentObjectType == null)
+            {
+                throw new ArgumentNullException(nameof(parentObjectType));
+            }
+            if (propertyMetaData.Name == "Profiles")
+            {
+                return typeof(IReadOnlyList<IDeviceData>);
+            }
+            if (parentObjectType.Equals(typeof(IDeviceData)) &&
+                DeviceDataCloud.TryGetPropertyType(
+                    propertyMetaData.Name, out var type))
+            {
+                return type;
+            }
+            return base.GetPropertyType(propertyMetaData, parentObjectType);
+        }
     }
 }
