@@ -16,6 +16,10 @@ The core device detection projects are written in C and C++.
 The Pipeline engines are written in C# and target .NET Standard 2.0.3.
 Example and test projects mostly target .NET Core 3.1 though in some cases, projects are available targeting other frameworks.
 
+To build C/C++ projects:
+- Minimum Platform Toolset Version `v142`
+- Minimum Windows 10 SDK `10.0.18362.0`
+
 ## Solutions and projects
 
 - **FiftyOne.DeviceDetection** - Device detection engines and related projects.
@@ -31,6 +35,8 @@ You can either reference the projects in this repository or you can reference th
 ```
 Install-Package FiftyOne.DeviceDetection
 ```
+
+On Windows, make sure to install `C++ Redistributable 4.2* latest or above`. This is required to use the native binaries shipped with the NuGet package.
 
 ## Examples
 

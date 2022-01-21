@@ -10,23 +10,24 @@ schedules:
     include:
     - develop
 
-# Use shared variables
-variables:
-- template: shared-variables.yml
-- group: CIAutomation # Required to access CI variables
-
 resources:
   repositories:
   - repository: ciTemplates # Id of the repository used to reference to in this script
     type: git
     name: common-ci # Name of the actual repository
 
+# Use shared variables
+variables:
+- template: shared-variables.yml
+- template: shared-variables.yml@ciTemplates
+- group: CIAutomation # Required to access CI variables
+
 stages:
 
 - template: shared-build-and-test-stage.yml
   parameters:
     stageName: 'Windows'
-    imageName: $(imageName)
+    imageName: $(windowsImage)
     nugetVersion: $(nugetVersion)
     runTests: variables['RunTests']
     sourcesDir: '$(Build.SourcesDirectory)'
