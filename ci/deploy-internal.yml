@@ -4,13 +4,6 @@ trigger: none
 # Disable automatic runs of this pipeline when a PR is create.
 pr: none
 
-# Include the shared variables.
-variables:
-- template: shared-variables.yml
-- name: targetBranch
-  value: 'refs/heads/master'
-- group: CIAutomation
-
 # Add the pipeline that builds the packages as a resource.
 # This allows the deployment pipeline to be triggered whenever
 # the build pipeline completes.
@@ -23,6 +16,14 @@ resources:
   - repository: ciTemplates # Id of the repository used to reference to in this script
     type: git
     name: common-ci # Name of the actual repository
+
+# Include the shared variables.
+variables:
+- template: shared-variables.yml
+- template: shared-variables.yml@ciTemplates
+- name: targetBranch
+  value: 'refs/heads/master'
+- group: CIAutomation
 
 stages:
 # This should be triggered automatically.
