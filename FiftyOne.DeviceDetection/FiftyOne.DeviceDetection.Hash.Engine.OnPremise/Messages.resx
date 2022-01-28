@@ -129,7 +129,8 @@
         o On Windows, the Visual C++ runtime is not installed, see the Visual Studio download page for the latest C++ Redistributable: https://visualstudio.microsoft.com/downloads/
         o On Linux, the libatomic shared object is missing. On Debian based distributions, run ‘apt install libatomic1’; on RedHat based distributions, run ‘&lt;yum|dnf&gt; install libatomic’.
     - The DLL file was not copied to the output directory during build, refer to the ‘System.DllNotFoundException’ inner exception for the exact library file name.
-    - The incorrect DLL was copied to the output directory, this maybe be caused by the build chain determining the incorrect platform or the incorrect platform has been specified in the build process. If using the dotnet command, see https://docs.microsoft.com/en-us/dotnet/core/rid-catalog to specify the correct runtime. If using Visual Studio, make sure the selected Platform (x86/x64) matches your environment.</value>
+    - The incorrect DLL was copied to the output directory, this maybe be caused by the build chain determining the incorrect platform or the incorrect platform has been specified in the build process. If using the dotnet command, see https://docs.microsoft.com/en-us/dotnet/core/rid-catalog to specify the correct runtime. If using Visual Studio, make sure the selected Platform (x86/x64) matches your environment.
+    - If building for .NET Framework, the AnyCPU configuration is not supported, make sure to build for the required Platform (x86/x64).</value>
   </data>
   <data name="ExceptionSetCache" xml:space="preserve">
     <value>A results cache cannot be configured in the Device-Detection Hash engine. The overhead of having to manage native object lifetimes when a cache is enabled outweighs the benefit of the cache.</value>
