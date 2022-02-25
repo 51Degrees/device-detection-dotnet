@@ -56,12 +56,12 @@ namespace FiftyOne.DeviceDetection.Tests.Core
         /// The license key to use when performing automatic update.
         /// </param>
         [DataTestMethod]
-        [DataRow(TestHelpers.Constants.HASH_DATA_FILE_NAME, true, false, null)]
-        [DataRow(TestHelpers.Constants.HASH_DATA_FILE_NAME, false, false, null)]
-        [DataRow(TestHelpers.Constants.HASH_DATA_FILE_NAME, true, true, null)]
-        [DataRow(TestHelpers.Constants.HASH_DATA_FILE_NAME, false, true, null)]
-        [DataRow(TestHelpers.Constants.HASH_DATA_FILE_NAME, true, false, "key1")]
-        [DataRow(TestHelpers.Constants.HASH_DATA_FILE_NAME, true, true, "key1")]
+        [DataRow(TestHelpers.Constants.LITE_HASH_DATA_FILE_NAME, true, false, null)]
+        [DataRow(TestHelpers.Constants.LITE_HASH_DATA_FILE_NAME, false, false, null)]
+        [DataRow(TestHelpers.Constants.LITE_HASH_DATA_FILE_NAME, true, true, null)]
+        [DataRow(TestHelpers.Constants.LITE_HASH_DATA_FILE_NAME, false, true, null)]
+        [DataRow(TestHelpers.Constants.LITE_HASH_DATA_FILE_NAME, true, false, "key1")]
+        [DataRow(TestHelpers.Constants.LITE_HASH_DATA_FILE_NAME, true, true, "key1")]
         public void DeviceDetectionPipelineBuilder_CheckConfiguration(
             string datafilename, bool autoUpdate, bool shareUsage, string licenseKey)
         {

@@ -33,6 +33,8 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
 
         string getType();
 
+        string getProduct();
+
         void refreshData();
 
         void refreshData(byte[] data, int dataSize);

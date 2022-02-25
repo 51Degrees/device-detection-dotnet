@@ -35,7 +35,7 @@ using System.Linq;
 namespace FiftyOne.DeviceDetection.Hash.Tests.Core.FlowElements
 {
     [TestClass]
-    public class EngineAndBuilderTests
+    public class EngineBuilderTests
     {
         DeviceDetectionHashEngineBuilder _builder;
 

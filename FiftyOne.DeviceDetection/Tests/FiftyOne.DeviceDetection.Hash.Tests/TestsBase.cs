@@ -63,10 +63,11 @@ namespace FiftyOne.DeviceDetection.Hash.Tests
             }
         }
 
-        protected void TestInitialize(PerformanceProfiles profile)
+        protected void TestInitialize(
+            PerformanceProfiles profile, String dataFileName = Constants.LITE_HASH_DATA_FILE_NAME)
         {
             Wrapper = new WrapperHash(
-                TestHelpers.Utils.GetFilePath(Constants.HASH_DATA_FILE_NAME),
+                TestHelpers.Utils.GetFilePath(dataFileName),
                 profile);
             UserAgents = new UserAgentGenerator(
                 TestHelpers.Utils.GetFilePath(Constants.UA_FILE_NAME));
