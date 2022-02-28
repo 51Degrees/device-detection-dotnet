@@ -83,6 +83,11 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
             return _object.getType();
         }
 
+        public string getProduct()
+        {
+            return _object.getProduct();
+        }
+
         public IDateSwigWrapper getUpdateAvailableTime()
         {
             return new DateSwigWrapper(_object.getUpdateAvailableTime());

@@ -178,7 +178,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// The tier of the data that is currently being used by this engine.
         /// For example, 'Lite' or 'Enterprise'
         /// </summary>
-        public override string DataSourceTier => _engine.getType();
+        public override string DataSourceTier => _engine.getProduct();
 
         /// <summary>
         /// True if the data used by this engine will automatically be
