@@ -78,22 +78,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Examples\Core\Cloud\GetAllProperties\GetAllProperties.csproj" />
-    <ProjectReference Include="..\..\Examples\Core\Cloud\GettingStarted\GettingStarted.csproj" />
-    <ProjectReference Include="..\..\Examples\Core\Cloud\NativeModelLookup\NativeModelLookup.csproj" />
-    <ProjectReference Include="..\..\Examples\Core\Cloud\TacLookup\TacLookup.csproj" />
-    <ProjectReference Include="..\..\Examples\Core\Hash\AutomaticUpdates\UpdateOnStartUp\UpdateOnStartUp.csproj" />
-    <ProjectReference Include="..\..\Examples\Core\Hash\AutomaticUpdates\UpdatePollingInterval\UpdatePollingInterval.csproj" />
-    <ProjectReference Include="..\..\Examples\Core\Hash\ConfigureFromFile\ConfigureFromFile.csproj" />
-    <ProjectReference Include="..\..\Examples\Core\Hash\Getting Started\GettingStarted.csproj" />
-    <ProjectReference Include="..\..\Examples\Core\Hash\Metadata\Metadata.csproj" />
-    <ProjectReference Include="..\..\Examples\Core\Hash\Performance\Performance.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\..\..\Examples\Cloud\GetAllProperties-Console\GetAllProperties.csproj" />
+    <ProjectReference Include="..\..\..\Examples\Cloud\GettingStarted-Console\GettingStarted-Console.csproj" />
+    <ProjectReference Include="..\..\..\Examples\Cloud\NativeModel-Console\NativeModelLookup.csproj" />
+    <ProjectReference Include="..\..\..\Examples\Cloud\TAC-Console\TacLookup.csproj" />
+    <ProjectReference Include="..\..\..\Examples\OnPremise\GettingStarted-Console\GettingStarted-Console.csproj" />
   </ItemGroup>
 
 </Project>

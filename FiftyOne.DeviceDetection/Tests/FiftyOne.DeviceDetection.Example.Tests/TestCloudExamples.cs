@@ -20,8 +20,14 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
+using FiftyOne.DeviceDetection.Examples;
+using FiftyOne.Pipeline.Core.Configuration;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.IO;
+using System.Linq;
 
 namespace FiftyOne.DeviceDetection.Example.Tests
 {
@@ -39,6 +45,8 @@ namespace FiftyOne.DeviceDetection.Example.Tests
         private string ResourceKey;
         private string CloudEndPoint;
 
+        private const string RESOURCE_KEY_ENV_VAR = "SUPER_RESOURCE_KEY";
+
         /// <summary>
         /// Init method. Specify Resource Key to run examples here or 
         /// set a Resource Key in an environment variable called 'ResourceKey'.
@@ -47,15 +55,15 @@ namespace FiftyOne.DeviceDetection.Example.Tests
         [TestInitialize]
         public void Init()
         {
-            var resourceKey = Environment.GetEnvironmentVariable("DEVICEDETECTIONRESOURCEKEY");
+            var resourceKey = Environment.GetEnvironmentVariable(RESOURCE_KEY_ENV_VAR);
             ResourceKey = string.IsNullOrWhiteSpace(resourceKey) == false ?
                 resourceKey : "!!YOUR_RESOURCE_KEY!!";
 
             if (string.IsNullOrWhiteSpace(ResourceKey) == true ||
                 ResourceKey.StartsWith("!!") == true)
             {
-                Assert.Fail("ResourceKey must be specified in the Init method" +
-                    " or as an Environment variable");
+                Assert.Fail($"ResourceKey must be specified in the Init method" +
+                    $" or as Environment variable '{RESOURCE_KEY_ENV_VAR}'");
             }
 
             var cloudEndPoint = Environment.GetEnvironmentVariable("51D_CLOUD_ENDPOINT");
@@ -85,8 +93,9 @@ namespace FiftyOne.DeviceDetection.Example.Tests
         [TestMethod]
         public void Example_Cloud_GettingStarted()
         {
-            var example = new Examples.Cloud.GettingStarted.Program.Example();
-            example.Run(ResourceKey, CloudEndPoint);
+            var example = new Examples.Cloud.GettingStartedConsole.Program.Example();
+            var options = CreateConfiguration(example.GetType(), ResourceKey);
+            example.Run(options, TextWriter.Null);
         }
 
         /// <summary>
@@ -107,6 +116,58 @@ namespace FiftyOne.DeviceDetection.Example.Tests
         {
             var example = new Examples.Cloud.TacLookup.Program.Example();
             example.Run(ResourceKey, CloudEndPoint);
+        }
+
+        /// <summary>
+        /// Create a new PipelineOptions instance populated with the configuration that is embedded
+        /// in the assembly for the specified example type.
+        /// The resource key in the configuration will be overridden to use the specified value.
+        /// </summary>
+        /// <param name="exampleType"></param>
+        /// <returns></returns>
+        private static PipelineOptions CreateConfiguration(Type exampleType, string resourceKey)
+        {
+            // Write the contents of the configuration from the example to a temporary file.
+            var jsonConfig = ReadEmbeddedConfig(exampleType);
+            var configFile = Path.GetTempFileName();
+            File.WriteAllText(configFile, jsonConfig);
+
+            // Load the configuration file
+            var config = new ConfigurationBuilder()
+                .AddJsonFile(configFile)
+                .Build();
+
+            // Bind the configuration to a pipeline options instance
+            PipelineOptions options = new PipelineOptions();
+            config.Bind("PipelineOptions", options);
+
+            // Override the resource key in the config file with the one to use for testing.
+            options.SetResourceKey(resourceKey);
+            return options;
+        }
+
+        /// <summary>
+        /// Get the assembly that contains the specified type, check for an embedded 
+        /// 'appsettings.json' resource. If present, return the contents.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private static string ReadEmbeddedConfig(Type exampleType)
+        {
+            var assembly = exampleType.Assembly;
+            var resourceSuffix = "appsettings.json";
+
+            var name = assembly.GetManifestResourceNames().Where(n => n.EndsWith(resourceSuffix));
+            if(name.Count() == 0)
+            {
+                throw new Exception($"Failed to find an embedded resource ending with " +
+                    $"'{resourceSuffix}'");
+            }
+            using (Stream stream = assembly.GetManifestResourceStream(name.First()))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                return reader.ReadToEnd();
+            }
         }
     }
 }

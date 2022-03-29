@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -19,10 +19,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Examples\Cloud\GettingStarted-Web\GettingStarted-Web.csproj" />
+    <ProjectReference Include="..\..\..\Examples\OnPremise\GettingStarted-Web\GettingStarted-Web.csproj" />
     <ProjectReference Include="..\..\Examples\AspNetCore3.1-UACH-manual\Client-Hints Not Integrated NetCore 3.1.csproj" />
     <ProjectReference Include="..\..\Examples\AspNetCore3.1-UACH\Client-Hints NetCore 3.1.csproj" />
     <ProjectReference Include="..\..\Examples\Cloud-AspNetCore3.1-UACH-manual\Cloud - Client-Hints Not Integrated NetCore 3.1.csproj" />
     <ProjectReference Include="..\..\Examples\Cloud-AspNetCore3.1-UACH\Cloud - Client-Hints NetCore 3.1.csproj" />
   </ItemGroup>
 
+  <Target Name="CopyDepsFiles" AfterTargets="Build" Condition="'$(TargetFramework)'!=''">
+    <ItemGroup>
+      <DepsFilePaths Include="$([System.IO.Path]::ChangeExtension('%(_ResolvedProjectReferencePaths.FullPath)', '.deps.json'))" />
+    </ItemGroup>
+    <Copy SourceFiles="%(DepsFilePaths.FullPath)" DestinationFolder="$(OutputPath)" Condition="Exists('%(DepsFilePaths.FullPath)')" />
+  </Target>
 </Project>

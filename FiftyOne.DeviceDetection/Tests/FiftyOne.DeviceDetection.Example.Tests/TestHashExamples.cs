@@ -24,6 +24,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Runtime.InteropServices;
 using System;
 using System.IO;
+using Microsoft.Extensions.Logging;
+using FiftyOne.DeviceDetection.Examples;
 
 namespace FiftyOne.DeviceDetection.Example.Tests
 {
@@ -38,78 +40,46 @@ namespace FiftyOne.DeviceDetection.Example.Tests
     [TestClass]
     public class TestHashExamples
     {
-        private string LicenseKey;
+        //private string LicenseKey;
 
         private string DataFile;
-        private string UserAgentsFile;
-        private int Count = 20000;
+        //private string UserAgentsFile;
+        //private int Count = 20000;
 
         /// <summary>
         /// Init method - specify License Key to run examples here or 
         /// set a License Key in an environment variable called 'ResourceKey'.
-        /// Set data file for hash examples and aditionally a User-Agents file
+        /// Set data file for hash examples and additionally a User-Agents file
         /// for the performance example.
         /// </summary>
         [TestInitialize]
         public void Init()
         {
-            // Set license key for autoupdate examples.
-            var licenseKey = Environment.GetEnvironmentVariable("DEVICEDETECTIONLICENSEKEY");
-            LicenseKey = string.IsNullOrWhiteSpace(licenseKey) == false ?
-                licenseKey : "!!YOUR_LICENSE_KEY!!";
+            //// Set license key for autoupdate examples.
+            //var licenseKey = Environment.GetEnvironmentVariable("DEVICEDETECTIONLICENSEKEY");
+            //LicenseKey = string.IsNullOrWhiteSpace(licenseKey) == false ?
+            //    licenseKey : "!!YOUR_LICENSE_KEY!!";
 
-            if (string.IsNullOrWhiteSpace(LicenseKey) == true ||
-                LicenseKey.StartsWith("!!") == true)
-            {
-                Assert.Fail("LicenseKey must be specified in the Init method" +
-                    " or as an Environment variable");
-            }
+            //if (string.IsNullOrWhiteSpace(LicenseKey) == true ||
+            //    LicenseKey.StartsWith("!!") == true)
+            //{
+            //    Assert.Fail("LicenseKey must be specified in the Init method" +
+            //        " or as an Environment variable");
+            //}
 
             // Set Device Data file
             DataFile = Environment.GetEnvironmentVariable("DEVICEDETECTIONDATAFILE");
             if (string.IsNullOrWhiteSpace(DataFile))
             {
-#if NETCORE
-                DataFile = "..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\51Degrees-LiteV4.1.hash";
-#else
-                DataFile = "..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\51Degrees-LiteV4.1.hash";
-#endif
+                DataFile = ExampleUtils.FindFile("51Degrees-LiteV4.1.hash");
             }
 
-			if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
-				Console.WriteLine("Getting Linux Path.");
-				DataFile = "../../../../../../device-detection-cxx/device-detection-data/51Degrees-LiteV4.1.hash";
-			}
-
-            // Set User-Agents file for performance example.
-            UserAgentsFile = Environment.GetEnvironmentVariable("USERAGENTSFILE");
-            if (string.IsNullOrWhiteSpace(UserAgentsFile))
-            {
-#if NETCORE
-                UserAgentsFile = "..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\20000 User Agents.csv";
-#else
-                UserAgentsFile = "..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\20000 User Agents.csv";
-#endif
-            }	
-			if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
-				Console.WriteLine("Getting Linux Path.");
-				UserAgentsFile = "../../../../../../device-detection-cxx/device-detection-data/20000 User Agents.csv";
-			}			
-        }
-
-
-        /// <summary>
-        /// Test the ConfigureFromFile example.
-        /// </summary>
-        [TestMethod]
-        public void Example_Hash_ConfigureFromFile()
-        {
-            var example = new Examples.Hash.ConfigureFromFile.Program.Example();
-#if NETCORE
-            example.Run("appsettings.json");
-#else
-            example.Run("App.config");
-#endif
+            //// Set User-Agents file for performance example.
+            //UserAgentsFile = Environment.GetEnvironmentVariable("USERAGENTSFILE");
+            //if (string.IsNullOrWhiteSpace(UserAgentsFile))
+            //{
+            //    UserAgentsFile = ExampleUtils.FindFile("20000 User Agents.csv");
+            //}
         }
 
         /// <summary>
@@ -118,48 +88,8 @@ namespace FiftyOne.DeviceDetection.Example.Tests
         [TestMethod]
         public void Example_Hash_GettingStarted()
         {
-            var example = new Examples.Hash.GettingStarted.Program.Example();
-            example.Run(DataFile);
-        }
-
-        /// <summary>
-        /// Test the MetaData Example
-        /// </summary>
-        [TestMethod]
-        public void Example_Hash_MetaData()
-        {
-            var example = new Examples.Hash.Metadata.Program.Example();
-            example.Run(DataFile, true);
-        }
-
-        /// <summary>
-        /// Test the Performance Example
-        /// </summary>
-        [TestMethod]
-        public void Example_Hash_Performance()
-        {
-            var example = new Examples.Hash.Performance.Program.Example();
-            example.Run(DataFile, UserAgentsFile, Count);
-        }
-
-        /// <summary>
-        /// Test the UpdateOnStartUp Example
-        /// </summary>
-        [TestMethod]
-        public void Example_Hash_UpdateOnStartUp()
-        {
-            var example = new Examples.Hash.AutomaticUpdates.UpdateOnStartUp.Program.Example();
-            example.Run(DataFile, LicenseKey);
-        }
-
-        /// <summary>
-        /// Test the UpdatePollingInterval Example
-        /// </summary>
-        [TestMethod]
-        public void Example_Hash_UpdatePollingInterval()
-        {
-            var example = new Examples.Hash.AutomaticUpdates.UpdatePollingInterval.Program.Example();
-            example.Run(DataFile, LicenseKey);
+            var example = new Examples.OnPremise.GettingStartedConsole.Program.Example();
+            example.Run(DataFile, new LoggerFactory(), TextWriter.Null);
         }
     }
 }

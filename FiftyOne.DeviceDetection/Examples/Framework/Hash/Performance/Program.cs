@@ -147,15 +147,11 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.Performance
 
         static void Main(string[] args)
         {
-#if NETCORE
-            var defaultDataFile = "..\\..\\..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\51Degrees-LiteV4.1.hash";
-            var defaultUaFile = "..\\..\\..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\20000 User Agents.csv";
-#else
-            var defaultDataFile = "..\\..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\51Degrees-LiteV4.1.hash";
-            var defaultUaFile = "..\\..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\20000 User Agents.csv";
-#endif
-            var dataFile = args.Length > 0 ? args[0] : defaultDataFile;
-            var uaFile = args.Length > 1 ? args[1] : defaultUaFile;
+            var filename = "51Degrees-LiteV4.1.hash";
+            var uaFilename = "20000 User Agents.csv";
+
+            var dataFile = args.Length > 0 ? args[0] : ExampleUtils.FindFile(filename);
+            var uaFile = args.Length > 1 ? args[1] : ExampleUtils.FindFile(uaFilename);
             new Example().Run(dataFile, uaFile, 10000);
 #if (DEBUG)
             Console.WriteLine("Complete. Press key to exit.");
