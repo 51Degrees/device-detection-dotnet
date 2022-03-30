@@ -823,7 +823,8 @@ INPUT                  = ../FiftyOne.DeviceDetection/FiftyOne.DeviceDetection.Cl
                          ../FiftyOne.DeviceDetection/FiftyOne.DeviceDetection.Hash.Engine.OnPremise \
                          ../FiftyOne.DeviceDetection/FiftyOne.DeviceDetection.Pattern.Engine.OnPremise \
                          ../README.md \
-                         ../FiftyOne.DeviceDetection/Examples
+                         ../FiftyOne.DeviceDetection/Examples \
+                         ../Examples
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -900,6 +901,7 @@ EXCLUDE_SYMBOLS        =
 # command).
 
 EXAMPLE_PATH           = ../FiftyOne.DeviceDetection/Examples \
+                         ../Examples \
                          ../../../src/snippets
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the

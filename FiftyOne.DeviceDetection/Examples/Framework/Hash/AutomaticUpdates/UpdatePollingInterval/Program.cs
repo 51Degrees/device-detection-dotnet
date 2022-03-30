@@ -81,7 +81,8 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.AutomaticUpdates.UpdatePollingI
                 // Construct our own data update service so we can monitor update events.
                 var loggerFactory = new LoggerFactory();
                 var httpClient = new HttpClient();
-                var dataUpdateService = new DataUpdateService(loggerFactory.CreateLogger<DataUpdateService>(), httpClient);
+                var dataUpdateService = new DataUpdateService(
+                    loggerFactory.CreateLogger<DataUpdateService>(), httpClient);
 
                 // Bind a method to the CheckForUpdateComplete event and
                 // the CheckForUpdateStarted event which
@@ -105,17 +106,20 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.AutomaticUpdates.UpdatePollingI
                     .SetDataFileSystemWatcher(true)
                     // Disable update on startup
                     .SetDataUpdateOnStartUp(false)
-                    // Set the frequency in seconds that the pipeline should
-                    // check for updates to data files. A recommended 
-                    // polling interval in a production environment is
-                    // around 30 minutes or 1800 seconds.
-                    .SetUpdatePollingInterval(30)
-                    // Set the max ammount of time in seconds that should be 
-                    // added to the polling interval. This is useful in datacenter
-                    // applications where mulitple instances may be polling for 
-                    // updates at the same time. A recommended ammount in production 
+                    // Set the frequency in seconds that the pipeline should check for updates
+                    // to data files. Data files include an internal date/time which indicates
+                    // when the next file should be available. The system will only start polling
+                    // for updates after this time.  
+                    // A recommended polling interval in a production environment is
+                    // around 30 minutes or 1800 seconds. In this case, we're using an interval
+                    // of 30 seconds to demonstrate how the feature works.
+                    .SetUpdatePollingInterval(updatePollingInterval)
+                    // Set the max amount of time in seconds that should be 
+                    // added to the polling interval. This is useful in data center
+                    // applications where multiple instances may be polling for 
+                    // updates at the same time. A recommended amount in production 
                     // environments is 600 seconds.
-                    .SetUpdateRandomisationMax(10)
+                    .SetUpdateRandomisationMax(pollingIntervalRandomisation)
                     .Build();
 
                 // Get the published date of the data file from the Hash engine 
@@ -127,8 +131,9 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.AutomaticUpdates.UpdatePollingI
                     .DataPublishedDateTime;
                 Console.WriteLine($"Initial data file published date: {publishedDate}");
 
-                Console.WriteLine($"The pipeline has now been set up to poll for updates every {updatePollingInterval} seconds, " +
-                    $"a random ammount of time up to {pollingIntervalRandomisation} seconds will be added.");
+                Console.WriteLine($"The pipeline has now been set up to poll for updates every " +
+                    $"{updatePollingInterval} seconds, a random amount of time up to " +
+                    $"{pollingIntervalRandomisation} seconds will be added.");
 
                 // Wait for the update complete event.
                 ewh.WaitOne();
@@ -164,17 +169,14 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.AutomaticUpdates.UpdatePollingI
             if (licenseKey.StartsWith("!!"))
             {
                 Console.WriteLine("You need a license key to run this example, " +
-                    "you can obtain one by subscribing to a 51Degrees bundle: https://51degrees.com/pricing");
+                    "you can obtain one by subscribing to a 51Degrees bundle: " +
+                    "https://51degrees.com/pricing");
                 Console.ReadKey();
                 return;
             }
 
-#if NETCORE
-            var defaultDataFile = "..\\..\\..\\..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\51Degrees-LiteV4.1.hash";
-#else
-            var defaultDataFile = "..\\..\\..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\51Degrees-LiteV4.1.hash";
-#endif
-            var dataFile = args.Length > 0 ? args[0] : defaultDataFile;
+            var filename = "51Degrees-LiteV4.1.hash";
+            var dataFile = args.Length > 0 ? args[0] : ExampleUtils.FindFile(filename);
             new Example().Run(dataFile, licenseKey);
 #if (DEBUG)
             Console.WriteLine("Complete. Press key to exit.");

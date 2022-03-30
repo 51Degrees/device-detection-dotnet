@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,19 @@ namespace FiftyOne.DeviceDetection.Example.Tests.Web
 {
     public class WebExampleTestBase
     {
+        protected static void GetKeyFromEnv(string envVarName, Action<string> setValue)
+        {
+            var superKey = Environment.GetEnvironmentVariable(envVarName);
+            if (string.IsNullOrWhiteSpace(superKey) == false)
+            {
+                setValue(superKey);
+            }
+            else
+            {
+                setValue(string.Empty);
+            }
+        }
+
         /// <summary>
         /// Create a test server for a cloud-backed web example.
         /// </summary>
@@ -37,7 +51,7 @@ namespace FiftyOne.DeviceDetection.Example.Tests.Web
         /// appsettings.json file. 
         /// </param>
         /// <returns></returns>
-        protected TestServer InitializeCloudTestServer<TStartup> (
+        protected TestServer InitializeCloudTestServer<TStartup>(
             string appsettingsPath,
             string resourceKey,
             string cloudEndpoint = null,
@@ -52,7 +66,7 @@ namespace FiftyOne.DeviceDetection.Example.Tests.Web
                 {
                     { resourceKeyConfigKey, resourceKey },
                 };
-            if(cloudEndpoint != null)
+            if (string.IsNullOrEmpty(cloudEndpoint) == false)
             {
                 testConfigOverrides.Add(endPointConfigKey, cloudEndpoint);
             }
@@ -130,6 +144,11 @@ namespace FiftyOne.DeviceDetection.Example.Tests.Web
                             // Now override the configuration with any
                             // specific values we want to use for the test.
                             .AddInMemoryCollection(testConfigOverrides);
+                    })
+                    // Log to console so we can see what happens in the event of a failure.
+                    .ConfigureLogging(l =>
+                    {
+                        l.ClearProviders().AddConsole();
                     })
                     .UseStartup<TStartup>()
                     .UseEnvironment("IntegrationTest"));

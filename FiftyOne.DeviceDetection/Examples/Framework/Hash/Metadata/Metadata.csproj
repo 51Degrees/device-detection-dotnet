@@ -8,10 +8,11 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>FiftyOne.DeviceDetection.Examples.Hash.Metadata</RootNamespace>
     <AssemblyName>FiftyOne.DeviceDetection.Examples.Hash.Metadata</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -165,6 +166,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Examples\ExampleBase\FiftyOne.DeviceDetection.Examples.csproj">
+      <Project>{cdad980c-bf23-4bdb-8391-bfb6ed8ddcfc}</Project>
+      <Name>FiftyOne.DeviceDetection.Examples</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\FiftyOne.DeviceDetection.Data\FiftyOne.DeviceDetection.Shared.csproj">
       <Project>{bb852540-9036-4bce-8626-bd8b1ea6b8d8}</Project>
       <Name>FiftyOne.DeviceDetection.Shared</Name>
@@ -172,10 +177,6 @@
     <ProjectReference Include="..\..\..\..\FiftyOne.DeviceDetection.Hash.Engine.OnPremise\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.csproj">
       <Project>{5e6bf130-f516-498f-9fee-d50c857ba019}</Project>
       <Name>FiftyOne.DeviceDetection.Hash.Engine.OnPremise</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\ExampleBase\FiftyOne.DeviceDetection.Examples.csproj">
-      <Project>{90c58aae-6b9a-4995-95f6-28649ff8eaee}</Project>
-      <Name>FiftyOne.DeviceDetection.Examples</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

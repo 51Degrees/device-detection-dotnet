@@ -149,12 +149,8 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.AutomaticUpdates.UpdateOnStartU
                 return;
             }
 
-#if NETCORE
-            var defaultDataFile = "..\\..\\..\\..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\51Degrees-LiteV4.1.hash";
-#else
-            var defaultDataFile = "..\\..\\..\\..\\..\\..\\..\\..\\device-detection-cxx\\device-detection-data\\51Degrees-LiteV4.1.hash";
-#endif
-            var dataFile = args.Length > 0 ? args[0] : defaultDataFile;
+            var filename = "51Degrees-LiteV4.1.hash";
+            var dataFile = args.Length > 0 ? args[0] : ExampleUtils.FindFile(filename);
             new Example().Run(dataFile, licenseKey);
 #if (DEBUG)
             Console.WriteLine("Complete. Press key to exit.");

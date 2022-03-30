@@ -62,9 +62,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\Examples\ExampleBase\FiftyOne.DeviceDetection.Examples.csproj" />
     <ProjectReference Include="..\..\..\..\..\FiftyOne.DeviceDetection.Data\FiftyOne.DeviceDetection.Shared.csproj" />
     <ProjectReference Include="..\..\..\..\..\FiftyOne.DeviceDetection\FiftyOne.DeviceDetection.csproj" />
-    <ProjectReference Include="..\..\..\..\ExampleBase\FiftyOne.DeviceDetection.Examples.csproj" />
   </ItemGroup>
 
 </Project>

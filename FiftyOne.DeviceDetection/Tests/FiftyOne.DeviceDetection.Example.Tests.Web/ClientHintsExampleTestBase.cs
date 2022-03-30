@@ -55,20 +55,20 @@ namespace FiftyOne.DeviceDetection.Example.Tests.Web
         public const string SAFARI_UA = "Mozilla/5.0 (iPhone; CPU iPhone OS 15_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1";
         public const string CURL_UA = "curl/7.80.0";
 
+        /// <summary>
+        /// Lists of the most critical headers for each component. Tests will fail if these are
+        /// not included in Accept-CH when expected.
+        /// </summary>
         public static readonly List<string> BROWSER_ACCEPT_CH = new List<string>()
         {
-            "Sec-CH-UA",
-            "Sec-CH-UA-Full-Version"
+            "Sec-CH-UA"
         };
         public static readonly List<string> HARDWARE_ACCEPT_CH = new List<string>()
         {
-            "Sec-CH-UA-Arch",
-            "Sec-CH-UA-Mobile",
             "Sec-CH-UA-Model"
         };
         public static readonly List<string> PLATFORM_ACCEPT_CH = new List<string>()
         {
-            "Sec-CH-UA-Platform-Version",
             "Sec-CH-UA-Platform"
         };
 
@@ -98,10 +98,9 @@ namespace FiftyOne.DeviceDetection.Example.Tests.Web
                 var actualValues = headers.GetValues("Accept-CH")
                     .SelectMany(h => h.Split(new char[] { ',', ' ' },
                         StringSplitOptions.RemoveEmptyEntries));
-                Assert.AreEqual(expectedAcceptCH.Count, actualValues.Count(),
-                    $"The list of values in Accept-CH does not match the " +
-                    $"expected values: {string.Join(",", actualValues)} vs " +
-                    $"{string.Join(", ", expectedAcceptCH)}");
+                // We don't require the expected list of values to match exactly, as the headers 
+                // used by detection change over time. However, we do make sure that the most 
+                // critical ones are included.
                 foreach (var expectedValue in expectedAcceptCH)
                 {
                     Assert.IsTrue(actualValues.Contains(expectedValue, 
@@ -109,19 +108,6 @@ namespace FiftyOne.DeviceDetection.Example.Tests.Web
                         $"The list of values in Accept-CH does not include " +
                         $"'{expectedValue}'. ({string.Join(",", actualValues)})");
                 }
-            }
-        }
-
-        private static void GetKeyFromEnv(string envVarName, Action<string> setValue)
-        {
-            var superKey = Environment.GetEnvironmentVariable(envVarName);
-            if (string.IsNullOrWhiteSpace(superKey) == false)
-            {
-                setValue(superKey);
-            }
-            else
-            {
-                setValue(string.Empty);
             }
         }
 
