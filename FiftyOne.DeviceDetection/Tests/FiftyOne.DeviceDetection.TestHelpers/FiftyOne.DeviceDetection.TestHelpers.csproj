@@ -39,7 +39,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.Common.TestHelpers" Version="4.3.5" />
+    <PackageReference Include="FiftyOne.Common.TestHelpers" Version="4.4.1" />
   </ItemGroup>
 
   <ItemGroup>
