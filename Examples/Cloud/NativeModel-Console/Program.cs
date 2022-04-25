@@ -6,12 +6,18 @@ using FiftyOne.Pipeline.CloudRequestEngine.FlowElements;
 using FiftyOne.Pipeline.Core.FlowElements;
 using Microsoft.Extensions.Logging;
 using System;
+using System.IO;
 using System.Net.Http;
 
 /// <summary>
 /// @example NativeModel-Console/Program.cs
 ///
-/// @include{doc} example-native-model-lookup-cloud.txt
+/// This example shows how to use the 51Degrees Cloud service to lookup the details of a device 
+/// based on a given 'native model name'. Native model name is a string of characters that are 
+/// returned from a query to the device's OS. 
+/// There are different mechanisms to get native model names for 
+/// [Android devices](https://developer.android.com/reference/android/os/Build#MODEL) and 
+/// [iOS devices](https://gist.github.com/soapyigu/c99e1f45553070726f14c1bb0a54053b#file-machinename-swift)
 /// 
 /// This example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/blob/master/Examples/Cloud/NativeModel-Console/Program.cs). 
 /// 
@@ -19,6 +25,7 @@ using System.Net.Http;
 ///
 /// Required NuGet Dependencies:
 /// - FiftyOne.DeviceDetection
+/// - Microsoft.Extensions.Logging.Console
 /// </summary>
 namespace FiftyOne.DeviceDetection.Examples.Cloud.NativeModelLookup
 {
@@ -26,25 +33,29 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.NativeModelLookup
     {
         public class Example
         {
-            private static string nativemodel1 = "SC-03L";
-            private static string nativemodel2 = "iPhone11,8";
+            // Example values to use when looking up device details from native model names.
+            private const string _nativeModel1 = "SC-03L";
+            private const string _nativeModel2 = "iPhone11,8";
 
-            public void Run(string resourceKey, string cloudEndPoint = "")
+            public void Run(string resourceKey, ILoggerFactory loggerFactory, 
+                TextWriter output, string cloudEndPoint = "")
             {
-                Console.WriteLine("This example shows the details of devices " +
+                output.WriteLine("This example shows the details of devices " +
                     "associated with a given 'native model name'.");
-                Console.WriteLine($"The native model name can be retrieved by " +
+                output.WriteLine($"The native model name can be retrieved by " +
                     $"code running on the device (For example, a mobile app).");
-                Console.WriteLine($"For Android devices, see " +
+                output.WriteLine($"For Android devices, see " +
                     $"https://developer.android.com/reference/android/os/Build#MODEL");
-                Console.WriteLine($"For iOS devices, see " +
+                output.WriteLine($"For iOS devices, see " +
                     $"https://gist.github.com/soapyigu/c99e1f45553070726f14c1bb0a54053b#file-machinename-swift");
-                Console.WriteLine("----------------------------------------");
+                output.WriteLine("----------------------------------------");
 
-                ILoggerFactory loggerFactory = new LoggerFactory();
                 HttpClient httpClient = new HttpClient();
 
-                // Create a cloud request engine builder
+                // This example creates the pipeline and engines in code. For a demonstration
+                // of how to do this using a configuration file instead, see the TacLookup example.
+                // For more information about builders in general see the documentation at
+                // http://51degrees.com/documentation/_concepts__configuration__builders__index.html
                 var cloudRequestEngineBuilder = new CloudRequestEngineBuilder(loggerFactory, httpClient)
                     .SetResourceKey(resourceKey);
 
@@ -57,8 +68,8 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.NativeModelLookup
 
                 // Create the cloud request engine.
                 using (var cloudEngine = cloudRequestEngineBuilder.Build())
-                // Create the property-keyed engine to process the 
-                // response from the request engine.
+                // Create the hardware profile engine to process the response from the
+                // request engine.
                 using (var propertyKeyedEngine = new HardwareProfileCloudEngineBuilder(loggerFactory)
                     .Build())
                 // Create the pipeline using the engines.
@@ -67,17 +78,17 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.NativeModelLookup
                     .AddFlowElement(propertyKeyedEngine)
                     .Build())
                 {
-                    // Pass an iOS native model into the pipeline and 
-                    // list the matching devices.
-                    AnalyseTac(nativemodel1, pipeline);
-                    // Repeat for an Android native model name.
-                    AnalyseTac(nativemodel2, pipeline);
+                    // Pass a native model into the pipeline and list the matching devices.
+                    AnalyseNativeModel(_nativeModel1, pipeline, output);
+                    // Repeat for an alternative native model name.
+                    AnalyseNativeModel(_nativeModel2, pipeline, output);
                 }
             }
 
-            static void AnalyseTac(string nativemodel, IPipeline pipeline)
+            static void AnalyseNativeModel(string nativemodel, IPipeline pipeline, TextWriter output)
             {
-                // Create the FlowData instance.
+                // Create the FlowData instance. This is wrapped in a using block to ensure 
+                // resources are disposed correctly.
                 using (var data = pipeline.CreateFlowData())
                 {
                     // Add the native model key as evidence.
@@ -86,24 +97,18 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.NativeModelLookup
                     data.Process();
                     // Get result data from the flow data.
                     var result = data.Get<MultiDeviceDataCloud>();
-                    Console.WriteLine($"Which devices are associated with the " +
+                    output.WriteLine($"Which devices are associated with the " +
                         $"native model name '{nativemodel}'?");
+                    // The 'MultiDeviceDataCloud' object contains one or more instances
+                    // implementing 'IDeviceData'.
+                    // This is the same interface used for standard device detection, so we have
+                    // access to all the same properties.
                     foreach (var device in result.Profiles)
                     {
-                        var vendor = device.HardwareVendor;
-                        var name = device.HardwareName;
-                        var model = device.HardwareModel;
-
-                        if (vendor.HasValue &&
-                            model.HasValue &&
-                            name.HasValue)
-                        {
-                            Console.WriteLine($"\t{vendor.Value} {string.Join(",", name.Value)} ({model.Value})");
-                        }
-                        else
-                        {
-                            Console.WriteLine(vendor.NoValueMessage);
-                        }
+                        var vendor = device.HardwareVendor.GetHumanReadable();
+                        var name = device.HardwareName.GetHumanReadable();
+                        var model = device.HardwareModel.GetHumanReadable();
+                        output.WriteLine($"\t{vendor} {name} ({model})");
                     }
                 }
             }
@@ -111,28 +116,39 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.NativeModelLookup
 
         static void Main(string[] args)
         {
-            // Obtain a resource key for free at https://configure.51degrees.com
-            // Make sure to include the 'HardwareVendor' and 'HardwareModel' 
-            // properties as they are used by this example.
-            string resourceKey = "!!YOUR_RESOURCE_KEY!!";
+            // Use the command line args to get the resource key if present.
+            // Otherwise, get it from the environment variable.
+            string resourceKey = args.Length > 0 ? args[0] :
+                Environment.GetEnvironmentVariable(
+                    ExampleUtils.RESOURCE_KEY_ENV_VAR);
 
-            if (resourceKey.StartsWith("!!"))
+            // Configure a logger to output to the console.
+            var loggerFactory = new LoggerFactory();
+            loggerFactory.AddConsole();
+            var logger = loggerFactory.CreateLogger<Program>();
+
+            if (string.IsNullOrEmpty(resourceKey))
             {
-                Console.WriteLine("You need to create a resource key at " +
-                    "https://configure.51degrees.com and paste it into the code, " +
-                    "replacing !!YOUR_RESOURCE_KEY!!.");
-                Console.WriteLine("Make sure to include the 'HardwareVendor', " +
-                    "'HardwareName' and 'HardwareModel' properties as they " +
-                    "are used by this example.");
+                logger.LogError($"No resource key specified on the command line or in the " +
+                    $"environment variable '{ExampleUtils.RESOURCE_KEY_ENV_VAR}'. " +
+                    $"The 51Degrees cloud service is accessed using a 'ResourceKey'. " +
+                    $"For more information " +
+                    $"see http://51degrees.com/documentation/_info__resource_keys.html. " +
+                    $"Native model lookup is not available as a free service. This means that " +
+                    $"you will first need a license key, which can be purchased from our " +
+                    $"pricing page: http://51degrees.com/pricing. Once this is done, a resource " +
+                    $"key with the properties required by this example can be created at " +
+                    $"https://configure.51degrees.com/QKyYH5XT. You can now populate the " +
+                    $"environment variable mentioned at the start of this message with the " +
+                    $"resource key or pass it as the first argument on the command line.");
             }
             else
             {
-                new Example().Run(resourceKey);
+                new Example().Run(resourceKey, loggerFactory, Console.Out);
             }
-#if (DEBUG)
-            Console.WriteLine("Done. Press any key to exit.");
-            Console.ReadKey();
-#endif
+
+            // Dispose the logger to ensure any messages get flushed
+            loggerFactory.Dispose();
         }
     }
 }

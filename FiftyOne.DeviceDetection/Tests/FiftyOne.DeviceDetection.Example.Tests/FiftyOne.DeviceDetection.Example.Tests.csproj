@@ -83,6 +83,7 @@
     <ProjectReference Include="..\..\..\Examples\Cloud\NativeModel-Console\NativeModelLookup.csproj" />
     <ProjectReference Include="..\..\..\Examples\Cloud\TAC-Console\TacLookup.csproj" />
     <ProjectReference Include="..\..\..\Examples\OnPremise\GettingStarted-Console\GettingStarted-Console.csproj" />
+    <ProjectReference Include="..\..\..\Examples\OnPremise\OfflineProcessing\OfflineProcessing.csproj" />
   </ItemGroup>
 
 </Project>

@@ -80,7 +80,7 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.GettingStartedWeb
             var configHasKey = string.IsNullOrWhiteSpace(resourceKeyFromConfig) == false &&
                     resourceKeyFromConfig.StartsWith("!!") == false;
 
-            if(configHasKey == false)
+            if (configHasKey == false)
             {
                 // Get the index of the cloud request engine element in the config file so that
                 // we can create an override key for it.
@@ -102,7 +102,7 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.GettingStartedWeb
                         $"'appsettings.json' or the environment variable " +
                         $"'{ExampleUtils.RESOURCE_KEY_ENV_VAR}'. The 51Degrees cloud " +
                         $"service is accessed using a 'ResourceKey'. For more information " +
-                        $"see http://51degrees.com/documentation/4.3/_info__resource_keys.html. " +
+                        $"see http://51degrees.com/documentation/_info__resource_keys.html. " +
                         $"A resource key with the properties required by this example can be " +
                         $"created for free at https://configure.51degrees.com/1QWJwHxl. " +
                         $"Once complete, populate the config file or environment variable " +
