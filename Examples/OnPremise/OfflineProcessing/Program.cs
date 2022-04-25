@@ -155,10 +155,7 @@ namespace FiftyOne.DeviceDetection.Examples.OnPremise.OfflineProcessing
                         // Deserialize the record
                         var data = deserializer.Deserialize<Dictionary<string, object>>(yamlReader);
                         // Pass the record to the pipeline as evidence so that it can be analyzed
-                        var headers = data.ToDictionary(
-                            kvp => $"header.{kvp.Key}",
-                            kvp => kvp.Value);
-                        AnalyseEvidence(headers, pipeline, output, serializer);
+                        AnalyseEvidence(data, pipeline, output, serializer);
 
                         // Required to move to the start of the next record.
                         yamlReader.TryConsume<DocumentEnd>(out _);
