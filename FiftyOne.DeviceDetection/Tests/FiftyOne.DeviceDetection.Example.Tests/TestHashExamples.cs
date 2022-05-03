@@ -86,7 +86,7 @@ namespace FiftyOne.DeviceDetection.Example.Tests
         /// Test the GettingStarted Example
         /// </summary>
         [TestMethod]
-        public void Example_Hash_GettingStarted()
+        public void Example_OnPremise_GettingStarted()
         {
             var example = new Examples.OnPremise.GettingStartedConsole.Program.Example();
             example.Run(DataFile, new LoggerFactory(), TextWriter.Null);
@@ -96,13 +96,23 @@ namespace FiftyOne.DeviceDetection.Example.Tests
         /// Test the GettingStarted Example
         /// </summary>
         [TestMethod]
-        public void Example_Hash_OfflineProcessing()
+        public void Example_OnPremise_OfflineProcessing()
         {
             var example = new Examples.OnPremise.OfflineProcessing.Program.Example();
             using (var reader = new StreamReader(File.OpenRead(EvidenceFile)))
             {
                 example.Run(DataFile, reader, new LoggerFactory(), TextWriter.Null);
             }
+        }
+
+        /// <summary>
+        /// Test the Metadata Example
+        /// </summary>
+        [TestMethod]
+        public void Example_OnPremise_Metadata()
+        {
+            var example = new Examples.OnPremise.Metadata.Program.Example();
+            example.Run(DataFile, new LoggerFactory(), TextWriter.Null);
         }
     }
 }

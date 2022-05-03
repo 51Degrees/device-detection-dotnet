@@ -13,7 +13,7 @@ using System.IO;
 using System.Net.Http;
 
 /// <summary>
-/// @example TAC-Console/Program.cs
+/// @example Cloud/TAC-Console/Program.cs
 ///
 /// This example shows how to use the 51Degrees Cloud service to lookup the details of a device 
 /// based on a given 'TAC'. More background information on TACs can be found through various online 

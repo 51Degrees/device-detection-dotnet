@@ -10,7 +10,7 @@ using System.IO;
 using System.Net.Http;
 
 /// <summary>
-/// @example NativeModel-Console/Program.cs
+/// @example Cloud/NativeModel-Console/Program.cs
 ///
 /// This example shows how to use the 51Degrees Cloud service to lookup the details of a device 
 /// based on a given 'native model name'. Native model name is a string of characters that are 

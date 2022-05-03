@@ -84,8 +84,18 @@ namespace FiftyOne.DeviceDetection.Examples
             // Get the 'engine' element within the pipeline that performs device detection.
             // We can use this to get details about the data file as well as meta-data describing
             // things such as the available properties.
-            var engine = pipeline
-                .GetElement<DeviceDetectionHashEngine>();
+            var engine = pipeline.GetElement<DeviceDetectionHashEngine>();
+            CheckDataFile(engine, logger);
+        }
+
+        /// <summary>
+        /// Display information about the data file and log warnings if specific requirements
+        /// are not met.
+        /// </summary>
+        /// <param name="engine"></param>
+        /// <param name="logger"></param>
+        public static void CheckDataFile(DeviceDetectionHashEngine engine, ILogger logger)
+        {
             if (engine != null)
             {
                 var dataFileDate = engine.DataFiles[0]

@@ -119,6 +119,17 @@ namespace FiftyOne.DeviceDetection.Example.Tests
             example.Run(options, TextWriter.Null);
         }
 
+
+        /// <summary>
+        /// Test the Metadata Example
+        /// </summary>
+        [TestMethod]
+        public void Example_Cloud_Metadata()
+        {
+            var example = new Examples.Cloud.Metadata.Program.Example();
+            example.Run(ResourceKey, new LoggerFactory(), TextWriter.Null);
+        }
+
         /// <summary>
         /// Create a new PipelineOptions instance populated with the configuration that is embedded
         /// in the assembly for the specified example type.
