@@ -821,7 +821,6 @@ WARN_LOGFILE           =
 INPUT                  = ../FiftyOne.DeviceDetection/FiftyOne.DeviceDetection.Cloud \
                          ../FiftyOne.DeviceDetection/FiftyOne.DeviceDetection \
                          ../FiftyOne.DeviceDetection/FiftyOne.DeviceDetection.Hash.Engine.OnPremise \
-                         ../FiftyOne.DeviceDetection/FiftyOne.DeviceDetection.Pattern.Engine.OnPremise \
                          ../README.md \
                          ../FiftyOne.DeviceDetection/Examples \
                          ../Examples

@@ -105,7 +105,7 @@ namespace FiftyOne.DeviceDetection.Example.Tests
         public void Example_Cloud_NativeModelLookup()
         {
             var example = new Examples.Cloud.NativeModelLookup.Program.Example();
-            example.Run(ResourceKey, CloudEndPoint);
+            example.Run(ResourceKey, new LoggerFactory(), TextWriter.Null, CloudEndPoint);
         }
 
         /// <summary>
@@ -115,7 +115,19 @@ namespace FiftyOne.DeviceDetection.Example.Tests
         public void Example_Cloud_TacLookup()
         {
             var example = new Examples.Cloud.TacLookup.Program.Example();
-            example.Run(ResourceKey, CloudEndPoint);
+            var options = CreateConfiguration(example.GetType(), ResourceKey, CloudEndPoint);
+            example.Run(options, TextWriter.Null);
+        }
+
+
+        /// <summary>
+        /// Test the Metadata Example
+        /// </summary>
+        [TestMethod]
+        public void Example_Cloud_Metadata()
+        {
+            var example = new Examples.Cloud.Metadata.Program.Example();
+            example.Run(ResourceKey, new LoggerFactory(), TextWriter.Null);
         }
 
         /// <summary>
@@ -125,7 +137,8 @@ namespace FiftyOne.DeviceDetection.Example.Tests
         /// </summary>
         /// <param name="exampleType"></param>
         /// <returns></returns>
-        private static PipelineOptions CreateConfiguration(Type exampleType, string resourceKey)
+        private static PipelineOptions CreateConfiguration(
+            Type exampleType, string resourceKey, string cloudEndPoint = null)
         {
             // Write the contents of the configuration from the example to a temporary file.
             var jsonConfig = ReadEmbeddedConfig(exampleType);
@@ -143,6 +156,13 @@ namespace FiftyOne.DeviceDetection.Example.Tests
 
             // Override the resource key in the config file with the one to use for testing.
             options.SetResourceKey(resourceKey);
+
+            // Also override the cloud end point if one has been supplied.
+            if(string.IsNullOrEmpty(cloudEndPoint) == false)
+            {
+                options.SetCloudEndPoint(cloudEndPoint);
+            }
+
             return options;
         }
 

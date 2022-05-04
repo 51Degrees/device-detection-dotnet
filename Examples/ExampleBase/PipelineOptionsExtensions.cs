@@ -13,6 +13,11 @@ namespace FiftyOne.DeviceDetection.Examples
         /// files.
         /// </summary>
         private const string RESOURCE_KEY_SETTING_NAME = "ResourceKey";
+        /// <summary>
+        /// The name of the setting that is used to specify the cloud end point in configuration
+        /// files.
+        /// </summary>
+        private const string CLOUD_END_POINT_SETTING_NAME = "EndPoint";
 
         /// <summary>
         /// The name of the setting that is used to specify the data file in configuration files.
@@ -42,6 +47,18 @@ namespace FiftyOne.DeviceDetection.Examples
         {
             var cloudConfig = options.GetElementConfig(nameof(CloudRequestEngine));
             cloudConfig.BuildParameters[RESOURCE_KEY_SETTING_NAME] = resourceKey;
+        }
+
+        /// <summary>
+        /// Set the cloud end point setting in the supplied <see cref="PipelineOptions"/> instance
+        /// to the given value.
+        /// </summary>
+        /// <param name="options"></param>
+        /// <param name="cloudEndPoint"></param>
+        public static void SetCloudEndPoint(this PipelineOptions options, string cloudEndPoint)
+        {
+            var cloudConfig = options.GetElementConfig(nameof(CloudRequestEngine));
+            cloudConfig.BuildParameters[CLOUD_END_POINT_SETTING_NAME] = cloudEndPoint;
         }
 
         /// <summary>

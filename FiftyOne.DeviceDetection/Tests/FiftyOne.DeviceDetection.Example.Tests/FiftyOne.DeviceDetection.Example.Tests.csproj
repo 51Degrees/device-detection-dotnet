@@ -80,9 +80,12 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Examples\Cloud\GetAllProperties-Console\GetAllProperties.csproj" />
     <ProjectReference Include="..\..\..\Examples\Cloud\GettingStarted-Console\GettingStarted-Console.csproj" />
-    <ProjectReference Include="..\..\..\Examples\Cloud\NativeModel-Console\NativeModelLookup.csproj" />
-    <ProjectReference Include="..\..\..\Examples\Cloud\TAC-Console\TacLookup.csproj" />
+    <ProjectReference Include="..\..\..\Examples\Cloud\Metadata-Console\Metadata-Console.csproj" />
+    <ProjectReference Include="..\..\..\Examples\Cloud\NativeModel-Console\NativeModelLookup-Console.csproj" />
+    <ProjectReference Include="..\..\..\Examples\Cloud\TAC-Console\TacLookup-Console.csproj" />
     <ProjectReference Include="..\..\..\Examples\OnPremise\GettingStarted-Console\GettingStarted-Console.csproj" />
+    <ProjectReference Include="..\..\..\Examples\OnPremise\Metadata-Console\Metadata-Console.csproj" />
+    <ProjectReference Include="..\..\..\Examples\OnPremise\OfflineProcessing-Console\OfflineProcessing-Console.csproj" />
   </ItemGroup>
 
 </Project>
