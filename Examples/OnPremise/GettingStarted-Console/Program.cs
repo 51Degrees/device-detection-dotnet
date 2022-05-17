@@ -1,10 +1,10 @@
 /* *********************************************************************
  * This Original Work is copyright of 51 Degrees Mobile Experts Limited.
- * Copyright 2019 51 Degrees Mobile Experts Limited, 5 Charlotte Close,
- * Caversham, Reading, Berkshire, United Kingdom RG4 7BY.
+ * Copyright 2022 51 Degrees Mobile Experts Limited, Davidson House,
+ * Forbury Square, Reading, Berkshire, United Kingdom RG1 3EU.
  *
- * This Original Work is licensed under the European Union Public Licence (EUPL) 
- * v.1.2 and is subject to its terms as set out below.
+ * This Original Work is licensed under the European Union Public Licence
+ * (EUPL) v.1.2 and is subject to its terms as set out below.
  *
  * If a copy of the EUPL was not distributed with this file, You can obtain
  * one at https://opensource.org/licenses/EUPL-1.2.
@@ -51,7 +51,7 @@ namespace FiftyOne.DeviceDetection.Examples.OnPremise.GettingStartedConsole
         // Note that the Lite data file is only used for illustration, and has limited accuracy
         // and capabilities. Find out about the Enterprise data file on our pricing page:
         // https://51degrees.com/pricing
-        private const string LITE_V_4_1_HASH = "51Degrees-LiteV4.1.hash";
+        private const string LITE_V_4_1_HASH = "Enterprise-HashV41.hash";
 
         public class Example : ExampleBase
         {
@@ -136,6 +136,11 @@ namespace FiftyOne.DeviceDetection.Examples.OnPremise.GettingStartedConsole
                     OutputValue("Platform Version", device.PlatformVersion, message);
                     OutputValue("Browser Name", device.BrowserName, message);
                     OutputValue("Browser Version", device.BrowserVersion, message);
+                    message.AppendLine("Matched");
+                    foreach(var entry in device.UserAgents.Value)
+                    {
+                        message.AppendLine($"\t{entry}");
+                    }
                     output.WriteLine(message.ToString());
                 }
             }
