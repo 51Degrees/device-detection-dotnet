@@ -24,15 +24,26 @@ The [tested versions](https://51degrees.com/documentation/_info__tested_versions
 the .NET versions that we currently test against. The software may run fine against other versions, 
 but additional caution should be applied.
 
-### Data file
+### Data
+
+The API can either use our cloud service to get its data or it can use a local (on-premise) copy of the data.
+
+#### Cloud
+
+You will require a [resource key](https://51degrees.com/documentation/_info__resource_keys.html)
+to use the Cloud API. You can create resource keys using our 
+[configurator](https://configure.51degrees.com/), see our 
+[documentation](https://51degrees.com/documentation/_concepts__configurator.html) on how to use this.
+
+#### On-Premise
 
 In order to perform device detection on-premise, you will need to use a 51Degrees data file. 
-(This is not required for cloud users) This repository includes a free, 'lite' file in the 
-'device-detection-data' sub-module that has a significantly reduced set of properties. To obtain 
-a file with a more complete set of device properties see the 
-[51Degrees website](https://51degrees.com/pricing). If you want to use the lite file, you will 
-need to install [GitLFS](https://git-lfs.github.com/):
+This repository includes a free, 'lite' file in the 'device-detection-data' sub-module that has 
+a significantly reduced set of properties. To obtain a file with a more complete set of device 
+properties see the [51Degrees website](https://51degrees.com/pricing). If you want to use the 
+lite file, you will need to install [GitLFS](https://git-lfs.github.com/).
 
+On Linux:
 ```
 sudo apt-get install git-lfs
 git lfs install
@@ -120,6 +131,14 @@ The tables below describe the examples available in this repository.
 
 Tests can be found in the `Tests/` folder. These can all be run from within Visual Studio or by 
 using the `dotnet test` command line tool. 
+
+Some tests require additional resources in order to run. These will either fail or return an 
+'inconclusive' result if these resources are not provided.
+
+- Some tests require an 'Enterprise' data file. This can be obtained by [purchasing a license](https://51degrees.com/pricing).
+  - Once available, the full path to this data file must be specified in the `DEVICEDETECTIONDATAFILE` environment variable.
+- Tests using the cloud service require resource keys with specific properties to be provided using environment variables:
+  - The `SUPER_RESOURCE_KEY` environment variable should be populated with a key that includes all properties. A [license](https://51degrees.com/pricing) is required in order to access some properties.
 
 ## Project documentation
 
