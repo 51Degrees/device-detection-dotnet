@@ -45,14 +45,6 @@ namespace FiftyOne.DeviceDetection.Examples.OnPremise.GettingStartedConsole
 {
     public class Program
     {
-        // In this example, by default, the 51degrees "Lite" file needs to be somewhere in the
-        // project space, or you may specify another file as a command line parameter.
-        //
-        // Note that the Lite data file is only used for illustration, and has limited accuracy
-        // and capabilities. Find out about the Enterprise data file on our pricing page:
-        // https://51degrees.com/pricing
-        private const string LITE_V_4_1_HASH = "Enterprise-HashV41.hash";
-
         public class Example : ExampleBase
         {
             public void Run(string dataFile, ILoggerFactory loggerFactory, TextWriter output)
@@ -80,7 +72,7 @@ namespace FiftyOne.DeviceDetection.Examples.OnPremise.GettingStartedConsole
                     .Build())
                 {
                     // carry out some sample detections
-                    foreach (var values in EvidenceValues)
+                    foreach (var values in ExampleUtils.EvidenceValues)
                     {
                         AnalyseEvidence(values, pipeline, output);
                     }
@@ -158,53 +150,20 @@ namespace FiftyOne.DeviceDetection.Examples.OnPremise.GettingStartedConsole
                     $"\t{name}: " + value.Value :
                     $"\t{name}: " + value.NoValueMessage);
             }
-
         }
-
-        /// <summary>
-        /// This collection contains the various input values that will be passed to the device 
-        /// detection algorithm.
-        /// </summary>
-        private static readonly List<Dictionary<string, object>>
-            EvidenceValues = new List<Dictionary<string, object>>()
-        {
-            // A User-Agent from a mobile device.
-            new Dictionary<string, object>()
-            {
-                { "header.user-agent",
-                    "Mozilla/5.0 (Linux; Android 9; SAMSUNG SM-G960U) AppleWebKit/537.36 " +
-                    "(KHTML, like Gecko) SamsungBrowser/10.1 Chrome/71.0.3578.99 Mobile " +
-                    "Safari/537.36" }
-            },
-            // A User-Agent from a desktop device.
-            new Dictionary<string, object>()
-            {
-                { "header.user-agent",
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
-                    "(KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36" }
-            },
-            // Evidence values from a windows 11 device using a browser that supports
-            // User-Agent Client Hints.
-            new Dictionary<string, object>()
-            {
-                { "header.user-agent",
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
-                    "(KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36" },
-                { "header.sec-ch-ua-mobile", "?0" },
-                { "header.sec-ch-ua",
-                    "\" Not A; Brand\";v=\"99\", \"Chromium\";v=\"98\", " +
-                    "\"Google Chrome\";v=\"98\"" },
-                { "header.sec-ch-ua-platform", "\"Windows\"" },
-                { "header.sec-ch-ua-platform-version", "\"14.0.0\"" }
-            }
-        };
 
         static void Main(string[] args)
         {
             // Use the supplied path for the data file or find the lite file that is included
             // in the repository.
-            var dataFile = args.Length > 0 ? args[0] : 
-                ExampleUtils.FindFile(LITE_V_4_1_HASH);
+            var dataFile = args.Length > 0 ? args[0] :
+                // In this example, by default, the 51degrees "Lite" file needs to be somewhere in the
+                // project space, or you may specify another file as a command line parameter.
+                //
+                // Note that the Lite data file is only used for illustration, and has limited accuracy
+                // and capabilities. Find out about the Enterprise data file on our pricing page:
+                // https://51degrees.com/pricing
+                ExampleUtils.FindFile(Constants.LITE_HASH_DATA_FILE_NAME);
 
             // Configure a logger to output to the console.
             var loggerFactory = new LoggerFactory();

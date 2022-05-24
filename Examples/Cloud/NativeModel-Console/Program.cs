@@ -22,8 +22,6 @@
 
 using FiftyOne.DeviceDetection.Cloud.Data;
 using FiftyOne.DeviceDetection.Cloud.FlowElements;
-using FiftyOne.DeviceDetection.Shared;
-using FiftyOne.DeviceDetection.Shared.Data;
 using FiftyOne.Pipeline.CloudRequestEngine.FlowElements;
 using FiftyOne.Pipeline.Core.FlowElements;
 using Microsoft.Extensions.Logging;
@@ -114,7 +112,7 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.NativeModelLookup
                 using (var data = pipeline.CreateFlowData())
                 {
                     // Add the native model key as evidence.
-                    data.AddEvidence(Constants.EVIDENCE_QUERY_NATIVE_MODEL_KEY, nativemodel);
+                    data.AddEvidence(Shared.Constants.EVIDENCE_QUERY_NATIVE_MODEL_KEY, nativemodel);
                     // Process the supplied evidence.
                     data.Process();
                     // Get result data from the flow data.

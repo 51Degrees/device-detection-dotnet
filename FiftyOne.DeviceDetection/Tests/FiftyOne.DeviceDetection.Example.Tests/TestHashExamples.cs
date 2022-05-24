@@ -40,7 +40,7 @@ namespace FiftyOne.DeviceDetection.Example.Tests
     [TestClass]
     public class TestHashExamples
     {
-        //private string LicenseKey;
+        private string LicenseKey;
 
         private string DataFile;
         private string EvidenceFile;
@@ -55,30 +55,23 @@ namespace FiftyOne.DeviceDetection.Example.Tests
         [TestInitialize]
         public void Init()
         {
-            //// Set license key for autoupdate examples.
-            //var licenseKey = Environment.GetEnvironmentVariable("DEVICEDETECTIONLICENSEKEY");
-            //LicenseKey = string.IsNullOrWhiteSpace(licenseKey) == false ?
-            //    licenseKey : "!!YOUR_LICENSE_KEY!!";
-
-            //if (string.IsNullOrWhiteSpace(LicenseKey) == true ||
-            //    LicenseKey.StartsWith("!!") == true)
-            //{
-            //    Assert.Fail("LicenseKey must be specified in the Init method" +
-            //        " or as an Environment variable");
-            //}
+            // Set license key for autoupdate examples.
+            var licenseKey = Environment.GetEnvironmentVariable(Constants.LICENSE_KEY_ENV_VAR);
+            LicenseKey = string.IsNullOrWhiteSpace(licenseKey) == false ?
+                licenseKey : "!!YOUR_LICENSE_KEY!!";
 
             // Set Device Data file
             DataFile = Environment.GetEnvironmentVariable("DEVICEDETECTIONDATAFILE");
             if (string.IsNullOrWhiteSpace(DataFile))
             {
-                DataFile = ExampleUtils.FindFile("51Degrees-LiteV4.1.hash");
+                DataFile = ExampleUtils.FindFile(Constants.LITE_HASH_DATA_FILE_NAME);
             }
 
             // Set evidence file for offline processing example.
             EvidenceFile = Environment.GetEnvironmentVariable("EVIDENCEFILE");
             if (string.IsNullOrWhiteSpace(EvidenceFile))
             {
-                EvidenceFile = ExampleUtils.FindFile("20000 Evidence Records.yml");
+                EvidenceFile = ExampleUtils.FindFile(Constants.YAML_EVIDENCE_FILE_NAME);
             }
         }
 
@@ -113,6 +106,38 @@ namespace FiftyOne.DeviceDetection.Example.Tests
         {
             var example = new Examples.OnPremise.Metadata.Program.Example();
             example.Run(DataFile, new LoggerFactory(), TextWriter.Null);
+        }
+
+        /// <summary>
+        /// Test the UpdateDataFile Example
+        /// </summary>
+        [TestMethod]
+        public void Example_OnPremise_UpdateDataFile()
+        {
+            VerifyLicenseKeyAvailable();
+            Examples.OnPremise.UpdateDataFile.Program.Initialize(
+                Constants.ENTERPRISE_HASH_DATA_FILE_NAME, LicenseKey, false);
+        }
+
+        /// <summary>
+        /// Test the match metrics Example
+        /// </summary>
+        [TestMethod]
+        public void Example_OnPremise_MatchMetrics()
+        {
+            Examples.OnPremise.MatchMetrics.Program.Initialize(
+                Constants.ENTERPRISE_HASH_DATA_FILE_NAME, TextWriter.Null);
+        }
+
+        private void VerifyLicenseKeyAvailable()
+        {
+            if (string.IsNullOrWhiteSpace(LicenseKey) == true ||
+                LicenseKey.StartsWith("!!") == true)
+            {
+                Assert.Inconclusive("This test requires a 51Degrees license key. This can be " +
+                    "specified in the TestHashExamples.Init method or by setting an Environment " +
+                    $"variable called '{Constants.LICENSE_KEY_ENV_VAR}'");
+            }
         }
     }
 }

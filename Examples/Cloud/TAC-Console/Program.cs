@@ -22,7 +22,6 @@
 
 using FiftyOne.DeviceDetection.Cloud.Data;
 using FiftyOne.DeviceDetection.Cloud.FlowElements;
-using FiftyOne.DeviceDetection.Shared;
 using FiftyOne.Pipeline.CloudRequestEngine.FlowElements;
 using FiftyOne.Pipeline.Core.Configuration;
 using FiftyOne.Pipeline.Core.FlowElements;
@@ -41,7 +40,7 @@ using System.Net.Http;
 /// based on a given 'TAC'. More background information on TACs can be found through various online 
 /// sources such as <a href="https://en.wikipedia.org/wiki/Type_Allocation_Code">Wikipedia</a>.
 /// 
-/// This example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/blob/master/Examples/Cloud/Tac-Console/Program.cs). 
+/// This example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/blob/master/Examples/Cloud/TAC-Console/Program.cs). 
 /// 
 /// @include{doc} example-require-resourcekey.txt
 ///
@@ -95,7 +94,7 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.TacLookup
                 using (var data = pipeline.CreateFlowData())
                 {
                     // Add the TAC as evidence.
-                    data.AddEvidence(Constants.EVIDENCE_QUERY_TAC_KEY, tac);
+                    data.AddEvidence(Shared.Constants.EVIDENCE_QUERY_TAC_KEY, tac);
                     // Process the supplied evidence.
                     data.Process();
                     // Get result data from the flow data.

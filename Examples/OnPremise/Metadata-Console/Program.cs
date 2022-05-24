@@ -52,7 +52,7 @@ using System.Text;
 /// keys that, when added to the evidence collection in flow data, could have some impact on the
 /// result returned by device detection.
 /// 
-/// This example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/blob/master/Examples/OnPremise/Metadata/Program.cs). 
+/// This example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/blob/master/Examples/OnPremise/Metadata-Console/Program.cs). 
 /// 
 /// @include{doc} example-require-datafile.txt
 /// 
@@ -64,14 +64,6 @@ namespace FiftyOne.DeviceDetection.Examples.OnPremise.Metadata
 {
     public class Program
     {
-        // In this example, by default, the 51degrees "Lite" file needs to be somewhere in the
-        // project space, or you may specify another file as a command line parameter.
-        //
-        // Note that the Lite data file is only used for illustration, and has limited accuracy
-        // and capabilities. Find out about the Enterprise data file on our pricing page:
-        // https://51degrees.com/pricing
-        private const string LITE_V_4_1_HASH = "51Degrees-LiteV4.1.hash";
-
         public class Example : ExampleBase
         {
             public void Run(string dataFile, ILoggerFactory loggerFactory, TextWriter output)
@@ -220,7 +212,13 @@ namespace FiftyOne.DeviceDetection.Examples.OnPremise.Metadata
             // Use the supplied path for the data file or find the lite file that is included
             // in the repository.
             var dataFile = args.Length > 0 ? args[0] :
-                ExampleUtils.FindFile(LITE_V_4_1_HASH);
+                // In this example, by default, the 51degrees "Lite" file needs to be somewhere in the
+                // project space, or you may specify another file as a command line parameter.
+                //
+                // Note that the Lite data file is only used for illustration, and has limited accuracy
+                // and capabilities. Find out about the Enterprise data file on our pricing page:
+                // https://51degrees.com/pricing
+                ExampleUtils.FindFile(Constants.LITE_HASH_DATA_FILE_NAME);
 
             // Configure a logger to output to the console.
             var loggerFactory = new LoggerFactory();

@@ -147,7 +147,7 @@ namespace FiftyOne.DeviceDetection.Examples.Hash.Performance
 
         static void Main(string[] args)
         {
-            var filename = "51Degrees-LiteV4.1.hash";
+            var filename = Constants.LITE_HASH_DATA_FILE_NAME;
             var uaFilename = "20000 User Agents.csv";
 
             var dataFile = args.Length > 0 ? args[0] : ExampleUtils.FindFile(filename);

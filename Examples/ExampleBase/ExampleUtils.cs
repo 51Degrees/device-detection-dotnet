@@ -24,7 +24,9 @@ using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using FiftyOne.Pipeline.Core.FlowElements;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -49,10 +51,11 @@ namespace FiftyOne.DeviceDetection.Examples
         public const int DataFileAgeWarning = 30;
 
         /// <summary>
-        /// Find the specified filename within the specified directory.
-        /// If no directory is specified, the working directory is used.
-        /// If the file cannot be found, the algorithm will move to the 
-        /// parent directory and repeat the process.
+        /// Uses a background task to search for the specified filename within the working 
+        /// directory.
+        /// If the file cannot be found, the algorithm will move to the parent directory and 
+        /// repeat the process.
+        /// This continues until the file is found or a timeout is triggered.
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
@@ -80,18 +83,57 @@ namespace FiftyOne.DeviceDetection.Examples
             }
             string result = null;
 
-            var files = dir.GetFiles(filename, SearchOption.AllDirectories);
+            try
+            {
+                var files = dir.GetFiles(filename, SearchOption.AllDirectories);
 
-            if (files.Length == 0 &&
-                dir.Parent != null &&
-                cancel.IsCancellationRequested == false)
-            {
-                result = FindFile(filename, cancel, dir.Parent);
+                if (files.Length == 0 &&
+                    dir.Parent != null &&
+                    cancel.IsCancellationRequested == false)
+                {
+                    result = FindFile(filename, cancel, dir.Parent);
+                }
+                else if (files.Length > 0)
+                {
+                    result = files[0].FullName;
+                }
             }
-            else if (files.Length > 0)
+            // No matter what goes wrong here, we just want to indicate that we
+            // couldn't find the file by returning null.
+            catch { result = null; }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get information about the specified data file
+        /// </summary>
+        /// <param name="dataFile"></param>
+        /// <param name="engineBuilder"></param>
+        public static DataFileInfo GetDataFileInfo(string dataFile, 
+            DeviceDetectionHashEngineBuilder engineBuilder)
+        {
+            DataFileInfo result = new DataFileInfo();
+
+            using (var engine = engineBuilder
+                .Build(dataFile, false))
             {
-                result = files[0].FullName;
+                result = GetDataFileInfo(engine);
             }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get information about the data file used by the specified engine
+        /// </summary>
+        /// <param name="engine"></param>
+        public static DataFileInfo GetDataFileInfo(DeviceDetectionHashEngine engine)
+        {
+            DataFileInfo result = new DataFileInfo();
+            result.PublishDate = engine.DataFiles[0].DataPublishedDateTime;
+            result.Tier = engine.DataSourceTier;
+            result.Filepath = engine.DataFiles[0].DataFilePath;
             return result;
         }
 
@@ -120,13 +162,38 @@ namespace FiftyOne.DeviceDetection.Examples
         {
             if (engine != null)
             {
-                var dataFileDate = engine.DataFiles[0]
-                    .DataPublishedDateTime;
-                logger.LogInformation($"Using a '{engine.DataSourceTier}' data file created " +
-                    $"'{dataFileDate}' from location '{engine.DataFiles[0].DataFilePath}'");
+                var info = GetDataFileInfo(engine);
+                LogDataFileInfo(info, logger);
+                LogDataFileStandardWarnings(info, logger);
+            }
+        }
 
-                if (DateTime.UtcNow > dataFileDate.AddDays(
-                    DataFileAgeWarning))
+        /// <summary>
+        /// Display information about the data file and log warnings if specific requirements
+        /// are not met.
+        /// </summary>
+        /// <param name="engine"></param>
+        /// <param name="logger"></param>
+        public static void LogDataFileInfo(DataFileInfo info, ILogger logger)
+        {
+            if (info != null)
+            {
+                logger.LogInformation($"Using a '{info.Tier}' data file created " +
+                    $"'{info.PublishDate}' from location '{info.Filepath}'");
+            }
+        }
+
+        /// <summary>
+        /// Display information about the data file and log warnings if specific requirements
+        /// are not met.
+        /// </summary>
+        /// <param name="engine"></param>
+        /// <param name="logger"></param>
+        public static void LogDataFileStandardWarnings(DataFileInfo info, ILogger logger)
+        {
+            if (info != null)
+            {
+                if (DateTime.UtcNow > info.PublishDate.AddDays(DataFileAgeWarning))
                 {
                     logger.LogWarning($"This example is using a data file that is more than " +
                         $"{DataFileAgeWarning} days old. A more recent data file may be needed " +
@@ -136,7 +203,7 @@ namespace FiftyOne.DeviceDetection.Examples
                         $"about the Enterprise data file, which includes automatic daily " +
                         $"updates, on our pricing page: https://51degrees.com/pricing");
                 }
-                if (engine.DataSourceTier == "Lite")
+                if (info.Tier == "Lite")
                 {
                     logger.LogWarning($"This example is using the 'Lite' data file. This is " +
                         $"used for illustration, and has limited accuracy and capabilities. " +
@@ -145,5 +212,73 @@ namespace FiftyOne.DeviceDetection.Examples
                 }
             }
         }
+
+        /// <summary>
+        /// Checks if the supplied 51Degrees resource key / license key is invalid.
+        /// Note that this cannot determine if the key is definitely valid, just whether it is
+        /// definitely invalid.
+        /// </summary>
+        /// <param name="key">
+        /// The key to check.
+        /// </param>
+        /// <returns></returns>
+        public static bool IsInvalidKey(string key)
+        {
+            try
+            {
+                if (key == null) 
+                {
+                    return true;
+                }
+
+                byte[] data = Convert.FromBase64String(key);
+                string decodedString = Encoding.UTF8.GetString(data);
+
+                return key.Trim().Length < 19 ||
+                    decodedString.Length < 14;
+            }
+            catch (Exception)
+            {
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// This collection contains the various input values that will be passed to the device 
+        /// detection algorithm when running examples
+        /// </summary>
+        public static readonly List<Dictionary<string, object>>
+            EvidenceValues = new List<Dictionary<string, object>>()
+        {
+            // A User-Agent from a mobile device.
+            new Dictionary<string, object>()
+            {
+                { "header.user-agent",
+                    "Mozilla/5.0 (Linux; Android 9; SAMSUNG SM-G960U) AppleWebKit/537.36 " +
+                    "(KHTML, like Gecko) SamsungBrowser/10.1 Chrome/71.0.3578.99 Mobile " +
+                    "Safari/537.36" }
+            },
+            // A User-Agent from a desktop device.
+            new Dictionary<string, object>()
+            {
+                { "header.user-agent",
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
+                    "(KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36" }
+            },
+            // Evidence values from a windows 11 device using a browser that supports
+            // User-Agent Client Hints.
+            new Dictionary<string, object>()
+            {
+                { "header.user-agent",
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
+                    "(KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36" },
+                { "header.sec-ch-ua-mobile", "?0" },
+                { "header.sec-ch-ua",
+                    "\" Not A; Brand\";v=\"99\", \"Chromium\";v=\"98\", " +
+                    "\"Google Chrome\";v=\"98\"" },
+                { "header.sec-ch-ua-platform", "\"Windows\"" },
+                { "header.sec-ch-ua-platform-version", "\"14.0.0\"" }
+            }
+        };
     }
 }
