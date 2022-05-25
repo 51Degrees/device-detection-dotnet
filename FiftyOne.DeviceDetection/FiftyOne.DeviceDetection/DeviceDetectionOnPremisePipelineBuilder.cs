@@ -1,10 +1,10 @@
 /* *********************************************************************
  * This Original Work is copyright of 51 Degrees Mobile Experts Limited.
- * Copyright 2019 51 Degrees Mobile Experts Limited, 5 Charlotte Close,
- * Caversham, Reading, Berkshire, United Kingdom RG4 7BY.
+ * Copyright 2022 51 Degrees Mobile Experts Limited, Davidson House,
+ * Forbury Square, Reading, Berkshire, United Kingdom RG1 3EU.
  *
- * This Original Work is licensed under the European Union Public Licence (EUPL) 
- * v.1.2 and is subject to its terms as set out below.
+ * This Original Work is licensed under the European Union Public Licence
+ * (EUPL) v.1.2 and is subject to its terms as set out below.
  *
  * If a copy of the EUPL was not distributed with this file, You can obtain
  * one at https://opensource.org/licenses/EUPL-1.2.
@@ -31,6 +31,7 @@ using FiftyOne.Pipeline.Engines.FlowElements;
 using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net.Http;
@@ -64,6 +65,7 @@ namespace FiftyOne.DeviceDetection
         private DeviceDetectionAlgorithm _algorithm =
             DeviceDetectionAlgorithm.Hash;
         private bool _shareUsageEnabled = true;
+        private List<string> _requestedProperties = new List<string>();
 
         private IDataUpdateService _dataUpdateService;
         private HttpClient _httpClient;
@@ -213,6 +215,24 @@ namespace FiftyOne.DeviceDetection
             _engineDataStream = dataStream;
             _algorithm = algorithm;
             _dataUpdateLicenseKey = key;
+            return this;
+        }
+
+        /// <summary>
+        /// Add the specified property as one to be returned when performing device detection.
+        /// By default, all properties will be returned.
+        /// Reducing the properties that are returned can yield a performance improvement in some 
+        /// scenarios.
+        /// </summary>
+        /// <param name="property">
+        /// The property to be populated by device detection.
+        /// </param>
+        /// <returns>
+        /// This builder instance.
+        /// </returns>
+        public DeviceDetectionOnPremisePipelineBuilder SetProperty(string property)
+        {
+            _requestedProperties.Add(property);
             return this;
         }
 
@@ -610,6 +630,11 @@ namespace FiftyOne.DeviceDetection
             if (_usePredictiveGraph.HasValue)
             {
                 builder.SetUsePredictiveGraph(_usePredictiveGraph.Value);
+            }
+            // Configure requested properties
+            foreach (var property in _requestedProperties)
+            {
+                builder.SetProperty(property);
             }
 
             // Build the engine

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -84,8 +84,10 @@
     <ProjectReference Include="..\..\..\Examples\Cloud\NativeModel-Console\NativeModelLookup-Console.csproj" />
     <ProjectReference Include="..\..\..\Examples\Cloud\TAC-Console\TacLookup-Console.csproj" />
     <ProjectReference Include="..\..\..\Examples\OnPremise\GettingStarted-Console\GettingStarted-Console.csproj" />
+    <ProjectReference Include="..\..\..\Examples\OnPremise\MatchMetrics-Console\MatchMetrics-Console.csproj" />
     <ProjectReference Include="..\..\..\Examples\OnPremise\Metadata-Console\Metadata-Console.csproj" />
     <ProjectReference Include="..\..\..\Examples\OnPremise\OfflineProcessing-Console\OfflineProcessing-Console.csproj" />
+    <ProjectReference Include="..\..\..\Examples\OnPremise\UpdateDataFile-Console\UpdateDataFile-Console.csproj" />
   </ItemGroup>
 
 </Project>

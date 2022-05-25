@@ -1,10 +1,10 @@
-﻿/* *********************************************************************
+/* *********************************************************************
  * This Original Work is copyright of 51 Degrees Mobile Experts Limited.
- * Copyright 2019 51 Degrees Mobile Experts Limited, 5 Charlotte Close,
- * Caversham, Reading, Berkshire, United Kingdom RG4 7BY.
+ * Copyright 2022 51 Degrees Mobile Experts Limited, Davidson House,
+ * Forbury Square, Reading, Berkshire, United Kingdom RG1 3EU.
  *
- * This Original Work is licensed under the European Union Public Licence (EUPL) 
- * v.1.2 and is subject to its terms as set out below.
+ * This Original Work is licensed under the European Union Public Licence
+ * (EUPL) v.1.2 and is subject to its terms as set out below.
  *
  * If a copy of the EUPL was not distributed with this file, You can obtain
  * one at https://opensource.org/licenses/EUPL-1.2.
@@ -53,7 +53,7 @@ using YamlDotNet.Serialization;
 /// performance and predictive power using Performance Profile, Graph and Difference and Drift 
 /// settings.
 /// 
-/// This example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/blob/master/Examples/OnPremise/OfflineProcessing/Program.cs). 
+/// This example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/blob/master/Examples/OnPremise/OfflineProcessing-Console/Program.cs). 
 /// 
 /// @include{doc} example-require-datafile.txt
 /// 
@@ -66,17 +66,6 @@ namespace FiftyOne.DeviceDetection.Examples.OnPremise.OfflineProcessing
 {
     public class Program
     {
-        // In this example, by default, the 51degrees "Lite" file needs to be somewhere in the
-        // project space, or you may specify another file as a command line parameter.
-        //
-        // Note that the Lite data file is only used for illustration, and has limited accuracy
-        // and capabilities. Find out about the Enterprise data file on our pricing page:
-        // https://51degrees.com/pricing
-        private const string LITE_V_4_1_HASH = "51Degrees-LiteV4.1.hash";
-        // This file contains the 20,000 most commonly seen combinations of header values 
-        // that are relevant to device detection. For example, User-Agent and UA-CH headers.
-        private const string EVIDENCE = "20000 Evidence Records.yml";
-
         public class Example : ExampleBase
         {
             /// <summary>
@@ -226,10 +215,18 @@ namespace FiftyOne.DeviceDetection.Examples.OnPremise.OfflineProcessing
             // Use the supplied path for the data file or find the lite file that is included
             // in the repository.
             var dataFile = args.Length > 0 ? args[0] :
-                ExampleUtils.FindFile(LITE_V_4_1_HASH);
+                // In this example, by default, the 51degrees "Lite" file needs to be somewhere in the
+                // project space, or you may specify another file as a command line parameter.
+                //
+                // Note that the Lite data file is only used for illustration, and has limited accuracy
+                // and capabilities. Find out about the Enterprise data file on our pricing page:
+                // https://51degrees.com/pricing
+                ExampleUtils.FindFile(Constants.LITE_HASH_DATA_FILE_NAME);
             // Do the same for the yaml evidence file.
             var evidenceFile = args.Length > 1 ? args[1] :
-                ExampleUtils.FindFile(EVIDENCE);
+                // This file contains the 20,000 most commonly seen combinations of header values 
+                // that are relevant to device detection. For example, User-Agent and UA-CH headers.
+                ExampleUtils.FindFile(Constants.YAML_EVIDENCE_FILE_NAME);
             // Finally, get the location for the output file. Use the same location as the
             // evidence if a path is not supplied on the command line.
             var outputFile = args.Length > 2 ? args[2] :

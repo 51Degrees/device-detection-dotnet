@@ -5,6 +5,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>Examples.OnPremise.OfflineProcessing</AssemblyName>
     <RootNamespace>Examples.OnPremise.OfflineProcessing</RootNamespace>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;LinuxRelease</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

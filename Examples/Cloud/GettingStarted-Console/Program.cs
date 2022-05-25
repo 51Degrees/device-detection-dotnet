@@ -1,10 +1,10 @@
 /* *********************************************************************
  * This Original Work is copyright of 51 Degrees Mobile Experts Limited.
- * Copyright 2019 51 Degrees Mobile Experts Limited, 5 Charlotte Close,
- * Caversham, Reading, Berkshire, United Kingdom RG4 7BY.
+ * Copyright 2022 51 Degrees Mobile Experts Limited, Davidson House,
+ * Forbury Square, Reading, Berkshire, United Kingdom RG1 3EU.
  *
- * This Original Work is licensed under the European Union Public Licence (EUPL) 
- * v.1.2 and is subject to its terms as set out below.
+ * This Original Work is licensed under the European Union Public Licence
+ * (EUPL) v.1.2 and is subject to its terms as set out below.
  *
  * If a copy of the EUPL was not distributed with this file, You can obtain
  * one at https://opensource.org/licenses/EUPL-1.2.
@@ -70,7 +70,7 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.GettingStartedConsole
                     .BuildFromConfiguration(pipelineOptions))
                 {
                     // Carry out some sample detections
-                    foreach (var values in EvidenceValues)
+                    foreach (var values in ExampleUtils.EvidenceValues)
                     {
                         AnalyseEvidence(values, pipeline, output);
                     }
@@ -190,44 +190,6 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.GettingStartedConsole
                 }
             }
         }
-
-        /// <summary>
-        /// This collection contains the various input values that will 
-        /// be passed to the device detection algorithm.
-        /// </summary>
-        private static readonly List<Dictionary<string, object>>
-            EvidenceValues = new List<Dictionary<string, object>>()
-        {
-            // A User-Agent from a mobile device.
-            new Dictionary<string, object>()
-            {
-                { "header.user-agent",
-                    "Mozilla/5.0 (Linux; Android 9; SAMSUNG SM-G960U) AppleWebKit/537.36 " +
-                    "(KHTML, like Gecko) SamsungBrowser/10.1 Chrome/71.0.3578.99 Mobile " +
-                    "Safari/537.36" }
-            },
-            // A User-Agent from a desktop device.
-            new Dictionary<string, object>()
-            {
-                { "header.user-agent",
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
-                    "(KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36" }
-            },
-            // Evidence values from a windows 11 device using a browser
-            // that supports User-Agent Client Hints.
-            new Dictionary<string, object>()
-            {
-                { "header.user-agent",
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
-                    "(KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36" },
-                { "header.sec-ch-ua-mobile", "?0" },
-                { "header.sec-ch-ua",
-                    "\" Not A; Brand\";v=\"99\", \"Chromium\";v=\"98\", " +
-                    "\"Google Chrome\";v=\"98\"" },
-                { "header.sec-ch-ua-platform", "\"Windows\"" },
-                { "header.sec-ch-ua-platform-version", "\"14.0.0\"" }
-            }
-        };
 
         static void Main(string[] args)
         {

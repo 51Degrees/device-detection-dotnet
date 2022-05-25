@@ -1,10 +1,10 @@
-/***********************************************************************
+/* *********************************************************************
  * This Original Work is copyright of 51 Degrees Mobile Experts Limited.
- * Copyright 2019 51 Degrees Mobile Experts Limited, 5 Charlotte Close,
- * Caversham, Reading, Berkshire, United Kingdom RG4 7BY.
+ * Copyright 2022 51 Degrees Mobile Experts Limited, Davidson House,
+ * Forbury Square, Reading, Berkshire, United Kingdom RG1 3EU.
  *
- * This Original Work is licensed under the European Union Public Licence (EUPL)
- * v.1.2 and is subject to its terms as set out below.
+ * This Original Work is licensed under the European Union Public Licence
+ * (EUPL) v.1.2 and is subject to its terms as set out below.
  *
  * If a copy of the EUPL was not distributed with this file, You can obtain
  * one at https://opensource.org/licenses/EUPL-1.2.
@@ -14,7 +14,7 @@
  * the purposes of the Work and the provisions of the compatibility
  * clause in Article 5 of the EUPL shall not apply.
  * 
- * If using the Work as, or as part of, a network application, by
+ * If using the Work as, or as part of, a network application, by 
  * including the attribution notice(s) required under Article 5 of the EUPL
  * in the end user terms of the application under an appropriate heading, 
  * such notice(s) shall fulfill the requirements of that article.
@@ -40,7 +40,7 @@ namespace FiftyOne.DeviceDetection.Example.Tests
     [TestClass]
     public class TestHashExamples
     {
-        //private string LicenseKey;
+        private string LicenseKey;
 
         private string DataFile;
         private string EvidenceFile;
@@ -55,30 +55,23 @@ namespace FiftyOne.DeviceDetection.Example.Tests
         [TestInitialize]
         public void Init()
         {
-            //// Set license key for autoupdate examples.
-            //var licenseKey = Environment.GetEnvironmentVariable("DEVICEDETECTIONLICENSEKEY");
-            //LicenseKey = string.IsNullOrWhiteSpace(licenseKey) == false ?
-            //    licenseKey : "!!YOUR_LICENSE_KEY!!";
-
-            //if (string.IsNullOrWhiteSpace(LicenseKey) == true ||
-            //    LicenseKey.StartsWith("!!") == true)
-            //{
-            //    Assert.Fail("LicenseKey must be specified in the Init method" +
-            //        " or as an Environment variable");
-            //}
+            // Set license key for autoupdate examples.
+            var licenseKey = Environment.GetEnvironmentVariable(Constants.LICENSE_KEY_ENV_VAR);
+            LicenseKey = string.IsNullOrWhiteSpace(licenseKey) == false ?
+                licenseKey : "!!YOUR_LICENSE_KEY!!";
 
             // Set Device Data file
             DataFile = Environment.GetEnvironmentVariable("DEVICEDETECTIONDATAFILE");
             if (string.IsNullOrWhiteSpace(DataFile))
             {
-                DataFile = ExampleUtils.FindFile("51Degrees-LiteV4.1.hash");
+                DataFile = ExampleUtils.FindFile(Constants.LITE_HASH_DATA_FILE_NAME);
             }
 
             // Set evidence file for offline processing example.
             EvidenceFile = Environment.GetEnvironmentVariable("EVIDENCEFILE");
             if (string.IsNullOrWhiteSpace(EvidenceFile))
             {
-                EvidenceFile = ExampleUtils.FindFile("20000 Evidence Records.yml");
+                EvidenceFile = ExampleUtils.FindFile(Constants.YAML_EVIDENCE_FILE_NAME);
             }
         }
 
@@ -113,6 +106,38 @@ namespace FiftyOne.DeviceDetection.Example.Tests
         {
             var example = new Examples.OnPremise.Metadata.Program.Example();
             example.Run(DataFile, new LoggerFactory(), TextWriter.Null);
+        }
+
+        /// <summary>
+        /// Test the UpdateDataFile Example
+        /// </summary>
+        [TestMethod]
+        public void Example_OnPremise_UpdateDataFile()
+        {
+            VerifyLicenseKeyAvailable();
+            Examples.OnPremise.UpdateDataFile.Program.Initialize(
+                Constants.ENTERPRISE_HASH_DATA_FILE_NAME, LicenseKey, false);
+        }
+
+        /// <summary>
+        /// Test the match metrics Example
+        /// </summary>
+        [TestMethod]
+        public void Example_OnPremise_MatchMetrics()
+        {
+            Examples.OnPremise.MatchMetrics.Program.Initialize(
+                Constants.ENTERPRISE_HASH_DATA_FILE_NAME, TextWriter.Null);
+        }
+
+        private void VerifyLicenseKeyAvailable()
+        {
+            if (string.IsNullOrWhiteSpace(LicenseKey) == true ||
+                LicenseKey.StartsWith("!!") == true)
+            {
+                Assert.Inconclusive("This test requires a 51Degrees license key. This can be " +
+                    "specified in the TestHashExamples.Init method or by setting an Environment " +
+                    $"variable called '{Constants.LICENSE_KEY_ENV_VAR}'");
+            }
         }
     }
 }

@@ -158,6 +158,7 @@ if [ "$API" = "Hash" ]; then
         test_execution $CC_CMD $M $GCCARGS $SRCCM/memory.c -o obj/memory.o
         test_execution $CC_CMD $M $GCCARGS $SRCCM/overrides.c -o obj/overrides.o
         test_execution $CC_CMD $M $GCCARGS $SRCCM/pool.c -o obj/pool.o
+        test_execution $CC_CMD $M $GCCARGS $SRCCM/process.c -o obj/process.o
         test_execution $CC_CMD $M $GCCARGS $SRCCM/profile.c -o obj/profile.o
         test_execution $CC_CMD $M $GCCARGS $SRCCM/properties.c -o obj/properties.o
         test_execution $CC_CMD $M $GCCARGS $SRCCM/property.c -o obj/property.o
