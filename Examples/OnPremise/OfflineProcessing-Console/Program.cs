@@ -93,7 +93,7 @@ namespace FiftyOne.DeviceDetection.Examples.OnPremise.OfflineProcessing
                 var logger = loggerFactory.CreateLogger<Program>();
                 // In this example, we use the DeviceDetectionPipelineBuilder and configure it
                 // in code. For more information about builders in general see the documentation at
-                // http://51degrees.com/documentation/_concepts__configuration__builders__index.html
+                // https://51degrees.com/documentation/_concepts__configuration__builders__index.html
 
                 // Note that we wrap the creation of a pipeline in a using to control its life cycle
                 using (var pipeline = new DeviceDetectionPipelineBuilder(loggerFactory)
@@ -101,9 +101,9 @@ namespace FiftyOne.DeviceDetection.Examples.OnPremise.OfflineProcessing
                     // We use the low memory profile as its performance is sufficient for this
                     // example. See the documentation for more detail on this and other
                     // configuration options:
-                    // http://51degrees.com/documentation/_device_detection__features__performance_options.html
-                    // http://51degrees.com/documentation/_features__automatic_datafile_updates.html
-                    // http://51degrees.com/documentation/_features__usage_sharing.html
+                    // https://51degrees.com/documentation/_device_detection__features__performance_options.html
+                    // https://51degrees.com/documentation/_features__automatic_datafile_updates.html
+                    // https://51degrees.com/documentation/_features__usage_sharing.html
                     .SetPerformanceProfile(PerformanceProfiles.LowMemory)
                     // Inhibit sharing usage for this example.
                     // In general, off line processing usage should NOT be shared back to 51Degrees.

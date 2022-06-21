@@ -210,7 +210,7 @@ namespace Client_Hints_NetCore_31
                             $"appsettings.json file. Also, note that the " +
                             $"free 'lite' data file is insufficient to run " +
                             $"this example. A paid-for file can be obtained " +
-                            $"from http://51degrees.com/pricing.");
+                            $"from https://51degrees.com/pricing.");
                     }
                 }
             }
