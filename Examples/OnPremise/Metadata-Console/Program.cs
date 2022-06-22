@@ -77,8 +77,8 @@ namespace FiftyOne.DeviceDetection.Examples.OnPremise.Metadata
                     // We use the low memory profile as its performance is sufficient for this
                     // example. See the documentation for more detail on this and other
                     // configuration options:
-                    // http://51degrees.com/documentation/_device_detection__features__performance_options.html
-                    // http://51degrees.com/documentation/_features__automatic_datafile_updates.html
+                    // https://51degrees.com/documentation/_device_detection__features__performance_options.html
+                    // https://51degrees.com/documentation/_features__automatic_datafile_updates.html
                     .SetPerformanceProfile(PerformanceProfiles.LowMemory)
                     // inhibit auto-update of the data file for this test
                     .SetAutoUpdate(false)

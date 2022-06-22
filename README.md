@@ -19,7 +19,7 @@ The Pipeline engines are written in C# and target .NET Standard 2.0.3.
 Example and test projects mostly target .NET Core 3.1 though in some cases, projects are available 
 targeting other frameworks.
 
-For runtime dependencies, see our [dependencies](http://51degrees.com/documentation/_info__dependencies.html) page.
+For runtime dependencies, see our [dependencies](https://51degrees.com/documentation/_info__dependencies.html) page.
 The [tested versions](https://51degrees.com/documentation/_info__tested_versions.html) page shows 
 the .NET versions that we currently test against. The software may run fine against other versions, 
 but additional caution should be applied.

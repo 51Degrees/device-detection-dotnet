@@ -128,7 +128,7 @@ namespace FiftyOne.DeviceDetection.Example.Tests.Web
                     "These tests will not pass when using the free 'lite' " +
                     "data file that is included with the source code. " +
                     "A paid-for data file can be obtained from " +
-                    "http://51degrees.com/pricing You can then configure " +
+                    "https://51degrees.com/pricing You can then configure " +
                     "the DEVICE_DETECTION_DATAFILE environment variable " +
                     "with the full path to the file.");
             }

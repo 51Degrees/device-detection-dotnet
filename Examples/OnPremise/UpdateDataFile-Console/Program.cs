@@ -43,11 +43,11 @@ using System.Net.Http;
 /// # License Key
 /// In order to test this example you will need a 51Degrees Enterprise license which can be
 /// purchased from our
-/// <a href="http://51degrees.com/pricing">pricing page</a>. Look for our "Bigger" or
+/// <a href="https://51degrees.com/pricing">pricing page</a>. Look for our "Bigger" or
 /// "Biggest" options.
 /// 
 /// # Data Files
-/// You can find out more about data files, licenses etc. at our (FAQ page)[http://51degrees.com/resources/faqs]
+/// You can find out more about data files, licenses etc. at our (FAQ page)[https://51degrees.com/resources/faqs]
 /// 
 /// ## Enterprise Data File
 /// Enterprise (fully-featured) data files are typically released by 51Degrees four days a week
@@ -338,7 +338,7 @@ namespace FiftyOne.DeviceDetection.Examples.OnPremise.UpdateDataFile
                 {
                     logger.LogError("In order to test this example you will need a 51Degrees " +
                         "Enterprise license which can be obtained on a trial basis or purchased " +
-                        "from our pricing page http://51degrees.com/pricing. You must supply the " +
+                        "from our pricing page https://51degrees.com/pricing. You must supply the " +
                         "license key as the second command line argument to this program, or as " +
                         $"an environment variable named '{Constants.LICENSE_KEY_ENV_VAR}'");
                     throw new ArgumentException("No license key available", nameof(licenseKey));

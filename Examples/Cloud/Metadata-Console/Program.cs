@@ -145,7 +145,7 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.Metadata
                     $"'appsettings.json' or the environment variable " +
                     $"'{ExampleUtils.RESOURCE_KEY_ENV_VAR}'. The 51Degrees cloud service is " +
                     $"accessed using a 'ResourceKey'. For more information see " +
-                    $"http://51degrees.com/documentation/_info__resource_keys.html. " +
+                    $"https://51degrees.com/documentation/_info__resource_keys.html. " +
                     $"A resource key with the properties required by this example can be " +
                     $"created for free at https://configure.51degrees.com/1QWJwHxl. " +
                     $"Once complete, supply the resource key as a command line argument or via " +
