@@ -78,6 +78,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Examples\Cloud\Configurator-Console\Configurator-Console.csproj" />
     <ProjectReference Include="..\..\..\Examples\Cloud\GetAllProperties-Console\GetAllProperties.csproj" />
     <ProjectReference Include="..\..\..\Examples\Cloud\GettingStarted-Console\GettingStarted-Console.csproj" />
     <ProjectReference Include="..\..\..\Examples\Cloud\Metadata-Console\Metadata-Console.csproj" />
