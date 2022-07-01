@@ -36,6 +36,9 @@ using System.Text;
 /// 
 /// It shows how to call the cloud with the newly created key and how to access the values 
 /// of the selected properties.
+///
+/// See [Getting Started](https://51degrees.com/documentation/_examples__device_detection__getting_started__console__cloud.html)
+/// for a fuller example.
 /// 
 /// Required NuGet Dependencies:
 /// - FiftyOne.DeviceDetection
@@ -74,71 +77,42 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.Configurator
                 // User-Agent Client Hints.
                 var evidence = new Dictionary<string, object>()
                 {
-                    { "header.user-agent",
-                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
-                        "(KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36" },
-                    { "header.sec-ch-ua-mobile", "?0" },
-                    { "header.sec-ch-ua",
-                        "\" Not A; Brand\";v=\"99\", \"Chromium\";v=\"98\", " +
-                        "\"Google Chrome\";v=\"98\"" },
-                    { "header.sec-ch-ua-platform", "\"Windows\"" },
-                    { "header.sec-ch-ua-platform-version", "\"14.0.0\"" }
+                    
                 };
 
-                // FlowData is a data structure that is used to convey information required for
-                // detection and the results of the detection through the pipeline.
-                // Information required for detection is called "evidence" and usually consists
-                // of a number of HTTP Header field values, in this case represented by a
-                // Dictionary<string, object> of header name/value entries.
-                //
-                // FlowData is wrapped in a using block in order to ensure that the resources
-                // are freed in a timely manner.
+                // get a flow data from the singleton pipeline for each detection
+                // it's important to free the flowdata when done
                 using (var data = _pipeline.CreateFlowData())
                 {
                     StringBuilder message = new StringBuilder();
 
-                    // list the evidence
-                    message.AppendLine("Input values:");
-                    foreach (var entry in evidence)
-                    {
-                        message.AppendLine($"\t{entry.Key}: {entry.Value}");
-                    }
-                    output.WriteLine(message.ToString());
-
                     // Add the evidence values to the flow data
-                    data.AddEvidence(evidence);
+                    data.AddEvidence(
+                        "header.user-agent",
+                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
+                        "(KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36");
+                    data.AddEvidence(
+                        "header.sec-ch-ua-mobile",
+                        "?0");
+                    data.AddEvidence(
+                        "header.sec-ch-ua",
+                        "\" Not A; Brand\";v=\"99\", \"Chromium\";v=\"98\", " +
+                        "\"Google Chrome\";v=\"98\"");
+                    data.AddEvidence(
+                        "header.sec-ch-ua-platform",
+                        "\"Windows\"");
+                    data.AddEvidence(
+                        "header.sec-ch-ua-platform-version",
+                        "\"14.0.0\"");
 
                     // Process the flow data.
                     data.Process();
 
-                    message = new StringBuilder();
-                    message.AppendLine("Results:");
-                    // Now that it's been processed, the flow data will have been populated with
-                    // the result. In this case, we want information about the device, which we
-                    // can get by asking for a result matching the `IDeviceData` interface.
+                    // Get the results.
                     var device = data.Get<IDeviceData>();
 
-                    // Display the results of the detection, which are called device properties.
-                    // See the property dictionary at
-                    // https://51degrees.com/developers/property-dictionary
-                    // for details of all available properties.
-                    OutputValue("Mobile Device", device.IsMobile, message);
-                    output.WriteLine(message.ToString());
+                    output.WriteLine($"device.IsMobile: {device.IsMobile.Value}");
                 }
-            }
-
-            private void OutputValue(string name,
-                IAspectPropertyValue value,
-                StringBuilder message)
-            {
-                // Individual result values have a wrapper called `AspectPropertyValue`.
-                // This functions similarly to a null-able type. If the value has not been set
-                // then trying to access the `Value` property will throw an exception.
-                // `AspectPropertyValue` also includes the `NoValueMessage` property, which
-                // describes why the value has not been set.
-                message.AppendLine(value.HasValue ?
-                    $"\t{name}: " + value.Value :
-                    $"\t{name}: " + value.NoValueMessage);
             }
 
             /// <summary>
