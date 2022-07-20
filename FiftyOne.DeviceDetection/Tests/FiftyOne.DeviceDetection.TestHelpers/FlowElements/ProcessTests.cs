@@ -88,7 +88,7 @@ namespace FiftyOne.DeviceDetection.TestHelpers.FlowElements
             using (var data = wrapper.Pipeline.CreateFlowData())
             {
                 data.AddEvidence("header.user-agent", "some user agent")
-                    .AddEvidence("query.51D_ProfileIds", string.Join("|", profileIds))
+                    .AddEvidence(Shared.Constants.EVIDENCE_PROFILE_IDS_KEY, string.Join("|", profileIds))
                     .Process();
                 validator.ValidateProfileIds(data, profileIds);
             }
@@ -99,7 +99,7 @@ namespace FiftyOne.DeviceDetection.TestHelpers.FlowElements
             string[] profileIds = { "12280", "17779", "17470", "18092" };
             using (var data = wrapper.Pipeline.CreateFlowData())
             {
-                data.AddEvidence("query.51D_ProfileIds", string.Join("|", profileIds))
+                data.AddEvidence(Shared.Constants.EVIDENCE_PROFILE_IDS_KEY, string.Join("|", profileIds))
                     .Process();
                 validator.ValidateProfileIds(data, profileIds);
             }
@@ -110,7 +110,7 @@ namespace FiftyOne.DeviceDetection.TestHelpers.FlowElements
             string[] profileIds = { "12280", "17779", "17470", "18092" };
             using (var data = wrapper.Pipeline.CreateFlowData())
             {
-                data.AddEvidence("query.51D_ProfileIds", string.Join("-", profileIds))
+                data.AddEvidence(Shared.Constants.EVIDENCE_PROFILE_IDS_KEY, string.Join("-", profileIds))
                     .Process();
                 validator.ValidateProfileIds(data, profileIds);
             }

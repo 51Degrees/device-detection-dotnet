@@ -20,6 +20,7 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
+using FiftyOne.DeviceDetection.Apple;
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using FiftyOne.Pipeline.CloudRequestEngine.FlowElements;
 using FiftyOne.Pipeline.Core.Configuration;
@@ -84,11 +85,11 @@ namespace FiftyOne.DeviceDetection.Examples
         }
 
         /// <summary>
-        /// Get the resource key setting from the supplied <see cref="PipelineOptions"/> 
+        /// Get the hash data file setting from the supplied <see cref="PipelineOptions"/> 
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        public static string GetDataFile(this PipelineOptions options)
+        public static string GetHashDataFile(this PipelineOptions options)
         {
             var hashConfig = options.GetElementConfig(nameof(DeviceDetectionHashEngine));
             hashConfig.BuildParameters.TryGetValue(DATA_FILE_SETTING_NAME,
@@ -97,14 +98,40 @@ namespace FiftyOne.DeviceDetection.Examples
         }
 
         /// <summary>
-        /// Set the data file setting from the supplied <see cref="PipelineOptions"/> 
+        /// Set the hash data file setting from the supplied <see cref="PipelineOptions"/> 
         /// </summary>
         /// <param name="options"></param>
         /// <param name="dataFile"></param>
         /// <returns></returns>
-        public static void SetDataFile(this PipelineOptions options, string dataFile)
+        public static void SetHashDataFile(this PipelineOptions options, string dataFile)
         {
             var hashConfig = options.GetElementConfig(nameof(DeviceDetectionHashEngine));
+            hashConfig.BuildParameters[DATA_FILE_SETTING_NAME] = dataFile;
+        }
+
+
+        /// <summary>
+        /// Get the Apple data file setting from the supplied <see cref="PipelineOptions"/> 
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public static string GetAppleDataFile(this PipelineOptions options)
+        {
+            var hashConfig = options.GetElementConfig(nameof(AppleProfileEngine));
+            hashConfig.BuildParameters.TryGetValue(DATA_FILE_SETTING_NAME,
+                out var dataFileObj);
+            return dataFileObj?.ToString();
+        }
+
+        /// <summary>
+        /// Set the Apple data file setting from the supplied <see cref="PipelineOptions"/> 
+        /// </summary>
+        /// <param name="options"></param>
+        /// <param name="dataFile"></param>
+        /// <returns></returns>
+        public static void SetAppleDataFile(this PipelineOptions options, string dataFile)
+        {
+            var hashConfig = options.GetElementConfig(nameof(AppleProfileEngine));
             hashConfig.BuildParameters[DATA_FILE_SETTING_NAME] = dataFile;
         }
 

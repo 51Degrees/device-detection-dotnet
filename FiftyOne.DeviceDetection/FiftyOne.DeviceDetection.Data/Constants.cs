@@ -64,5 +64,19 @@ namespace FiftyOne.DeviceDetection.Shared
             Pipeline.Core.Constants.EVIDENCE_QUERY_PREFIX +
             Pipeline.Core.Constants.EVIDENCE_SEPERATOR +
             EVIDENCE_NATIVE_MODEL_SUFFIX;
+
+
+        /// <summary>
+        /// The partial suffix used to identify profile ids in evidence.
+        /// </summary>
+        public const string EVIDENCE_PROFILE_IDS_SUFFIX = "ProfileIds";
+        /// <summary>
+        /// The complete key for supplying profile ids as evidence.
+        /// </summary>
+        public const string EVIDENCE_PROFILE_IDS_KEY =
+            Pipeline.Core.Constants.EVIDENCE_QUERY_PREFIX +
+            Pipeline.Core.Constants.EVIDENCE_SEPERATOR +
+            Pipeline.Engines.Constants.FIFTYONE_COOKIE_PREFIX +
+            EVIDENCE_PROFILE_IDS_SUFFIX;
     }
 }

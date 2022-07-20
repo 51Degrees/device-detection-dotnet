@@ -90,7 +90,7 @@ namespace FiftyOne.DeviceDetection.Examples.OnPremise.GettingStartedWeb
             var dataFileConfigKey = $"PipelineOptions:Elements:{hashEngineIndex}" +
                 $":BuildParameters:DataFile";
 
-            var dataFile = options.GetDataFile();
+            var dataFile = options.GetHashDataFile();
             var foundDataFile = false;
             if (string.IsNullOrEmpty(dataFile))
             {

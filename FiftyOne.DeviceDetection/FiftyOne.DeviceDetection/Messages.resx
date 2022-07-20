@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ExceptionAppleEngineConfiguration" xml:space="preserve">
+    <value>AppleProfileEngine must have a device detection engine after it in the pipeline. This may be 'CloudRequestEngine' or 'DeviceDetectionHashEngine'".</value>
+  </data>
   <data name="ExceptionErrorOnStartup" xml:space="preserve">
     <value>Unexpected error creating device detection engine.</value>
   </data>
@@ -125,5 +128,8 @@
   </data>
   <data name="ExceptionUnrecognizedFileExtension" xml:space="preserve">
     <value>Unrecognized filename '{0}'. Expected a '*.hash' Hash data file.</value>
+  </data>
+  <data name="MessageAppleEvidenceConflict" xml:space="preserve">
+    <value>There is already an evidence value for '{0}'. This may be due to using Apple client-side detection in addition to server-side. One or the other should be removed.</value>
   </data>
 </root>
