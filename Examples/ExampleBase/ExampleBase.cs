@@ -20,11 +20,15 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using YamlDotNet.Core;
+using YamlDotNet.Core.Events;
+using YamlDotNet.Serialization;
 
 namespace FiftyOne.DeviceDetection.Examples
 {
@@ -85,6 +89,45 @@ namespace FiftyOne.DeviceDetection.Examples
                     array[index]++;
                 }
                 yield return new string(array);
+            }
+        }
+
+        /// <summary>
+        /// Read the specified yaml-formatted stream and return evidence collections.
+        /// </summary>
+        /// <param name="evidenceReader">
+        /// A <see cref="TextReader"/> containing the yaml-formatted evidence data to be ingested.
+        /// </param>
+        /// <param name="logger">
+        /// A logger instance. If null is passed then progress messages will not be logged.
+        /// </param>
+        /// <returns></returns>
+        protected static IEnumerable<Dictionary<string, object>> GetEvidence(
+            TextReader evidenceReader,
+            ILogger logger = null)
+        {
+            var deserializer = new Deserializer();
+            var yamlReader = new Parser(evidenceReader);
+
+            // Consume the stream start event.
+            yamlReader.Consume<StreamStart>();
+            int records = 0;
+            // Keep going as long as we have more document records.
+            while (yamlReader.TryConsume<DocumentStart>(out _))
+            {
+                // Output progress.
+                records++;
+                if (logger != null && records % 1000 == 0)
+                {
+                    logger.LogInformation($"Processed {records} records");
+                }
+
+                // Deserialize the record
+                var data = deserializer.Deserialize<Dictionary<string, object>>(yamlReader);
+                yield return data;
+
+                // Required to move to the start of the next record.
+                yamlReader.TryConsume<DocumentEnd>(out _);
             }
         }
 

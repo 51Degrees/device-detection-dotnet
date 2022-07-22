@@ -122,32 +122,14 @@ namespace FiftyOne.DeviceDetection.Examples.OnPremise.OfflineProcessing
                     .SetDataFileSystemWatcher(false)
                     .Build())
                 {
-                    var deserializer = new Deserializer();
-                    var yamlReader = new Parser(evidenceYaml);
                     var serializer = new Serializer();
-
-                    // Consume the stream start event.
-                    yamlReader.Consume<StreamStart>();
-                    int records = 0;
-                    // Keep going as long as we have more document records.
-                    while (yamlReader.TryConsume<DocumentStart>(out _))
+                    foreach (var evidence in GetEvidence(evidenceYaml, logger))
                     {
-                        // Output progress.
-                        records++;
-                        if (records % 1000 == 0)
-                        {
-                            logger.LogInformation($"Processed {records} records");
-                        }
-
                         // write the yaml document separator
                         output.WriteLine("---");
-                        // Deserialize the record
-                        var data = deserializer.Deserialize<Dictionary<string, object>>(yamlReader);
+                    
                         // Pass the record to the pipeline as evidence so that it can be analyzed
-                        AnalyseEvidence(data, pipeline, output, serializer);
-
-                        // Required to move to the start of the next record.
-                        yamlReader.TryConsume<DocumentEnd>(out _);
+                        AnalyseEvidence(evidence, pipeline, output, serializer);
                     }
                     // write the yaml document end marker
                     output.WriteLine("...");

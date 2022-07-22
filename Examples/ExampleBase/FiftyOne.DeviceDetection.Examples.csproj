@@ -80,6 +80,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="YamlDotNet" Version="11.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\FiftyOne.DeviceDetection\FiftyOne.DeviceDetection.Cloud\FiftyOne.DeviceDetection.Cloud.csproj" />
     <ProjectReference Include="..\..\FiftyOne.DeviceDetection\FiftyOne.DeviceDetection.Hash.Engine.OnPremise\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.csproj" />
     <ProjectReference Include="..\..\FiftyOne.DeviceDetection\FiftyOne.DeviceDetection\FiftyOne.DeviceDetection.csproj" />
