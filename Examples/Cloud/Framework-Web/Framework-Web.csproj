@@ -44,29 +44,29 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FiftyOne.Pipeline.CloudRequestEngine, Version=4.4.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.Pipeline.CloudRequestEngine.4.4.5\lib\netstandard2.0\FiftyOne.Pipeline.CloudRequestEngine.dll</HintPath>
+    <Reference Include="FiftyOne.Pipeline.CloudRequestEngine, Version=4.4.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.Pipeline.CloudRequestEngine.4.4.6\lib\netstandard2.0\FiftyOne.Pipeline.CloudRequestEngine.dll</HintPath>
     </Reference>
-    <Reference Include="FiftyOne.Pipeline.Core, Version=4.4.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Core.4.4.5\lib\netstandard2.0\FiftyOne.Pipeline.Core.dll</HintPath>
+    <Reference Include="FiftyOne.Pipeline.Core, Version=4.4.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Core.4.4.6\lib\netstandard2.0\FiftyOne.Pipeline.Core.dll</HintPath>
     </Reference>
-    <Reference Include="FiftyOne.Pipeline.Engines, Version=4.4.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Engines.4.4.5\lib\netstandard2.0\FiftyOne.Pipeline.Engines.dll</HintPath>
+    <Reference Include="FiftyOne.Pipeline.Engines, Version=4.4.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Engines.4.4.6\lib\netstandard2.0\FiftyOne.Pipeline.Engines.dll</HintPath>
     </Reference>
-    <Reference Include="FiftyOne.Pipeline.Engines.FiftyOne, Version=4.4.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Engines.FiftyOne.4.4.5\lib\netstandard2.0\FiftyOne.Pipeline.Engines.FiftyOne.dll</HintPath>
+    <Reference Include="FiftyOne.Pipeline.Engines.FiftyOne, Version=4.4.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Engines.FiftyOne.4.4.6\lib\netstandard2.0\FiftyOne.Pipeline.Engines.FiftyOne.dll</HintPath>
     </Reference>
-    <Reference Include="FiftyOne.Pipeline.JavaScriptBuilderElement, Version=4.4.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.Pipeline.JavaScriptBuilder.4.4.5\lib\netstandard2.0\FiftyOne.Pipeline.JavaScriptBuilderElement.dll</HintPath>
+    <Reference Include="FiftyOne.Pipeline.JavaScriptBuilderElement, Version=4.4.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.Pipeline.JavaScriptBuilder.4.4.6\lib\netstandard2.0\FiftyOne.Pipeline.JavaScriptBuilderElement.dll</HintPath>
     </Reference>
-    <Reference Include="FiftyOne.Pipeline.JsonBuilder, Version=4.4.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.Pipeline.JsonBuilder.4.4.5\lib\netstandard2.0\FiftyOne.Pipeline.JsonBuilder.dll</HintPath>
+    <Reference Include="FiftyOne.Pipeline.JsonBuilder, Version=4.4.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.Pipeline.JsonBuilder.4.4.6\lib\netstandard2.0\FiftyOne.Pipeline.JsonBuilder.dll</HintPath>
     </Reference>
-    <Reference Include="FiftyOne.Pipeline.Web.Framework, Version=4.4.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Web.4.4.5\lib\net461\FiftyOne.Pipeline.Web.Framework.dll</HintPath>
+    <Reference Include="FiftyOne.Pipeline.Web.Framework, Version=4.4.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Web.4.4.6\lib\net461\FiftyOne.Pipeline.Web.Framework.dll</HintPath>
     </Reference>
-    <Reference Include="FiftyOne.Pipeline.Web.Shared, Version=4.4.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Web.Shared.4.4.5\lib\netstandard2.0\FiftyOne.Pipeline.Web.Shared.dll</HintPath>
+    <Reference Include="FiftyOne.Pipeline.Web.Shared, Version=4.4.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Web.Shared.4.4.6\lib\netstandard2.0\FiftyOne.Pipeline.Web.Shared.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Extensions.Configuration, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
