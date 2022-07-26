@@ -61,6 +61,15 @@ namespace FiftyOne.DeviceDetection {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to AppleProfileEngine must have a device detection engine after it in the pipeline. This may be &apos;CloudRequestEngine&apos; or &apos;DeviceDetectionHashEngine&apos;&quot;..
+        /// </summary>
+        internal static string ExceptionAppleEngineConfiguration {
+            get {
+                return ResourceManager.GetString("ExceptionAppleEngineConfiguration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unexpected error creating device detection engine..
         /// </summary>
         internal static string ExceptionErrorOnStartup {
@@ -84,6 +93,15 @@ namespace FiftyOne.DeviceDetection {
         internal static string ExceptionUnrecognizedFileExtension {
             get {
                 return ResourceManager.GetString("ExceptionUnrecognizedFileExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is already an evidence value for &apos;{0}&apos;. This may be due to using Apple client-side detection in addition to server-side. One or the other should be removed..
+        /// </summary>
+        internal static string MessageAppleEvidenceConflict {
+            get {
+                return ResourceManager.GetString("MessageAppleEvidenceConflict", resourceCulture);
             }
         }
     }
