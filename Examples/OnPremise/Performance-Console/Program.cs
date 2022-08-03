@@ -20,6 +20,7 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
+using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,12 +34,12 @@ using System.Threading;
 using System.Threading.Tasks;
 
 /// <summary>
-/// @example Hash/Performance/Program.cs
+/// @example Performance-Console/Program.cs
 ///
 /// The example illustrates a "clock-time" benchmark for assessing detection speed.
 ///
 /// Using a YAML formatted evidence file - "20000 Evidence Records.yml" - supplied with the
-/// distribution or can be obtained from the (data repository on Github)[https://github.com/51Degrees/device-detection-data/blob/master/20000%20Evidence%20Records.yml].
+/// distribution or can be obtained from the [data repository on Github](https://github.com/51Degrees/device-detection-data/blob/master/20000%20Evidence%20Records.yml).
 ///
 /// It's important to understand the trade-offs between performance, memory usage and accuracy, that
 /// the 51Degrees pipeline configuration makes available, and this example shows a range of
@@ -73,12 +74,10 @@ namespace FiftyOne.DeviceDetection.Examples.OnPremise.Performance
 
         private static readonly PerformanceConfiguration[] _configs = new PerformanceConfiguration[]
         {
-            new PerformanceConfiguration(PerformanceProfiles.MaxPerformance, false, true, true),
-            new PerformanceConfiguration(PerformanceProfiles.MaxPerformance, false, false, true),
-            new PerformanceConfiguration(PerformanceProfiles.MaxPerformance, true, true, false),
-            new PerformanceConfiguration(PerformanceProfiles.Balanced, false, true, true),
-            new PerformanceConfiguration(PerformanceProfiles.Balanced, false, false, true),
-            new PerformanceConfiguration(PerformanceProfiles.Balanced, true, true, false)
+            new PerformanceConfiguration(true, PerformanceProfiles.MaxPerformance, false, true, false),
+            new PerformanceConfiguration(true, PerformanceProfiles.MaxPerformance, true, true, false),
+            new PerformanceConfiguration(false, PerformanceProfiles.LowMemory, false, true, false),
+            new PerformanceConfiguration(false, PerformanceProfiles.LowMemory, true, true, false)
         };
 
         private const ushort DEFAULT_THREAD_COUNT = 4;
@@ -218,17 +217,16 @@ namespace FiftyOne.DeviceDetection.Examples.OnPremise.Performance
                 using (var serviceProvider = new ServiceCollection()
                     // Make sure we're logging to the console.
                     .AddLogging(l => l.AddConsole())
-                    .AddTransient<DeviceDetectionPipelineBuilder>()
-                    // Add a factory to create the singleton IPipeline instance
-                    .AddSingleton((x) => {
-                        var builder = x.GetRequiredService<DeviceDetectionPipelineBuilder>()
-                            .UseOnPremise(dataFile, null, false)
+                    .AddTransient<PipelineBuilder>()
+                    .AddTransient<DeviceDetectionHashEngineBuilder>()
+                    // Add a factory to create the singleton DeviceDetectionHashEngine instance.
+                    .AddSingleton((x) =>
+                    {
+                        var builder = x.GetRequiredService<DeviceDetectionHashEngineBuilder>()
                             // Disable any data file updates
                             .SetDataFileSystemWatcher(false)
                             .SetAutoUpdate(false)
-                            .SetDataUpdateOnStartUp(false)
-                            // Disable usage sharing for testing
-                            .SetShareUsage(false)
+                            .SetDataUpdateOnStartup(false)
                             // Set performance profile
                             .SetPerformanceProfile(config.Profile)
                             // Configure detection graphs
@@ -236,6 +234,7 @@ namespace FiftyOne.DeviceDetection.Examples.OnPremise.Performance
                             .SetUsePredictiveGraph(config.PredictiveGraph)
                             // Hint for cache concurrency
                             .SetConcurrency(threadCount);
+
                         // Performance is improved by selecting only the properties you intend to
                         // use. Requesting properties from a single component reduces detection
                         // time compared with requesting properties from multiple components.
@@ -248,7 +247,34 @@ namespace FiftyOne.DeviceDetection.Examples.OnPremise.Performance
                         {
                             builder.SetProperty("IsMobile");
                         }
-                        return builder.Build();
+
+                        // The data file can be loaded directly from disk or from a byte array
+                        // in memory.
+                        // This latter option is useful for cloud-based environments with little 
+                        // or no hard drive space available. In this scenario, the 'LowMemory' 
+                        // performance profile is recommended, as the data is actually already
+                        // in memory. Using MaxPerformance would just cause the native code to 
+                        // make another copy of the data in memory for little benefit.
+                        DeviceDetectionHashEngine engine = null;
+                        if (config.LoadFromDisk)
+                        {
+                            engine = builder.Build(dataFile, false);
+                        }
+                        else
+                        {
+                            using (MemoryStream stream = new MemoryStream(File.ReadAllBytes(dataFile)))
+                            {
+                                engine = builder.Build(stream);
+                            }
+                        }
+
+                        return engine;
+                    })
+                    // Add a factory to create the singleton IPipeline instance
+                    .AddSingleton((x) => {
+                        return x.GetRequiredService<PipelineBuilder>()
+                            .AddFlowElement(x.GetRequiredService<DeviceDetectionHashEngine>())
+                            .Build();
                     })
                     .AddTransient<Example>()
                     .BuildServiceProvider())
@@ -268,6 +294,7 @@ namespace FiftyOne.DeviceDetection.Examples.OnPremise.Performance
                             serviceProvider.GetRequiredService<IPipeline>(), 
                             serviceProvider.GetRequiredService<ILogger<Program>>());
                         output.WriteLine($"Processing evidence from '{evidenceFile}'");
+                        output.WriteLine($"Data loaded from '{(config.LoadFromDisk ? "disk" : "memory")}'");
                         output.WriteLine($"Benchmarking with profile '{config.Profile}', " +
                             $"AllProperties {config.AllProperties}, " +
                             $"PerformanceGraph {config.PerformanceGraph}, " +
