@@ -40,7 +40,7 @@ using System.Text;
 using Constants = FiftyOne.DeviceDetection.Examples.Constants;
 
 /// <summary>
-/// @example OnPremise/AppleServerSide-Console/Program.cs
+/// @example OnPremise/AppleServerSideConfig-Console/Program.cs
 /// 
 /// Detection of the specific models of Apple devices being used to make a request is 
 /// [more difficult](http://51degrees.com/documentation/4.4/_device_detection__features__apple_detection.html) 
@@ -59,6 +59,9 @@ using Constants = FiftyOne.DeviceDetection.Examples.Constants;
 /// This example requires a paid-for data file as the device model properties are not available
 /// in the free, 'lite' data file.
 /// See our [pricing page](http://51degrees.com/pricing) for details on how to obtain one. 
+/// 
+/// This variation shows how to create the pipeline from a configuration file: 
+/// @include OnPremise/AppleServerSideConfig-Console/appsettings.json
 /// 
 /// Required NuGet Dependencies:
 /// - FiftyOne.DeviceDetection
