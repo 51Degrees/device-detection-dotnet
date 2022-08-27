@@ -64,7 +64,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.4.6" />
+    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.4.7" />
   </ItemGroup>
 
   <ItemGroup>
