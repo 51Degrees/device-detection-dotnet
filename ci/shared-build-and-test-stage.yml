@@ -85,7 +85,7 @@ stages:
         restoreSolution: '$(RestoreBuildProjects)'
         feedsToUse: 'select'
         vstsFeed: '$(InternalFeedId)'
-    
+
     - task: UseDotNet@2
       displayName: "Configure dotnet"
       inputs:
