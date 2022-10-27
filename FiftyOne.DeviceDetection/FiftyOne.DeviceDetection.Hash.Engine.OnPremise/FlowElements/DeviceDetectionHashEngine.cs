@@ -211,7 +211,18 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             }
             else
             {
-                _engine.refreshData();
+                try
+                {
+                    _engine.refreshData();
+                }
+                catch (ApplicationException e)
+                {
+                    Logger.LogError(e, $"Failed to refresh data from '{dataFile.DataFilePath}'. " +
+                        $"Update service will try again later. If issue persists, please contact " +
+                        $"support@51degrees.com");
+                    // Just return instead of running any post-update logic.
+                    return;
+                }
             }
             GetEngineMetaData();
             RefreshCompleted?.Invoke(this, null);
