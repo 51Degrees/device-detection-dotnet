@@ -385,7 +385,7 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<IReadOnlyList<string>> HardwareModelVariants { get; }
 		/// <summary>
-		/// Indicates the primary marketing name associated with the device, e.g. Xperia Z5.
+		/// Indicates the common marketing names associated with the device, e.g. Xperia Z5.
 		/// </summary>
 		IAspectPropertyValue<IReadOnlyList<string>> HardwareName { get; }
 		/// <summary>
@@ -837,7 +837,7 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<int> ScreenMMDiagonalRounded { get; }
 		/// <summary>
-		/// Refers to the screen height of the device in millimetres. This property will return 'Unknown' for desktops or for devices which do not have an integrated screen.
+		/// Refers to the screen height of the device in millimetres. This property will return 'Unknown' for desktops or for devices which do not have an integrated screen. For devices such as tablets or TV which are predominantly used in landscape mode, the screen height will be the smaller value compared to the screen width.
 		/// </summary>
 		IAspectPropertyValue<double> ScreenMMHeight { get; }
 		/// <summary>
@@ -845,7 +845,7 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<int> ScreenMMSquare { get; }
 		/// <summary>
-		/// Refers to the screen width of the device in millimetres. This property will return 'Unknown' for desktops or for devices which do not have an integrated screen.
+		/// Refers to the screen width of the device in millimetres. This property will return 'Unknown' for desktops or for devices which do not have an integrated screen. For devices such as tablets or TV which are predominantly used in landscape mode, the screen height will be the smaller value compared to the screen width.
 		/// </summary>
 		IAspectPropertyValue<double> ScreenMMWidth { get; }
 		/// <summary>
@@ -929,15 +929,15 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<bool> Selector { get; }
 		/// <summary>
-		/// Client hint that represents the browser's brand. This property accepts the values SEC-CH-UA,SEC-CH-UA-Full-Version. The default value is Unknown for this property.
+		/// Contains the Accept-CH HTTP header values to add to the HTTP response for the browser component. UACH values Sec-CH-UA, and Sec-CH-UA-Full-Version are relevant. The default value is Unknown if the browser does not fully support UACH.
 		/// </summary>
 		IAspectPropertyValue<string> SetHeaderBrowserAcceptCH { get; }
 		/// <summary>
-		/// Client hint that represents the hardware's brand. This property accepts the values SEC-CH-UA-Model,SEC-CH-UA-Mobile,SEC-CH-UA-Arch. The default value is Unknown for this property.
+		/// Contains the Accept-CH HTTP header values to add to the HTTP response for the hardware component. UACH values Sec-CH-UA-Model, and Sec-CH-UA-Mobile are relevant. The default value is Unknown if the browser does not fully support UACH.
 		/// </summary>
 		IAspectPropertyValue<string> SetHeaderHardwareAcceptCH { get; }
 		/// <summary>
-		/// Client hint that represents the platform's brand. This property accepts the values SEC-CH-UA-Platform,SEC-CH-UA-Platform-Version. The default value is Unknown for this property.
+		/// Contains the Accept-CH HTTP header values to add to the HTTP response for the platform component. UACH values Sec-CH-UA-Platform, and Sec-CH-UA-Platform-Version are relevant. The default value is Unknown if the browser does not fully support UACH.
 		/// </summary>
 		IAspectPropertyValue<string> SetHeaderPlatformAcceptCH { get; }
 		/// <summary>
@@ -997,7 +997,7 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<double> SuggestedLinkSizePoints { get; }
 		/// <summary>
-		/// Indicate the list of wireless data technologies supported by the device, including Bluetooth. If the device supports phone calls, the SMS value is also returned.
+		/// Indicates the list of wireless data technologies supported by the device, including Bluetooth and Wi-Fi. For example, 4G cellular network technologies includes 'LTE' (Long Term Evolution), and 5G technologies includes 'NR' (New Radio). If the device supports phone calls, the SMS value is also returned.
 		/// </summary>
 		IAspectPropertyValue<IReadOnlyList<string>> SupportedBearers { get; }
 		/// <summary>

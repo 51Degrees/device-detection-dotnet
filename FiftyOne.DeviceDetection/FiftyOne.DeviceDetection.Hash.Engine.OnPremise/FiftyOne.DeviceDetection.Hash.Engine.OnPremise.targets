@@ -2,19 +2,24 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <!-- Ensure that for Framework projects the correct DLL is copied to the build directory -->
+
+  <!-- Copy x64 and x86 to the relevant native bin directories -->
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)..\runtimes\win-x64\native\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>runtimes\win-x64\native\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll</Link>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)..\runtimes\win-x86\native\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>runtimes\win-x86\native\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll</Link>
+    </None>
+  </ItemGroup>
   
-  <ItemGroup Condition=" '$(Platform)' == 'x64' ">
+  <!-- If the build is for AnyCPU, then assume x64 and copy to the root of the bin directory -->
+  <ItemGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <None Include="$(MSBuildThisFileDirectory)..\runtimes\win-x64\native\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll</Link>
     </None>
   </ItemGroup>
-
-  <ItemGroup Condition=" '$(Platform)' == 'x86' OR '$(Platform)' == 'AnyCPU' ">
-    <None Include="$(MSBuildThisFileDirectory)..\runtimes\win-x86\native\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll</Link>
-    </None>
-  </ItemGroup>
-
 </Project>
