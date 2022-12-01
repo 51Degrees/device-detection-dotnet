@@ -91,7 +91,9 @@ stages:
       inputs:
         version: 3.1.x
         performMultiLevelLookup: true
-        packageType: sdk   
+        packageType: sdk  
+      env:
+        PROCESSOR_ARCHITECTURE: '$(BuildPlatform)'
        
     # Download the latest V4 TAC hash file from the distributor
     - task: PowerShell@2
