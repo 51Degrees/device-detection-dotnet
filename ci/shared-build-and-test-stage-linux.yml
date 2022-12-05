@@ -131,4 +131,5 @@ stages:
         ACCEPTCH_HARDWARE_KEY: $(AcceptChHardwareKey)
         ACCEPTCH_PLATFORM_KEY: $(AcceptChPlatformKey)
         ACCEPTCH_NONE_KEY: $(AcceptChNoneKey)
-        51D_CLOUD_ENDPOINT: 'https://cloud.51degrees.com/api/v4'
+        51D_CLOUD_ENDPOINT: 'https://cloud.51degrees.com/api/v4'        
+        TestExamples51D: 'True'
