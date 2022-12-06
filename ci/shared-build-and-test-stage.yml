@@ -91,7 +91,9 @@ stages:
       inputs:
         version: 3.1.x
         performMultiLevelLookup: true
-        packageType: sdk   
+        packageType: sdk  
+      env:
+        PROCESSOR_ARCHITECTURE: '$(BuildPlatform)'
        
     # Download the latest V4 TAC hash file from the distributor
     - task: PowerShell@2
@@ -181,6 +183,7 @@ stages:
         ACCEPTCH_PLATFORM_KEY: $(AcceptChPlatformKey)
         ACCEPTCH_NONE_KEY: $(AcceptChNoneKey)  
         51D_CLOUD_ENDPOINT: 'https://cloud.51degrees.com/api/v4'
+        TestExamples51D: 'True'
       condition: succeededOrFailed()
     
       # Build the performance test project. This will only target the x64 platform.

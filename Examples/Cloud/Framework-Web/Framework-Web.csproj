@@ -44,6 +44,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FiftyOne.DeviceDetection, Version=4.4.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.DeviceDetection.4.4.12\lib\netstandard2.0\FiftyOne.DeviceDetection.dll</HintPath>
+    </Reference>
+    <Reference Include="FiftyOne.DeviceDetection.Cloud, Version=4.4.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.DeviceDetection.Cloud.4.4.12\lib\netstandard2.0\FiftyOne.DeviceDetection.Cloud.dll</HintPath>
+    </Reference>
+    <Reference Include="FiftyOne.DeviceDetection.Hash.Engine.OnPremise, Version=4.4.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.12\lib\netstandard2.0\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.dll</HintPath>
+    </Reference>
+    <Reference Include="FiftyOne.DeviceDetection.Shared, Version=4.4.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.DeviceDetection.Shared.4.4.12\lib\netstandard2.0\FiftyOne.DeviceDetection.Shared.dll</HintPath>
+    </Reference>
     <Reference Include="FiftyOne.Pipeline.CloudRequestEngine, Version=4.4.7.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\FiftyOne.Pipeline.CloudRequestEngine.4.4.7\lib\netstandard2.0\FiftyOne.Pipeline.CloudRequestEngine.dll</HintPath>
     </Reference>
@@ -290,12 +302,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\FiftyOne.DeviceDetection\FiftyOne.DeviceDetection.Cloud\FiftyOne.DeviceDetection.Cloud.csproj">
-      <Project>{b085f69e-d9d9-43cd-83bf-dc881a9ed501}</Project>
-      <Name>FiftyOne.DeviceDetection.Cloud</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
@@ -374,7 +380,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.12\build\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.12\build\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets'))" />
   </Target>
+  <Import Project="..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.12\build\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets" Condition="Exists('..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.12\build\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

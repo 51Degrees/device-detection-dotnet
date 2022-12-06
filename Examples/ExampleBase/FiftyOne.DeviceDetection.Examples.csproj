@@ -83,10 +83,16 @@
     <PackageReference Include="YamlDotNet" Version="11.2.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\FiftyOne.DeviceDetection\FiftyOne.DeviceDetection.Cloud\FiftyOne.DeviceDetection.Cloud.csproj" />
-    <ProjectReference Include="..\..\FiftyOne.DeviceDetection\FiftyOne.DeviceDetection.Hash.Engine.OnPremise\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.csproj" />
-    <ProjectReference Include="..\..\FiftyOne.DeviceDetection\FiftyOne.DeviceDetection\FiftyOne.DeviceDetection.csproj" />
-  </ItemGroup>
-
+  <Choose>
+    <When Condition="$(TestExamples51D)=='True'">
+      <ItemGroup>
+        <ProjectReference Include="..\..\FiftyOne.DeviceDetection\FiftyOne.DeviceDetection\FiftyOne.DeviceDetection.csproj" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <PackageReference Include="FiftyOne.DeviceDetection" Version="4.4.12" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
 </Project>

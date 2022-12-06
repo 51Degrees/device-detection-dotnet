@@ -19,8 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\FiftyOne.DeviceDetection\FiftyOne.DeviceDetection.Hash.Engine.OnPremise\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.csproj" />
-    <ProjectReference Include="..\..\..\FiftyOne.DeviceDetection\FiftyOne.DeviceDetection\FiftyOne.DeviceDetection.csproj" />
     <ProjectReference Include="..\..\ExampleBase\FiftyOne.DeviceDetection.Examples.csproj" />
   </ItemGroup>
 
