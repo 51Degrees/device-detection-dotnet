@@ -57,7 +57,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.4.7" />
+    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.4.8" />
   </ItemGroup>
 
   <Choose>
@@ -68,7 +68,7 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <PackageReference Include="FiftyOne.DeviceDetection" Version="4.4.12" />
+        <PackageReference Include="FiftyOne.DeviceDetection" Version="4.4.13" />
       </ItemGroup>
     </Otherwise>
   </Choose>
