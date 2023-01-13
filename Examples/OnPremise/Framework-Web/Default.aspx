@@ -1,10 +1,28 @@
-﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Framework_Web._Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Framework_Web.Default" %>
+
 <%@ Import Namespace="FiftyOne.DeviceDetection" %>
 <%@ Import Namespace="FiftyOne.DeviceDetection.Examples" %>
-<%@ Import Namespace="FiftyOne.Pipeline.CloudRequestEngine.FlowElements" %>
+<%@ Import Namespace="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements" %>
 <%@ Import Namespace="FiftyOne.Pipeline.Web.Framework.Providers" %>
 
-<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>51Degrees Example</title>
+
+    <link rel="stylesheet" href="Content/Site.css" />
+
+    <%-- This JavaScript is dynamically generated based on the details of the detected device. 
+        Including a reference to it allows us to collect client side evidence 
+        (used for things such as Apple model detection) and access device detection 
+        results in client side code.
+        Note that there doesn't need to be a physical file. The 51Degrees Pipeline will 
+        intercept the request and serve it automatically.
+        --%>
+    <script async src='51Degrees.core.js' type='text/javascript'></script>
+</head>
+<body>
     <h2>Web Integration Example</h2>
 
     <p>
@@ -64,9 +82,9 @@
                 // Put the flow data and device data instances into local variables so we don't
                 // have to keep grabbing them.
                 var flowData = ((PipelineCapabilities)Request.Browser).FlowData;
-                var deviceData = flowData.Get<IDeviceData>();
+                var deviceData = flowData.Get<IDeviceData>();                
                 // Get the engine that is used to make requests to the cloud service.
-                var engine = flowData.Pipeline.GetElement<CloudRequestEngine>(); 
+                var engine = flowData.Pipeline.GetElement<DeviceDetectionHashEngine>(); 
                 // Note that below we are using some helper methods from the
                 // FiftyOne.DeviceDeteciton.Examples project (TryGetValue and GetHumanReadable)
                 // These are mostly intended to handle scenarios where device detection does
@@ -167,59 +185,61 @@
                 <a href="https://51degrees.com/pricing">pricing page</a>.
             </div>
         <% } %>
-    </div>
-    
-    <script>
-        window.onload = function () {
-            // Subscribe to the 'complete' event.
-            fod.complete(function (data) {
-                // When the event fires, use the supplied data to populate a new table.
-                let fieldValues = [];
+    </div>   
 
-                var hardwareName = typeof data.device.hardwarename == "undefined" ?
-                    "Unknown" : data.device.hardwarename.join(", ")
-                fieldValues.push(["Hardware Name: ", hardwareName]);
-                fieldValues.push(["Platform: ",
-                    data.device.platformname + " " + data.device.platformversion]);
-                fieldValues.push(["Browser: ",
-                    data.device.browsername + " " + data.device.browserversion]);
-                fieldValues.push(["Screen width (pixels): ", data.device.screenpixelswidth]);
-                fieldValues.push(["Screen height (pixels): ", data.device.screenpixelsheight]);
-                displayValues(fieldValues);
-            });
-        }
+</body>
+</html>
 
-        // Helper function to add a table that displays the supplied values.
-        function displayValues(fieldValues) {
-            var table = document.createElement("table");
+<script>
+    window.onload = function () {
+        // Subscribe to the 'complete' event.
+        fod.complete(function (data) {
+            // When the event fires, use the supplied data to populate a new table.
+            let fieldValues = [];
+
+            var hardwareName = typeof data.device.hardwarename == "undefined" ?
+                "Unknown" : data.device.hardwarename.join(", ")
+            fieldValues.push(["Hardware Name: ", hardwareName]);
+            fieldValues.push(["Platform: ",
+                data.device.platformname + " " + data.device.platformversion]);
+            fieldValues.push(["Browser: ",
+                data.device.browsername + " " + data.device.browserversion]);
+            fieldValues.push(["Screen width (pixels): ", data.device.screenpixelswidth]);
+            fieldValues.push(["Screen height (pixels): ", data.device.screenpixelsheight]);
+            displayValues(fieldValues);
+        });
+    }
+
+    // Helper function to add a table that displays the supplied values.
+    function displayValues(fieldValues) {
+        var table = document.createElement("table");
+        var tr = document.createElement("tr");
+        addToRow(tr, "th", "Key", false);
+        addToRow(tr, "th", "Value", false);
+        table.appendChild(tr);
+
+        fieldValues.forEach(function (entry) {
             var tr = document.createElement("tr");
-            addToRow(tr, "th", "Key", false);
-            addToRow(tr, "th", "Value", false);
+            tr.classList.add("lightyellow");
+            addToRow(tr, "td", entry[0], true);
+            addToRow(tr, "td", entry[1], false);
             table.appendChild(tr);
+        });
 
-            fieldValues.forEach(function (entry) {
-                var tr = document.createElement("tr");
-                tr.classList.add("lightyellow");
-                addToRow(tr, "td", entry[0], true);
-                addToRow(tr, "td", entry[1], false);
-                table.appendChild(tr);
-            });
+        var element = document.getElementById("content");
+        element.appendChild(table);
+    }
 
-            var element = document.getElementById("content");
-            element.appendChild(table);
+    // Helper function to add an entry to a table row.
+    function addToRow(row, elementName, text, strong) {
+        var entry = document.createElement(elementName);
+        var textNode = document.createTextNode(text);
+        if (strong === true) {
+            var strongNode = document.createElement("strong");
+            strongNode.appendChild(textNode);
+            textNode = strongNode;
         }
-
-        // Helper function to add an entry to a table row.
-        function addToRow(row, elementName, text, strong) {
-            var entry = document.createElement(elementName);
-            var textNode = document.createTextNode(text);
-            if (strong === true) {
-                var strongNode = document.createElement("strong");
-                strongNode.appendChild(textNode);
-                textNode = strongNode;
-            }
-            entry.appendChild(textNode);
-            row.appendChild(entry);
-        }
-    </script>
-</asp:Content>
+        entry.appendChild(textNode);
+        row.appendChild(entry);
+    }
+</script>

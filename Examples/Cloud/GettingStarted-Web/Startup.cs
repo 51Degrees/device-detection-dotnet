@@ -38,7 +38,7 @@ using System.Threading.Tasks;
 /// 
 /// The source code for this example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/tree/master/Examples/Cloud/GettingStarted-Web). 
 /// 
-/// @include{doc} example-require-datafile.txt
+/// @include{doc} example-require-resourcekey.txt
 /// 
 /// Required NuGet Dependencies:
 /// - [Microsoft.AspNetCore.App](https://www.nuget.org/packages/Microsoft.AspNetCore.App/)
