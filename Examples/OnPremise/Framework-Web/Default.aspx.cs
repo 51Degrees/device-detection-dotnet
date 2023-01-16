@@ -1,38 +1,18 @@
-﻿/* *********************************************************************
- * This Original Work is copyright of 51 Degrees Mobile Experts Limited.
- * Copyright 2022 51 Degrees Mobile Experts Limited, Davidson House,
- * Forbury Square, Reading, Berkshire, United Kingdom RG1 3EU.
- *
- * This Original Work is licensed under the European Union Public Licence
- * (EUPL) v.1.2 and is subject to its terms as set out below.
- *
- * If a copy of the EUPL was not distributed with this file, You can obtain
- * one at https://opensource.org/licenses/EUPL-1.2.
- *
- * The 'Compatible Licences' set out in the Appendix to the EUPL (as may be
- * amended by the European Commission) shall be deemed incompatible for
- * the purposes of the Work and the provisions of the compatibility
- * clause in Article 5 of the EUPL shall not apply.
- * 
- * If using the Work as, or as part of, a network application, by 
- * including the attribution notice(s) required under Article 5 of the EUPL
- * in the end user terms of the application under an appropriate heading, 
- * such notice(s) shall fulfill the requirements of that article.
- * ********************************************************************* */
-
-using FiftyOne.DeviceDetection;
-using FiftyOne.DeviceDetection.Examples;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 
-/// @example Cloud/Framework-Web/Default.aspx.cs
+/// @example OnPremise/Framework-Web/Default.aspx.cs
 /// 
 /// This example demonstrates how to use the cloud-based device detection API in a .NET Framework 
 /// website.
 /// 
-/// The source code for this example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/tree/master/Examples/Cloud/Framework-Web).
+/// The source code for this example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/tree/master/Examples/OnPremise/Framework-Web).
 /// 
-/// @include{doc} example-require-resourcekey.txt
+/// @include{doc} example-require-datafile.txt
 /// 
 /// Required NuGet Dependencies: 
 /// - [FiftyOne.DeviceDetection](https://www.nuget.org/packages/FiftyOne.DeviceDetection/)
@@ -72,15 +52,14 @@ using System.Web.UI;
 /// For example, the CloudRequestEngineBuilder. The methods available on the builder are 
 /// the same as those that will be available in the configuration file. 
 /// 
-/// Note that you will need to create a 'resource key' using our 
-/// [configurator](https://configure.51degrees.com/1QWJwHxl) site in order to get this example to 
-/// work. The previous link will pre-populate the key with the properties that are used in this
-/// example.
-/// See our [documentation](http://51degrees.com/documentation/4.4/_concepts__configurator.html) 
-/// for more detail on resource keys and the configurator site. Once created, the key will 
-/// need to be copied into the configuration file:
+/// Note that you will need to update the configuration with the complete path to a data file. 
+/// The free 'lite' file is included with this repository under the path 
+/// `FiftyOne.DeviceDetection\device-detection-cxx\device-detection-data`
+/// Alternatively, you can obtain a [license key](http://51degrees.com/pricing) which can be used 
+/// to download a data file from our 
+/// [Distributor](https://51degrees.com/documentation/_info__distributor.html) service.
 /// 
-/// @include Cloud/Framework-Web/App_Data/51Degrees.json
+/// @include OnPremise/Framework-Web/App_Data/51Degrees.json
 /// 
 /// ### Web.config
 /// 
@@ -93,7 +72,7 @@ using System.Web.UI;
 /// 
 /// In this case, you will need to add a section similar to the following to your web.config:
 /// 
-/// ```{cs}
+/// ```
 /// <compilation debug="true" targetFramework="4.7.2">
 ///   <assemblies>
 ///     <add assembly="netstandard, Version=2.0.0.0, Culture=neutral, 
@@ -131,7 +110,7 @@ using System.Web.UI;
 /// Any builders that are specified in configuration must also have their assemblies loaded into
 /// the AppDomain. This is handled in Global.asax:
 /// 
-/// @include Cloud/Framework-Web/Global.asax.cs
+/// @include OnPremise/Framework-Web/Global.asax.cs
 /// 
 /// ## Results
 /// 
@@ -139,13 +118,14 @@ using System.Web.UI;
 /// from the results. This page also demonstrates how to use client-side evidence to determine 
 /// the model of Apple devices.
 /// 
-/// @include Cloud/Framework-Web/Default.aspx
+/// @include OnPremise/Framework-Web/Default.aspx
 namespace Framework_Web
 {
-    public partial class _Default : Page
+    public partial class Default : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+
         }
     }
 }

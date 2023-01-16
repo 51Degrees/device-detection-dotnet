@@ -4,7 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>FiftyOne.DeviceDetection.Examples.OnPremise.MatchMetrics</RootNamespace>
-    <Platforms>AnyCPU;x64</Platforms>
+    <Platforms>AnyCPU;x64;x86</Platforms>
     <Configurations>Debug;Release;LinuxRelease</Configurations>
     <AssemblyName>FiftyOne.DeviceDetection.Examples.OnPremise.MatchMetrics</AssemblyName>
   </PropertyGroup>
