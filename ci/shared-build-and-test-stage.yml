@@ -184,7 +184,7 @@ stages:
         ACCEPTCH_NONE_KEY: $(AcceptChNoneKey)  
         51D_CLOUD_ENDPOINT: 'https://cloud.51degrees.com/api/v4'
         TestExamples51D: 'True'
-      condition: succeededOrFailed()
+      condition: and(succeededOrFailed(), eq(variables['BuildPlatform'], 'x64'))
     
       # Build the performance test project. This will only target the x64 platform.
     - task: PowerShell@2
