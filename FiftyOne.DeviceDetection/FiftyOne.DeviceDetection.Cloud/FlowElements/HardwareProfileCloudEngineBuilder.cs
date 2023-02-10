@@ -42,7 +42,8 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
     /// </summary>
     public class HardwareProfileCloudEngineBuilder: AspectEngineBuilderBase<HardwareProfileCloudEngineBuilder, HardwareProfileCloudEngine>
     {
-        private ILoggerFactory _loggerFactory;
+        private readonly ILoggerFactory _loggerFactory;
+        private readonly ILogger<DeviceDataCloud> _dataLogger;
 
         /// <summary>
         /// Constructor
@@ -53,6 +54,7 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
         public HardwareProfileCloudEngineBuilder(ILoggerFactory loggerFactory)
         {
             _loggerFactory = loggerFactory;
+            _dataLogger = _loggerFactory.CreateLogger<DeviceDataCloud>();
         }
 
         /// <summary>
@@ -89,7 +91,7 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
         private MultiDeviceDataCloud CreateData(IPipeline pipeline, FlowElementBase<MultiDeviceDataCloud, IAspectPropertyMetaData> engine)
         {
             return new MultiDeviceDataCloud(
-                _loggerFactory.CreateLogger<DeviceDataCloud>(),
+                _dataLogger,
                 pipeline,
                 (IAspectEngine)engine,
                 MissingPropertyService.Instance);

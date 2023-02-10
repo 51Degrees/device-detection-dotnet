@@ -49,6 +49,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         #region Private Properties
 
         private readonly ILoggerFactory _loggerFactory;
+        private readonly ILogger<DeviceDataHash> _dataLogger;
 
         private IConfigSwigWrapper _config = null;
 
@@ -97,6 +98,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             : base(dataUpdateService)
         {
             _loggerFactory = loggerFactory;
+            _dataLogger = _loggerFactory.CreateLogger<DeviceDataHash>();
         }
 
         #endregion
@@ -388,7 +390,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             FlowElementBase<IDeviceDataHash, IFiftyOneAspectPropertyMetaData> engine)
         {
             return new DeviceDataHash(
-                _loggerFactory.CreateLogger<DeviceDataHash>(),
+                _dataLogger,
                 pipeline,
                 engine as DeviceDetectionHashEngine,
                 MissingPropertyService.Instance);

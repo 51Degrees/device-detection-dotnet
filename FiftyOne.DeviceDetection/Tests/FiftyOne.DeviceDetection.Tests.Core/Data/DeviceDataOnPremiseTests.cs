@@ -39,6 +39,10 @@ using System.Text;
 
 namespace FiftyOne.DeviceDetection.Tests.Core.Data
 {
+    /// <summary>
+    /// These tests verify that the DeviceDataBaseOnPremise class is passing 'get property value'
+    /// calls to the appropriate type-specific method (which is overridden in the inheriting class) 
+    /// </summary>
     [TestClass]
     public class DeviceDataOnPremiseTests
     {
@@ -50,123 +54,126 @@ namespace FiftyOne.DeviceDetection.Tests.Core.Data
 
         private Mock<IMissingPropertyService> _missingPropertyService;
 
-        private static string _testPropertyName = "testproperty";
+        private const string _testPropertyNameBool = "testpropertybool";
+        private const string _testPropertyNameDouble = "testpropertydouble";
+        private const string _testPropertyNameInteger = "testpropertyinteger";
+        private const string _testPropertyNameString = "testpropertystring";
+        private const string _testPropertyNameJavaScript = "testpropertyjavascript";
+        private const string _testPropertyNameList = "testpropertylist";
+
+        private static readonly bool _testValueBool = true;
+        private static readonly double _testValueDouble = 1.1;
+        private static readonly int _testValueInteger = 1;
+        private static readonly string _testValueString = "string";
+        private static readonly JavaScript _testValueJavaScript = new JavaScript("javscript");
+        private static readonly IReadOnlyList<string> _testValueList = new List<string>();
+
+        private static readonly Dictionary<string, Tuple<Type, object>> _testProperties = 
+            new Dictionary<string, Tuple<Type, object>>()
+        {
+            { _testPropertyNameBool, new Tuple<Type, object>(typeof(bool), _testValueBool) },
+            { _testPropertyNameDouble, new Tuple<Type, object>(typeof(double), _testValueDouble) },
+            { _testPropertyNameInteger, new Tuple<Type, object>(typeof(int), _testValueInteger) },
+            { _testPropertyNameString, new Tuple<Type, object>(typeof(string), _testValueString) },
+            { _testPropertyNameJavaScript, new Tuple<Type, object>(typeof(JavaScript), _testValueJavaScript) },
+            { _testPropertyNameList, new Tuple<Type, object>(typeof(IReadOnlyList<string>), _testValueList) }
+        };
 
         /// <summary>
         /// Test class to extend the results wrapper and add a single property.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        private class TestResults<T> : DeviceDataBaseOnPremise<IDisposable>
+        private class TestResults : DeviceDataBaseOnPremise<IDisposable>
         {
-            private object _value;
+            private Dictionary<string, object> _values = new Dictionary<string, object>();
 
             internal TestResults(
                 ILogger<AspectDataBase> logger,
                 IPipeline pipeline,
                 IAspectEngine engine,
-                IMissingPropertyService missingPropertyService,
-                object value)
+                IMissingPropertyService missingPropertyService)
                 : base(logger, pipeline, engine, missingPropertyService)
             {
-                _value = value;
                 // The ResultManager needs to have something added to it 
                 // in order to allow access to the values.
                 // For this test, we can just give it a null reference.
                 Results.AddResult(null);
             }
 
+            public void AddValue(string propertyName, object value)
+            {
+                _values.Add(propertyName, value);
+            }
+
             protected override IAspectPropertyValue<bool> GetValueAsBool(string propertyName)
             {
-                if (propertyName == _testPropertyName)
-                {
-                    return new AspectPropertyValue<bool>((bool)_value);
-                }
-                else
-                {
-                    throw new PropertyMissingException();
-                }
+                return GetValueInternal<bool>(propertyName);
             }
 
             protected override IAspectPropertyValue<double> GetValueAsDouble(string propertyName)
             {
-                if (propertyName == _testPropertyName)
-                {
-                    return new AspectPropertyValue<double>((double)_value);
-                }
-                else
-                {
-                    throw new PropertyMissingException();
-                }
+                return GetValueInternal<double>(propertyName);
             }
 
             protected override IAspectPropertyValue<int> GetValueAsInteger(string propertyName)
             {
-                if (propertyName == _testPropertyName)
-                {
-                    return new AspectPropertyValue<int>((int)_value);
-                }
-                else
-                {
-                    throw new PropertyMissingException();
-                }
+                return GetValueInternal<int>(propertyName);
             }
 
             protected override IAspectPropertyValue<string> GetValueAsString(string propertyName)
             {
-                if (propertyName == _testPropertyName)
-                {
-                    return new AspectPropertyValue<string>((string)_value);
-                }
-                else
-                {
-                    throw new PropertyMissingException();
-                }
+                return GetValueInternal<string>(propertyName);
             }
 
             protected override IAspectPropertyValue<JavaScript> GetValueAsJavaScript(string propertyName)
             {
-                if (propertyName == _testPropertyName)
-                {
-                    return new AspectPropertyValue<JavaScript>(new JavaScript((string)_value));
-                }
-                else
-                {
-                    throw new PropertyMissingException();
-                }
+                return GetValueInternal<JavaScript>(propertyName);
             }
 
             public override IAspectPropertyValue<IReadOnlyList<string>> GetValues(string propertyName)
             {
-                if (propertyName == _testPropertyName)
+                return GetValueInternal<IReadOnlyList<string>>(propertyName);
+            }
+
+            private IAspectPropertyValue<T> GetValueInternal<T>(string propertyName)
+            {
+                if (_values.ContainsKey(propertyName))
                 {
-                    return new AspectPropertyValue<IReadOnlyList<string>>((IReadOnlyList<string>)_value);
+                    return new AspectPropertyValue<T>((T)_values[propertyName]);
                 }
                 else
                 {
                     throw new PropertyMissingException();
                 }
             }
+
             protected override bool PropertyIsAvailable(string propertyName)
             {
-                return propertyName == _testPropertyName;
+                return _testProperties.ContainsKey(propertyName);
             }
         }
 
-        private void SetupElementProperties(Type type)
+        private void SetupElementProperties()
         {
             var properties = new Dictionary<string, IElementPropertyMetaData>();
-            var property = new ElementPropertyMetaData(
-                _engine.Object,
-                _testPropertyName,
-                type,
-                true,
-                "category");
-            properties.Add(_testPropertyName, property);
+            foreach (var entry in _testProperties)
+            {
+                var property = new ElementPropertyMetaData(
+                    _engine.Object,
+                    entry.Key,
+                    entry.Value.Item1,
+                    true,
+                    "category");
+                properties.Add(entry.Key, property);
+            }
+
             var elementProperties = new Dictionary<string, IReadOnlyDictionary<string, IElementPropertyMetaData>>();
             elementProperties.Add(_engine.Object.ElementDataKey, properties);
             _flowData.SetupGet(f => f.Pipeline.ElementAvailableProperties)
                 .Returns(elementProperties);
         }
+
+        private TestResults _results;
 
         /// <summary>
         /// Initialise the test instance.
@@ -181,6 +188,18 @@ namespace FiftyOne.DeviceDetection.Tests.Core.Data
             _flowData = new Mock<IFlowData>();
             var pipeline = new Mock<IPipeline>();
             _flowData.Setup(f => f.Pipeline).Returns(pipeline.Object);
+            SetupElementProperties();
+
+            IReadOnlyList<string> expected = new List<string>();
+            _results = new TestResults(
+                    _logger.Object,
+                    _flowData.Object.Pipeline,
+                    _engine.Object,
+                    _missingPropertyService.Object);
+            foreach(var property in _testProperties)
+            {
+                _results.AddValue(property.Key, property.Value.Item2);
+            }
         }
 
         /// <summary>
@@ -189,25 +208,8 @@ namespace FiftyOne.DeviceDetection.Tests.Core.Data
         /// </summary>
         [TestMethod]
         public void GetList()
-        {
-            SetupElementProperties(typeof(IReadOnlyList<string>));
-            IReadOnlyList<string> expected = new List<string>();
-            TestResults<IReadOnlyList<string>> results =
-                new TestResults<IReadOnlyList<string>>(
-                    _logger.Object,
-                    _flowData.Object.Pipeline,
-                    _engine.Object,
-                    _missingPropertyService.Object,
-                    expected);
-
-            var value = results[_testPropertyName];
-            Assert.IsTrue(typeof(IAspectPropertyValue).IsAssignableFrom(value.GetType()));
-            Assert.AreEqual(expected, ((IAspectPropertyValue)value).Value);
-            var dict = results.AsDictionary();
-            Assert.IsTrue(dict.ContainsKey(_testPropertyName));
-            var dictValue = dict[_testPropertyName];
-            Assert.IsTrue(typeof(IAspectPropertyValue).IsAssignableFrom(dictValue.GetType()));
-            Assert.AreEqual(expected, ((IAspectPropertyValue)dictValue).Value);
+        { 
+            TestAccessingValue(_testPropertyNameList, _testValueList);
         }
 
         /// <summary>
@@ -217,24 +219,7 @@ namespace FiftyOne.DeviceDetection.Tests.Core.Data
         [TestMethod]
         public void GetString()
         {
-            SetupElementProperties(typeof(string));
-            string expected = "string";
-            TestResults<string> results =
-                new TestResults<string>(
-                    _logger.Object,
-                    _flowData.Object.Pipeline,
-                    _engine.Object,
-                    _missingPropertyService.Object,
-                    expected);
-
-            var value = results[_testPropertyName];
-            Assert.IsTrue(typeof(IAspectPropertyValue).IsAssignableFrom(value.GetType()));
-            Assert.AreEqual(expected, ((IAspectPropertyValue)value).Value);
-            var dict = results.AsDictionary();
-            Assert.IsTrue(dict.ContainsKey(_testPropertyName));
-            var dictValue = dict[_testPropertyName];
-            Assert.IsTrue(typeof(IAspectPropertyValue).IsAssignableFrom(dictValue.GetType()));
-            Assert.AreEqual(expected, ((IAspectPropertyValue)dictValue).Value);
+            TestAccessingValue(_testPropertyNameString, _testValueString);
         }
 
         /// <summary>
@@ -244,24 +229,7 @@ namespace FiftyOne.DeviceDetection.Tests.Core.Data
         [TestMethod]
         public void GetBool()
         {
-            SetupElementProperties(typeof(bool));
-            bool expected = true;
-            TestResults<bool> results =
-                new TestResults<bool>(
-                    _logger.Object,
-                    _flowData.Object.Pipeline,
-                    _engine.Object,
-                    _missingPropertyService.Object,
-                    expected);
-
-            var value = results[_testPropertyName];
-            Assert.IsTrue(typeof(IAspectPropertyValue).IsAssignableFrom(value.GetType()));
-            Assert.AreEqual(expected, ((IAspectPropertyValue)value).Value);
-            var dict = results.AsDictionary();
-            Assert.IsTrue(dict.ContainsKey(_testPropertyName));
-            var dictValue = dict[_testPropertyName];
-            Assert.IsTrue(typeof(IAspectPropertyValue).IsAssignableFrom(dictValue.GetType()));
-            Assert.AreEqual(expected, ((IAspectPropertyValue)dictValue).Value);
+            TestAccessingValue(_testPropertyNameBool, _testValueBool);
         }
 
         /// <summary>
@@ -271,24 +239,7 @@ namespace FiftyOne.DeviceDetection.Tests.Core.Data
         [TestMethod]
         public void GetInt()
         {
-            SetupElementProperties(typeof(int));
-            int expected = 1;
-            TestResults<int> results =
-                new TestResults<int>(
-                    _logger.Object,
-                    _flowData.Object.Pipeline,
-                    _engine.Object,
-                    _missingPropertyService.Object,
-                    expected);
-
-            var value = results[_testPropertyName];
-            Assert.IsTrue(value is IAspectPropertyValue);
-            Assert.IsTrue(typeof(IAspectPropertyValue).IsAssignableFrom(value.GetType()));
-            var dict = results.AsDictionary();
-            Assert.IsTrue(dict.ContainsKey(_testPropertyName));
-            var dictValue = dict[_testPropertyName];
-            Assert.IsTrue(typeof(IAspectPropertyValue).IsAssignableFrom(dictValue.GetType()));
-            Assert.AreEqual(expected, ((IAspectPropertyValue)dictValue).Value);
+            TestAccessingValue(_testPropertyNameInteger, _testValueInteger);
         }
 
         /// <summary>
@@ -298,24 +249,7 @@ namespace FiftyOne.DeviceDetection.Tests.Core.Data
         [TestMethod]
         public void GetDouble()
         {
-            SetupElementProperties(typeof(double));
-            double expected = 1;
-            TestResults<double> results =
-                new TestResults<double>(
-                    _logger.Object,
-                    _flowData.Object.Pipeline,
-                    _engine.Object,
-                    _missingPropertyService.Object,
-                    expected);
-
-            var value = results[_testPropertyName];
-            Assert.IsTrue(value is IAspectPropertyValue);
-            Assert.IsTrue(typeof(IAspectPropertyValue).IsAssignableFrom(value.GetType()));
-            var dict = results.AsDictionary();
-            Assert.IsTrue(dict.ContainsKey(_testPropertyName));
-            var dictValue = dict[_testPropertyName];
-            Assert.IsTrue(typeof(IAspectPropertyValue).IsAssignableFrom(dictValue.GetType()));
-            Assert.AreEqual(expected, ((IAspectPropertyValue)dictValue).Value);
+            TestAccessingValue(_testPropertyNameDouble, _testValueDouble);
         }
 
         /// <summary>
@@ -325,25 +259,20 @@ namespace FiftyOne.DeviceDetection.Tests.Core.Data
         [TestMethod]
         public void GetJavaScript()
         {
-            SetupElementProperties(typeof(JavaScript));
-            string expectedString = "javascript";
-            JavaScript expected = new JavaScript(expectedString);
-            TestResults<JavaScript> results =
-                new TestResults<JavaScript>(
-                    _logger.Object,
-                    _flowData.Object.Pipeline,
-                    _engine.Object,
-                    _missingPropertyService.Object,
-                    expectedString);
+            TestAccessingValue(_testPropertyNameJavaScript, _testValueJavaScript);
+        }
 
-            var value = results[_testPropertyName];
-            Assert.IsTrue(value is IAspectPropertyValue);
+        private void TestAccessingValue(string propertyName, object expectedResult)
+        {
+            var value = _results[propertyName];
             Assert.IsTrue(typeof(IAspectPropertyValue).IsAssignableFrom(value.GetType()));
-            var dict = results.AsDictionary();
-            Assert.IsTrue(dict.ContainsKey(_testPropertyName));
-            var dictValue = dict[_testPropertyName];
+            Assert.AreEqual(expectedResult, ((IAspectPropertyValue)value).Value);
+
+            var dict = _results.AsDictionary();
+            Assert.IsTrue(dict.ContainsKey(_testPropertyNameInteger));
+            var dictValue = dict[propertyName];
             Assert.IsTrue(typeof(IAspectPropertyValue).IsAssignableFrom(dictValue.GetType()));
-            Assert.AreEqual(expected, ((IAspectPropertyValue)dictValue).Value);
+            Assert.AreEqual(expectedResult, ((IAspectPropertyValue)dictValue).Value);
         }
     }
 }

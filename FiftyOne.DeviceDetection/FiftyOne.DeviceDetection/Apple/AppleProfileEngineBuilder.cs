@@ -20,6 +20,7 @@ namespace FiftyOne.DeviceDetection.Apple
         AppleProfileEngineBuilder, AppleProfileEngine>
     {
         private readonly ILoggerFactory _loggerFactory;
+        private readonly ILogger<AppleProfileData> _dataLogger;
 
         /// <summary>
         /// The <see cref="AppleProfileEngine"/> does not use the 51Degrees distributor service.
@@ -45,6 +46,7 @@ namespace FiftyOne.DeviceDetection.Apple
             base(dataUpdateService)
         {
             _loggerFactory = loggerFactory;
+            _dataLogger = _loggerFactory.CreateLogger<AppleProfileData>();
         }
 
         protected override AppleProfileEngine NewEngine(List<string> properties)
@@ -68,7 +70,7 @@ namespace FiftyOne.DeviceDetection.Apple
             FlowElementBase<IAppleProfileData, IFiftyOneAspectPropertyMetaData> engine)
         {
             return new AppleProfileData(
-                _loggerFactory.CreateLogger<AppleProfileData>(),
+                _dataLogger,
                 pipeline,
                 engine as AppleProfileEngine,
                 MissingPropertyService.Instance);
