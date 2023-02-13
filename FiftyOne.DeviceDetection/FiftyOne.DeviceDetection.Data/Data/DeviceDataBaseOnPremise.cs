@@ -31,6 +31,7 @@ using FiftyOne.Pipeline.Engines.FlowElements;
 using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -406,6 +407,26 @@ namespace FiftyOne.DeviceDetection.Shared.Data
             return type;
         }
 
+        private static ConcurrentDictionary<string, Type> _innerTypes = new ConcurrentDictionary<string, Type>();
+        private Type GetInnerType<T>(string propertyName)
+        {
+            return _innerTypes.GetOrAdd(propertyName,
+                (string key) =>
+                {
+                    Type type = typeof(T);
+                    Type innerType;
+                    if (type == typeof(object))
+                    {
+                        innerType = GetPropertyType(key);
+                    }
+                    else
+                    {
+                        innerType = type.GenericTypeArguments[0];
+                    }
+                    return innerType;
+                });
+        }
+
         /// <summary>
         /// Try to get the value for the specified key.
         /// This overrides the base implementation to get values using
@@ -445,16 +466,7 @@ namespace FiftyOne.DeviceDetection.Shared.Data
                 bool result = PropertyIsAvailable(key);
                 if (result)
                 {
-                    Type type = typeof(T);
-                    Type innerType;
-                    if (type == typeof(object))
-                    {
-                        innerType = GetPropertyType(key);
-                    }
-                    else
-                    {
-                        innerType = type.GenericTypeArguments[0];
-                    }
+                    Type innerType = GetInnerType<T>(key);
                     lock (_getLock)
                     {
                         object obj = null;

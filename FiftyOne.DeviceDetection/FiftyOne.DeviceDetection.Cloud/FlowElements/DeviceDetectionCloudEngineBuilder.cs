@@ -41,7 +41,8 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
     /// </summary>
     public class DeviceDetectionCloudEngineBuilder: AspectEngineBuilderBase<DeviceDetectionCloudEngineBuilder, DeviceDetectionCloudEngine>
     {
-        private ILoggerFactory _loggerFactory;
+        private readonly ILoggerFactory _loggerFactory;
+        private readonly ILogger<DeviceDataCloud> _dataLogger;
 
         /// <summary>
         /// Constructor
@@ -52,6 +53,7 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
         public DeviceDetectionCloudEngineBuilder(ILoggerFactory loggerFactory)
         {
             _loggerFactory = loggerFactory;
+            _dataLogger = _loggerFactory.CreateLogger<DeviceDataCloud>();
         }
 
         /// <summary>
@@ -88,7 +90,7 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
         private DeviceDataCloud CreateData(IPipeline pipeline, FlowElementBase<DeviceDataCloud, IAspectPropertyMetaData> engine)
         {
             return new DeviceDataCloud(
-                _loggerFactory.CreateLogger<DeviceDataCloud>(),
+                _dataLogger,
                 pipeline,
                 (IAspectEngine)engine,
                 MissingPropertyService.Instance);

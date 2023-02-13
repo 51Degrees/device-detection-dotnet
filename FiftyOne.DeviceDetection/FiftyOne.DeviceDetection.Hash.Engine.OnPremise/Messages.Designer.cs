@@ -79,6 +79,15 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 51Degrees uses a native binary that must match the ‘bitness’ of the running process (i.e. x86 or x64). Please ensure your build process is targeting the correct platform. This will ensure that the correct dll is used. If using IIS, be aware that, although this is a 64 bit process, it is often run with a setting that allows 32 bit applications. In this case, your build must target x86. The currently running process is {0}..
+        /// </summary>
+        internal static string DllBadImageFormatException {
+            get {
+                return ResourceManager.GetString("DllBadImageFormatException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to load the Device Detection native library, common causes include: 
         ///    - Missing dependencies:
         ///        o On Windows, the Visual C++ runtime is not installed, see the Visual Studio download page for the latest C++ Redistributable: https://visualstudio.microsoft.com/downloads/

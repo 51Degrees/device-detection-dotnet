@@ -22,6 +22,7 @@
 
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop;
 using System;
+using System.Diagnostics;
 
 namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
 {
@@ -87,7 +88,10 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
             }
             catch (BadImageFormatException ex)
             {
-                throw new Exception(Messages.DLLException, ex);
+                throw new Exception(string.Format(
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    Messages.DLLException,
+                    Environment.Is64BitProcess ? "64-bit" : "not 64-bit"), ex);                
             }
             catch (DllNotFoundException ex)
             {
