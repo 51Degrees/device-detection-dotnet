@@ -303,7 +303,8 @@
     <Error Condition="!Exists('..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.17\build\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.17\build\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetDir)runtimes\win-$(Platform)\native\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" "$(TargetDir)FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.17\build\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets" Condition="Exists('..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.17\build\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
