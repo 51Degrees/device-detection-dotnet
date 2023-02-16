@@ -1,4 +1,4 @@
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -81,47 +81,47 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FiftyOne.Caching, Version=4.4.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.Caching.4.4.1\lib\netstandard2.0\FiftyOne.Caching.dll</HintPath>
+    <Reference Include="FiftyOne.Caching, Version=4.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.Caching.4.4.2\lib\netstandard2.0\FiftyOne.Caching.dll</HintPath>
     </Reference>
     <Reference Include="FiftyOne.Common, Version=4.4.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\FiftyOne.Common.4.4.3\lib\netstandard2.0\FiftyOne.Common.dll</HintPath>
     </Reference>
-    <Reference Include="FiftyOne.DeviceDetection, Version=4.4.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.DeviceDetection.4.4.14\lib\netstandard2.0\FiftyOne.DeviceDetection.dll</HintPath>
+    <Reference Include="FiftyOne.DeviceDetection, Version=4.4.17.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.DeviceDetection.4.4.17\lib\netstandard2.0\FiftyOne.DeviceDetection.dll</HintPath>
     </Reference>
-    <Reference Include="FiftyOne.DeviceDetection.Cloud, Version=4.4.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.DeviceDetection.Cloud.4.4.14\lib\netstandard2.0\FiftyOne.DeviceDetection.Cloud.dll</HintPath>
+    <Reference Include="FiftyOne.DeviceDetection.Cloud, Version=4.4.17.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.DeviceDetection.Cloud.4.4.17\lib\netstandard2.0\FiftyOne.DeviceDetection.Cloud.dll</HintPath>
     </Reference>
-    <Reference Include="FiftyOne.DeviceDetection.Hash.Engine.OnPremise, Version=4.4.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.14\lib\netstandard2.0\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.dll</HintPath>
+    <Reference Include="FiftyOne.DeviceDetection.Hash.Engine.OnPremise, Version=4.4.17.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.17\lib\netstandard2.0\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.dll</HintPath>
     </Reference>
-    <Reference Include="FiftyOne.DeviceDetection.Shared, Version=4.4.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.DeviceDetection.Shared.4.4.14\lib\netstandard2.0\FiftyOne.DeviceDetection.Shared.dll</HintPath>
+    <Reference Include="FiftyOne.DeviceDetection.Shared, Version=4.4.17.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.DeviceDetection.Shared.4.4.17\lib\netstandard2.0\FiftyOne.DeviceDetection.Shared.dll</HintPath>
     </Reference>
-    <Reference Include="FiftyOne.Pipeline.CloudRequestEngine, Version=4.4.11.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.Pipeline.CloudRequestEngine.4.4.11\lib\netstandard2.0\FiftyOne.Pipeline.CloudRequestEngine.dll</HintPath>
+    <Reference Include="FiftyOne.Pipeline.CloudRequestEngine, Version=4.4.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.Pipeline.CloudRequestEngine.4.4.12\lib\netstandard2.0\FiftyOne.Pipeline.CloudRequestEngine.dll</HintPath>
     </Reference>
-    <Reference Include="FiftyOne.Pipeline.Core, Version=4.4.11.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Core.4.4.11\lib\netstandard2.0\FiftyOne.Pipeline.Core.dll</HintPath>
+    <Reference Include="FiftyOne.Pipeline.Core, Version=4.4.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Core.4.4.12\lib\netstandard2.0\FiftyOne.Pipeline.Core.dll</HintPath>
     </Reference>
-    <Reference Include="FiftyOne.Pipeline.Engines, Version=4.4.11.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Engines.4.4.11\lib\netstandard2.0\FiftyOne.Pipeline.Engines.dll</HintPath>
+    <Reference Include="FiftyOne.Pipeline.Engines, Version=4.4.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Engines.4.4.12\lib\netstandard2.0\FiftyOne.Pipeline.Engines.dll</HintPath>
     </Reference>
-    <Reference Include="FiftyOne.Pipeline.Engines.FiftyOne, Version=4.4.11.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Engines.FiftyOne.4.4.11\lib\netstandard2.0\FiftyOne.Pipeline.Engines.FiftyOne.dll</HintPath>
+    <Reference Include="FiftyOne.Pipeline.Engines.FiftyOne, Version=4.4.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Engines.FiftyOne.4.4.12\lib\netstandard2.0\FiftyOne.Pipeline.Engines.FiftyOne.dll</HintPath>
     </Reference>
-    <Reference Include="FiftyOne.Pipeline.JavaScriptBuilderElement, Version=4.4.11.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.Pipeline.JavaScriptBuilder.4.4.11\lib\netstandard2.0\FiftyOne.Pipeline.JavaScriptBuilderElement.dll</HintPath>
+    <Reference Include="FiftyOne.Pipeline.JavaScriptBuilderElement, Version=4.4.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.Pipeline.JavaScriptBuilder.4.4.12\lib\netstandard2.0\FiftyOne.Pipeline.JavaScriptBuilderElement.dll</HintPath>
     </Reference>
-    <Reference Include="FiftyOne.Pipeline.JsonBuilder, Version=4.4.11.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.Pipeline.JsonBuilder.4.4.11\lib\netstandard2.0\FiftyOne.Pipeline.JsonBuilder.dll</HintPath>
+    <Reference Include="FiftyOne.Pipeline.JsonBuilder, Version=4.4.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.Pipeline.JsonBuilder.4.4.12\lib\netstandard2.0\FiftyOne.Pipeline.JsonBuilder.dll</HintPath>
     </Reference>
-    <Reference Include="FiftyOne.Pipeline.Web.Framework, Version=4.4.11.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Web.4.4.11\lib\net461\FiftyOne.Pipeline.Web.Framework.dll</HintPath>
+    <Reference Include="FiftyOne.Pipeline.Web.Framework, Version=4.4.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Web.4.4.12\lib\net461\FiftyOne.Pipeline.Web.Framework.dll</HintPath>
     </Reference>
-    <Reference Include="FiftyOne.Pipeline.Web.Shared, Version=4.4.11.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Web.Shared.4.4.11\lib\netstandard2.0\FiftyOne.Pipeline.Web.Shared.dll</HintPath>
+    <Reference Include="FiftyOne.Pipeline.Web.Shared, Version=4.4.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Web.Shared.4.4.12\lib\netstandard2.0\FiftyOne.Pipeline.Web.Shared.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Extensions.Configuration, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
@@ -300,12 +300,12 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
-    <Error Condition="!Exists('..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.14\build\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.14\build\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets'))" />
+    <Error Condition="!Exists('..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.17\build\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.17\build\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets'))" />
   </Target>
-  <Import Project="..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.14\build\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets" Condition="Exists('..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.14\build\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets')" />
   <PropertyGroup>
     <PostBuildEvent>copy /Y "$(TargetDir)runtimes\win-$(Platform)\native\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" "$(TargetDir)FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll"</PostBuildEvent>
   </PropertyGroup>
+  <Import Project="..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.17\build\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets" Condition="Exists('..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.17\build\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
