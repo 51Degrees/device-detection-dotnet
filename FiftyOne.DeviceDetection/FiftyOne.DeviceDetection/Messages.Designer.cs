@@ -19,7 +19,7 @@ namespace FiftyOne.DeviceDetection {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Messages {
@@ -84,6 +84,15 @@ namespace FiftyOne.DeviceDetection {
         internal static string ExceptionNoEngineData {
             get {
                 return ResourceManager.GetString("ExceptionNoEngineData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Evidence value for key &apos;{0}&apos; is not in the expected format. This should be a base 64 encoded JSON string from a JavaScript call to navigator.userAgentData.getHighEntropyValues. Supplied value was &apos;{1}&apos;.
+        /// </summary>
+        internal static string ExceptionUachJsUnexpectedFormat {
+            get {
+                return ResourceManager.GetString("ExceptionUachJsUnexpectedFormat", resourceCulture);
             }
         }
         
