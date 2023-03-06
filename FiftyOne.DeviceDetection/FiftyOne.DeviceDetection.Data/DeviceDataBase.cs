@@ -206,7 +206,8 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "JavascriptCanManipulateCSS", typeof(IAspectPropertyValue<bool>) },
 				{ "JavascriptCanManipulateDOM", typeof(IAspectPropertyValue<bool>) },
 				{ "JavascriptGetElementById", typeof(IAspectPropertyValue<bool>) },
-				{ "JavascriptHardwareProfile", typeof(IAspectPropertyValue<JavaScript>) },
+                { "JavascriptGetHighEntropyValues", typeof(IAspectPropertyValue<JavaScript>) },
+                { "JavascriptHardwareProfile", typeof(IAspectPropertyValue<JavaScript>) },
 				{ "JavascriptImageOptimiser", typeof(IAspectPropertyValue<JavaScript>) },
 				{ "JavascriptPreferredGeoLocApi", typeof(IAspectPropertyValue<string>) },
 				{ "JavascriptSupportsEventListener", typeof(IAspectPropertyValue<bool>) },
@@ -882,10 +883,14 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// Indicates if the browser supports JavaScript that is able to access HTML elements from their ID using the getElementById method.
 		/// </summary>
 		public IAspectPropertyValue<bool> JavascriptGetElementById { get { return GetAs<IAspectPropertyValue<bool>>("JavascriptGetElementById"); } }
-		/// <summary>
-		/// JavaScript that can override the profile found by the server using information on the client device. This property is applicable for Apple devices which do not provide information about the model in the User-Agent string.
-		/// </summary>
-		public IAspectPropertyValue<JavaScript> JavascriptHardwareProfile { get { return GetAs<IAspectPropertyValue<JavaScript>>("JavascriptHardwareProfile"); } }
+        /// <summary>
+        /// JavaScript that can get high entropy User-Agent Client Hints (UA-CH) values. This can be used instead of UA-CH HTTP headers.
+        /// </summary>
+        public IAspectPropertyValue<JavaScript> JavascriptGetHighEntropyValues { get { return GetAs<IAspectPropertyValue<JavaScript>>("JavascriptGetHighEntropyValues"); } }
+        /// <summary>
+        /// JavaScript that can override the profile found by the server using information on the client device. This property is applicable for Apple devices which do not provide information about the model in the User-Agent string.
+        /// </summary>
+        public IAspectPropertyValue<JavaScript> JavascriptHardwareProfile { get { return GetAs<IAspectPropertyValue<JavaScript>>("JavascriptHardwareProfile"); } }
 		/// <summary>
 		/// Refers to the JavaScript snippet used to optimise images.
 		/// </summary>

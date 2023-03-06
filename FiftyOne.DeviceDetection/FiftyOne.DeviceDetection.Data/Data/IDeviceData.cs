@@ -588,10 +588,14 @@ namespace FiftyOne.DeviceDetection
 		/// Indicates if the browser supports JavaScript that is able to access HTML elements from their ID using the getElementById method.
 		/// </summary>
 		IAspectPropertyValue<bool> JavascriptGetElementById { get; }
-		/// <summary>
-		/// JavaScript that can override the profile found by the server using information on the client device. This property is applicable for Apple devices which do not provide information about the model in the User-Agent string.
-		/// </summary>
-		IAspectPropertyValue<JavaScript> JavascriptHardwareProfile { get; }
+        /// <summary>
+        /// JavaScript that can get high entropy User-Agent Client Hints (UA-CH) values. This can be used instead of UA-CH HTTP headers.
+        /// </summary>
+        IAspectPropertyValue<JavaScript> JavascriptGetHighEntropyValues { get; }
+        /// <summary>
+        /// JavaScript that can override the profile found by the server using information on the client device. This property is applicable for Apple devices which do not provide information about the model in the User-Agent string.
+        /// </summary>
+        IAspectPropertyValue<JavaScript> JavascriptHardwareProfile { get; }
 		/// <summary>
 		/// Refers to the JavaScript snippet used to optimise images.
 		/// </summary>

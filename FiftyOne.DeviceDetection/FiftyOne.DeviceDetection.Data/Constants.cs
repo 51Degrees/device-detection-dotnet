@@ -78,5 +78,103 @@ namespace FiftyOne.DeviceDetection.Shared
             Pipeline.Core.Constants.EVIDENCE_SEPERATOR +
             Pipeline.Engines.Constants.FIFTYONE_COOKIE_PREFIX +
             EVIDENCE_PROFILE_IDS_SUFFIX;
+
+
+        /// <summary>
+        /// The partial suffix used to identify the User-Agent Client Hint sec-ch-ua in evidence.
+        /// </summary>
+        public const string EVIDENCE_SECCHUA_SUFFIX = "sec-ch-ua";
+        /// <summary>
+        /// The complete key for supplying sec-ch-ua as evidence.
+        /// </summary>
+        public const string EVIDENCE_SECCHUA_QUERY_KEY =
+            Pipeline.Core.Constants.EVIDENCE_QUERY_PREFIX +
+            Pipeline.Core.Constants.EVIDENCE_SEPERATOR +
+            EVIDENCE_SECCHUA_SUFFIX;
+        public const string EVIDENCE_SECCHUA_HEADER_KEY =
+            Pipeline.Core.Constants.EVIDENCE_HTTPHEADER_PREFIX +
+            Pipeline.Core.Constants.EVIDENCE_SEPERATOR +
+            EVIDENCE_SECCHUA_SUFFIX;
+
+        /// <summary>
+        /// The partial suffix used to identify the User-Agent Client Hint sec-ch-ua-full-version-list in evidence.
+        /// </summary>
+        public const string EVIDENCE_SECCHUA_FULLVERSIONLIST_SUFFIX = "sec-ch-ua-full-version-list";
+        /// <summary>
+        /// The complete key for supplying sec-ch-ua-full-version-list as evidence.
+        /// </summary>
+        public const string EVIDENCE_SECCHUA_FULLVERSIONLIST_QUERY_KEY =
+            Pipeline.Core.Constants.EVIDENCE_QUERY_PREFIX +
+            Pipeline.Core.Constants.EVIDENCE_SEPERATOR +
+            EVIDENCE_SECCHUA_FULLVERSIONLIST_SUFFIX;
+        public const string EVIDENCE_SECCHUA_FULLVERSIONLIST_HEADER_KEY =
+            Pipeline.Core.Constants.EVIDENCE_HTTPHEADER_PREFIX +
+            Pipeline.Core.Constants.EVIDENCE_SEPERATOR +
+            EVIDENCE_SECCHUA_FULLVERSIONLIST_SUFFIX;
+
+        /// <summary>
+        /// The partial suffix used to identify the User-Agent Client Hint sec-ch-ua-model in evidence.
+        /// </summary>
+        public const string EVIDENCE_SECCHUA_MODEL_SUFFIX = "sec-ch-ua-model";
+        /// <summary>
+        /// The complete key for supplying sec-ch-ua-model as evidence.
+        /// </summary>
+        public const string EVIDENCE_SECCHUA_MODEL_QUERY_KEY =
+            Pipeline.Core.Constants.EVIDENCE_QUERY_PREFIX +
+            Pipeline.Core.Constants.EVIDENCE_SEPERATOR +
+            EVIDENCE_SECCHUA_MODEL_SUFFIX;
+        public const string EVIDENCE_SECCHUA_MODEL_HEADER_KEY =
+            Pipeline.Core.Constants.EVIDENCE_HTTPHEADER_PREFIX +
+            Pipeline.Core.Constants.EVIDENCE_SEPERATOR +
+            EVIDENCE_SECCHUA_MODEL_SUFFIX;
+
+        /// <summary>
+        /// The partial suffix used to identify the User-Agent Client Hint sec-ch-ua-mobile in evidence.
+        /// </summary>
+        public const string EVIDENCE_SECCHUA_MOBILE_SUFFIX = "sec-ch-ua-mobile";
+        /// <summary>
+        /// The complete key for supplying sec-ch-ua-mobile as evidence.
+        /// </summary>
+        public const string EVIDENCE_SECCHUA_MOBILE_QUERY_KEY =
+            Pipeline.Core.Constants.EVIDENCE_QUERY_PREFIX +
+            Pipeline.Core.Constants.EVIDENCE_SEPERATOR +
+            EVIDENCE_SECCHUA_MOBILE_SUFFIX;
+        public const string EVIDENCE_SECCHUA_MOBILE_HEADER_KEY =
+            Pipeline.Core.Constants.EVIDENCE_HTTPHEADER_PREFIX +
+            Pipeline.Core.Constants.EVIDENCE_SEPERATOR +
+            EVIDENCE_SECCHUA_MOBILE_SUFFIX;
+
+        /// <summary>
+        /// The partial suffix used to identify the User-Agent Client Hint sec-ch-ua-platform in evidence.
+        /// </summary>
+        public const string EVIDENCE_SECCHUA_PLATFORM_SUFFIX = "sec-ch-ua-platform";
+        /// <summary>
+        /// The complete key for supplying sec-ch-ua-platform as evidence.
+        /// </summary>
+        public const string EVIDENCE_SECCHUA_PLATFORM_QUERY_KEY =
+            Pipeline.Core.Constants.EVIDENCE_QUERY_PREFIX +
+            Pipeline.Core.Constants.EVIDENCE_SEPERATOR +
+            EVIDENCE_SECCHUA_PLATFORM_SUFFIX;
+        public const string EVIDENCE_SECCHUA_PLATFORM_HEADER_KEY =
+            Pipeline.Core.Constants.EVIDENCE_HTTPHEADER_PREFIX +
+            Pipeline.Core.Constants.EVIDENCE_SEPERATOR +
+            EVIDENCE_SECCHUA_PLATFORM_SUFFIX;
+
+        /// <summary>
+        /// The partial suffix used to identify the User-Agent Client Hint 
+        /// sec-ch-ua-platform-version in evidence.
+        /// </summary>
+        public const string EVIDENCE_SECCHUA_PLATFORM_VERSION_SUFFIX = "sec-ch-ua-platform-version";
+        /// <summary>
+        /// The complete key for supplying sec-ch-ua-platform-version as evidence.
+        /// </summary>
+        public const string EVIDENCE_SECCHUA_PLATFORM_VERSION_QUERY_KEY =
+            Pipeline.Core.Constants.EVIDENCE_QUERY_PREFIX +
+            Pipeline.Core.Constants.EVIDENCE_SEPERATOR +
+            EVIDENCE_SECCHUA_PLATFORM_VERSION_SUFFIX;
+        public const string EVIDENCE_SECCHUA_PLATFORM_VERSION_HEADER_KEY =
+            Pipeline.Core.Constants.EVIDENCE_HTTPHEADER_PREFIX +
+            Pipeline.Core.Constants.EVIDENCE_SEPERATOR +
+            EVIDENCE_SECCHUA_PLATFORM_VERSION_SUFFIX;
     }
 }
