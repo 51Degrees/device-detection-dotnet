@@ -23,7 +23,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Cloud_Client_Hints_NetCore_31
+namespace Cloud_Client_Hints
 {
     public class Program
     {

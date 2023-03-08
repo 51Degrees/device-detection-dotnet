@@ -1,3 +1,5 @@
 variables:
 - name: nugetVersion # NuGet version that we should use across stages
-  value: 5.8.0
+  value: 6.0.3
+- name: windowsImageDD
+  value: 'windows-2022'

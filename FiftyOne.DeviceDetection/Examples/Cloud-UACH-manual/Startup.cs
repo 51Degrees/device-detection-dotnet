@@ -22,15 +22,18 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
+using FiftyOne.DeviceDetection.Cloud.FlowElements;
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
+using FiftyOne.Pipeline.CloudRequestEngine.FlowElements;
 using FiftyOne.Pipeline.Core.Configuration;
 using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.FiftyOne.FlowElements;
 using FiftyOne.Pipeline.Engines.Services;
+using FiftyOne.Pipeline.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -38,9 +41,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
-
-/// @example AspNetCore3.1-UACH-manual/Startup.cs
+/// @example UACH-manual/Startup.cs
 /// 
 /// @include{doc} example-web-integration-client-hints.txt
 /// 
@@ -50,7 +53,20 @@ using Microsoft.Extensions.DependencyInjection;
 /// For example, setting the HTTP response headers to request user-agent 
 /// client hints.
 /// 
-/// The source code for this example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/tree/master/FiftyOne.DeviceDetection/Examples/AspNetCore3.1-UACH-manual).
+/// The source code for this example is available in full on [GitHub](https://github.com/51Degrees/device-detection-dotnet/tree/master/FiftyOne.DeviceDetection/Examples/UACH-manual).
+/// 
+/// To use the cloud service you will need to create a **resource key**. 
+/// The resource key is used as short-hand to store the particular set of 
+/// properties you are interested in as well as any associated license keys 
+/// that entitle you to increased request limits and/or paid-for properties.
+/// 
+/// You can create a resource key using the 51Degrees [Configurator](https://configure.51degrees.com/X9F2f6Zm).
+/// The properties used in this example are:
+///   HardwareVendor, HardwareName, DeviceType
+///   PlatformVendor, PlatformName, PlatformVersion
+///   BrowserVendor, BrowserName, BrowserVersion
+///   SetHeaderBrowserAccept-CH, SetHeaderHardwareAccept-CH,
+///   SetHeaderPlatformAccept-CH
 /// 
 /// Required NuGet Dependencies:
 /// - [Microsoft.AspNetCore.App](https://www.nuget.org/packages/Microsoft.AspNetCore.App/)
@@ -60,21 +76,19 @@ using Microsoft.Extensions.DependencyInjection;
 /// 1. Add Pipeline configuration options to appsettings.json. 
 /// (or a separate file if you prefer. Just don't forget to add that 
 /// file to your startup.cs)
-/// Example on-premise configuration:
+/// 
 /// ```{json}
 /// {
 ///   "PipelineOptions": {
 ///     "Elements": [
 ///       {
-///         "BuilderName": "DeviceDetectionHashEngineBuilder",
+///         "BuilderName": "CloudRequestEngineBuilder",
 ///         "BuildParameters": {
-///           "DataFile": "51Degrees-LiteV4.1.hash",
-///           "CreateTempDataCopy": false,
-///           "AutoUpdate": false,
-///           "PerformanceProfile": "LowMemory",
-///           "DataFileSystemWatcher": false,
-///           "DataUpdateOnStartUp": false
+///           "ResourceKey": "YourKey" 
 ///         }
+///       },
+///       {
+///         "BuilderName": "DeviceDetectionCloudEngineBuilder"
 ///       },
 ///       {
 ///         "BuilderName": "SetHeadersElementBuilder"
@@ -92,7 +106,8 @@ using Microsoft.Extensions.DependencyInjection;
 ///     public void ConfigureServices(IServiceCollection services)
 ///     {
 ///         ...
-///         services.AddSingleton<DeviceDetectionHashEngineBuilder>();
+///         services.AddSingleton<DeviceDetectionCloudEngineBuilder>();
+///         services.AddSingleton<CloudRequestEngineBuilder>();
 ///         services.AddFiftyOne(Configuration);
 ///         ...
 /// ```
@@ -152,7 +167,7 @@ using Microsoft.Extensions.DependencyInjection;
 /// 
 /// ## Startup
 
-namespace Client_Hints_Not_Integrated_NetCore_31
+namespace Cloud_Client_Hints_Not_Integrated
 {
     public class Startup
     {
@@ -183,7 +198,6 @@ namespace Client_Hints_Not_Integrated_NetCore_31
             }
         }
 
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -200,29 +214,18 @@ namespace Client_Hints_Not_Integrated_NetCore_31
             // --------------------------------------------------------------
             var pipelineConfig = new PipelineOptions();
             Configuration.Bind("PipelineOptions", pipelineConfig);
-            var engineConfig = pipelineConfig.Elements.Where(e =>
-                e.BuilderName.Contains(nameof(DeviceDetectionHashEngine),
+            var cloudConfig = pipelineConfig.Elements.Where(e =>
+                e.BuilderName.Contains(nameof(CloudRequestEngine),
                     StringComparison.OrdinalIgnoreCase));
-            if (engineConfig.Count() > 0)
+            if (cloudConfig.Count() > 0)
             {
-                object dataFile = null;
-                if (engineConfig.Any(c => c.BuildParameters
-                         .TryGetValue("DataFile", out dataFile) == true))
+                if (cloudConfig.Any(c => c.BuildParameters
+                         .TryGetValue("ResourceKey", out var resourceKey) == true &&
+                     resourceKey.ToString().StartsWith("!!")))
                 {
-                    var dataFileStr = dataFile.ToString();
-                    string dataFilePath =
-                        Path.IsPathRooted(dataFileStr) ?
-                        dataFileStr :
-                        Path.Combine(Environment.CurrentDirectory, dataFileStr);
-                    if (File.Exists(dataFilePath) == false)
-                    {
-                        throw new Exception($"No data file found at " +
-                            $"'{dataFilePath}'. This location can be set " +
-                            $"using the 'DataFile' entry in the " +
-                            $"appsettings.json file. Also, note that the " +
-                            $"free 'lite' data file is insufficient to run " +
-                            $"this example.");
-                    }
+                    throw new Exception("You need to create a resource key at " +
+                        "https://configure.51degrees.com/X9F2f6Zm and paste " +
+                        "it into the appsettings.json file in this example.");
                 }
             }
             // --------------------------------------------------------------
@@ -238,7 +241,9 @@ namespace Client_Hints_Not_Integrated_NetCore_31
 
             services.AddMvc();
 
-            services.AddSingleton<DeviceDetectionHashEngineBuilder>();
+            services.AddSingleton<DeviceDetectionCloudEngineBuilder>();
+            services.AddSingleton<CloudRequestEngineBuilder>();
+
             services.AddFiftyOne(Configuration);
         }
 

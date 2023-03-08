@@ -27,7 +27,7 @@ using FiftyOne.Pipeline.Web.Services;
 using FiftyOne.DeviceDetection;
 using FiftyOne.Pipeline.Core.FlowElements;
 
-namespace Client_Hints_Not_Integrated_NetCore_31.Controllers
+namespace Client_Hints_Not_Integrated
 {
     public class HomeController : Controller
     {

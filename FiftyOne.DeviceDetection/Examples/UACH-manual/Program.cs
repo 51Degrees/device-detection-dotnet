@@ -23,7 +23,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Client_Hints_Not_Integrated_NetCore_31
+namespace Client_Hints_Not_Integrated
 {
     public class Program
     {

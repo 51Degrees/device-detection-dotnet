@@ -1,10 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Platforms>AnyCPU;x64;x86</Platforms>
-    <RootNamespace>Cloud_Client_Hints_NetCore_31</RootNamespace>
-    <AssemblyName>Cloud_Client_Hints_NetCore_31</AssemblyName>
+    <RootNamespace>Client_Hints_Not_Integrated_NetCore_31</RootNamespace>
+    <AssemblyName>Client_Hints_Not_Integrated_NetCore_31</AssemblyName>
     <Configurations>Debug;Release;LinuxRelease;LinuxDebug</Configurations>
   </PropertyGroup>
 

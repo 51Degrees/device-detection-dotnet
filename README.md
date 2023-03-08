@@ -11,12 +11,12 @@ API.
 
 ## Dependencies
 
-Visual Studio 2019 or later is recommended. Although Visual Studio Code can be used for working 
+Visual Studio 2022 or later is recommended. Although Visual Studio Code can be used for working 
 with most of the projects.
 
 The core device detection projects are written in C and C++.
 The Pipeline engines are written in C# and target .NET Standard 2.0.3.
-Example and test projects mostly target .NET Core 3.1 though in some cases, projects are available 
+Example and test projects mostly target .NET 6.0 though in some cases, projects are available 
 targeting other frameworks.
 
 For runtime dependencies, see our [dependencies](https://51degrees.com/documentation/_info__dependencies.html) page.
@@ -86,8 +86,8 @@ This section explains how to do this.
 
 - Install C build tools:
   - Windows:
-    - You will need either Visual Studio 2019 or the [C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) installed.
-      - Minimum platform toolset version is `v142`
+    - You will need either Visual Studio 2022 or the [C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) installed.
+      - Minimum platform toolset version is `v143`
       - Minimum Windows SDK version is `10.0.18362.0`
   - Linux/MacOS:
     - `sudo apt-get install g++ make libatomic1`

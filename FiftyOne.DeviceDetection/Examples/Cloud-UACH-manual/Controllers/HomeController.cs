@@ -25,21 +25,35 @@ using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using FiftyOne.Pipeline.Web.Services;
 using FiftyOne.DeviceDetection;
+using FiftyOne.Pipeline.Core.FlowElements;
 
-namespace Client_Hints_NetCore_31.Controllers
+namespace Cloud_Client_Hints_Not_Integrated.Controllers
 {
     public class HomeController : Controller
     {
-        private IFlowDataProvider _flow;
+        private IPipeline _pipeline;
+        private IWebRequestEvidenceService _evidenceService;
 
-        public HomeController(IFlowDataProvider flow)
+        public HomeController(IPipeline pipeline,
+            IWebRequestEvidenceService evidenceService)
         {
-            _flow = flow;
+            _pipeline = pipeline;
+            _evidenceService = evidenceService;
         }
 
         public IActionResult Index()
         {
-            return View(_flow.GetFlowData());
+            using(var flowData = _pipeline.CreateFlowData())
+            {
+                // Add evidence
+                _evidenceService.AddEvidenceFromRequest(flowData, Request);
+                // Process
+                flowData.Process();
+                // Set response headers
+                SetHeaderService.SetHeaders(Response.HttpContext, flowData);
+                // Send results to view
+                return View(flowData);
+            }
         }
     }
 }

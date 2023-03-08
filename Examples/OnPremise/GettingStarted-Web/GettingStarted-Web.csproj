@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>FiftyOne.DeviceDetection.Examples.OnPremise.GettingStartedWeb</AssemblyName>
     <RootNamespace>FiftyOne.DeviceDetection.Examples.OnPremise.GettingStartedWeb</RootNamespace>
     <Platforms>AnyCPU;x64;x86</Platforms>

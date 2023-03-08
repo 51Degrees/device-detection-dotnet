@@ -1,10 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Platforms>AnyCPU;x64;x86</Platforms>
-    <RootNamespace>Cloud_Cloud_Client_Hints_Not_Integrated_NetCore_31</RootNamespace>
-    <AssemblyName>Cloud_Cloud_Client_Hints_Not_Integrated_NetCore_31</AssemblyName>
+    <RootNamespace>Cloud_Cloud_Client_Hints_Not_Integrated</RootNamespace>
+    <AssemblyName>Cloud_Cloud_Client_Hints_Not_Integrated</AssemblyName>
     <Configurations>Debug;Release;LinuxRelease;LinuxDebug</Configurations>
   </PropertyGroup>
 
@@ -68,7 +68,7 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <PackageReference Include="FiftyOne.DeviceDetection" Version="4.4.17" />
+        <PackageReference Include="FiftyOne.DeviceDetection" Version="4.4.19" />
       </ItemGroup>
     </Otherwise>
   </Choose>
