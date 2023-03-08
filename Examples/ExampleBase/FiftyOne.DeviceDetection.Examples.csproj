@@ -91,7 +91,7 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <PackageReference Include="FiftyOne.DeviceDetection" Version="4.4.17" />
+        <PackageReference Include="FiftyOne.DeviceDetection" Version="4.4.19" />
       </ItemGroup>
     </Otherwise>
   </Choose>
