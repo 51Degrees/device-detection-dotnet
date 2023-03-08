@@ -77,11 +77,11 @@ namespace FiftyOne.DeviceDetection.Example.Tests.Web
             string userAgent,
             List<string> expectedAcceptCH)
         {
-            await VerifyExampleAsync<Client_Hints_NetCore_31.Startup>(
+            await VerifyExampleAsync<Client_Hints.Startup>(
                 requestedProperties,
                 userAgent,
                 expectedAcceptCH,
-                "AspNetCore3.1-UACH");
+                "UACH");
         }
 
         /// <summary>
@@ -109,11 +109,11 @@ namespace FiftyOne.DeviceDetection.Example.Tests.Web
             string userAgent,
             List<string> expectedAcceptCH)
         {
-            await VerifyExampleAsync<Client_Hints_Not_Integrated_NetCore_31.Startup>(
+            await VerifyExampleAsync<Client_Hints_Not_Integrated.Startup>(
                 requestedProperties,
                 userAgent,
                 expectedAcceptCH,
-                "AspNetCore3.1-UACH-manual");
+                "UACH-manual");
         }
 
         private async Task VerifyExampleAsync<T>(

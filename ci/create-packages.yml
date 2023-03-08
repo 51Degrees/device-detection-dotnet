@@ -22,7 +22,7 @@ stages:
 - template: shared-create-packages-stage.yml
   parameters:
     nugetVersion: $(nugetVersion)
-    imageName: $(windowsImage)
+    imageName: $(windowsImageDD)
     linuxImage: $(linuxImage)
     targetPublishConfig: 'Release'
     templates: 'ciTemplates'

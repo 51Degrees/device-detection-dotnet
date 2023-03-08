@@ -221,8 +221,7 @@ namespace FiftyOne.DeviceDetection.Examples.OnPremise.Metadata
                 ExampleUtils.FindFile(Constants.LITE_HASH_DATA_FILE_NAME);
 
             // Configure a logger to output to the console.
-            var loggerFactory = new LoggerFactory();
-            loggerFactory.AddConsole();
+            var loggerFactory = LoggerFactory.Create(b => b.AddConsole());
             var logger = loggerFactory.CreateLogger<Program>();
 
             if (dataFile != null)

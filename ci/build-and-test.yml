@@ -27,7 +27,7 @@ stages:
 - template: shared-build-and-test-stage.yml
   parameters:
     stageName: 'Windows'
-    imageName: $(windowsImage)
+    imageName: $(windowsImageDD)
     nugetVersion: $(nugetVersion)
     runTests: variables['RunTests']
     sourcesDir: '$(Build.SourcesDirectory)'

@@ -24,6 +24,7 @@ using FiftyOne.DeviceDetection.Cloud.FlowElements;
 using FiftyOne.Pipeline.CloudRequestEngine.FlowElements;
 using FiftyOne.Pipeline.Core.Data;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 using System;
 using System.IO;
 
@@ -135,8 +136,7 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.Metadata
                     ExampleUtils.RESOURCE_KEY_ENV_VAR);
 
             // Configure a logger to output to the console.
-            var loggerFactory = new LoggerFactory();
-            loggerFactory.AddConsole();
+            var loggerFactory = LoggerFactory.Create(b => b.AddConsole());
             var logger = loggerFactory.CreateLogger<Program>();
 
             if (string.IsNullOrEmpty(resourceKey))

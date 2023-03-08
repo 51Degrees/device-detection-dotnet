@@ -330,7 +330,7 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
                 }
                 else
                 {
-                    throw e;
+                    throw;
                 }
             }
         }

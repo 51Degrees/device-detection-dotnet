@@ -52,7 +52,8 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Data
                     // The JavascriptImageOptimiser property is deprecated.
                     // It exists in the meta-data but is never populated
                     // so we need to ignore it here.
-                    p.Name.Equals("JavascriptImageOptimiser", StringComparison.OrdinalIgnoreCase) == false))
+                    p.Name.Equals("JavascriptImageOptimiser", StringComparison.OrdinalIgnoreCase) == false &&
+                    p.Name.Equals("JavascriptGetHighEntropyValues", StringComparison.OrdinalIgnoreCase) == false))
             {
                 Assert.IsTrue(dict.ContainsKey(property.Name));
                 IAspectPropertyValue value = dict[property.Name] as IAspectPropertyValue;

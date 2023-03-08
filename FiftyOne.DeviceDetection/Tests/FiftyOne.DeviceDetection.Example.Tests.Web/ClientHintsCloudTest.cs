@@ -78,11 +78,11 @@ namespace FiftyOne.DeviceDetection.Example.Tests.Web
             string userAgent, 
             List<string> expectedAcceptCH)
         {
-            await VerifyExample<Cloud_Client_Hints_NetCore_31.Startup>(
+            await VerifyExample<Cloud_Client_Hints.Startup>(
                 resourceKey,
                 userAgent,
                 expectedAcceptCH,
-                "Cloud-AspNetCore3.1-UACH");
+                "Cloud-UACH");
         }
 
         /// <summary>
@@ -110,11 +110,11 @@ namespace FiftyOne.DeviceDetection.Example.Tests.Web
             string userAgent,
             List<string> expectedAcceptCH)
         {
-            await VerifyExample<Cloud_Client_Hints_Not_Integrated_NetCore_31.Startup>(
+            await VerifyExample<Cloud_Client_Hints_Not_Integrated.Startup>(
                 resourceKey,
                 userAgent,
                 expectedAcceptCH,
-                "Cloud-AspNetCore3.1-UACH-manual");
+                "Cloud-UACH-manual");
         }
 
         private async Task VerifyExample<T>(

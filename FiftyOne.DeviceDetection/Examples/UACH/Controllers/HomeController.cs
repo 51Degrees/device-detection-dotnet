@@ -20,23 +20,26 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
+using System;
+using System.IO;
+using Microsoft.AspNetCore.Mvc;
+using FiftyOne.Pipeline.Web.Services;
+using FiftyOne.DeviceDetection;
 
-namespace Client_Hints_NetCore_31
+namespace Client_Hints.Controllers
 {
-    public class Program
+    public class HomeController : Controller
     {
-        public static void Main(string[] args)
+        private IFlowDataProvider _flow;
+
+        public HomeController(IFlowDataProvider flow)
         {
-            CreateHostBuilder(args).Build().Run();
+            _flow = flow;
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+        public IActionResult Index()
+        {
+            return View(_flow.GetFlowData());
+        }
     }
 }

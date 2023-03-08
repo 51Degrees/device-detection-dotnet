@@ -143,8 +143,7 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.NativeModelLookup
                     ExampleUtils.RESOURCE_KEY_ENV_VAR);
 
             // Configure a logger to output to the console.
-            var loggerFactory = new LoggerFactory();
-            loggerFactory.AddConsole();
+            var loggerFactory = LoggerFactory.Create(b => b.AddConsole());
             var logger = loggerFactory.CreateLogger<Program>();
 
             if (string.IsNullOrEmpty(resourceKey))

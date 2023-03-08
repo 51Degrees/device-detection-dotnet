@@ -20,40 +20,26 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-using System;
-using System.IO;
-using Microsoft.AspNetCore.Mvc;
-using FiftyOne.Pipeline.Web.Services;
-using FiftyOne.DeviceDetection;
-using FiftyOne.Pipeline.Core.FlowElements;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using System.Collections.Generic;
 
-namespace Cloud_Client_Hints_Not_Integrated_NetCore_31.Controllers
+namespace Cloud_Client_Hints_Not_Integrated
 {
-    public class HomeController : Controller
+    public class Program
     {
-        private IPipeline _pipeline;
-        private IWebRequestEvidenceService _evidenceService;
-
-        public HomeController(IPipeline pipeline,
-            IWebRequestEvidenceService evidenceService)
+        public static void Main(string[] args)
         {
-            _pipeline = pipeline;
-            _evidenceService = evidenceService;
+            CreateHostBuilder(args).Build().Run();
         }
 
-        public IActionResult Index()
-        {
-            using(var flowData = _pipeline.CreateFlowData())
-            {
-                // Add evidence
-                _evidenceService.AddEvidenceFromRequest(flowData, Request);
-                // Process
-                flowData.Process();
-                // Set response headers
-                SetHeaderService.SetHeaders(Response.HttpContext, flowData);
-                // Send results to view
-                return View(flowData);
-            }
-        }
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+
     }
 }

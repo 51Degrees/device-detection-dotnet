@@ -3,7 +3,7 @@ parameters:
 - name: imageName # Name of the agent to work on.
 - name: nugetVersion
   type: string
-  default: 5.8.0
+  default: 6.0.3
 - name: runTests
   type: string
   default: 'On'
@@ -87,9 +87,9 @@ stages:
         vstsFeed: '$(InternalFeedId)'
 
     - task: UseDotNet@2
-      displayName: "Configure dotnet"
+      displayName: "Configure .NET 6"
       inputs:
-        version: 3.1.x
+        version: 6.x
         performMultiLevelLookup: true
         packageType: sdk  
       env:
@@ -106,7 +106,7 @@ stages:
           $Env:PSModulePath += ";${{ parameters.sourcesDir }}\ci\common-ci\scripts\modules"
           Write-Host "Module Path: $($Env:PSModulePath)"
           
-          if (!$(Get-DataFile -licenseKey "$(DeviceDetectionLicenseKey)" -dataType "HashV41" -product "V4TAC" -fullFilePath "TAC-HashV41.hash.gz")) {
+          if (!$(Get-DataFile -licenseKey "$(DeviceDetectionLicenseKey_DotNet)" -dataType "HashV41" -product "V4TAC" -fullFilePath "TAC-HashV41.hash.gz")) {
               Write-Host "# FAILED"
               exit 1
           }
@@ -129,7 +129,7 @@ stages:
       displayName: 'Build solutions $(BuildPlatform) $(BuildConfiguration)'
       inputs:
         solution: '$(RestoreBuildProjects)'
-        vsVersion: '16.0'
+        vsVersion: '17.0'
         platform: '$(BuildPlatform)'
         configuration: '$(BuildConfiguration)'
         clean: true
@@ -145,7 +145,7 @@ stages:
           !**\*TestFramework*.dll
           !**\obj\**
         searchFolder: '$(System.DefaultWorkingDirectory)'
-        otherConsoleOptions: '/Framework:net462 /Platform:$(BuildPlatform) /logger:console;verbosity="normal"'
+        otherConsoleOptions: '/Framework:net481 /Platform:$(BuildPlatform) /logger:console;verbosity="normal"'
         platform: '$(BuildPlatform)'
         configuration: '$(BuildConfiguration)'
         diagnosticsEnabled: true
@@ -160,7 +160,7 @@ stages:
       inputs:
         testSelector: 'testAssemblies'
         testAssemblyVer2: |
-          **\$(BuildPlatform)\**\netcoreapp*\*Tests*.dll
+          **\$(BuildPlatform)\**\net6*\*Tests*.dll
           !**\*TestAdapter*.dll
           !**\*TestFramework*.dll
           !**\obj\**
@@ -168,7 +168,7 @@ stages:
         searchFolder: '$(System.DefaultWorkingDirectory)'
         vsTestVersion: 'toolsInstaller'
         codeCoverageEnabled: true
-        otherConsoleOptions: '/Framework:netcoreapp3.1 /Platform:$(BuildPlatform) /logger:console;verbosity="normal"'
+        otherConsoleOptions: '/Framework:net6.0 /Platform:$(BuildPlatform) /logger:console;verbosity="normal"'
         testRunTitle: 'Windows-core-$(BuildConfiguration)-$(BuildPlatform)'
         platform: '$(BuildPlatform)'
         configuration: '$(BuildConfiguration)'
