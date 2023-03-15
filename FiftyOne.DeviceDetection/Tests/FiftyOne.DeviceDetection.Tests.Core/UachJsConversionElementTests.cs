@@ -102,12 +102,12 @@ namespace FiftyOne.DeviceDetection.Tests.Core
                 // Supply evidence
                 flowData.AddEvidence(Constants.EVIDENCE_HIGH_ENTROPY_VALUES_KEY_COOKIE, evidenceValue);
                 // Add an existing evidence value for query.sec-ch-ua-platform.
-                flowData.AddEvidence(Shared.Constants.EVIDENCE_SECCHUA_PLATFORM_QUERY_KEY,
+                flowData.AddEvidence(Shared.Constants.EVIDENCE_SECCHUA_PLATFORM_HEADER_KEY,
                     @"""Existing Platform""");
                 flowData.Process();
 
                 // Make sure the pre-existing value has been overwritten.
-                CheckEvidence(flowData, Shared.Constants.EVIDENCE_SECCHUA_PLATFORM_QUERY_KEY,
+                CheckEvidence(flowData, Shared.Constants.EVIDENCE_SECCHUA_PLATFORM_HEADER_KEY,
                     @"""Windows""");
             }
         }
@@ -171,17 +171,17 @@ namespace FiftyOne.DeviceDetection.Tests.Core
                 flowData.Process();
 
                 // Check that the evidence has been updated as expected.
-                CheckEvidence(flowData, Shared.Constants.EVIDENCE_SECCHUA_QUERY_KEY, 
+                CheckEvidence(flowData, Shared.Constants.EVIDENCE_SECCHUA_HEADER_KEY, 
                     expectedSecChUa);
-                CheckEvidence(flowData, Shared.Constants.EVIDENCE_SECCHUA_FULLVERSIONLIST_QUERY_KEY, 
+                CheckEvidence(flowData, Shared.Constants.EVIDENCE_SECCHUA_FULLVERSIONLIST_HEADER_KEY, 
                     expectedSecChUaFullVersionList);
-                CheckEvidence(flowData, Shared.Constants.EVIDENCE_SECCHUA_MOBILE_QUERY_KEY, 
+                CheckEvidence(flowData, Shared.Constants.EVIDENCE_SECCHUA_MOBILE_HEADER_KEY, 
                     expectedSecChUaMobile);
-                CheckEvidence(flowData, Shared.Constants.EVIDENCE_SECCHUA_MODEL_QUERY_KEY, 
+                CheckEvidence(flowData, Shared.Constants.EVIDENCE_SECCHUA_MODEL_HEADER_KEY, 
                     expectedSecChUaModel);
-                CheckEvidence(flowData, Shared.Constants.EVIDENCE_SECCHUA_PLATFORM_QUERY_KEY,
+                CheckEvidence(flowData, Shared.Constants.EVIDENCE_SECCHUA_PLATFORM_HEADER_KEY,
                     expectedSecChUaPlatform);
-                CheckEvidence(flowData, Shared.Constants.EVIDENCE_SECCHUA_PLATFORM_VERSION_QUERY_KEY, 
+                CheckEvidence(flowData, Shared.Constants.EVIDENCE_SECCHUA_PLATFORM_VERSION_HEADER_KEY, 
                     expectedSecChUaPlatformVersion);
             }
         }

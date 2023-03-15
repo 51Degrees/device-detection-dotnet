@@ -99,39 +99,39 @@ namespace FiftyOne.DeviceDetection.Uach
                     var brandsString = SerializeBrands(uachData.Brands);
                     if (brandsString != null)
                     {
-                        data.AddEvidence(Shared.Constants.EVIDENCE_SECCHUA_QUERY_KEY, brandsString);
+                        data.AddEvidence(Shared.Constants.EVIDENCE_SECCHUA_HEADER_KEY, brandsString);
                         evidenceAdded = true;
                     }
                     var brandsFullVersionString = SerializeBrands(uachData.FullVersionList);
                     if (brandsFullVersionString != null)
                     {
-                        data.AddEvidence(Shared.Constants.EVIDENCE_SECCHUA_FULLVERSIONLIST_QUERY_KEY,
+                        data.AddEvidence(Shared.Constants.EVIDENCE_SECCHUA_FULLVERSIONLIST_HEADER_KEY,
                             brandsFullVersionString);
                         evidenceAdded = true;
                     }
 
                     if (uachData.Mobile.HasValue)
                     {
-                        data.AddEvidence(Shared.Constants.EVIDENCE_SECCHUA_MOBILE_QUERY_KEY,
+                        data.AddEvidence(Shared.Constants.EVIDENCE_SECCHUA_MOBILE_HEADER_KEY,
                             uachData.Mobile.Value ? "?1" : "?0");
                         evidenceAdded = true;
                     }
 
                     if (uachData.Model != null)
                     {
-                        data.AddEvidence(Shared.Constants.EVIDENCE_SECCHUA_MODEL_QUERY_KEY,
+                        data.AddEvidence(Shared.Constants.EVIDENCE_SECCHUA_MODEL_HEADER_KEY,
                             ConvertText(uachData.Model));
                         evidenceAdded = true;
                     }
                     if (uachData.Platform != null)
                     {
-                        data.AddEvidence(Shared.Constants.EVIDENCE_SECCHUA_PLATFORM_QUERY_KEY,
+                        data.AddEvidence(Shared.Constants.EVIDENCE_SECCHUA_PLATFORM_HEADER_KEY,
                             ConvertText(uachData.Platform));
                         evidenceAdded = true;
                     }
                     if (uachData.PlatformVersion != null)
                     {
-                        data.AddEvidence(Shared.Constants.EVIDENCE_SECCHUA_PLATFORM_VERSION_QUERY_KEY,
+                        data.AddEvidence(Shared.Constants.EVIDENCE_SECCHUA_PLATFORM_VERSION_HEADER_KEY,
                             ConvertText(uachData.PlatformVersion));
                         evidenceAdded = true;
                     }
