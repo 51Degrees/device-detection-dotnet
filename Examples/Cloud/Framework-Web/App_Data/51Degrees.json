@@ -20,6 +20,8 @@
         }
       }
     ],
-    "ClientSideEnabled": true
+    "BuildParameters": {
+      "ClientSideEnabled": true
+    }
   }
 }

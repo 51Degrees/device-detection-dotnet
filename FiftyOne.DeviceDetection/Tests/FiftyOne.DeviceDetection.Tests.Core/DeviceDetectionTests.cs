@@ -44,6 +44,15 @@ namespace FiftyOne.DeviceDetection.Tests.Core
         private static UserAgentGenerator USER_AGENTS = new UserAgentGenerator(
             TestHelpers.Utils.GetFilePath(Constants.UA_FILE_NAME));
 
+        private static readonly List<Dictionary<string, string>> UachTestValues = new List<Dictionary<string, string>>()
+        {
+            new Dictionary<string, string>()
+            {
+                { Shared.Constants.EVIDENCE_SECCHUA_PLATFORM_HEADER_KEY, @"""Windows""" },
+                { Shared.Constants.EVIDENCE_SECCHUA_PLATFORM_VERSION_HEADER_KEY, @"""14.0.0""" }
+            }
+        };
+
         [DataTestMethod]
         // ******** Hash with a single thread *********
         [DataRow(Constants.LITE_HASH_DATA_FILE_NAME, PerformanceProfiles.MaxPerformance, false, false, DisplayName = "Hash-MaxPerformance-NoLazyLoad-SingleThread")]
@@ -73,17 +82,46 @@ namespace FiftyOne.DeviceDetection.Tests.Core
             bool useLazyLoading,
             bool multiThreaded)
         {
-            TestOnPremise_AllConfigurations_100_UserAgents(datafileName,
+            TestWithEvidence(datafileName,
                 performanceProfile,
                 useLazyLoading,
-                multiThreaded);
+                multiThreaded,
+                GetEvidenceFromUas(),
+                // Just access the IsMobile property to ensure we can get data out.
+                // This will throw an exception if the value was not populated
+                (dd) => { var result = dd.IsMobile; });
+        }
+
+        public void Hash_Uach(
+            string datafileName,
+            PerformanceProfiles performanceProfile,
+            bool useLazyLoading,
+            bool multiThreaded)
+        {
+            TestWithEvidence(datafileName,
+                performanceProfile,
+                useLazyLoading,
+                multiThreaded,
+                UachTestValues,
+                (dd) => { Assert.AreEqual("11", dd.PlatformVersion.Value); });
         }
 
         /// <summary>
-        /// This test will create a device detection pipeline based on the
-        /// supplied parameters, process 1000 user agents.
-        /// The various parameters allow the test to be run for many
-        /// different configurations.
+        /// Use the 'USER_AGENTS' field to construct a collection of evidence values.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerable<IEnumerable<KeyValuePair<string,string>>> GetEvidenceFromUas()
+        {
+            foreach (var ua in USER_AGENTS.GetRandomUserAgents(100))
+            {
+                var key = Pipeline.Core.Constants.EVIDENCE_HTTPHEADER_PREFIX +
+                                Pipeline.Core.Constants.EVIDENCE_SEPERATOR + "User-Agent";
+                yield return new KeyValuePair<string, string>[1] { new KeyValuePair<string, string>(key, ua) };
+            }
+        }
+
+        /// <summary>
+        /// Test the supplied evidence using the specified device detection settings.
         /// </summary>
         /// <param name="datafileName">
         /// The filename of the data file to use for device detection.
@@ -98,11 +136,20 @@ namespace FiftyOne.DeviceDetection.Tests.Core
         /// Whether to use a single thread or multiple threads when 
         /// passing user agents to the pipeline for processing.
         /// </param>
-        public void TestOnPremise_AllConfigurations_100_UserAgents(
+        /// <param name="evidence">
+        /// The evidence values to test with.
+        /// </param>
+        /// <param name="verifyAction">
+        /// An action to execute to verify that the result includes the expected values.
+        /// The action should throw an exception describing the problem if verification fails.
+        /// </param>
+        public void TestWithEvidence(
             string datafileName,
             PerformanceProfiles performanceProfile,
             bool useLazyLoading,
-            bool multiThreaded)
+            bool multiThreaded,
+            IEnumerable<IEnumerable<KeyValuePair<string, string>>> evidence,
+            Action<IDeviceData> verifyAction)
         {
             var datafile = TestHelpers.Utils.GetFilePath(datafileName);
             var updateService = new Mock<IDataUpdateService>();
@@ -138,19 +185,19 @@ namespace FiftyOne.DeviceDetection.Tests.Core
 
 
                 // Create a parallel loop to actually process the user agents.
-                Parallel.ForEach(USER_AGENTS.GetRandomUserAgents(100), options,
-                    (useragent) =>
+                Parallel.ForEach(evidence, options,
+                    (evidenceEntry) =>
                     {
                         // Create the flow data instance
                         using (var flowData = pipeline.CreateFlowData())
                         {
 
-                            // Add the user agent to the flow data 
-                            // and process it
-                            flowData.AddEvidence(
-                                    Pipeline.Core.Constants.EVIDENCE_HTTPHEADER_PREFIX +
-                                    Pipeline.Core.Constants.EVIDENCE_SEPERATOR + "User-Agent", useragent)
-                                .Process();
+                            // Add the evidence to the flow data and process it
+                            foreach (var subEntry in evidenceEntry)
+                            {
+                                flowData.AddEvidence(subEntry.Key, subEntry.Value);
+                            }
+                            flowData.Process();
 
                             // Make sure no errors occurred. If any did then
                             // cancel the parallel process.
@@ -162,15 +209,14 @@ namespace FiftyOne.DeviceDetection.Tests.Core
                                 cancellationSource.Cancel();
                             }
 
-                            // Get the device data instance and access the
-                            // IsMobile property to ensure we can get 
-                            // data out.
+                            // Get the device data instance and pass it to the verifyAction.
                             var deviceData = flowData.Get<IDeviceData>();
-                            var result = deviceData.IsMobile;
+                            verifyAction(deviceData);
                         }
                     });
             }
         }
+
 
         /// <summary>
         /// Private method to present the given list of FlowError 
