@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -51,17 +51,17 @@
     <Reference Include="FiftyOne.Common, Version=4.4.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\FiftyOne.Common.4.4.3\lib\netstandard2.0\FiftyOne.Common.dll</HintPath>
     </Reference>
-    <Reference Include="FiftyOne.DeviceDetection, Version=4.4.19.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.DeviceDetection.4.4.19\lib\netstandard2.0\FiftyOne.DeviceDetection.dll</HintPath>
+    <Reference Include="FiftyOne.DeviceDetection, Version=4.4.21.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.DeviceDetection.4.4.21\lib\netstandard2.0\FiftyOne.DeviceDetection.dll</HintPath>
     </Reference>
-    <Reference Include="FiftyOne.DeviceDetection.Cloud, Version=4.4.19.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.DeviceDetection.Cloud.4.4.19\lib\netstandard2.0\FiftyOne.DeviceDetection.Cloud.dll</HintPath>
+    <Reference Include="FiftyOne.DeviceDetection.Cloud, Version=4.4.21.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.DeviceDetection.Cloud.4.4.21\lib\netstandard2.0\FiftyOne.DeviceDetection.Cloud.dll</HintPath>
     </Reference>
-    <Reference Include="FiftyOne.DeviceDetection.Hash.Engine.OnPremise, Version=4.4.19.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.19\lib\netstandard2.0\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.dll</HintPath>
+    <Reference Include="FiftyOne.DeviceDetection.Hash.Engine.OnPremise, Version=4.4.21.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.21\lib\netstandard2.0\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.dll</HintPath>
     </Reference>
-    <Reference Include="FiftyOne.DeviceDetection.Shared, Version=4.4.19.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.DeviceDetection.Shared.4.4.19\lib\netstandard2.0\FiftyOne.DeviceDetection.Shared.dll</HintPath>
+    <Reference Include="FiftyOne.DeviceDetection.Shared, Version=4.4.21.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FiftyOne.DeviceDetection.Shared.4.4.21\lib\netstandard2.0\FiftyOne.DeviceDetection.Shared.dll</HintPath>
     </Reference>
     <Reference Include="FiftyOne.Pipeline.CloudRequestEngine, Version=4.4.13.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\FiftyOne.Pipeline.CloudRequestEngine.4.4.14\lib\netstandard2.0\FiftyOne.Pipeline.CloudRequestEngine.dll</HintPath>
@@ -439,10 +439,10 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('..\..\..\packages\System.Text.Json.6.0.0\build\System.Text.Json.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\System.Text.Json.6.0.0\build\System.Text.Json.targets'))" />
-    <Error Condition="!Exists('..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.19\build\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.19\build\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets'))" />
+    <Error Condition="!Exists('..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.21\build\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.21\build\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets'))" />
   </Target>
   <Import Project="..\..\..\packages\System.Text.Json.6.0.0\build\System.Text.Json.targets" Condition="Exists('..\..\..\packages\System.Text.Json.6.0.0\build\System.Text.Json.targets')" />
-  <Import Project="..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.19\build\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets" Condition="Exists('..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.19\build\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets')" />
+  <Import Project="..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.21\build\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets" Condition="Exists('..\..\..\packages\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.4.4.21\build\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
