@@ -44,6 +44,10 @@ namespace Framework_Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+            // Make sure the assemblies that are needed by the pipeline are loaded into the
+            // app domain.
+            // This is needed in order from BuildFromConfiguration to be able to find the
+            // relevant builder types when using reflection.
             AppDomain.CurrentDomain.Load(typeof(CloudRequestEngine).Assembly.GetName());
             AppDomain.CurrentDomain.Load(typeof(DeviceDetectionCloudEngine).Assembly.GetName());
             AppDomain.CurrentDomain.Load(typeof(JavaScriptBuilderElement).Assembly.GetName());
