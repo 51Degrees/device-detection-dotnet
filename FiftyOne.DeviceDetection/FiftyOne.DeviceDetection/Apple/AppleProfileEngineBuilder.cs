@@ -1,4 +1,5 @@
-﻿using FiftyOne.Pipeline.Core.Exceptions;
+﻿using FiftyOne.Pipeline.Core.Attributes;
+using FiftyOne.Pipeline.Core.Exceptions;
 using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines;
 using FiftyOne.Pipeline.Engines.Data;
@@ -76,6 +77,7 @@ namespace FiftyOne.DeviceDetection.Apple
                 MissingPropertyService.Instance);
         }
 
+        [CodeConfigOnly]
         public override AppleProfileEngineBuilder SetPerformanceProfile(PerformanceProfiles profile)
         {
             throw new NotImplementedException();

@@ -48,6 +48,9 @@ using (FileStream fs = File.Create("output.json"))
 using (var writer = new Utf8JsonWriter(fs, writerOptions))
 {
     writer.WriteStartObject();
+
+    writer.WriteCommentValue("This file demonstrates the options available when using a configruation file.\r\nThe comments contain the location in the code to look for information on what the property does.\r\nEach property value is set to the default for that property.");
+
     writer.WritePropertyName(nameof(PipelineOptions));
     writer.WriteStartObject();
     writer.WritePropertyName(nameof(PipelineOptions.Elements));
@@ -75,12 +78,22 @@ using (var writer = new Utf8JsonWriter(fs, writerOptions))
 
     // Add web integration options.
     var options = new PipelineWebIntegrationOptions();
-    // TODO - add comments
-    writer.WriteBoolean(nameof(PipelineWebIntegrationOptions.ClientSideEvidenceEnabled), options.ClientSideEvidenceEnabled);
-    writer.WriteBoolean(nameof(PipelineWebIntegrationOptions.UseAsyncScript), options.UseAsyncScript);
-    writer.WriteBoolean(nameof(PipelineWebIntegrationOptions.UseSetHeaderProperties), options.UseSetHeaderProperties);
+
+    var optionsType = typeof(PipelineWebIntegrationOptions);
+
+    var propertyName = nameof(PipelineWebIntegrationOptions.ClientSideEvidenceEnabled);
+    writer.WriteCommentValue($"See {optionsType.FullName}.{propertyName}");
+    writer.WriteBoolean(propertyName, options.ClientSideEvidenceEnabled);
+
+    propertyName = nameof(PipelineWebIntegrationOptions.UseAsyncScript);
+    writer.WriteCommentValue($"See {optionsType.FullName}.{propertyName}");
+    writer.WriteBoolean(propertyName, options.UseAsyncScript);
+
+    propertyName = nameof(PipelineWebIntegrationOptions.UseSetHeaderProperties);
+    writer.WriteCommentValue($"See {optionsType.FullName}.{propertyName}");
+    writer.WriteBoolean(propertyName, options.UseSetHeaderProperties);
 
     writer.WriteEndObject();
     writer.WriteEndObject();
-
 }
+

@@ -1,10 +1,12 @@
-﻿using FiftyOne.Pipeline.Core.Configuration;
+﻿using FiftyOne.Pipeline.Core.Attributes;
+using FiftyOne.Pipeline.Core.Configuration;
 using FiftyOne.Pipeline.Core.FlowElements;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -50,6 +52,12 @@ namespace GenerateConfig
             return builders;
         }
 
+        /// <summary>
+        /// Write the configration options for the specified element builder using the 
+        /// specified json writer.
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="builder"></param>
         public static void AppendConfigForElementBuilder(Utf8JsonWriter writer, Type builder)
         {
             writer.WriteStartObject();
@@ -67,9 +75,15 @@ namespace GenerateConfig
             writer.WriteEndObject();
         }
 
+        /// <summary>
+        /// Write the configration options for the specified pipeline builder using the 
+        /// specified json writer.
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="builder"></param>
         public static void AppendConfigForPipelineBuilder(Utf8JsonWriter writer, Type builder)
         {
-            writer.WritePropertyName(nameof(PipelineOptions.PipelineBuilderParameters));
+            writer.WritePropertyName(nameof(PipelineOptions.BuildParameters));
             writer.WriteStartObject();
 
             AppendPropertiesFromSetMethods(writer, builder);
@@ -78,41 +92,111 @@ namespace GenerateConfig
             writer.WriteEndObject();
         }
 
+        /// <summary>
+        /// Write the configuration options available on 'Set' methods from the specified builder
+        /// using the specified json writer
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="builder"></param>
         private static void AppendPropertiesFromSetMethods(Utf8JsonWriter writer, Type builder)
         {
-            // TODO - add defaults and comments
-            var setMethods = builder.GetMethods().Where(m => m.GetParameters().Length == 1 && m.Name.StartsWith("Set"));
+            // Get methods on the builder where..
+            var setMethods = builder.GetMethods().Where(m => 
+                // .. there is only 1 parameter
+                m.GetParameters().Length == 1 &&
+                // .. and the method name starts with 'Set'
+                m.Name.StartsWith("Set") &&
+                // .. and it does not have the 'CodeConfigOnly' attribute
+                m.GetCustomAttribute(typeof(CodeConfigOnlyAttribute)) == null);
+
             foreach (var method in setMethods)
             {
-                var type = method.GetParameters()[0].ParameterType;
-                if (type == typeof(string))
+                // Get default value
+                var defaultValueAttr = method.GetCustomAttribute(typeof(DefaultValueAttribute)) as DefaultValueAttribute;
+                object? defaultValue = defaultValueAttr?.DefaultValue;
+                if (defaultValue == null)
                 {
-                    writer.WriteString(method.Name, "");
+                    defaultValue = "Default value not known";
                 }
-                else if (type == typeof(bool))
-                {
-                    writer.WriteBoolean(method.Name, false);
-                }
-                else if (type == typeof(int))
-                {
-                    writer.WriteNumber(method.Name, 0);
-                }
-                else
-                {
-                    writer.WriteString(method.Name, $"Unexpected type - {type.Name}");
-                }
+
+                // Write a comment about where to find out more about what this setting does.
+                var methodParmaterType = method.GetParameters()[0].ParameterType;
+                writer.WriteCommentValue($"See {method?.DeclaringType?.Namespace}.{method?.DeclaringType?.Name}" +
+                    $".{method?.Name}({methodParmaterType.Name})");
+
+                // Write the json property
+                WriteParameterLine(writer, method?.Name ?? "NULL", defaultValue);
             }
         }
+
+        /// <summary>
+        /// Write the configuration parameters available on 'Build' methods from the specified builder
+        /// using the specified json writer
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="builder"></param>
         private static void AppendPropertiesFromBuildMethods(Utf8JsonWriter writer, Type builder)
         {
-            // TODO - add defaults and comments
+            // Get methods on the builder where the method name is 'Build'
             var buildMethods = builder.GetMethods().Where(m => m.Name == "Build");
             foreach (var method in buildMethods)
             {
-                foreach (var parameter in method.GetParameters())
+                string methodSignature = $"{method?.DeclaringType?.Namespace}.{method?.DeclaringType?.Name}.Build(" +
+                    string.Join(", ", method.GetParameters().Select(p => p.ParameterType));
+
+                // Write a line to the output for each parameter where..
+                foreach (var parameter in method.GetParameters().Where(p =>
+                    // .. the parameter does not have the 'CodeConfigOnly' attribute
+                    p.GetCustomAttribute(typeof(CodeConfigOnlyAttribute)) == null))
                 {
-                    writer.WriteString(parameter.Name ?? "NULL", "");
+                    // Get default value
+                    var defaultValueAttr = parameter.GetCustomAttribute(typeof(DefaultValueAttribute)) as DefaultValueAttribute;
+                    object? defaultValue = defaultValueAttr?.DefaultValue;
+                    if (defaultValue == null)
+                    {
+                        defaultValue = "Default value not known";
+                    }
+
+                    // Write a comment about where to find out more about what this setting does.
+                    writer.WriteCommentValue($"See {methodSignature}");
+
+                    // Write the json property
+                    WriteParameterLine(writer, parameter?.Name ?? "NULL", defaultValue);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Write a line containing the parameter and the default value.
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="parameterName"></param>
+        /// <param name="defaultValue"></param>
+        private static void WriteParameterLine(Utf8JsonWriter writer, string parameterName, object defaultValue)
+        {
+            if (defaultValue == null)
+            {
+                writer.WriteString(parameterName, "No default");
+            }
+            else if (defaultValue.GetType() == typeof(string))
+            {
+                writer.WriteString(parameterName, (string)defaultValue);
+            }
+            else if (defaultValue.GetType() == typeof(bool))
+            {
+                writer.WriteBoolean(parameterName, (bool)defaultValue);
+            }
+            else if (defaultValue.GetType() == typeof(int))
+            {
+                writer.WriteNumber(parameterName, (int)defaultValue);
+            }
+            else if (defaultValue.GetType() == typeof(float))
+            {
+                writer.WriteNumber(parameterName, (float)defaultValue);
+            }
+            else
+            {
+                writer.WriteString(parameterName, $"Unexpected type - {defaultValue.GetType().Name}");
             }
         }
     }

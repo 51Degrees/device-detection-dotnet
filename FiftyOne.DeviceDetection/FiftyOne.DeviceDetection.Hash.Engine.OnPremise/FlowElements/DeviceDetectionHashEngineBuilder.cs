@@ -36,6 +36,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers;
 using FiftyOne.Pipeline.Engines.Configuration;
+using FiftyOne.Pipeline.Core.Attributes;
 
 namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
 {
@@ -111,6 +112,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// </summary>
         /// <param name="difference">Difference to allow</param>
         /// <returns>This builder</returns>
+        [DefaultValue(0)]
         public override DeviceDetectionHashEngineBuilder SetDifference(int difference)
         {
             SwigConfig.setDifference(difference);
@@ -123,6 +125,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// </summary>
         /// <param name="drift">Drift to allow</param>
         /// <returns>This builder</returns>
+        [DefaultValue(0)]
         public DeviceDetectionHashEngineBuilder SetDrift(int drift)
         {
             SwigConfig.setDrift(drift);
@@ -142,6 +145,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// valid
         /// </param>
         /// <returns>This builder</returns>
+        [DefaultValue(false)]
         public override DeviceDetectionHashEngineBuilder SetAllowUnmatched(bool allow)
         {
             SwigConfig.setAllowUnmatched(allow);
@@ -154,6 +158,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// </summary>
         /// <param name="reuse">True if an existing file should be used</param>
         /// <returns>This builder</returns>
+        [DefaultValue(false)]
         public DeviceDetectionHashEngineBuilder SetReuseTempFile(bool reuse)
         {
             SwigConfig.setReuseTempFile(reuse);
@@ -168,6 +173,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// True if the matched User-Agent should be stored
         /// </param>
         /// <returns>This builder</returns>
+        [DefaultValue(true)]
         public DeviceDetectionHashEngineBuilder SetUpdateMatchedUserAgent(
             bool update)
         {
@@ -193,6 +199,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// <returns>
         /// This builder.
         /// </returns>
+        [DefaultValue("false - see {Constants.Message}")]
         public override DeviceDetectionHashEngineBuilder SetUsePerformanceGraph(
             bool use)
         {
@@ -218,6 +225,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// <returns>
         /// This builder.
         /// </returns>
+        [DefaultValue(true)]
         public override DeviceDetectionHashEngineBuilder SetUsePredictiveGraph(
             bool use)
         {
@@ -230,6 +238,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// </summary>
         /// <param name="profileName">Name of the profile to use</param>
         /// <returns>This builder</returns>
+        [DefaultValue("Balanced")]
         public DeviceDetectionHashEngineBuilder SetPerformanceProfile(
             string profileName)
         {
@@ -255,6 +264,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// </summary>
         /// <param name="profile">Profile to use</param>
         /// <returns>This builder</returns>
+        [CodeConfigOnly]
         public override DeviceDetectionHashEngineBuilder SetPerformanceProfile(
             PerformanceProfiles profile)
         {
@@ -291,9 +301,10 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// </summary>
         /// <param name="concurrency">Expected concurrent accesses</param>
         /// <returns>This builder</returns>
+        [DefaultValue("Environment.ProcessorCount")]
         public override DeviceDetectionHashEngineBuilder SetConcurrency(
             ushort concurrency)
-        {
+        {            
             SwigConfig.setConcurrency(concurrency);
             return this;
         }
@@ -303,6 +314,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// for the Device-detection Hash Engine.
         /// </summary>
         /// <exception cref="NotSupportedException"></exception>
+        [CodeConfigOnly]
         public override DeviceDetectionHashEngineBuilder SetCache(CacheConfiguration cacheConfig)
         {
             throw new NotSupportedException(Messages.ExceptionSetCache);
@@ -314,6 +326,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// </summary>
         /// <param name="cacheSize"></param>
         /// <exception cref="NotSupportedException"></exception>
+        [DefaultValue("Not supported")]
         public override DeviceDetectionHashEngineBuilder SetCacheSize(int cacheSize)
         {
             throw new NotSupportedException(Messages.ExceptionSetCache);
