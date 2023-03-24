@@ -1,4 +1,4 @@
-﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -100,28 +100,28 @@
       <HintPath>..\..\..\packages\FiftyOne.DeviceDetection.Shared.4.4.21\lib\netstandard2.0\FiftyOne.DeviceDetection.Shared.dll</HintPath>
     </Reference>
     <Reference Include="FiftyOne.Pipeline.CloudRequestEngine, Version=4.4.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.Pipeline.CloudRequestEngine.4.4.14\lib\netstandard2.0\FiftyOne.Pipeline.CloudRequestEngine.dll</HintPath>
+      <HintPath>..\..\..\packages\FiftyOne.Pipeline.CloudRequestEngine.4.4.15\lib\netstandard2.0\FiftyOne.Pipeline.CloudRequestEngine.dll</HintPath>
     </Reference>
     <Reference Include="FiftyOne.Pipeline.Core, Version=4.4.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Core.4.4.14\lib\netstandard2.0\FiftyOne.Pipeline.Core.dll</HintPath>
+      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Core.4.4.15\lib\netstandard2.0\FiftyOne.Pipeline.Core.dll</HintPath>
     </Reference>
     <Reference Include="FiftyOne.Pipeline.Engines, Version=4.4.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Engines.4.4.14\lib\netstandard2.0\FiftyOne.Pipeline.Engines.dll</HintPath>
+      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Engines.4.4.15\lib\netstandard2.0\FiftyOne.Pipeline.Engines.dll</HintPath>
     </Reference>
     <Reference Include="FiftyOne.Pipeline.Engines.FiftyOne, Version=4.4.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Engines.FiftyOne.4.4.14\lib\netstandard2.0\FiftyOne.Pipeline.Engines.FiftyOne.dll</HintPath>
+      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Engines.FiftyOne.4.4.15\lib\netstandard2.0\FiftyOne.Pipeline.Engines.FiftyOne.dll</HintPath>
     </Reference>
     <Reference Include="FiftyOne.Pipeline.JavaScriptBuilderElement, Version=4.4.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.Pipeline.JavaScriptBuilder.4.4.14\lib\netstandard2.0\FiftyOne.Pipeline.JavaScriptBuilderElement.dll</HintPath>
+      <HintPath>..\..\..\packages\FiftyOne.Pipeline.JavaScriptBuilder.4.4.15\lib\netstandard2.0\FiftyOne.Pipeline.JavaScriptBuilderElement.dll</HintPath>
     </Reference>
     <Reference Include="FiftyOne.Pipeline.JsonBuilder, Version=4.4.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.Pipeline.JsonBuilder.4.4.14\lib\netstandard2.0\FiftyOne.Pipeline.JsonBuilder.dll</HintPath>
+      <HintPath>..\..\..\packages\FiftyOne.Pipeline.JsonBuilder.4.4.15\lib\netstandard2.0\FiftyOne.Pipeline.JsonBuilder.dll</HintPath>
     </Reference>
     <Reference Include="FiftyOne.Pipeline.Web.Framework, Version=4.4.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Web.4.4.14\lib\net462\FiftyOne.Pipeline.Web.Framework.dll</HintPath>
+      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Web.4.4.15\lib\net462\FiftyOne.Pipeline.Web.Framework.dll</HintPath>
     </Reference>
     <Reference Include="FiftyOne.Pipeline.Web.Shared, Version=4.4.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Web.Shared.4.4.14\lib\netstandard2.0\FiftyOne.Pipeline.Web.Shared.dll</HintPath>
+      <HintPath>..\..\..\packages\FiftyOne.Pipeline.Web.Shared.4.4.15\lib\netstandard2.0\FiftyOne.Pipeline.Web.Shared.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.Bcl.AsyncInterfaces.6.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
