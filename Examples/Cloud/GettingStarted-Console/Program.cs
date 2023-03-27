@@ -206,7 +206,10 @@ namespace FiftyOne.DeviceDetection.Examples.Cloud.GettingStartedConsole
 
             // Bind the configuration to a pipeline options instance
             PipelineOptions options = new PipelineOptions();
-            config.Bind("PipelineOptions", options);
+            var section = config.GetRequiredSection("PipelineOptions");
+            // Use the 'ErrorOnUnknownConfiguration' option to warn us if we've got any
+            // misnamed configuration keys.
+            section.Bind(options, (o) => { o.ErrorOnUnknownConfiguration = true; });
 
             // Get the resource key setting from the config file. 
             var resourceKeyFromConfig = options.GetResourceKey();
