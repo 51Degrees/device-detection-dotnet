@@ -116,7 +116,7 @@ namespace GenerateConfig
                 object? defaultValue = defaultValueAttr?.DefaultValue;
                 if (defaultValue == null)
                 {
-                    defaultValue = "Default value not known";
+                    defaultValue = "No default value";
                 }
 
                 // Write a comment about where to find out more about what this setting does.
@@ -154,7 +154,7 @@ namespace GenerateConfig
                     object? defaultValue = defaultValueAttr?.DefaultValue;
                     if (defaultValue == null)
                     {
-                        defaultValue = "Default value not known";
+                        defaultValue = "No default value";
                     }
 
                     // Write a comment about where to find out more about what this setting does.
