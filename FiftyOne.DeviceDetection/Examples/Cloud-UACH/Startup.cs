@@ -207,7 +207,7 @@ namespace Cloud_Client_Hints
             // misnamed configuration keys.
             section.Bind(options, (o) => { o.ErrorOnUnknownConfiguration = true; });
 
-            var cloudConfig = pipelineConfig.Elements.Where(e =>
+            var cloudConfig = options.Elements.Where(e =>
                 e.BuilderName.Contains(nameof(CloudRequestEngine),
                     StringComparison.OrdinalIgnoreCase));
             if (cloudConfig.Count() > 0)

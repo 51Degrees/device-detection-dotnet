@@ -192,7 +192,7 @@ namespace Client_Hints
             // misnamed configuration keys.
             section.Bind(options, (o) => { o.ErrorOnUnknownConfiguration = true; });
 
-            var engineConfig = pipelineConfig.Elements.Where(e =>
+            var engineConfig = options.Elements.Where(e =>
                 e.BuilderName.Contains(nameof(DeviceDetectionHashEngine),
                     StringComparison.OrdinalIgnoreCase));
             if (engineConfig.Count() > 0)
