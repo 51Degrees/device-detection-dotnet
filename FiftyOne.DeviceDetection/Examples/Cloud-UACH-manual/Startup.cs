@@ -212,9 +212,13 @@ namespace Cloud_Client_Hints_Not_Integrated
             // if the resource key has been set to a new value so we can
             // warn the user if it has not.
             // --------------------------------------------------------------
-            var pipelineConfig = new PipelineOptions();
-            Configuration.Bind("PipelineOptions", pipelineConfig);
-            var cloudConfig = pipelineConfig.Elements.Where(e =>
+            var options = new PipelineOptions();
+            var section = Configuration.GetRequiredSection("PipelineOptions");
+            // Use the 'ErrorOnUnknownConfiguration' option to warn us if we've got any
+            // misnamed configuration keys.
+            section.Bind(options, (o) => { o.ErrorOnUnknownConfiguration = true; });
+
+            var cloudConfig = options.Elements.Where(e =>
                 e.BuilderName.Contains(nameof(CloudRequestEngine),
                     StringComparison.OrdinalIgnoreCase));
             if (cloudConfig.Count() > 0)

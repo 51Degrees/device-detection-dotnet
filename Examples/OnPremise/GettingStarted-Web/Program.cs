@@ -82,7 +82,11 @@ namespace FiftyOne.DeviceDetection.Examples.OnPremise.GettingStartedWeb
                 .Build();
             // Bind the configuration to a pipeline options instance
             PipelineOptions options = new PipelineOptions();
-            config.Bind("PipelineOptions", options);
+            var section = config.GetRequiredSection("PipelineOptions");
+            // Use the 'ErrorOnUnknownConfiguration' option to warn us if we've got any
+            // misnamed configuration keys.
+            section.Bind(options, (o) => { o.ErrorOnUnknownConfiguration = true; });
+
             // Get the index of the device detection engine element in the config file so that
             // we can create an override key for it.
             var hashEngineOptions = options.GetElementConfig(nameof(DeviceDetectionHashEngine));

@@ -159,8 +159,11 @@ namespace FiftyOne.DeviceDetection.Example.Tests
                 .Build();
 
             // Bind the configuration to a pipeline options instance
-            PipelineOptions options = new PipelineOptions();
-            config.Bind("PipelineOptions", options);
+            var options = new PipelineOptions();
+            var section = config.GetRequiredSection("PipelineOptions");
+            // Use the 'ErrorOnUnknownConfiguration' option to warn us if we've got any
+            // misnamed configuration keys.
+            section.Bind(options, (o) => { o.ErrorOnUnknownConfiguration = true; });
 
             // Override the resource key in the config file with the one to use for testing.
             options.SetResourceKey(resourceKey);

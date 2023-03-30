@@ -186,9 +186,13 @@ namespace Client_Hints
             // if the resource key has been set to a new value so we can
             // warn the user if it has not.
             // --------------------------------------------------------------
-            var pipelineConfig = new PipelineOptions();
-            Configuration.Bind("PipelineOptions", pipelineConfig);
-            var engineConfig = pipelineConfig.Elements.Where(e =>
+            var options = new PipelineOptions();
+            var section = Configuration.GetRequiredSection("PipelineOptions");
+            // Use the 'ErrorOnUnknownConfiguration' option to warn us if we've got any
+            // misnamed configuration keys.
+            section.Bind(options, (o) => { o.ErrorOnUnknownConfiguration = true; });
+
+            var engineConfig = options.Elements.Where(e =>
                 e.BuilderName.Contains(nameof(DeviceDetectionHashEngine),
                     StringComparison.OrdinalIgnoreCase));
             if (engineConfig.Count() > 0)
