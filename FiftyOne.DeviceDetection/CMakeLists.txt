@@ -6,7 +6,7 @@ set (CMAKE_CXX_STANDARD 11)
 project(DeviceDetectionHashEngine VERSION 4.3.0 LANGUAGES CXX C)
 
 if (MSVC)
-    # add_compile_options(/wd5105 /wd4100) TODO are these needed?
+    add_compile_options(/wd4100) #Disable "unreferenced formal parameter" which comes from the SWIG file
 else()
     add_compile_options(-fPIC)
 #    if (NOT Apple)
@@ -70,7 +70,7 @@ if (RebuildSwig)
         message(WARNING "SWIG does not include csharp support so will not be run")
     else()
         message(STATUS "Rebuilding SWIG interfaces")
-        execute_process(COMMAND ${SWIG_EXECUTABLE} -c++ -csharp -namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop -dllimport FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll -outdir ${SRCOUT} -o ${CMAKE_CURRENT_LIST_DIR}/DeviceDetectionHashEngineSwig_csharp.cpp ${CMAKE_CURRENT_LIST_DIR}/FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native/hash_csharp.i)
+        execute_process(COMMAND ${SWIG_EXECUTABLE} -c++ -csharp -namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop -dllimport FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll -outdir ${SRCOUT} -o ${CMAKE_CURRENT_LIST_DIR}/DeviceDetectionHashEngineSwig_csharp.cpp ${CMAKE_CURRENT_LIST_DIR}/hash_csharp.i)
     endif()
 endif()
 message(STATUS "Done SWIG interfaces")
@@ -96,7 +96,7 @@ if (NOT MSVC)
 endif()
 
 if (MSVC)
-	target_compile_options(fiftyone-hash-dotnet PRIVATE "/D_CRT_SECURE_NO_WARNINGS" "/W4" "/WX") # TODO required?
+	target_compile_options(fiftyone-hash-dotnet PRIVATE "/D_CRT_SECURE_NO_WARNINGS" "/W4" "/WX")
 else()
 	target_compile_options(fiftyone-hash-dotnet PRIVATE ${COMPILE_OPTION_DEBUG} "-Werror") # TODO required?
 endif()
