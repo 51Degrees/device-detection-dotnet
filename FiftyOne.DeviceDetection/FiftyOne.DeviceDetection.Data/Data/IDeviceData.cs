@@ -1,6 +1,6 @@
 /* *********************************************************************
  * This Original Work is copyright of 51 Degrees Mobile Experts Limited.
- * Copyright 2022 51 Degrees Mobile Experts Limited, Davidson House,
+ * Copyright 2023 51 Degrees Mobile Experts Limited, Davidson House,
  * Forbury Square, Reading, Berkshire, United Kingdom RG1 3EU.
  *
  * This Original Work is licensed under the European Union Public Licence
@@ -457,6 +457,10 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<bool> History { get; }
 		/// <summary>
+		/// Indicates if the browser is able to use media inputs, e.g. webcam and microphone, in a script and as an input for forms, e.g. '&lt;input type="file" accept="image/*" id="capture"&gt;' would prompt image- capturing software to open.
+		/// </summary>
+		IAspectPropertyValue<bool> HtmlMediaCapture { get; }
+		/// <summary>
 		/// Indicates if the browser supports the new markup in HTML 5 that also refers to 'New Semantic Elements' such as <![CDATA[<header>, <nav>, <section>, <aside>,<footer>]]> etc.
 		/// </summary>
 		IAspectPropertyValue<bool> Html5 { get; }
@@ -468,10 +472,6 @@ namespace FiftyOne.DeviceDetection
 		/// Lists what video formats, if any, the browser supports using the HTLM5 <![CDATA[<video>]]> tag.
 		/// </summary>
 		IAspectPropertyValue<IReadOnlyList<string>> Html5Video { get; }
-		/// <summary>
-		/// Indicates if the browser is able to use media inputs, e.g. webcam and microphone, in a script and as an input for forms, e.g. '&lt;input type="file" accept="image/*" id="capture"&gt;' would prompt image- capturing software to open.
-		/// </summary>
-		IAspectPropertyValue<bool> HtmlMediaCapture { get; }
 		/// <summary>
 		/// Refers to the latest version of HyperText Markup Language (HTML) supported by the browser.
 		/// </summary>
@@ -588,14 +588,14 @@ namespace FiftyOne.DeviceDetection
 		/// Indicates if the browser supports JavaScript that is able to access HTML elements from their ID using the getElementById method.
 		/// </summary>
 		IAspectPropertyValue<bool> JavascriptGetElementById { get; }
-        /// <summary>
-        /// JavaScript that can get high entropy User-Agent Client Hints (UA-CH) values. This can be used instead of UA-CH HTTP headers.
-        /// </summary>
-        IAspectPropertyValue<JavaScript> JavascriptGetHighEntropyValues { get; }
-        /// <summary>
-        /// JavaScript that can override the profile found by the server using information on the client device. This property is applicable for Apple devices which do not provide information about the model in the User-Agent string.
-        /// </summary>
-        IAspectPropertyValue<JavaScript> JavascriptHardwareProfile { get; }
+		/// <summary>
+		/// Contains Javascript to get high entropy values.
+		/// </summary>
+		IAspectPropertyValue<JavaScript> JavascriptGetHighEntropyValues { get; }
+		/// <summary>
+		/// JavaScript that can override the profile found by the server using information on the client device. This property is applicable for Apple devices which do not provide information about the model in the User-Agent string.
+		/// </summary>
+		IAspectPropertyValue<JavaScript> JavascriptHardwareProfile { get; }
 		/// <summary>
 		/// Refers to the JavaScript snippet used to optimise images.
 		/// </summary>
@@ -813,7 +813,7 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<IReadOnlyList<string>> SatelliteNavigationTypes { get; }
 		/// <summary>
-		/// Indicates the diagonal size of the device's screen in inches. This property is not applicable for a device that does not have a screen.
+		/// Indicates the diagonal size of the device's screen in inches, to a maximum of two decimal points. Where screens have curved corners, the actual viewable area may be less.
 		/// </summary>
 		IAspectPropertyValue<double> ScreenInchesDiagonal { get; }
 		/// <summary>
