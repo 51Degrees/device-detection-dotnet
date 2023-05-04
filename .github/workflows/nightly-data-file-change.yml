@@ -14,5 +14,5 @@ jobs:
       repo-name: ${{ github.event.repository.name }}
     secrets: 
       token: ${{ secrets.ACCESS_TOKEN }}
-      device-detection-key: ${{ secrets.DEVICE_DETECTION }}
+      device-detection-key: ${{ secrets.DEVICE_DETECTION_KEY }}
       device-detection-url: ${{ secrets.DEVICE_DETECTION_URL }}
