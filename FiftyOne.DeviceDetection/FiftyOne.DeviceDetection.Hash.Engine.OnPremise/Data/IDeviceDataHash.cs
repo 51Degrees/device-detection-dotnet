@@ -28,6 +28,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
     /// <summary>
     /// Represents a data class that contains device data from an 
     /// on-premise device detection engine. 
+    /// See the <see href="https://github.com/51Degrees/specifications/blob/main/device-detection-specification/data-model.md">Specification</see>
     /// </summary>
     public interface IDeviceDataHash : IDeviceData
     {

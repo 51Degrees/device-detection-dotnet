@@ -37,6 +37,10 @@ using System.Linq;
 
 namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 {
+    /// <summary>
+    /// Device data class
+    /// See the <see href="https://github.com/51Degrees/specifications/blob/main/device-detection-specification/data-model.md">Specification</see>
+    /// </summary>
     internal class DeviceDataHash : DeviceDataBaseOnPremise<IResultsSwigWrapper>, IDeviceDataHash, IDisposable
     {
         private bool disposedValue;

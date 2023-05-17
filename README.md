@@ -9,6 +9,10 @@
 This repository contains the device detection engines for the .NET implementation of the Pipeline 
 API.
 
+The [specification](https://github.com/51Degrees/specifications/blob/main/device-detection-specification/README.md)
+is also available on GitHub and is recommended reading if you wish to understand
+the concepts and design of this API.
+
 ## Dependencies
 
 Visual Studio 2022 or later is recommended. Although Visual Studio Code can be used for working 

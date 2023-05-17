@@ -36,6 +36,7 @@ namespace FiftyOne.DeviceDetection.Cloud.Data
     /// <summary>
     /// A data class that is used to access details of cloud responses
     /// that contain multiple device data records.
+    /// See the <see href="https://github.com/51Degrees/specifications/blob/main/device-detection-specification/pipeline-elements/hardware-profile-lookup-cloud.md#element-data">Specification</see>
     /// </summary>
     public class MultiDeviceDataCloud : AspectDataBase, IMultiProfileData<IDeviceData>
     {

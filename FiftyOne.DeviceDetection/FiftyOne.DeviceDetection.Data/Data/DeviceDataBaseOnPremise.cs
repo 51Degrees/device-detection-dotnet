@@ -40,7 +40,8 @@ using System.Runtime.CompilerServices;
 namespace FiftyOne.DeviceDetection.Shared.Data
 {
     /// <summary>
-    /// Base class used for all 51Degrees on-premise results classes.
+    /// Base class used for all 51Degrees on-premise device data.
+    /// See the <see href="https://github.com/51Degrees/specifications/blob/main/device-detection-specification/data-model.md">Specification</see>
     /// </summary>
     public abstract class DeviceDataBaseOnPremise<TResult> : DeviceDataBase
         where TResult : IDisposable
