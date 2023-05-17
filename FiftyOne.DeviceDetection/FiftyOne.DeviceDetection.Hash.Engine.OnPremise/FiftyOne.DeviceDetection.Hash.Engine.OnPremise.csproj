@@ -8,6 +8,10 @@
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     
+
+    <BuiltOnCI>false</BuiltOnCI>
+
+
 	  <!-- NuGet package properties -->
 	  <PackageId>FiftyOne.DeviceDetection.Hash.Engine.OnPremise</PackageId>
 	  <Title>On-premise device detection service for the 51Degrees Pipeline API</Title>
@@ -75,10 +79,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="$(ProjectDir)\..\windows\$(Platform)\$(Configuration)\libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="'$(OS)' == 'Windows_NT'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="$(ProjectDir)\..\windows\$(Platform)\$(Configuration)\libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.pdb" Condition="'$(OS)' == 'Windows_NT'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.pdb">
+    <None Include="$(ProjectDir)\..\windows\$(Platform)\libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="'$(OS)' == 'Windows_NT'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="$(ProjectDir)\..\linux\$(Platform)\libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="'$(OS)' != 'Windows_NT'" Link="libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
@@ -108,22 +109,22 @@
       <PackagePath>build</PackagePath>
     </_PackageFiles>
     <!-- Copy the Windows x64 native DLL -->
-    <_PackageFiles Include="..\windows\x64\$(Configuration)\libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
+    <_PackageFiles Include="..\windows\x64\libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
       <BuildAction>None</BuildAction>
       <PackagePath>runtimes\win-x64\native</PackagePath>
     </_PackageFiles>
     <!-- Copy the Windows x86 native DLL -->
-    <_PackageFiles Include="..\windows\x86\$(Configuration)\libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
+    <_PackageFiles Include="..\windows\x86\libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
       <BuildAction>None</BuildAction>
       <PackagePath>runtimes\win-x86\native</PackagePath>
     </_PackageFiles>
     <!-- Copy the Linux x64 native DLL -->
-    <_PackageFiles Include="..\linux\x64\$(Configuration)\libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
+    <_PackageFiles Include="..\linux\x64\libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
       <BuildAction>None</BuildAction>
       <PackagePath>runtimes\linux-x64\native</PackagePath>
     </_PackageFiles>
     <!-- Copy the Linux x86 native DLL -->
-    <_PackageFiles Include="..\windows\x86\$(Configuration)\libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
+    <_PackageFiles Include="..\windows\x86\libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
       <BuildAction>None</BuildAction>
       <PackagePath>runtimes\linux-x86\native</PackagePath>
     </_PackageFiles>
@@ -142,7 +143,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="PowerShell $(ProjectDir)PreBuild.ps1 -BuildType $(Configuration) -Arch $(Platform)" />
+    <Exec Command="if $(BuiltOnCI) == false ( PowerShell $(ProjectDir)PreBuild.ps1 -BuildType $(Configuration) -Arch $(Platform) )" />
   </Target>
   
 </Project>

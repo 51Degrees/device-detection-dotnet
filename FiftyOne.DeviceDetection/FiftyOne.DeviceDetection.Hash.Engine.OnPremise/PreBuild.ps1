@@ -18,7 +18,7 @@ try {
 	
 	try {
 
-		rm -rf *
+		Remove-Item -Force -Recurse *
 		if ($($env:Os).Contains("Windows") -and $Arch -eq "x86") {
 
 			# Map x86 to Win32 is we're building on Windows
