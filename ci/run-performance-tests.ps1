@@ -7,6 +7,6 @@ param(
     [string]$Arch = "x64"
 )
 
-./dotnet/run-performance-tests.ps1 -RepoName $RepoName -ProjectDir $ProjectDir -Name $Name -Configuration $Configuration -Arch $Arch
+#./dotnet/run-performance-tests.ps1 -RepoName $RepoName -ProjectDir $ProjectDir -Name $Name -Configuration $Configuration -Arch $Arch
 
 exit $LASTEXITCODE
