@@ -40,6 +40,7 @@ namespace FiftyOne.DeviceDetection.Shared
 	/// This includes the hardware, operating system and browser as
 	/// well as crawler details if the request actually came from a 
 	/// bot or other automated system.
+  /// See the <see href="https://github.com/51Degrees/specifications/blob/main/device-detection-specification/data-model.md">Specification</see>
 	/// </summary>
 	public abstract class DeviceDataBase : AspectDataBase, IDeviceData
 	{

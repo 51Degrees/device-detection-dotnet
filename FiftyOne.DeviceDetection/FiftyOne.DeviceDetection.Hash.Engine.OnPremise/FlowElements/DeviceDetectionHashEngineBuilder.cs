@@ -43,6 +43,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
     /// <summary>
     /// Builder for the <see cref="DeviceDetectionHashEngine"/>. All options
     /// for the engine should be set here.
+    /// See the <see href="https://github.com/51Degrees/specifications/blob/main/device-detection-specification/pipeline-elements/device-detection-on-premise.md">Specification</see>
     /// </summary>
     public class DeviceDetectionHashEngineBuilder
        : OnPremiseDeviceDetectionEngineBuilderBase<DeviceDetectionHashEngineBuilder, DeviceDetectionHashEngine>

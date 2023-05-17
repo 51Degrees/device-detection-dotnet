@@ -30,6 +30,7 @@ namespace FiftyOne.DeviceDetection.Shared.FlowElements
     /// <summary>
     /// Interface for additional members that are unique to 
     /// on-premise device detection engines.
+    /// See the <see href="https://github.com/51Degrees/specifications/blob/main/device-detection-specification/pipeline-elements/device-detection-on-premise.md">Specification</see>
     /// </summary>
     public interface IOnPremiseDeviceDetectionEngine
     {

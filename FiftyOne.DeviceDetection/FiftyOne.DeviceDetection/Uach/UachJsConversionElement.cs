@@ -16,6 +16,7 @@ namespace FiftyOne.DeviceDetection.Uach
     /// <see href="https://developer.mozilla.org/en-US/docs/Web/API/NavigatorUAData/getHighEntropyValues">getHighEntropyValues</see>
     /// to the HTTP header formatted evidence values that can be consumed by the main
     /// 51Degrees device detection API.
+    /// See the <see href="https://github.com/51Degrees/specifications/blob/main/device-detection-specification/pipeline-elements/uach-high-entropy-decoder.md#element-data">Specification</see>
     /// </summary>
     public class UachJsConversionElement : 
         FlowElementBase<UachJsConversionData, IElementPropertyMetaData>, IFlowElement

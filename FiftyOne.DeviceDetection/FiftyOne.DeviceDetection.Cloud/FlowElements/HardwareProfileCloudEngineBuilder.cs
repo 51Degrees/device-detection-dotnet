@@ -39,6 +39,7 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
     /// Fluent builder used to create a cloud-based engine that can
     /// return multiple hardware profiles from a single request.
     /// For example, A single TAC code can match multiple hardware devices.
+    /// See the <see href="https://github.com/51Degrees/specifications/blob/main/device-detection-specification/pipeline-elements/hardware-profile-lookup-cloud.md">Specification</see>
     /// </summary>
     public class HardwareProfileCloudEngineBuilder: AspectEngineBuilderBase<HardwareProfileCloudEngineBuilder, HardwareProfileCloudEngine>
     {
