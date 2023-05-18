@@ -14,7 +14,15 @@ if (!$Configuration.Contains("Core")) {
     # Setup the MSBuild environment if it is required.
     ./environments/setup-msbuild.ps1
     ./environments/setup-vstest.ps1
-    $env:DEVICEDETECTIONDATAFILE = "$RepoPath\FiftyOne.DeviceDetection\device-detection-cxx\device-detection-data\TAC-HashV41.hash"
-    $env:SUPER_RESOURCE_KEY = $Keys.TestResourceKey
+
+    if ($IsLinux) {
+
+        # Install multilib, as this may be required.
+        sudo apt-get install -y gcc-multilib
+    
+    }
 
 }
+
+$env:DEVICEDETECTIONDATAFILE = "$RepoPath\FiftyOne.DeviceDetection\device-detection-cxx\device-detection-data\TAC-HashV41.hash"
+$env:SUPER_RESOURCE_KEY = $Keys.TestResourceKey
