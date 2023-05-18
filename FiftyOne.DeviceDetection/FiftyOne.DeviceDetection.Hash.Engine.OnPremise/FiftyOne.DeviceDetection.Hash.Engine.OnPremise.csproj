@@ -142,8 +142,8 @@
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="if $(BuiltOnCI) == false ( PowerShell $(ProjectDir)PreBuild.ps1 -BuildType $(Configuration) -Arch $(Platform) )" />
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="$(BuiltOnCI) == false">
+    <Exec Command="PowerShell $(ProjectDir)PreBuild.ps1 -BuildType $(Configuration) -Arch $(Platform)" />
   </Target>
   
 </Project>
