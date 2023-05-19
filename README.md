@@ -17,7 +17,7 @@ with most of the projects.
 The core device detection projects are written in C and C++.
 The Pipeline engines are written in C# and target .NET Standard 2.0.3.
 Example and test projects mostly target .NET 6.0 though in some cases, projects are available 
-targeting other frameworks.
+targeting other frameworks. 
 
 For runtime dependencies, see our [dependencies](https://51degrees.com/documentation/_info__dependencies.html) page.
 The [tested versions](https://51degrees.com/documentation/_info__tested_versions.html) page shows 
