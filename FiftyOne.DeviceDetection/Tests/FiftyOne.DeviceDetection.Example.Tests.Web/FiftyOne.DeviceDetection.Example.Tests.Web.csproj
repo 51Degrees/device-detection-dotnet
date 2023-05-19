@@ -5,7 +5,7 @@
 
     <IsPackable>false</IsPackable>
 
-    <Configurations>Debug;Release;LinuxDebug;LinuxRelease</Configurations>
+    <Configurations>Debug;Release;CoreDebug;CoreRelease</Configurations>
 
     <Platforms>AnyCPU;x64;x86</Platforms>
   </PropertyGroup>

@@ -6,7 +6,7 @@
     <AssemblyName>Examples.OnPremise.OfflineProcessing</AssemblyName>
     <RootNamespace>Examples.OnPremise.OfflineProcessing</RootNamespace>
     <Platforms>AnyCPU;x64;x86</Platforms>
-    <Configurations>Debug;Release;LinuxRelease</Configurations>
+    <Configurations>Debug;Release;CoreRelease</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

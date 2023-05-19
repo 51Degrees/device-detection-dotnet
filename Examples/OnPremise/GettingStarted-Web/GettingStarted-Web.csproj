@@ -5,7 +5,7 @@
     <AssemblyName>FiftyOne.DeviceDetection.Examples.OnPremise.GettingStartedWeb</AssemblyName>
     <RootNamespace>FiftyOne.DeviceDetection.Examples.OnPremise.GettingStartedWeb</RootNamespace>
     <Platforms>AnyCPU;x64;x86</Platforms>
-    <Configurations>Debug;Release;LinuxRelease;LinuxDebug</Configurations>
+    <Configurations>Debug;Release;CoreRelease;CoreDebug</Configurations>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 

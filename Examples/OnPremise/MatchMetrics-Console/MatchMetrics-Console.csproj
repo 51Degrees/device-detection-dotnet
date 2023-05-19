@@ -5,7 +5,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>FiftyOne.DeviceDetection.Examples.OnPremise.MatchMetrics</RootNamespace>
     <Platforms>AnyCPU;x64;x86</Platforms>
-    <Configurations>Debug;Release;LinuxRelease</Configurations>
+    <Configurations>Debug;Release;CoreRelease</Configurations>
     <AssemblyName>FiftyOne.DeviceDetection.Examples.OnPremise.MatchMetrics</AssemblyName>
   </PropertyGroup>
 
