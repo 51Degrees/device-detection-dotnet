@@ -116,7 +116,7 @@ namespace FiftyOne.DeviceDetection.Example.Tests
         {
             VerifyLicenseKeyAvailable();
             Examples.OnPremise.UpdateDataFile.Program.Initialize(
-                Constants.ENTERPRISE_HASH_DATA_FILE_NAME, LicenseKey, false);
+                Path.GetFileName(DataFile), LicenseKey, false);
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace FiftyOne.DeviceDetection.Example.Tests
         public void Example_OnPremise_MatchMetrics()
         {
             Examples.OnPremise.MatchMetrics.Program.Initialize(
-                Constants.ENTERPRISE_HASH_DATA_FILE_NAME, TextWriter.Null);
+                Path.GetFileName(DataFile), TextWriter.Null);
         }
 
         private void VerifyLicenseKeyAvailable()

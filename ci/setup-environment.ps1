@@ -25,3 +25,4 @@ if ($IsLinux) {
 
 $env:DEVICEDETECTIONDATAFILE = [IO.Path]::Combine($RepoPath, "FiftyOne.DeviceDetection", "device-detection-cxx", "device-detection-data", "TAC-HashV41.hash")
 $env:SUPER_RESOURCE_KEY = $Keys.TestResourceKey
+$env:DEVICEDETECTIONLICENSEKEY_DOTNET = $Keys.DeviceDetection

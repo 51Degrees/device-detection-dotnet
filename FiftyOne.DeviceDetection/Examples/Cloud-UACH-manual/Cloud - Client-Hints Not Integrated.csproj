@@ -5,14 +5,14 @@
     <Platforms>AnyCPU;x64;x86</Platforms>
     <RootNamespace>Cloud_Cloud_Client_Hints_Not_Integrated</RootNamespace>
     <AssemblyName>Cloud_Cloud_Client_Hints_Not_Integrated</AssemblyName>
-    <Configurations>Debug;Release;LinuxRelease;LinuxDebug</Configurations>
+    <Configurations>Debug;Release;CoreRelease;CoreDebug</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LinuxRelease|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CoreRelease|AnyCPU'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
@@ -20,7 +20,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LinuxDebug|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CoreDebug|AnyCPU'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
@@ -28,7 +28,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LinuxDebug|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CoreDebug|x64'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
@@ -36,7 +36,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LinuxDebug|x86'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CoreDebug|x86'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
@@ -44,7 +44,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LinuxRelease|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CoreRelease|x64'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
@@ -52,7 +52,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LinuxRelease|x86'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CoreRelease|x86'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
