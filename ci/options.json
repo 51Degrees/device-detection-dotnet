@@ -1,7 +1,7 @@
 [  
     {
-        "Image": "ubuntu-latest",
-        "Name": "Ubuntu_x64_Release",
+        "Image": "windows-latest",
+        "Name": "Windows_x64_Release",
         "Configuration": "Release",
         "Arch": "x64",
         "BuildMethod": "msbuild"
