@@ -5,7 +5,7 @@ param(
     [string]$Arch
 )
 
-./dotnet/build-package-requirement.ps1 -RepoName $RepoName -ProjectDir $ProjectDir -Name $Name -Configuration "Release" -Arch $Arch
+#./dotnet/build-package-requirement.ps1 -RepoName $RepoName -ProjectDir $ProjectDir -Name $Name -Configuration "Release" -Arch $Arch
 
 $RepoPath = [IO.Path]::Combine($pwd, $RepoName)
 
@@ -20,13 +20,13 @@ else {
     exit
 }
 
-$Files = Get-ChildItem -Path "$RepoPath/$ProjectDir/$Subfolder" -Include "*.dll", "*.so" -Recurse -File
+$NativeFilesFolder = [IO.Path]::Combine($RepoPath, $ProjectDir, $Subfolder) 
 
 $PackageFolder = "package-files"
 New-Item -Path $PackageFolder -ItemType Directory -Force
 
-foreach ($file in $Files) {
-    Copy-Item -Path $file -Destination "$PackageFolder/$($file.Name)"
-}
+
+Copy-Item -Path $NativeFilesFolder -Destination "$PackageFolder" -Recurse
+
 
 exit $LASTEXITCODE
