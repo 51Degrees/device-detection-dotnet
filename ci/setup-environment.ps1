@@ -17,7 +17,7 @@ if (!$Configuration.Contains("Core")) {
 }
 
 if ($IsLinux) {
-
+    sudo apt-get update
     # Install multilib, as this may be required.
     sudo apt-get install -y gcc-multilib g++-multilib
 
