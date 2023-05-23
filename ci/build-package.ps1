@@ -8,6 +8,9 @@ param(
     [string]$Version
 )
 
+# Path to this repository
+$BinaryFilesFolder = [IO.Path]::Combine($pwd, $RepoName , "FiftyOne.DeviceDetection")
+
 # Path to where the dll files are downloaded for all the platfoms
 $PackageFilesPath = [IO.Path]::Combine($pwd, "package-files")
 
@@ -15,7 +18,7 @@ $PackageFilesPath = [IO.Path]::Combine($pwd, "package-files")
 $Files = Get-ChildItem -Path $PackageFilesPath/* -Recurse -Include "linux", "windows" 
 foreach($file in $Files){
     Write-Output "Copying '$file' into '$PackageFilesPath'"
-    Copy-Item -Path $file -Destination $PackageFilesPath -Recurse -Force
+    Copy-Item -Path $file -Destination $BinaryFilesFolder -Recurse -Force
 }
 
 ls $PackageFilesPath 
