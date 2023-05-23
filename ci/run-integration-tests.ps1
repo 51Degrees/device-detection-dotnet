@@ -17,7 +17,7 @@ $ExamplesRepoPath = [IO.Path]::Combine($pwd, $ExamplesRepoName)
 
 try {
     Write-Output "Cloning '$ExamplesRepoName'"
-    # ./steps/clone-repo.ps1 -RepoName "device-detection-dotnet-examples" -OrgName $OrgName
+    ./steps/clone-repo.ps1 -RepoName "device-detection-dotnet-examples" -OrgName $OrgName
     
     Write-Output "Moving TAC file for examples"
     $TacFile = [IO.Path]::Combine($EvidenceFiles, "TAC-HashV41.hash") 
