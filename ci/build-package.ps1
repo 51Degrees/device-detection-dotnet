@@ -17,12 +17,11 @@ $PackageFilesPath = [IO.Path]::Combine($pwd, "package-files")
 # Copy files over from target to package-files folder
 $Files = Get-ChildItem -Path $PackageFilesPath/* -Recurse -Include "linux", "windows" 
 foreach($file in $Files){
-    Write-Output "Copying '$file' into '$PackageFilesPath'"
+    Write-Output "Copying '$file' into '$BinaryFilesFolder'"
     Copy-Item -Path $file -Destination $BinaryFilesFolder -Recurse -Force
 }
 
-ls $PackageFilesPath 
-
+ls $BinaryFilesFolder
 ./dotnet/build-package-nuget.ps1 -RepoName $RepoName -ProjectDir $ProjectDir -Name $Name -Configuration $Configuration -Arch $Arch -Version $Version -SolutionName "FiftyOne.DeviceDetection"
 
 exit $LASTEXITCODE
