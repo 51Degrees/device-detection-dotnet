@@ -26,7 +26,7 @@ $PackageFolder = "package-files"
 New-Item -Path $PackageFolder -ItemType Directory -Force
 
 
-Copy-Item -Path $NativeFilesFolder -Destination "$PackageFolder" -Recurse
+Copy-Item -Path "$NativeFilesFolder" -Destination "$PackageFolder" -Recurse -Force
 
 
 exit $LASTEXITCODE

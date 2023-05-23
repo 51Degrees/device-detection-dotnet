@@ -4,13 +4,31 @@
         "Name": "Windows_x64_Release",
         "Configuration": "Release",
         "Arch": "x64",
-        "BuildMethod": "msbuild"
+        "BuildMethod": "msbuild",
+        "PackageRequirement" : true
     },
     {
         "Image": "windows-latest",
         "Name": "Windows_x86_Release",
         "Configuration": "Release",
         "Arch": "x86",
-        "BuildMethod": "msbuild"
+        "BuildMethod": "msbuild",
+        "PackageRequirement" : true
+    },
+    {
+        "Image": "ubuntu-latest",
+        "Name": "Ubuntu_x64_Release",
+        "Configuration": "CoreRelease",
+        "Arch": "x64",
+        "BuildMethod": "dotnet",
+        "PackageRequirement" : true
+    },
+    {
+        "Image": "ubuntu-latest",
+        "Name": "ubuntu_x86_Release",
+        "Configuration": "CoreRelease",
+        "Arch": "x86",
+        "BuildMethod": "dotnet",
+        "PackageRequirement" : true
     }
 ]
