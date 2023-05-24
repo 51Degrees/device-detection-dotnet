@@ -20,7 +20,7 @@
         "Name": "Ubuntu_x64_Release",
         "Configuration": "CoreRelease",
         "Arch": "x64",
-        "BuildMethod": "dotnet",
+        "BuildMethod": "msbuild",
         "PackageRequirement" : true
     },
     {
@@ -28,7 +28,7 @@
         "Name": "ubuntu_x86_Release",
         "Configuration": "CoreRelease",
         "Arch": "x86",
-        "BuildMethod": "dotnet",
+        "BuildMethod": "msbuild",
         "PackageRequirement" : true
     }
 ]
