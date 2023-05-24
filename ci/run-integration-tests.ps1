@@ -40,7 +40,7 @@ try {
     Write-Output "Leaving '$ExamplesRepoPath'"
     Pop-Location
     
-    $LocalFeed = [IO.Path]::Combine($env:USERPROFILE, ".nuget", "packages")
+    $LocalFeed = [IO.Path]::Combine($Home, ".nuget", "packages")
     ls $LocalFeed
     
     Push-Location "package"
