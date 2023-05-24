@@ -79,15 +79,26 @@ message(STATUS "Done SWIG interfaces")
 add_library(fiftyone-hash-dotnet SHARED
     ${CMAKE_CURRENT_LIST_DIR}/DeviceDetectionHashEngineSwig_csharp.cpp)
 
-set_target_properties(fiftyone-hash-dotnet
-    PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${RES}/${OS}/${ARCH}"
-    LIBRARY_OUTPUT_DIRECTORY "${RES}/${OS}/${ARCH}"
-    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${RES}/${OS}/${ARCH}"
-    PREFIX "$<$<PLATFORM_ID:Linux>:lib>"
-    OUTPUT_NAME "FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native"
-    SUFFIX ".dll"
-)
+if(UNIX AND NOT APPLE)
+    set_target_properties(fiftyone-hash-dotnet
+        PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY "${RES}/${OS}/${ARCH}"
+        LIBRARY_OUTPUT_DIRECTORY "${RES}/${OS}/${ARCH}"
+        RUNTIME_OUTPUT_DIRECTORY_RELEASE "${RES}/${OS}/${ARCH}"
+        PREFIX "lib"
+        OUTPUT_NAME "FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native"
+        SUFFIX ".dll"
+    )
+else()
+    set_target_properties(fiftyone-hash-dotnet
+        PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY "${RES}/${OS}/${ARCH}"
+        LIBRARY_OUTPUT_DIRECTORY "${RES}/${OS}/${ARCH}"
+        RUNTIME_OUTPUT_DIRECTORY_RELEASE "${RES}/${OS}/${ARCH}"
+        OUTPUT_NAME "FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native"
+        SUFFIX ".dll"
+    )
+endif()
 
 
 target_link_libraries(fiftyone-hash-dotnet fiftyone-hash-cxx)
