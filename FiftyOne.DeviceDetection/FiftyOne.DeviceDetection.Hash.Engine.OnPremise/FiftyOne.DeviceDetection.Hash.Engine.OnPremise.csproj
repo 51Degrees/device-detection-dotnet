@@ -79,7 +79,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="$(ProjectDir)\..\windows\$(Platform)\libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="'$(OS)' == 'Windows_NT'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
+    <None Include="$(ProjectDir)\..\windows\$(Platform)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="'$(OS)' == 'Windows_NT'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="$(ProjectDir)\..\linux\$(Platform)\libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="'$(OS)' != 'Windows_NT'" Link="libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
@@ -109,12 +109,12 @@
       <PackagePath>build</PackagePath>
     </_PackageFiles>
     <!-- Copy the Windows x64 native DLL -->
-    <_PackageFiles Include="..\windows\x64\libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
+    <_PackageFiles Include="..\windows\x64\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
       <BuildAction>None</BuildAction>
       <PackagePath>runtimes\win-x64\native</PackagePath>
     </_PackageFiles>
     <!-- Copy the Windows x86 native DLL -->
-    <_PackageFiles Include="..\windows\x86\libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
+    <_PackageFiles Include="..\windows\x86\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
       <BuildAction>None</BuildAction>
       <PackagePath>runtimes\win-x86\native</PackagePath>
     </_PackageFiles>
