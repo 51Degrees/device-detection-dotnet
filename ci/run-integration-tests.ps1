@@ -39,8 +39,17 @@ try {
     # Change the dependency version to the locally build Nuget package
     Write-Output "Setting the version of the DeviceDetection package to '$Version'"
     dotnet add package "FiftyOne.DeviceDetection" --version $Version --source "$NugetPackageFolder"
+    
+    Write-Output "Nuget Sources"
+    dotnet nuget list source
      
     Write-Output "Leaving '$ExamplesProject'"
+    Pop-Location
+
+    Push-Location "package"
+    
+    dotnet nuget push "*.nupkg" -s LocalFeed
+
     Pop-Location
 
 
