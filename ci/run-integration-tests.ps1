@@ -38,7 +38,12 @@ try {
     
     # Change the dependency version to the locally build Nuget package
     Write-Output "Setting the version of the DeviceDetection package to '$Version'"
-    dotnet add package "FiftyOne.DeviceDetection" --version $Version --source "$NugetPackageFolder"
+        dotnet add package "FiftyOne.DeviceDetection" --version $Version --source "$NugetPackageFolder" --no-restore
+
+    $LocalFeed = [IO.Path]::Combine($env:USERPROFILE, ".nuget", "packages")
+    ls $LocalFeed
+    
+    dotnet nuget add source "$LocalFeed" --name "LocalFeed"
     
     Write-Output "Nuget Sources"
     dotnet nuget list source
