@@ -15,7 +15,7 @@ $EvidenceFiles = [IO.Path]::Combine($pwd, $RepoName,"FiftyOne.DeviceDetection", 
 $ExamplesRepoName = "device-detection-dotnet-examples"
 $ExamplesRepoPath = [IO.Path]::Combine($pwd, $ExamplesRepoName)
 
-Write-Output: "OrgName: '$OrgName'"
+Write-Output "OrgName: '$OrgName'"
 try {
     Write-Output "Cloning '$ExamplesRepoName'"
     ./steps/clone-repo.ps1 -RepoName $ExamplesRepoName -OrgName "51Degrees"
