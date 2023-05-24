@@ -32,10 +32,13 @@ try {
     Copy-Item $UAFile "device-detection-dotnet-examples/device-detection-data/20000 User Agents.csv"
     Copy-Item $EvidenceFile "device-detection-dotnet-examples/device-detection-data/20000 Evidence Records.yml"
 
+    $ExamplesProject = [IO.Path]::Combine($ExamplesRepoPath, "Examples", "ExampleBase")
+    Push-Location $ExamplesProject
+    
+    nuget restore
 
-
-    Write-Output "Building project with following configuration '$Configuration|$Arch|$BuildMethod'"
-    .\device-detection-dotnet-examples\ci\build-project.ps1 -RepoName $ExamplesRepoName -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod
+    Write-Output "Leaving '$ExamplesProject'"
+    Pop-Location
     
     $LocalFeed = [IO.Path]::Combine($env:USERPROFILE, ".nuget", "packages")
     ls $LocalFeed
@@ -47,7 +50,6 @@ try {
     Pop-Location
 
     Write-Output "Entering '$ExamplesProject'"
-    $ExamplesProject = [IO.Path]::Combine($ExamplesRepoPath, "Examples", "ExampleBase")
     Push-Location $ExamplesProject
     
     # Change the dependency version to the locally build Nuget package
