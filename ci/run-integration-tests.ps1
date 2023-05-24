@@ -33,11 +33,11 @@ try {
     Copy-Item $EvidenceFile "device-detection-dotnet-examples/device-detection-data/20000 Evidence Records.yml"
 
     $ExamplesProject = [IO.Path]::Combine($ExamplesRepoPath, "Examples", "ExampleBase")
-    Push-Location $ExamplesProject
+    Push-Location $ExamplesRepoPath
     
     nuget restore
 
-    Write-Output "Leaving '$ExamplesProject'"
+    Write-Output "Leaving '$ExamplesRepoPath'"
     Pop-Location
     
     $LocalFeed = [IO.Path]::Combine($env:USERPROFILE, ".nuget", "packages")
