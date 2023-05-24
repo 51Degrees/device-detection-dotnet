@@ -37,18 +37,28 @@ try {
     Write-Output "Building project with following configuration '$Configuration|$Arch|$BuildMethod'"
     .\device-detection-dotnet-examples\ci\build-project.ps1 -RepoName $ExamplesRepoName -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod
     
+    $LocalFeed = [IO.Path]::Combine($env:USERPROFILE, ".nuget", "packages")
+    ls $LocalFeed
+    
+    Push-Location "package"
+
+    dotnet nuget push "*.nupkg" -s "$LocalFeed"
+
+    Pop-Location
+
     Write-Output "Entering '$ExamplesProject'"
     $ExamplesProject = [IO.Path]::Combine($ExamplesRepoPath, "Examples", "ExampleBase")
     Push-Location $ExamplesProject
     
     # Change the dependency version to the locally build Nuget package
     Write-Output "Setting the version of the DeviceDetection package to '$Version'"
-    dotnet add package "FiftyOne.DeviceDetection" --version $Version --source "$NugetPackageFolder" --no-restore
+    dotnet add package "FiftyOne.DeviceDetection" --version $Version --source "$LocalFeed" 
 
-     
     Write-Output "Leaving '$ExamplesProject'"
     Pop-Location
-
+    
+    Write-Output "Rebuilding project with following configuration '$Configuration|$Arch|$BuildMethod'"
+    .\device-detection-dotnet-examples\ci\build-project.ps1 -RepoName $ExamplesRepoName -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod
     Write-Output "Testing Examples Project"
     .\device-detection-dotnet-examples\ci\run-unit-tests.ps1 -RepoName $ExamplesRepoName -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod
     
