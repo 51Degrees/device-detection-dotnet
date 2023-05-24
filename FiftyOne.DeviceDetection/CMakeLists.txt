@@ -84,10 +84,11 @@ set_target_properties(fiftyone-hash-dotnet
     RUNTIME_OUTPUT_DIRECTORY "${RES}/${OS}/${ARCH}"
     LIBRARY_OUTPUT_DIRECTORY "${RES}/${OS}/${ARCH}"
     RUNTIME_OUTPUT_DIRECTORY_RELEASE "${RES}/${OS}/${ARCH}"
-    PREFIX "lib"
+    PREFIX "$<$<PLATFORM_ID:Linux>:lib>"
     OUTPUT_NAME "FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native"
     SUFFIX ".dll"
 )
+
 
 target_link_libraries(fiftyone-hash-dotnet fiftyone-hash-cxx)
 if (NOT MSVC)
