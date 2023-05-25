@@ -5,7 +5,8 @@
         "Configuration": "Release",
         "Arch": "x64",
         "BuildMethod": "msbuild",
-        "PackageRequirement" : true
+        "PackageRequirement" : true,
+        "RunPerformance": true
     },
     {
         "Image": "windows-latest",
@@ -13,7 +14,8 @@
         "Configuration": "Release",
         "Arch": "x86",
         "BuildMethod": "msbuild",
-        "PackageRequirement" : true
+        "PackageRequirement" : true,
+        "RunPerformance": true
     },
     {
         "Image": "ubuntu-latest",
@@ -21,6 +23,7 @@
         "Configuration": "CoreRelease",
         "Arch": "x64",
         "BuildMethod": "dotnet",
-        "PackageRequirement" : true
+        "PackageRequirement" : true,
+        "RunPerformance": true
     }
 ]
