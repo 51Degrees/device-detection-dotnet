@@ -60,16 +60,14 @@ try {
     Pop-Location
     
     Write-Output "Rebuilding project with following configuration '$Configuration|$Arch|$BuildMethod'"
-    .\device-detection-dotnet-examples\ci\build-project.ps1 -RepoName $ExamplesRepoName -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod
+    ./device-detection-dotnet-examples/ci/build-project.ps1 -RepoName $ExamplesRepoName -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod
     Write-Output "Testing Examples Project"
-    .\device-detection-dotnet-examples\ci\run-unit-tests.ps1 -RepoName $ExamplesRepoName -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod
+    ./dotnet/run-unit-tests.ps1 -RepoName $ExamplesRepoName -ProjectDir $ProjectDir -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod -Filter ".*Tests(|\.Web)\.dll" -OutputFolder "integration"
     
 }
 
 finally {
 
-    # Write-Output "Leaving '$ExamplesRepoName'"
-    # Pop-Location
 
 }
 

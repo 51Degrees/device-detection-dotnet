@@ -22,13 +22,5 @@
         "Arch": "x64",
         "BuildMethod": "dotnet",
         "PackageRequirement" : true
-    },
-    {
-        "Image": "ubuntu-latest",
-        "Name": "ubuntu_x86_Release",
-        "Configuration": "CoreRelease",
-        "Arch": "x86",
-        "BuildMethod": "dotnet",
-        "PackageRequirement" : true
     }
 ]
