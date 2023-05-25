@@ -36,6 +36,11 @@ finally {
 
 }
 
+if($IsLinux){
+    #install APR library for linux
+    sudo apt-get install apache2-dev libapr1-dev libaprutil1-dev
+}
+
 Write-Output "Entering '$PerfPath'"
 Push-Location $PerfPath
 
@@ -52,7 +57,12 @@ try {
         # When running the performance tests, set the data file name manually,
         # then unset once we're done
         Write-Output "Running performance test"
-        ./runPerf.ps1 -c "Release"
+        if($IsWindows){
+            ./runPerf.ps1 -c "Release"
+        }
+        else{
+            ./runPerf.sh -c "Release"
+        }
 
 
         Get-ChildItem -Path $PerfPath -Filter "summary.json" -File -Recurse | ForEach-Object {
