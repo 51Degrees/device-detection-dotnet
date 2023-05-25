@@ -5,7 +5,7 @@ param(
     [string]$Arch
 )
 
-#./dotnet/build-package-requirement.ps1 -RepoName $RepoName -ProjectDir $ProjectDir -Name $Name -Configuration "Release" -Arch $Arch
+./dotnet/build-package-requirement.ps1 -RepoName $RepoName -ProjectDir $ProjectDir -Name $Name -Configuration "Release" -Arch $Arch
 
 $RepoPath = [IO.Path]::Combine($pwd, $RepoName)
 
