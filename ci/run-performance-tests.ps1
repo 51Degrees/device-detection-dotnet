@@ -36,6 +36,11 @@ finally {
 
 }
 
+if($IsLinux){
+    #install APR library for linux
+    sudo apt-get install apache2-dev libapr1-dev libaprutil1-dev
+}
+
 Write-Output "Entering '$PerfPath'"
 Push-Location $PerfPath
 
