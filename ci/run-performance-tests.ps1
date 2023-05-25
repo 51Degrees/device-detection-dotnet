@@ -61,7 +61,8 @@ try {
             ./runPerf.ps1 -c "Release"
         }
         else{
-            ./runPerf.sh -c "Release"
+            Write-Output "test"
+            ./runPerf.sh 
         }
 
 
