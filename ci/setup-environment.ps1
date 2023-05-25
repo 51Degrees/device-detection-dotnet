@@ -30,3 +30,11 @@ $env:ACCEPTCH_BROWSER_KEY = $Keys.AcceptCHBrowserKey
 $env:ACCEPTCH_HARDWARE_KEY = $Keys.AcceptCHHardwareKey
 $env:ACCEPTCH_PLATFORM_KEY = $Keys.AcceptCHPlatformKey
 $env:ACCEPTCH_NONE_KEY = $Keys.AcceptCHNoneKey
+
+Write-Output $env:DEVICEDETECTIONDATAFILE
+Write-Output $env:SUPER_RESOURCE_KEY 
+Write-Output $env:DEVICEDETECTIONLICENSEKEY_DOTNET 
+Write-Output $env:ACCEPTCH_BROWSER_KEY 
+Write-Output $env:ACCEPTCH_HARDWARE_KEY 
+Write-Output $env:ACCEPTCH_PLATFORM_KEY 
+Write-Output $env:ACCEPTCH_NONE_KEY 
