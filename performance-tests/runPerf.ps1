@@ -31,7 +31,7 @@ Write-Output "pwd: $pwd"
 
 # Constants
 $PASSES=20000
-$DLLPATH="$scriptRoot/../"
+$DLLPATH="$pwd/../"
 $DLL="bin/$p/$c/net6.0/performance_tests.dll"
 $SERVICEHOST="localhost:5000"
 $CAL="calibrate"
