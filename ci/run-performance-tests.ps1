@@ -57,7 +57,13 @@ try {
         # When running the performance tests, set the data file name manually,
         # then unset once we're done
         Write-Output "Running performance test"
-        ./runPerf.ps1 -c "Release"
+
+        if($IsLinux){
+            ./runPerf.sh -c $Configuration
+        }
+        else{
+            ./runPerf.ps1 -c $Configuration
+        }
 
 
         Get-ChildItem -Path $PerfPath -Filter "summary.json" -File -Recurse | ForEach-Object {
