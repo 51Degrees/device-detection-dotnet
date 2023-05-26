@@ -57,12 +57,12 @@ try {
         # When running the performance tests, set the data file name manually,
         # then unset once we're done
         Write-Output "Running performance test"
-        if($IsWindows){
-            ./runPerf.ps1 -c "Release"
+
+        if($IsLinux){
+            ./runPerf.sh -c $Configuration
         }
         else{
-            Write-Output "test"
-            ./runPerf.sh 
+            ./runPerf.ps1 -c $Configuration
         }
 
 
