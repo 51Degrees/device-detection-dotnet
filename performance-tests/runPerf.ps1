@@ -26,6 +26,9 @@ Write-Host "DotNet                = $d"
 
 $scriptRoot = Split-Path -Parent -Path $MyInvocation.MyCommand.Definition
 
+Write-Output "ScriptRoot: $scriptRoot"
+Write-Output "pwd: $pwd"
+
 # Constants
 $PASSES=20000
 $DLLPATH="$scriptRoot/../"
