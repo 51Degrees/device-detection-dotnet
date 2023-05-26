@@ -36,6 +36,8 @@ finally {
 
 }
 
+./dotnet/build-project-core.ps1 -RepoName $RepoName -ProjectDir "$PerfPath" -Name $Name -Configuration $Configuration.Replace("Core","") -Arch $Arch
+
 if($IsLinux){
     #install APR library for linux
     sudo apt-get install apache2-dev libapr1-dev libaprutil1-dev
