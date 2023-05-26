@@ -61,7 +61,7 @@ try {
         Write-Output "Running performance test"
 
         if($IsLinux){
-            ./runPerf.sh -c $Configuration.Replace("Core","")
+            sh ./runPerf.sh -c $Configuration.Replace("Core","")
         }
         else{
             ./runPerf.ps1 -c $Configuration.Replace("Core","")
