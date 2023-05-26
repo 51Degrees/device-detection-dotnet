@@ -59,7 +59,7 @@ try {
         Write-Output "Running performance test"
 
         if($IsLinux){
-            ./runPerf.sh -c $Configuration
+            sh ./runPerf.sh -c $Configuration
         }
         else{
             ./runPerf.ps1 -c $Configuration
