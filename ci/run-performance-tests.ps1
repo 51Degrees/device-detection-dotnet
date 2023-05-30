@@ -74,6 +74,17 @@ try {
             Copy-Item -Path $_.FullName -Destination $destinationPath -Force -ErrorAction SilentlyContinue
             Write-Host "Copied $($_.Name) to $destinationPath"
         }
+	
+	$file = Get-ChildItem -Filter "service*.out" -File -Recurse
+        $fileContent = Get-Content $file
+
+        Write-Output "service.out: $fileContent"
+
+        $file = Get-ChildItem -Filter "service*.error.out" -File -Recurse
+        $fileContent = Get-Content $file
+
+        Write-Output "service.error.out: $fileContent"
+        
 
         # Write out the results for comparison
         Write-Output "Writing performance test results"
