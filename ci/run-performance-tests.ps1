@@ -64,7 +64,7 @@ try {
             bash ./runPerf.sh $Arch $Configuration.Replace("Core","")
         }
         else{
-            ./runPerf.ps1 -c $Configuration.Replace("Core","")
+            ./runPerf.ps1 -c $Configuration.Replace("Core","") -p $Arch
         }
         
         $file = Get-ChildItem -Filter "service*.out" -File -Recurse
