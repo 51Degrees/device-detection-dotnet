@@ -75,13 +75,10 @@ try {
             Write-Host "Copied $($_.Name) to $destinationPath"
         }
 	
-	$file = Get-ChildItem -Filter "service*.out" -File -Recurse
-        $fileContent = Get-Content $file
-
-        Write-Output "service.out: $fileContent"
-
-        $file = Get-ChildItem -Filter "service*.error.out" -File -Recurse
-        $fileContent = Get-Content $file
+	$file = Get-ChildItem -Filter "*.out" -File -Recurse
+	foreach($f in $file){
+		Get-Content $f
+	}
 
         Write-Output "service.error.out: $fileContent"
         
