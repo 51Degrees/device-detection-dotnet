@@ -8,4 +8,5 @@ CAL=calibrate
 PRO=process
 PERF=./ApacheBench-prefix/src/ApacheBench-build/bin/runPerf.sh
 
-$PERF -n $PASSES -s "dotnet run --project $PROJECT" -c $CAL -p $PRO -h $HOST
+$PERF -n $PASSES -s "dotnet run --project $PROJECT -a $1 -c $2 --no-build"  -c $CAL -p $PRO -h $HOST
+
