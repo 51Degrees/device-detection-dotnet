@@ -36,6 +36,8 @@ finally {
 
 }
 
+./dotnet/build-project-core.ps1 -RepoName $RepoName -ProjectDir "$PerfPath" -Name $Name -Configuration $Configuration.Replace("Core","") -Arch $Arch
+
 if($IsLinux){
     #install APR library for linux
     sudo apt-get install apache2-dev libapr1-dev libaprutil1-dev
@@ -59,11 +61,21 @@ try {
         Write-Output "Running performance test"
 
         if($IsLinux){
-            sh ./runPerf.sh -c $Configuration
+            bash ./runPerf.sh $Arch $Configuration.Replace("Core","")
         }
         else{
-            ./runPerf.ps1 -c $Configuration
+            ./runPerf.ps1 -c $Configuration.Replace("Core","") -p $Arch
         }
+        
+        $file = Get-ChildItem -Filter "service*.out" -File -Recurse
+        $fileContent = Get-Content $file
+
+        Write-Output "service.out: $fileContent"
+
+        $file = Get-ChildItem -Filter "service*.error.out" -File -Recurse
+        $fileContent = Get-Content $file
+
+        Write-Output "service.error.out: $fileContent"
 
 
         Get-ChildItem -Path $PerfPath -Filter "summary.json" -File -Recurse | ForEach-Object {
