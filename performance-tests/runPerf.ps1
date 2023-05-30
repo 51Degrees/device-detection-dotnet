@@ -38,4 +38,4 @@ $CAL="calibrate"
 $PRO="process"
 $PERF="$scriptRoot/ApacheBench-prefix/src/ApacheBench-build/bin/runPerf.ps1"
 
-Invoke-Expression "$PERF -n $PASSES -s 'Set-Location $DLLPATH; $d $DLL' -c $CAL -p $PRO -h $SERVICEHOST"
+Invoke-Expression "$PERF -n $PASSES -s '$DLLPATH/output/performance_tests.exe' -c $CAL -p $PRO -h $SERVICEHOST"
