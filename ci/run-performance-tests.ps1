@@ -67,13 +67,12 @@ try {
             ./runPerf.ps1 -c $Configuration.Replace("Core","")
         }
         
-        
-        $file = Get-ChildItem -Filter "service.out" -File -Recurse
+        $file = Get-ChildItem -Filter "service*.out" -File -Recurse
         $fileContent = Get-Content $file
 
         Write-Output "service.out: $fileContent"
 
-        $file = Get-ChildItem -Filter "service.error.out" -File -Recurse
+        $file = Get-ChildItem -Filter "service*.error.out" -File -Recurse
         $fileContent = Get-Content $file
 
         Write-Output "service.error.out: $fileContent"
