@@ -61,7 +61,9 @@ try {
         Write-Output "Running performance test"
 
         if($IsLinux){
-            bash ./runPerf.sh $Arch $Configuration.Replace("Core","")
+            $dotnetPath = whereis dotnet
+            Write-Output $dotnetPath
+            bash ./runPerf.sh $Arch $Configuration.Replace("Core","") $dotnetPath.Split(" ")[1]
         }
         else{
             ./runPerf.ps1 -c $Configuration.Replace("Core","") -p $Arch
