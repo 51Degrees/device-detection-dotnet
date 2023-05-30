@@ -80,9 +80,6 @@ try {
 		Get-Content $f
 	}
 
-        Write-Output "service.error.out: $fileContent"
-        
-
         # Write out the results for comparison
         Write-Output "Writing performance test results"
         $Results = Get-Content ./summary.json | ConvertFrom-Json
@@ -97,6 +94,10 @@ try {
 
     }
     finally {
+	$file = Get-ChildItem -Filter "*.out" -File -Recurse
+	foreach($f in $file){
+		Get-Content $f
+	}
 
         Write-Output "Leaving build"
         Pop-Location
