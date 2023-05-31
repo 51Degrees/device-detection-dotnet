@@ -26,16 +26,13 @@ Write-Host "DotNet                = $d"
 
 $scriptRoot = Split-Path -Parent -Path $MyInvocation.MyCommand.Definition
 
-Write-Output "ScriptRoot: $scriptRoot"
-Write-Output "pwd: $pwd"
-
 # Constants
 $PASSES=20000
-$DLLPATH="$pwd/../"
+$DLLPATH="$scriptRoot/../"
 $DLL="bin/$p/$c/net6.0/performance_tests.dll"
 $SERVICEHOST="localhost:5000"
 $CAL="calibrate"
 $PRO="process"
 $PERF="$scriptRoot/ApacheBench-prefix/src/ApacheBench-build/bin/runPerf.ps1"
 
-Invoke-Expression "$PERF -n $PASSES -s '$DLLPATH/output/performance_tests.exe' -c $CAL -p $PRO -h $SERVICEHOST"
+Invoke-Expression "$PERF -n $PASSES -s 'Set-Location $DLLPATH; $d $DLL' -c $CAL -p $PRO -h $SERVICEHOST"
