@@ -36,7 +36,7 @@ finally {
 
 }
 
-./dotnet/build-project-core.ps1 -RepoName $RepoName -ProjectDir "$PerfPath" -Name $Name -Configuration $Configuration.Replace("Core","") -Arch $Arch
+dotnet publish "$PerfPath" -c $Configuration.Replace("Core","") /p:Platform=$Arch -o "$PerfPath/output" /p:BuiltOnCI=true
 
 if($IsLinux){
     #install APR library for linux
@@ -61,28 +61,24 @@ try {
         Write-Output "Running performance test"
 
         if($IsLinux){
-            bash ./runPerf.sh $Arch $Configuration.Replace("Core","")
+            $dotnetPath = whereis dotnet
+            Write-Output $dotnetPath
+            bash ./runPerf.sh $Arch $Configuration.Replace("Core","") $dotnetPath.Split(" ")[1]
         }
         else{
             ./runPerf.ps1 -c $Configuration.Replace("Core","") -p $Arch
         }
-        
-        $file = Get-ChildItem -Filter "service*.out" -File -Recurse
-        $fileContent = Get-Content $file
-
-        Write-Output "service.out: $fileContent"
-
-        $file = Get-ChildItem -Filter "service*.error.out" -File -Recurse
-        $fileContent = Get-Content $file
-
-        Write-Output "service.error.out: $fileContent"
-
-
+		
         Get-ChildItem -Path $PerfPath -Filter "summary.json" -File -Recurse | ForEach-Object {
             $destinationPath = Join-Path -Path $PerfPath/build -ChildPath $_.Name
-            Copy-Item -Path $_.FullName -Destination $destinationPath -Force
+            Copy-Item -Path $_.FullName -Destination $destinationPath -Force -ErrorAction SilentlyContinue
             Write-Host "Copied $($_.Name) to $destinationPath"
         }
+	
+	$file = Get-ChildItem -Filter "*.out" -File -Recurse
+	foreach($f in $file){
+		Get-Content $f
+	}
 
         # Write out the results for comparison
         Write-Output "Writing performance test results"
@@ -98,7 +94,6 @@ try {
 
     }
     finally {
-
         Write-Output "Leaving build"
         Pop-Location
 

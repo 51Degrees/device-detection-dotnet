@@ -5,7 +5,8 @@ param(
     [string]$Configuration = "CoreRelease",
     [string]$Arch = "x64",
     [Parameter(Mandatory=$true)]
-    [string]$Version
+    [string]$Version,
+    [string]$Keys
 )
 
 # Path to this repository
@@ -22,6 +23,6 @@ foreach($file in $Files){
 }
 
 ls $BinaryFilesFolder
-./dotnet/build-package-nuget.ps1 -RepoName $RepoName -ProjectDir $ProjectDir -Name $Name -Configuration $Configuration -Arch $Arch -Version $Version -SolutionName "FiftyOne.DeviceDetection"
+./dotnet/build-package-nuget.ps1 -RepoName $RepoName -ProjectDir $ProjectDir -Name $Name -Configuration $Configuration -Arch $Arch -Version $Version -SolutionName "FiftyOne.DeviceDetection" -CodeSigningCert $Keys['CodeSigningCert'] -CodeSigningCertPassword $Keys['CodeSigningCertPassword'] 
 
 exit $LASTEXITCODE
