@@ -29,7 +29,7 @@ $scriptRoot = Split-Path -Parent -Path $MyInvocation.MyCommand.Definition
 # Constants
 $PASSES=20000
 $DLLPATH="$scriptRoot/../"
-$DLL="bin/$p/$c/net6.0/performance_tests.dll"
+$DLL="output/performance_tests.dll"
 $SERVICEHOST="localhost:5000"
 $CAL="calibrate"
 $PRO="process"
