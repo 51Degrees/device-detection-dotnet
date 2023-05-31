@@ -98,34 +98,7 @@ Visual studio should now be able to build the native binaries as part of it's no
 
 ## Examples
 
-The tables below describe the examples available in this repository.
-
-### Cloud
-
-| Example                                | Description |
-|----------------------------------------|-------------|
-| GettingStarted-Console                 | How to use the 51Degrees Cloud service to determine details about a device based on its User-Agent and User-Agent Client Hints HTTP header values. |
-| GettingStarted-Web                     | How to use the 51Degrees Cloud service to determine details about a device as part of a simple ASP.NET website. |
-| Metadata                               | How to access the meta-data that relates to things like the properties populated device detection |
-| TacLookup                              | How to get device details from a TAC (Type Allocation Code) using the 51Degrees cloud service. |
-| NativeModelLookup                      | How to get device details from a native model name using the 51Degrees cloud service. |
-| GetAllProperties                       | How to iterate through all properties available in the cloud response. |
-| ClientHints NetCore 3.1                | Legacy example. Retained for the associated automated tests. See GettingStarted-Web instead. |
-| ClientHints Not Integrated NetCore 3.1 | Legacy example. Our ASP.NET integration will automatically set the `Accept-CH` header that is used to request User-Agent Client Hints headers.This example demonstrates how to do this without using the integration component. |
-
-### On-Premise
-
-| Example                                | Description |
-|----------------------------------------|-------------|
-| GettingStarted-Console                 | How to use the 51Degrees on-premise device detection API to determine details about a device based on its User-Agent and User-Agent Client Hints HTTP header values. |
-| GettingStarted-Web                     | How to use the 51Degrees Cloud service to determine details about a device as part of a simple ASP.NET website. |
-| Metadata                               | How to access the meta-data that relates to things like the properties populated device detection |
-| offline_processing                     | Example showing how to ingest a file containing data from web requests and perform detection against the entries. |
-| Performance                            | How to configure the various performance options and run a simple performance test. |
-| UpdateOnStartup                        | How to configure the Pipeline to automatically update the device detection data file on startup. |
-| UpdatePollingInterval                  | Ho to configure and verify the various automatic data file update settings. |
-| ClientHints NetCore 3.1                | Legacy example. Retained for the associated automated tests. See GettingStarted-Web instead. |
-| ClientHints Not Integrated NetCore 3.1 | Legacy example. Our ASP.NET integration will automatically set the `Accept-CH` header that is used to request User-Agent Client Hints headers. This example demonstrates how to do this without using the integration component. |
+Examples can be found in [device-detection-dotnet-examples](https://github.com/51Degrees/device-detection-dotnet-examples) repository
 
 ## Tests
 
