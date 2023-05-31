@@ -5,11 +5,12 @@ param(
     [string]$Name = "Release_x64",
     [string]$Arch = "x64",
     [string]$Configuration = "Release",
+    [string]$BuildMethod,
     [hashtable]$Keys
 )
 $RepoPath = [IO.Path]::Combine($pwd, $RepoName)
 
-if (!$Configuration.Contains("Core")) {
+if ($BuildMethod -ne "dotnet") {
 
     # Setup the MSBuild environment if it is required.
     ./environments/setup-msbuild.ps1
