@@ -94,11 +94,6 @@ try {
 
     }
     finally {
-	$file = Get-ChildItem -Filter "*.out" -File -Recurse
-	foreach($f in $file){
-		Get-Content $f
-	}
-
         Write-Output "Leaving build"
         Pop-Location
 
