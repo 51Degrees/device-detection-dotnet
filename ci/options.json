@@ -48,7 +48,7 @@
         "Arch": "x86",
         "BuildMethod": "dotnet",
         "PackageRequirement" : true
-    }
+    },
     {
         "Image": "ubuntu-latest",
         "Name": "Ubuntu_x64_Debug",
