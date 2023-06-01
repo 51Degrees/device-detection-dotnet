@@ -1,6 +1,10 @@
 # API Specific CI/CD Approach
 This API complies with the `common-ci` approach with the following exceptions:
 
+## Linux PreBuild
+
+Because x86 architecture is not supported with dotnet on ubuntu, we are building the native binaries in the same job as the x64 binaries. 
+
 ## Integration Tests
 
 The integration testing approach differs from the 'general' inversion of control approach outlined in the [Design.md](https://github.com/51Degrees/common-ci/blob/gh-refact/design.md) as the it cannot be generic. 
@@ -20,7 +24,7 @@ graph TD
     F --> G[Install the package to local feed]
     G --> H[Set package dependency version]
     H --> I[Build and Test Examples]
-    J --> K[Leave RepoPath]
+    I --> J[Leave RepoPath]
 ```
 
 It performs the following steps:
