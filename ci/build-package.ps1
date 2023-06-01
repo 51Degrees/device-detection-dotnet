@@ -6,6 +6,7 @@ param(
     [string]$Arch = "x64",
     [Parameter(Mandatory=$true)]
     [string]$Version,
+    [Parameter(Mandatory=$true)]
     [Hashtable]$Keys
 )
 
@@ -23,6 +24,6 @@ foreach($file in $Files){
 }
 
 ls $BinaryFilesFolder
-./dotnet/build-package-nuget.ps1 -RepoName $RepoName -ProjectDir $ProjectDir -Name $Name -Configuration $Configuration -Arch $Arch -Version $Version -SolutionName "FiftyOne.DeviceDetection" -CodeSigningCert $Keys['CodeSigningCert'] -CodeSigningCertPassword $Keys['CodeSigningCertPassword'] 
+./dotnet/build-package-nuget.ps1 -RepoName $RepoName -ProjectDir $ProjectDir -Name $Name -Configuration $Configuration -Arch $Arch -Version $Version -SolutionName "FiftyOne.DeviceDetection.sln" -CodeSigningCert $Keys['CodeSigningCert'] -CodeSigningCertPassword $Keys['CodeSigningCertPassword'] 
 
 exit $LASTEXITCODE
