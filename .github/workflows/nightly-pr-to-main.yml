@@ -2,9 +2,9 @@ name: Nigthly PR to Main
 
 on:
   workflow_dispatch:
-#   schedule:
-#     # * is a special character in YAML so quote this string
-#     - cron:  '0 1 * * *'
+  schedule:
+    # * is a special character in YAML so quote this string
+    - cron:  '0 1 * * *'
 
 jobs:
   # Run the common workflow on each pull request
