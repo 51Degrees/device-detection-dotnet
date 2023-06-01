@@ -10,6 +10,7 @@ if($IsLinux){
     $Archs = @("x86", "x64")
     foreach($a in $Archs){
         ./dotnet/build-package-requirement.ps1 -RepoName $RepoName -ProjectDir $ProjectDir -Name $Name -Configuration "Release" -Arch $a
+        Remove-Item -LiteralPath "$RepoPath/$ProjectDir/build" -Force -Recurse -ErrorAction SilentlyContinue
     }
 }
 else{
