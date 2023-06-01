@@ -6,7 +6,7 @@ param(
     [string]$Arch = "x64",
     [Parameter(Mandatory=$true)]
     [string]$Version,
-    [string]$Keys
+    [Hashtable]$Keys
 )
 
 # Path to this repository
