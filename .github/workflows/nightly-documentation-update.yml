@@ -13,5 +13,7 @@ jobs:
     uses: 51Degrees/common-ci/.github/workflows/nightly-documentation-update.yml@main
     with:
       repo-name: ${{ github.event.repository.name }}
+      separate-examples: true
+    
     secrets: 
       token: ${{ secrets.ACCESS_TOKEN }}
