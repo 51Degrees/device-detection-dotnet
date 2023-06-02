@@ -22,7 +22,6 @@
         "Configuration": "Debug",
         "Arch": "x64",
         "BuildMethod": "msbuild",
-        "PackageRequirement" : true,
         "RunPerformance": true
     },
     {
