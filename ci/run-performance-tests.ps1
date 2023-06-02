@@ -36,6 +36,8 @@ finally {
 
 }
 
+Write-Output "Setting Data File for testing"
+
 $SettingsFile = [IO.Path]::Combine($RepoPath, "performance-tests", "appsettings.json") 
 
 # Read the contents of the appsettings.json file
