@@ -53,14 +53,14 @@ try {
         # The packages in the 'package' folder must be pushed to local feed and cannot be used directly,
         # as all the other dependencies will already be installed in the local feed.
         try{
-            Write-Output "Entering 'package' folder"
-            Push-Location "package"
+            Write-Output "Entering '$NugetPackageFolder' folder"
+            Push-Location "$NugetPackageFolder"
             
             Write-Output "Pushing nuget packages to the local feed"
             dotnet nuget push "*.nupkg" -s "$LocalFeed"
         }
         finally{
-            Write-Output "Leaving '$pwd'"
+            Write-Output "Leaving '$NugetPackageFolder'"
             Pop-Location
         }
         
