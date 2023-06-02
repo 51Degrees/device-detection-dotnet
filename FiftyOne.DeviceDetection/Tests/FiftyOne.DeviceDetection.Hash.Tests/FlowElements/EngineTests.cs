@@ -52,12 +52,12 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Core.FlowElements
         }
 
         [TestMethod]
-        public void Engine_DataSourceTier_Enterprise()
+        public void Engine_DataSourceTier_TAC()
         {
             TestInitialize(PerformanceProfiles.MaxPerformance,
-                TestHelpers.Constants.ENTERPRISE_HASH_DATA_FILE_NAME);
+                TestHelpers.Constants.TAC_HASH_DATA_FILE_NAME);
             Assert.AreEqual(
-                "Enterprise",
+                "TAC",
                 Wrapper.Engine.DataSourceTier);
         }
     }

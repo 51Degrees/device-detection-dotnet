@@ -1,0 +1,18 @@
+name: Nigthly Publish Main
+
+on:
+  workflow_dispatch:
+  schedule:
+    # * is a special character in YAML so quote this string
+    - cron:  '0 1 * * *'
+    
+jobs:
+  # Run the common workflow to test and publish the main branch
+  Nightly_Publish_Main:
+    uses: 51Degrees/common-ci/.github/workflows/nightly-publish-main.yml@main
+    with:
+      repo-name: ${{ github.event.repository.name }}
+      build-platform: windows-latest
+    secrets: 
+      token: ${{ secrets.ACCESS_TOKEN }}
+      asset-keys: '{ "ApiKey": "${{ secrets.NUGET_API_KEY }}", "CodeSigningCertPassword" : "${{ secrets.CODE_SIGNING_CERT_PASSWORD }}", "CodeSigningCert" : "${{ secrets.CODE_SIGNING_CERT }}", "DeviceDetection": "${{ secrets.DEVICE_DETECTION_KEY }}","DeviceDetectionUrl": "${{ secrets.DEVICE_DETECTION_URL }}","TestResourceKey": "${{ secrets.SUPER_RESOURCE_KEY}}","AcceptCHBrowserKey" : "${{ secrets.ACCEPTCH_BROWSER_KEY}}","AcceptCHHardwareKey" : "${{ secrets.ACCEPTCH_HARDWARE_KEY}}","AcceptCHPlatformKey" : "${{ secrets.ACCEPTCH_PLATFORM_KEY}}","AcceptCHNoneKey" : "${{ secrets.ACCEPTCH_NONE_KEY}}" }'

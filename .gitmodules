@@ -2,6 +2,3 @@
 	path = FiftyOne.DeviceDetection/device-detection-cxx
 	url = ../device-detection-cxx
 	branch = master
-[submodule "ci/common-ci"]
-	path = ci/common-ci
-url=../common-ci
