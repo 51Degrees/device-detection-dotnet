@@ -59,7 +59,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.Common.TestHelpers" Version="4.4.4" />
+    <PackageReference Include="FiftyOne.Common.TestHelpers" Version="4.4.5" />
     <PackageReference Include="FiftyOne.Pipeline.Engines.TestHelpers" Version="4.4.17" />
     <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.4.17" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />

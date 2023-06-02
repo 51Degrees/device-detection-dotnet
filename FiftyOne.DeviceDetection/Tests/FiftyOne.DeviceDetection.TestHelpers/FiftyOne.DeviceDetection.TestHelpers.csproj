@@ -55,7 +55,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.Common.TestHelpers" Version="4.4.4" />
+    <PackageReference Include="FiftyOne.Common.TestHelpers" Version="4.4.5" />
   </ItemGroup>
 
   <ItemGroup>
