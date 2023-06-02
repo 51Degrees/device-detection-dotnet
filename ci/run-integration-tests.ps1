@@ -16,6 +16,7 @@ $ExamplesRepoName = "device-detection-dotnet-examples"
 $ExamplesRepoPath = [IO.Path]::Combine($pwd, $ExamplesRepoName)
 
 try {
+    # If the $Version is empty it means that this script is running in a workflow that will not build packages and integration tests will be skipped.
     if([String]::IsNullOrEmpty($Version) -eq $False) { 
         Write-Output "Cloning '$ExamplesRepoName'"
         ./steps/clone-repo.ps1 -RepoName $ExamplesRepoName -OrgName $OrgName
@@ -29,38 +30,60 @@ try {
         $EvidenceFile = [IO.Path]::Combine($EvidenceFiles, "20000 Evidence Records.yml")
         Copy-Item $UAFile "device-detection-dotnet-examples/device-detection-data/20000 User Agents.csv"
         Copy-Item $EvidenceFile "device-detection-dotnet-examples/device-detection-data/20000 Evidence Records.yml"
-
-        $ExamplesProject = [IO.Path]::Combine($ExamplesRepoPath, "Examples", "ExampleBase")
-        Push-Location $ExamplesRepoPath
         
-        nuget restore
+        $ExamplesProject = [IO.Path]::Combine($ExamplesRepoPath, "Examples", "ExampleBase")
+        
+        # Restore nuget packages in the examples project
+        try {
+            Write-Output "Entering '$ExamplesRepoPath'"
+            Push-Location $ExamplesRepoPath
 
-        Write-Output "Leaving '$ExamplesRepoPath'"
-        Pop-Location
+            Write-Output "Running Nuget Restore"
+            nuget restore
+        }
+        finally {
+
+            Write-Output "Leaving '$ExamplesRepoPath'"
+            Pop-Location
+        }
         
         $LocalFeed = [IO.Path]::Combine($Home, ".nuget", "packages")
-        ls $LocalFeed
         
-        Push-Location "package"
-
-        dotnet nuget push "*.nupkg" -s "$LocalFeed"
-
-        Pop-Location
-
-        Write-Output "Entering '$ExamplesProject'"
-        Push-Location $ExamplesProject
+        # Install the nuget packages to the local feed. 
+        # The packages in the 'package' folder must be pushed to local feed and cannot be used directly,
+        # as all the other dependencies will already be installed in the local feed.
+        try{
+            Write-Output "Entering 'package' folder"
+            Push-Location "package"
+            
+            Write-Output "Pushing nuget packages to the local feed"
+            dotnet nuget push "*.nupkg" -s "$LocalFeed"
+        }
+        finally{
+            Write-Output "Leaving '$pwd'"
+            Pop-Location
+        }
         
-        # Change the dependency version to the locally build Nuget package
-        Write-Output "Setting the version of the DeviceDetection package to '$Version'"
-        dotnet add package "FiftyOne.DeviceDetection" --version $Version --source "$LocalFeed" 
+        # Update the dependency in the examples project to point to the newly bulit package
+        try{
+            Write-Output "Entering '$ExamplesProject'"
+            Push-Location $ExamplesProject
 
-        Write-Output "Leaving '$ExamplesProject'"
-        Pop-Location
+            # Change the dependency version to the locally build Nuget package
+            Write-Output "Setting the version of the DeviceDetection package to '$Version'"
+            dotnet add package "FiftyOne.DeviceDetection" --version $Version --source "$LocalFeed" 
+        }
+        finally{
+            Write-Output "Leaving '$ExamplesProject'"
+            Pop-Location
+        }
         
+        # Build and Test Examples project now that all is set up
         Write-Output "Building project with following configuration '$Configuration|$Arch|$BuildMethod'"
         ./device-detection-dotnet-examples/ci/build-project.ps1 -RepoName $ExamplesRepoName -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod
+        
         Write-Output "Testing Examples Project"
-        ./dotnet/run-unit-tests.ps1 -RepoName $ExamplesRepoName -ProjectDir $ProjectDir -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod -Filter ".*Tests(|\.Web)\.dll" -OutputFolder "integration"
+        ./dotnet/run-integration-tests.ps1 -RepoName $ExamplesRepoName -ProjectDir $ProjectDir -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod -Filter ".*Tests(|\.Web)\.dll"
     } 
     else{
         Write-Output "Not running integration tests at this stage."
@@ -68,8 +91,6 @@ try {
 }
 
 finally {
-
-
+    exit $LASTEXITCODE
 }
 
-exit $LASTEXITCODE
