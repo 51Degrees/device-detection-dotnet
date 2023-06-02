@@ -36,6 +36,20 @@ finally {
 
 }
 
+$SettingsFile = [IO.Path]::Combine($RepoPath, "performance-tests", "appsettings.json") 
+
+# Read the contents of the appsettings.json file
+$json = Get-Content -Path $SettingsFile | ConvertFrom-Json
+
+# Update the "DataFile" value
+$json.PipelineOptions.Elements[0].BuildParameters.DataFile = $env:DEVICEDETECTIONDATAFILE
+
+# Convert the updated JSON object back to a string
+$jsonString = $json | ConvertTo-Json -Depth 10
+
+# Write the updated JSON string back to the appsettings.json file
+$jsonString | Set-Content -Path $SettingsFile
+
 dotnet publish "$PerfPath" -c $Configuration.Replace("Core","") /p:Platform=$Arch -o "$PerfPath/output" /p:BuiltOnCI=true
 
 if($IsLinux){
