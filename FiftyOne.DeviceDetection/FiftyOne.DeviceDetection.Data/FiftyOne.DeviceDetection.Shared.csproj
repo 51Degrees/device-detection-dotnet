@@ -23,7 +23,7 @@
 	  <RepositoryType>git</RepositoryType>
 	  <PackageIcon>51d-logo.png</PackageIcon>
 	  <NeutralLanguage>en</NeutralLanguage>
-	  <Configurations>Debug;Release;LinuxRelease;LinuxDebug</Configurations>
+	  <Configurations>Debug;Release;CoreRelease;CoreDebug</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -31,7 +31,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)'=='LinuxDebug'">
+  <PropertyGroup Condition="'$(Configuration)'=='CoreDebug'">
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>

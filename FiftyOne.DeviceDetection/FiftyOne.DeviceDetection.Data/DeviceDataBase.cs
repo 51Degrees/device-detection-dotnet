@@ -1,6 +1,6 @@
 /* *********************************************************************
  * This Original Work is copyright of 51 Degrees Mobile Experts Limited.
- * Copyright 2022 51 Degrees Mobile Experts Limited, Davidson House,
+ * Copyright 2023 51 Degrees Mobile Experts Limited, Davidson House,
  * Forbury Square, Reading, Berkshire, United Kingdom RG1 3EU.
  *
  * This Original Work is licensed under the European Union Public Licence
@@ -173,10 +173,10 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "HasTrackPad", typeof(IAspectPropertyValue<bool>) },
 				{ "HasVirtualQwerty", typeof(IAspectPropertyValue<bool>) },
 				{ "History", typeof(IAspectPropertyValue<bool>) },
+				{ "Html-Media-Capture", typeof(IAspectPropertyValue<bool>) },
 				{ "Html5", typeof(IAspectPropertyValue<bool>) },
 				{ "Html5Audio", typeof(IAspectPropertyValue<IReadOnlyList<string>>) },
 				{ "Html5Video", typeof(IAspectPropertyValue<IReadOnlyList<string>>) },
-				{ "Html-Media-Capture", typeof(IAspectPropertyValue<bool>) },
 				{ "HtmlVersion", typeof(IAspectPropertyValue<double>) },
 				{ "Http2", typeof(IAspectPropertyValue<bool>) },
 				{ "HttpLiveStreaming", typeof(IAspectPropertyValue<string>) },
@@ -206,8 +206,8 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "JavascriptCanManipulateCSS", typeof(IAspectPropertyValue<bool>) },
 				{ "JavascriptCanManipulateDOM", typeof(IAspectPropertyValue<bool>) },
 				{ "JavascriptGetElementById", typeof(IAspectPropertyValue<bool>) },
-                { "JavascriptGetHighEntropyValues", typeof(IAspectPropertyValue<JavaScript>) },
-                { "JavascriptHardwareProfile", typeof(IAspectPropertyValue<JavaScript>) },
+				{ "JavascriptGetHighEntropyValues", typeof(IAspectPropertyValue<JavaScript>) },
+				{ "JavascriptHardwareProfile", typeof(IAspectPropertyValue<JavaScript>) },
 				{ "JavascriptImageOptimiser", typeof(IAspectPropertyValue<JavaScript>) },
 				{ "JavascriptPreferredGeoLocApi", typeof(IAspectPropertyValue<string>) },
 				{ "JavascriptSupportsEventListener", typeof(IAspectPropertyValue<bool>) },
@@ -752,6 +752,10 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<bool> History { get { return GetAs<IAspectPropertyValue<bool>>("History"); } }
 		/// <summary>
+		/// Indicates if the browser is able to use media inputs, e.g. webcam and microphone, in a script and as an input for forms, e.g. '&lt;input type="file" accept="image/*" id="capture"&gt;' would prompt image- capturing software to open.
+		/// </summary>
+		public IAspectPropertyValue<bool> HtmlMediaCapture { get { return GetAs<IAspectPropertyValue<bool>>("Html-Media-Capture"); } }
+		/// <summary>
 		/// Indicates if the browser supports the new markup in HTML 5 that also refers to 'New Semantic Elements' such as <![CDATA[<header>, <nav>, <section>, <aside>,<footer>]]> etc.
 		/// </summary>
 		public IAspectPropertyValue<bool> Html5 { get { return GetAs<IAspectPropertyValue<bool>>("Html5"); } }
@@ -763,10 +767,6 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// Lists what video formats, if any, the browser supports using the HTLM5 <![CDATA[<video>]]> tag.
 		/// </summary>
 		public IAspectPropertyValue<IReadOnlyList<string>> Html5Video { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("Html5Video"); } }
-		/// <summary>
-		/// Indicates if the browser is able to use media inputs, e.g. webcam and microphone, in a script and as an input for forms, e.g. '&lt;input type="file" accept="image/*" id="capture"&gt;' would prompt image- capturing software to open.
-		/// </summary>
-		public IAspectPropertyValue<bool> HtmlMediaCapture { get { return GetAs<IAspectPropertyValue<bool>>("Html-Media-Capture"); } }
 		/// <summary>
 		/// Refers to the latest version of HyperText Markup Language (HTML) supported by the browser.
 		/// </summary>
@@ -883,14 +883,14 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// Indicates if the browser supports JavaScript that is able to access HTML elements from their ID using the getElementById method.
 		/// </summary>
 		public IAspectPropertyValue<bool> JavascriptGetElementById { get { return GetAs<IAspectPropertyValue<bool>>("JavascriptGetElementById"); } }
-        /// <summary>
-        /// JavaScript that can get high entropy User-Agent Client Hints (UA-CH) values. This can be used instead of UA-CH HTTP headers.
-        /// </summary>
-        public IAspectPropertyValue<JavaScript> JavascriptGetHighEntropyValues { get { return GetAs<IAspectPropertyValue<JavaScript>>("JavascriptGetHighEntropyValues"); } }
-        /// <summary>
-        /// JavaScript that can override the profile found by the server using information on the client device. This property is applicable for Apple devices which do not provide information about the model in the User-Agent string.
-        /// </summary>
-        public IAspectPropertyValue<JavaScript> JavascriptHardwareProfile { get { return GetAs<IAspectPropertyValue<JavaScript>>("JavascriptHardwareProfile"); } }
+		/// <summary>
+		/// Contains Javascript to get high entropy values.
+		/// </summary>
+		public IAspectPropertyValue<JavaScript> JavascriptGetHighEntropyValues { get { return GetAs<IAspectPropertyValue<JavaScript>>("JavascriptGetHighEntropyValues"); } }
+		/// <summary>
+		/// JavaScript that can override the profile found by the server using information on the client device. This property is applicable for Apple devices which do not provide information about the model in the User-Agent string.
+		/// </summary>
+		public IAspectPropertyValue<JavaScript> JavascriptHardwareProfile { get { return GetAs<IAspectPropertyValue<JavaScript>>("JavascriptHardwareProfile"); } }
 		/// <summary>
 		/// Refers to the JavaScript snippet used to optimise images.
 		/// </summary>
@@ -1108,7 +1108,7 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<IReadOnlyList<string>> SatelliteNavigationTypes { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("SatelliteNavigationTypes"); } }
 		/// <summary>
-		/// Indicates the diagonal size of the device's screen in inches. This property is not applicable for a device that does not have a screen.
+		/// Indicates the diagonal size of the device's screen in inches, to a maximum of two decimal points. Where screens have curved corners, the actual viewable area may be less.
 		/// </summary>
 		public IAspectPropertyValue<double> ScreenInchesDiagonal { get { return GetAs<IAspectPropertyValue<double>>("ScreenInchesDiagonal"); } }
 		/// <summary>

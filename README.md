@@ -17,7 +17,7 @@ with most of the projects.
 The core device detection projects are written in C and C++.
 The Pipeline engines are written in C# and target .NET Standard 2.0.3.
 Example and test projects mostly target .NET 6.0 though in some cases, projects are available 
-targeting other frameworks.
+targeting other frameworks. 
 
 For runtime dependencies, see our [dependencies](https://51degrees.com/documentation/_info__dependencies.html) page.
 The [tested versions](https://51degrees.com/documentation/_info__tested_versions.html) page shows 
@@ -35,7 +35,7 @@ to use the Cloud API. You can create resource keys using our
 [configurator](https://configure.51degrees.com/), see our 
 [documentation](https://51degrees.com/documentation/_concepts__configurator.html) on how to use this.
 
-#### On-Premise
+#### On-Premise 
 
 In order to perform device detection on-premise, you will need to use a 51Degrees data file. 
 This repository includes a free, 'lite' file in the 'device-detection-data' sub-module that has 
@@ -98,34 +98,7 @@ Visual studio should now be able to build the native binaries as part of it's no
 
 ## Examples
 
-The tables below describe the examples available in this repository.
-
-### Cloud
-
-| Example                                | Description |
-|----------------------------------------|-------------|
-| GettingStarted-Console                 | How to use the 51Degrees Cloud service to determine details about a device based on its User-Agent and User-Agent Client Hints HTTP header values. |
-| GettingStarted-Web                     | How to use the 51Degrees Cloud service to determine details about a device as part of a simple ASP.NET website. |
-| Metadata                               | How to access the meta-data that relates to things like the properties populated device detection |
-| TacLookup                              | How to get device details from a TAC (Type Allocation Code) using the 51Degrees cloud service. |
-| NativeModelLookup                      | How to get device details from a native model name using the 51Degrees cloud service. |
-| GetAllProperties                       | How to iterate through all properties available in the cloud response. |
-| ClientHints NetCore 3.1                | Legacy example. Retained for the associated automated tests. See GettingStarted-Web instead. |
-| ClientHints Not Integrated NetCore 3.1 | Legacy example. Our ASP.NET integration will automatically set the `Accept-CH` header that is used to request User-Agent Client Hints headers.This example demonstrates how to do this without using the integration component. |
-
-### On-Premise
-
-| Example                                | Description |
-|----------------------------------------|-------------|
-| GettingStarted-Console                 | How to use the 51Degrees on-premise device detection API to determine details about a device based on its User-Agent and User-Agent Client Hints HTTP header values. |
-| GettingStarted-Web                     | How to use the 51Degrees Cloud service to determine details about a device as part of a simple ASP.NET website. |
-| Metadata                               | How to access the meta-data that relates to things like the properties populated device detection |
-| offline_processing                     | Example showing how to ingest a file containing data from web requests and perform detection against the entries. |
-| Performance                            | How to configure the various performance options and run a simple performance test. |
-| UpdateOnStartup                        | How to configure the Pipeline to automatically update the device detection data file on startup. |
-| UpdatePollingInterval                  | Ho to configure and verify the various automatic data file update settings. |
-| ClientHints NetCore 3.1                | Legacy example. Retained for the associated automated tests. See GettingStarted-Web instead. |
-| ClientHints Not Integrated NetCore 3.1 | Legacy example. Our ASP.NET integration will automatically set the `Accept-CH` header that is used to request User-Agent Client Hints headers. This example demonstrates how to do this without using the integration component. |
+Examples can be found in [device-detection-dotnet-examples](https://github.com/51Degrees/device-detection-dotnet-examples) repository
 
 ## Tests
 

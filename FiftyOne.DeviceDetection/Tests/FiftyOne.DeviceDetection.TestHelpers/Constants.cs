@@ -29,6 +29,7 @@ namespace FiftyOne.DeviceDetection.TestHelpers
     public static class Constants
     {
         public const int UAS_TO_TEST = 10;
+        public const string TAC_HASH_DATA_FILE_NAME = "TAC-HashV41.hash";
         public const string ENTERPRISE_HASH_DATA_FILE_NAME = "Enterprise-HashV41.hash";
         public const string LITE_HASH_DATA_FILE_NAME = "51Degrees-LiteV4.1.hash";
         public const string UA_FILE_NAME = "20000 User Agents.csv";
