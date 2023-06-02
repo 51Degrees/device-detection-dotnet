@@ -3,7 +3,7 @@ This API complies with the `common-ci` approach with the following exceptions:
 
 ## Linux PreBuild
 
-Because x86 architecture is not supported with dotnet on ubuntu, we are building the native binaries in the same job as the x64 binaries. 
+.NET does not officially support the x86 architecture on Linux distributions, therefore, we are building the native binaries in the same job as the x64 binaries. 
 
 ## Integration Tests
 
