@@ -57,7 +57,7 @@ try {
         Write-Output "Leaving '$ExamplesProject'"
         Pop-Location
         
-        Write-Output "Rebuilding project with following configuration '$Configuration|$Arch|$BuildMethod'"
+        Write-Output "Building project with following configuration '$Configuration|$Arch|$BuildMethod'"
         ./device-detection-dotnet-examples/ci/build-project.ps1 -RepoName $ExamplesRepoName -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod
         Write-Output "Testing Examples Project"
         ./dotnet/run-unit-tests.ps1 -RepoName $ExamplesRepoName -ProjectDir $ProjectDir -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod -Filter ".*Tests(|\.Web)\.dll" -OutputFolder "integration"
