@@ -1,0 +1,7 @@
+var class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_results_device_detection_swig =
+[
+    [ "Dispose", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_results_device_detection_swig.html#a82c7c0523a361e4c58eab37b5fda6406", null ],
+    [ "getDeviceId", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_results_device_detection_swig.html#a4eeacc1bdd8022ea55abba9de534ebdf", null ],
+    [ "getUserAgent", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_results_device_detection_swig.html#a5eb1e0c66aed33d0939630ef1fdd206e", null ],
+    [ "getUserAgents", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_results_device_detection_swig.html#a2268bbdd9456b55057b12b89f56b690c", null ]
+];

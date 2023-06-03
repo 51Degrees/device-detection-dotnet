@@ -1,0 +1,8 @@
+var namespace_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_getting_started_web =
+[
+    [ "Controllers", "namespace_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_getting_started_web_1_1_controllers.html", "namespace_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_getting_started_web_1_1_controllers" ],
+    [ "Model", "namespace_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_getting_started_web_1_1_model.html", "namespace_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_getting_started_web_1_1_model" ],
+    [ "Pages", "namespace_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_getting_started_web_1_1_pages.html", "namespace_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_getting_started_web_1_1_pages" ],
+    [ "Program", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_getting_started_web_1_1_program.html", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_getting_started_web_1_1_program" ],
+    [ "Startup", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_getting_started_web_1_1_startup.html", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_getting_started_web_1_1_startup" ]
+];

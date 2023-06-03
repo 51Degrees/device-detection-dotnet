@@ -1,0 +1,5 @@
+var class_fifty_one_1_1_device_detection_1_1_examples_1_1_cloud_1_1_getting_started_web_1_1_controllers_1_1_home_controller =
+[
+    [ "HomeController", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_cloud_1_1_getting_started_web_1_1_controllers_1_1_home_controller.html#a720fa5858a2ce4b2b116d00883513c68", null ],
+    [ "Index", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_cloud_1_1_getting_started_web_1_1_controllers_1_1_home_controller.html#af39092e74b306c55bd2459ef0900a2e3", null ]
+];

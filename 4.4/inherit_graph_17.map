@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" title=" " alt="" coords="5,60,193,87"/>
+<area shape="rect" id="node2" href="$class_fifty_one_1_1_device_detection_1_1_cloud_1_1_flow_elements_1_1_device_detection_cloud_engine_builder.html" title="Fluent builder used to create a cloud&#45;based device detection engine." alt="" coords="241,5,508,61"/>
+<area shape="rect" id="node3" href="$class_fifty_one_1_1_device_detection_1_1_cloud_1_1_flow_elements_1_1_hardware_profile_cloud_engine_builder.html" title="Fluent builder used to create a cloud&#45;based engine that can return multiple hardware profiles from a ..." alt="" coords="243,85,506,141"/>
+</map>

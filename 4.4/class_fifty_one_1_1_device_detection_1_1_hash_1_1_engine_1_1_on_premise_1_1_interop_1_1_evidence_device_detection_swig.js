@@ -1,0 +1,5 @@
+var class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_evidence_device_detection_swig =
+[
+    [ "EvidenceDeviceDetectionSwig", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_evidence_device_detection_swig.html#aa6f3b17667fb32c336aba0664344465f", null ],
+    [ "Dispose", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_evidence_device_detection_swig.html#afc04cba06c00d044e810de5dbc7eda80", null ]
+];

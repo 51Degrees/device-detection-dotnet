@@ -1,0 +1,33 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" title=" " alt="" coords="225,13,410,39"/>
+<area shape="rect" id="node2" href="$class_fifty_one_1_1_device_detection_1_1_apple_1_1_apple_property_meta_data.html" title="Property meta data class used by AppleProfileEngine" alt="" coords="535,5,754,47"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,305,136,331"/>
+<area shape="rect" id="node4" href="$class_fifty_one_1_1_device_detection_1_1_cloud_1_1_data_1_1_device_data_cloud.html" title="A data class that makes working with device data from cloud services easier for the user." alt="" coords="212,297,423,339"/>
+<area shape="rect" id="node5" title=" " alt="" coords="217,115,418,142"/>
+<area shape="rect" id="node6" href="$class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_data_1_1_device_data_hash.html" title=" " alt="" coords="513,151,776,207"/>
+<area shape="rect" id="node7" title=" " alt="" coords="235,246,400,273"/>
+<area shape="rect" id="node8" href="$class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_data_1_1_component_meta_data.html" title="Data class that contains meta&#45;data relating to a specific component." alt="" coords="499,231,791,287"/>
+<area shape="rect" id="node9" title=" " alt="" coords="19,218,122,245"/>
+<area shape="rect" id="node10" href="$interface_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_data_1_1_i_device_data_hash.html" title="Represents a data class that contains device data from an on&#45;premise device detection engine." alt="" coords="184,166,451,222"/>
+<area shape="rect" id="node11" title=" " alt="" coords="268,501,367,527"/>
+<area shape="rect" id="node12" href="$class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_data_1_1_profile_meta_data.html" title="Data class that contains meta&#45;data relating to a specific profile." alt="" coords="515,551,774,607"/>
+<area shape="rect" id="node13" href="$class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_data_1_1_property_meta_data_hash.html" title="Data class that contains meta&#45;data relating to a specific property." alt="" coords="509,71,781,127"/>
+<area shape="rect" id="node14" href="$class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_data_1_1_value_meta_data.html" title="Data class that contains meta&#45;data relating to a specific value." alt="" coords="518,631,771,687"/>
+<area shape="rect" id="node15" href="$interface_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_i_c646a1eccf4c348cdb41c225bbd8d74d0.html" title=" " alt="" coords="519,711,771,767"/>
+<area shape="rect" id="node17" href="$interface_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_i_engine_swig_wrapper.html" title=" " alt="" coords="521,311,769,367"/>
+<area shape="rect" id="node19" href="$interface_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_i_profile_collection_swig_wrapper.html" title=" " alt="" coords="521,791,769,847"/>
+<area shape="rect" id="node21" href="$interface_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_i_property_collection_swig_wrapper.html" title=" " alt="" coords="521,871,769,927"/>
+<area shape="rect" id="node23" href="$interface_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_i_results_swig_wrapper.html" title=" " alt="" coords="521,391,769,447"/>
+<area shape="rect" id="node25" href="$interface_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_i_value_collection_swig_wrapper.html" title=" " alt="" coords="521,951,769,1007"/>
+<area shape="rect" id="node27" href="$interface_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_i_value_swig_wrapper.html" title=" " alt="" coords="521,471,769,527"/>
+<area shape="rect" id="node16" href="$class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_component_collection_swig_wrapper.html" title=" " alt="" coords="839,711,1087,767"/>
+<area shape="rect" id="node18" href="$class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_engine_swig_wrapper.html" title=" " alt="" coords="839,311,1087,367"/>
+<area shape="rect" id="node20" href="$class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_profile_collection_swig_wrapper.html" title=" " alt="" coords="839,791,1087,847"/>
+<area shape="rect" id="node22" href="$class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_property_collection_swig_wrapper.html" title=" " alt="" coords="839,871,1087,927"/>
+<area shape="rect" id="node24" href="$class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_results_swig_wrapper.html" title=" " alt="" coords="839,391,1087,447"/>
+<area shape="rect" id="node26" href="$class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_value_collection_swig_wrapper.html" title=" " alt="" coords="839,951,1087,1007"/>
+<area shape="rect" id="node28" title=" " alt="" coords="265,846,369,873"/>
+<area shape="rect" id="node29" title=" " alt="" coords="196,63,439,90"/>
+<area shape="rect" id="node30" title=" " alt="" coords="252,566,383,593"/>
+<area shape="rect" id="node31" title=" " alt="" coords="254,646,381,673"/>
+</map>
