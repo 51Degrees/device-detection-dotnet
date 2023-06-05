@@ -79,10 +79,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="$(ProjectDir)\..\windows\$(Platform)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="'$(OS)' == 'Windows_NT'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
+    <None Include="$(ProjectDir)\..\windows\$(Platform)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="'$(OS)' == 'Windows_NT' AND '$(Platform)' != 'AnyCPU'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="$(ProjectDir)\..\linux\$(Platform)\libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="'$(OS)' != 'Windows_NT'" Link="libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
+    <None Include="$(ProjectDir)\..\linux\$(Platform)\libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="'$(OS)' != 'Windows_NT' AND '$(Platform)' != 'AnyCPU'" Link="libFiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
 
