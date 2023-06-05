@@ -84,6 +84,8 @@ try {
         
         Write-Output "Testing Examples Project"
         ./dotnet/run-integration-tests.ps1 -RepoName $ExamplesRepoName -ProjectDir $ProjectDir -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod -Filter ".*Tests(|\.Web)\.dll"
+        
+        Copy-Item $ExamplesRepoName/test-results $RepoName -Recurse
     } 
     else{
         Write-Output "Not running integration tests at this stage."
