@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.5.0-remediation.4" />
+    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.4.19" />
   </ItemGroup>
 
   <ItemGroup>
