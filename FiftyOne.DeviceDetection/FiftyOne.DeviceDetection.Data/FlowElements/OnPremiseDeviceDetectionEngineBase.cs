@@ -35,6 +35,7 @@ namespace FiftyOne.DeviceDetection.Shared.FlowElements
 {
     /// <summary>
     /// On-premise device detection engine base class. 
+    /// See the <see href="https://github.com/51Degrees/specifications/blob/main/device-detection-specification/pipeline-elements/device-detection-on-premise.md">Specification</see>
     /// </summary>
     /// <typeparam name="T">
     /// The specific type of device data instances returned by this 

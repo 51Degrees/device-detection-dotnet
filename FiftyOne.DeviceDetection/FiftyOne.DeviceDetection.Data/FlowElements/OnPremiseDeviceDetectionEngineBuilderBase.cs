@@ -32,6 +32,7 @@ namespace FiftyOne.DeviceDetection.Shared.FlowElements
     /// <summary>
     /// Fluent builder that is used to create an on-premise device detection 
     /// aspect engine.
+    /// See the <see href="https://github.com/51Degrees/specifications/blob/main/device-detection-specification/pipeline-elements/device-detection-on-premise.md">Specification</see>
     /// </summary>
     /// <typeparam name="TBuilder">
     /// The type of engine builder for fluent methods to return.

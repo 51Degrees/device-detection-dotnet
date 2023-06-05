@@ -39,6 +39,7 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
     /// Engine that takes the JSON response from the 
     /// <see cref="CloudRequestEngine"/> and uses it populate a 
     /// DeviceDataCloud instance for easier consumption.
+    /// See the <see href="https://github.com/51Degrees/specifications/blob/main/device-detection-specification/pipeline-elements/device-detection-cloud.md">Specification</see>
     /// </summary>
     public class DeviceDetectionCloudEngine : CloudAspectEngineBase<DeviceDataCloud>
     {

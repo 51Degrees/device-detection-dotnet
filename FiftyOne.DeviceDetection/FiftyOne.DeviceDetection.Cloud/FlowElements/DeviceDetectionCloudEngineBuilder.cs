@@ -38,6 +38,7 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
     /// <summary>
     /// Fluent builder used to create a cloud-based device detection
     /// engine.
+    /// See the <see href="https://github.com/51Degrees/specifications/blob/main/device-detection-specification/pipeline-elements/device-detection-cloud.md">Specification</see>
     /// </summary>
     public class DeviceDetectionCloudEngineBuilder: AspectEngineBuilderBase<DeviceDetectionCloudEngineBuilder, DeviceDetectionCloudEngine>
     {

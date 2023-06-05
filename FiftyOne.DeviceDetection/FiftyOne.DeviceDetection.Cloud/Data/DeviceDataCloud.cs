@@ -41,6 +41,7 @@ namespace FiftyOne.DeviceDetection.Cloud.Data
     /// <summary>
     /// A data class that makes working with device data from cloud 
     /// services easier for the user.
+    /// See the <see href="https://github.com/51Degrees/specifications/blob/main/device-detection-specification/pipeline-elements/device-detection-cloud.md#element-data">Specification</see>
     /// </summary>
     public class DeviceDataCloud : DeviceDataBase, IDeviceData
     {

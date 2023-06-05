@@ -45,6 +45,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
     /// Hash device detection engine. This engine takes User-Agents and
     /// other relevant HTTP headers and returns properties about the device
     /// which produced them e.g. DeviceType or ReleaseDate.
+    /// See the <see href="https://github.com/51Degrees/specifications/blob/main/device-detection-specification/pipeline-elements/device-detection-on-premise.md">Specification</see>
     /// </summary>
     public class DeviceDetectionHashEngine : OnPremiseDeviceDetectionEngineBase<IDeviceDataHash>        
     {

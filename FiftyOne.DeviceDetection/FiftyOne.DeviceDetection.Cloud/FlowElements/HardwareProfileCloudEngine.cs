@@ -40,6 +40,7 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
     /// A cloud-based engine that can return multiple hardware profiles 
     /// from a single request.
     /// For example, A single TAC code can match multiple hardware devices.
+    /// See the <see href="https://github.com/51Degrees/specifications/blob/main/device-detection-specification/pipeline-elements/hardware-profile-lookup-cloud.md">Specification</see>
     /// </summary>
     public class HardwareProfileCloudEngine :
         PropertyKeyedCloudEngineBase<MultiDeviceDataCloud, IDeviceData>

@@ -31,7 +31,7 @@ namespace FiftyOne.DeviceDetection.Uach
 {
     /// <summary>
     /// Data class for <see cref="UachJsConversionElement"/>.
-    /// This element writes to the evidence collection, so the data class contains no properties.
+    /// See the <see href="https://github.com/51Degrees/specifications/blob/main/device-detection-specification/pipeline-elements/uach-high-entropy-decoder.md#element-data">Specification</see>
     /// </summary>
     public class UachJsConversionData : ElementDataBase
     {
