@@ -1,5 +1,5 @@
 <map id="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data.DeviceDataHash" name="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data.DeviceDataHash">
-<area shape="rect" id="node1" title=" " alt="" coords="167,169,429,225"/>
+<area shape="rect" id="node1" title="Device data class See the Specification" alt="" coords="167,169,429,225"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,80,207,121"/>
 <area shape="rect" id="node3" href="$interface_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_data_1_1_i_device_data_hash.html" title="Represents a data class that contains device data from an on&#45;premise device detection engine." alt="" coords="231,87,365,114"/>
 <area shape="rect" id="node4" title=" " alt="" coords="247,5,349,32"/>

@@ -11,7 +11,7 @@
 <!-- Node0 -->
 <g id="node1" class="node">
 <title>Node0</title>
-<g id="a_node1"><a xlink:title=" ">
+<g id="a_node1"><a xlink:title="Device data class See the Specification">
 <polygon fill="#bfbfbf" stroke="black" points="121,-0.5 121,-41.5 318,-41.5 318,-0.5 121,-0.5"/>
 <text text-anchor="start" x="129" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00">FiftyOne.DeviceDetection.</text>
 <text text-anchor="start" x="129" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">Hash.Engine.OnPremise.Data.Device</text>
