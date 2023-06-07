@@ -19,15 +19,24 @@ try {
 	try {
 
 		Remove-Item -Force -Recurse *
-		if ($($env:Os).Contains("Windows") -and $Arch -eq "x86") {
-
-			# Map x86 to Win32 is we're building on Windows
-			$Arch = "Win32"
-
+		if ($($env:Os).Contains("Windows")) {
+			if ($Arch -eq "x86") {
+				# Map x86 to Win32 is we're building on Windows
+				$Arch = "Win32"
+			}
+			cmake .. -DCMAKE_BUILD_TYPE=$BuildType -A $Arch
+			cmake --build . -t fiftyone-hash-dotnet --config $BuildType	
 		}
-		cmake .. -DCMAKE_BUILD_TYPE=$BuildType -A $Arch
-		cmake --build . -t fiftyone-hash-dotnet
+		else {
+			$Is32 = "off"
+			if ($Arch -eq "x86") {
+				$Is32 = "on"
+			}
+			cmake .. -DCMAKE_BUILD_TYPE=$BuildType -D32bit=$Is32
+			cmake --build . -t fiftyone-hash-dotnet
+		}
 
+		
 	}
 	finally {
 		
