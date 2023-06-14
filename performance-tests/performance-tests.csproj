@@ -65,7 +65,7 @@
 
   <ItemGroup>
     <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.4.23" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.16" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.18" />
   </ItemGroup>
 
   <ItemGroup>
