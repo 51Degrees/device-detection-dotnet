@@ -46,7 +46,12 @@ namespace performance_tests.Controllers
         public string Get(){
             var device = _flow.GetFlowData()?.Get<IDeviceData>();
             if(device != null) {
-                return $"{device.IsMobile}";
+                if (device.IsMobile.HasValue) {
+                    return $"{device.IsMobile}";
+                }
+                else {
+                    return $"{device.IsMobile.NoValueMessage}";
+                }
             }
             return "Hash engine data was null";
         }
