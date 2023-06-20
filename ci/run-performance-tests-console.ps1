@@ -7,7 +7,6 @@ param(
     [string]$Arch = "x64"
 )
 
-
 $RepoPath = [IO.Path]::Combine($pwd, $RepoName)
 $PerfResultsFile = [IO.Path]::Combine($RepoPath, "test-results", "performance-summary", "results_$Name.json")
 $EvidenceFiles = [IO.Path]::Combine($pwd, $RepoName,"FiftyOne.DeviceDetection", "device-detection-cxx", "device-detection-data")
@@ -81,15 +80,11 @@ try {
         Pop-Location
     }
     
-    # Build the project now that all is set up
-    Write-Output "Building project with following configuration '$Configuration|$Arch|$BuildMethod'"
-    ./device-detection-dotnet-examples/ci/build-project.ps1 -RepoName $ExamplesRepoName -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod
-    
     Write-Output "Running performance example"
     Write-Output "Entering '$PerfProject' folder"
     Push-Location "$PerfProject"
     try {
-        dotnet run -c $Configuration -d $TacFile -u $EvidenceFile -j summary.json
+        dotnet run -c $Configuration /p:Platform=$Arch -d $TacFile -u $EvidenceFile -j summary.json
         
         # Write out the results for comparison
         Write-Output "Writing performance test results"
