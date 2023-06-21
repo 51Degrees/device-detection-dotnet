@@ -70,7 +70,11 @@ try {
     Write-Output "Entering '$PerfProject' folder"
     Push-Location "$PerfProject"
     try {
-        dotnet run -c $Configuration /p:Platform=$Arch /p:BuiltOnCI=true -d $TacFile -u $EvidenceFile -j summary.json
+        $RunConfig = "Debug"
+        if ($Configuration.Contains("Release")) {
+            $RunConfig = "Release"
+        }
+        dotnet run -c $RunConfig /p:Platform=$Arch -d $TacFile -u $EvidenceFile -j summary.json
         
         if ($LASTEXITCODE -ne 0) {
             exit $LASTEXITCODE
