@@ -86,6 +86,10 @@ try {
     try {
         dotnet run -c $Configuration /p:Platform=$Arch /p:BuiltOnCI=true -d $TacFile -u $EvidenceFile -j summary.json
         
+        if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
+        }
+
         # Write out the results for comparison
         Write-Output "Writing performance test results"
         $Results = Get-Content ./summary.json | ConvertFrom-Json
