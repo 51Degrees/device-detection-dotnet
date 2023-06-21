@@ -19,17 +19,18 @@ try {
 	try {
 
 		Remove-Item -Force -Recurse *
+		if ($BuildType.Contains("Release")) {
+			$BuildType = "Release"
+		}
+		elseif ($BuildType.Contains("Debug")) {
+			$BuildType = "Debug"
+		}
+		else {
+			Write-Error "Build type '$BuildType' not recognized. Must contain Release or Debug."
+			exit 1
+		}
+
 		if ($($env:Os).Contains("Windows")) {
-			if ($BuildType.Contains("Release")) {
-				$BuildType = "Release"
-			}
-			elseif ($BuildType.Contains("Debug")) {
-				$BuildType = "Debug"
-			}
-			else {
-				Write-Error "Build type '$BuildType' not recognized. Must contain Release or Debug."
-				exit 1
-			}
 
 			if ($Arch -eq "x86") {
 				# Map x86 to Win32 is we're building on Windows
