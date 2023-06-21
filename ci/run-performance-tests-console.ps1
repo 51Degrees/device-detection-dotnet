@@ -74,10 +74,10 @@ try {
         if ($Configuration.Contains("Release")) {
             $RunConfig = "Release"
         }
-        dotnet build -c $RunConfig /p:Platform=$Arch /p:OutDir=output
+        dotnet build -c $RunConfig /p:Platform=$Arch /p:OutDir=output /p:BuiltOnCI=true
         Push-Location "output"
         try {
-            dotnet .\FiftyOne.DeviceDetection.Examples.OnPremise.Performance.dll -d $TacFile -u $EvidenceFile -j summary.json
+            dotnet FiftyOne.DeviceDetection.Examples.OnPremise.Performance.dll -d $TacFile -u $EvidenceFile -j summary.json
         }
         finally {
             Pop-Location
