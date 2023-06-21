@@ -84,7 +84,7 @@ try {
     Write-Output "Entering '$PerfProject' folder"
     Push-Location "$PerfProject"
     try {
-        dotnet run -c $Configuration /p:Platform=$Arch -d $TacFile -u $EvidenceFile -j summary.json
+        dotnet run -c $Configuration /p:Platform=$Arch /p:BuiltOnCI=true -d $TacFile -u $EvidenceFile -j summary.json
         
         # Write out the results for comparison
         Write-Output "Writing performance test results"
