@@ -74,8 +74,14 @@ try {
         if ($Configuration.Contains("Release")) {
             $RunConfig = "Release"
         }
-        dotnet build -c $RunConfig /p:Platform=$Arch
-        dotnet run -c $RunConfig /p:Platform=$Arch -d $TacFile -u $EvidenceFile -j summary.json
+        dotnet build -c $RunConfig /p:Platform=$Arch /p:OutDir=output
+        Push-Location "output"
+        try {
+            dotnet .\FiftyOne.DeviceDetection.Examples.OnPremise.Performance.dll -d $TacFile -u $EvidenceFile -j summary.json
+        }
+        finally {
+            Pop-Location
+        }
         
         if ($LASTEXITCODE -ne 0) {
             exit $LASTEXITCODE
@@ -83,7 +89,7 @@ try {
 
         # Write out the results for comparison
         Write-Output "Writing performance test results"
-        $Results = Get-Content ./summary.json | ConvertFrom-Json
+        $Results = Get-Content ./output/summary.json | ConvertFrom-Json
         Write-Output "{
             'HigherIsBetter': {
                 'DetectionsPerSecond': $($Results.MaxPerformance.DetectionsPerSecond)
