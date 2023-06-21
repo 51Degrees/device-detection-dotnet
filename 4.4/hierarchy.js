@@ -12,6 +12,7 @@ var hierarchy =
     [ "AspectPropertyMetaData", null, [
       [ "FiftyOne.DeviceDetection.Apple.ApplePropertyMetaData", "class_fifty_one_1_1_device_detection_1_1_apple_1_1_apple_property_meta_data.html", null ]
     ] ],
+    [ "FiftyOne.DeviceDetection.Examples.OnPremise.Performance.Program.BenchmarkResult", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_program_1_1_benchmark_result.html", null ],
     [ "Framework_Web.BundleConfig", "class_framework___web_1_1_bundle_config.html", null ],
     [ "CloudAspectEngineBase", null, [
       [ "FiftyOne.DeviceDetection.Cloud.FlowElements.DeviceDetectionCloudEngine", "class_fifty_one_1_1_device_detection_1_1_cloud_1_1_flow_elements_1_1_device_detection_cloud_engine.html", null ]
@@ -69,6 +70,7 @@ var hierarchy =
       [ "FiftyOne.DeviceDetection.Examples.OnPremise.Performance.Program.Example", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_program_1_1_example.html", null ],
       [ "FiftyOne.DeviceDetection.Examples.OnPremise.UpdateDataFile.Program.Example", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_update_data_file_1_1_program_1_1_example.html", null ]
     ] ],
+    [ "FiftyOne.DeviceDetection.Examples.ExampleOptions", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_example_options.html", null ],
     [ "FiftyOne.DeviceDetection.Examples.ExampleUtils", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_example_utils.html", null ],
     [ "FiftyOneAspectPropertyMetaDataDefault", null, [
       [ "FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data.FiftyOneAspectPropertyMetaDataHash", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_data_1_1_fifty_one_aspect_property_meta_data_hash.html", null ]
@@ -232,32 +234,32 @@ var hierarchy =
       [ "FiftyOne.DeviceDetection.DeviceDetectionOnPremisePipelineBuilder", "class_fifty_one_1_1_device_detection_1_1_device_detection_on_premise_pipeline_builder.html", null ]
     ] ],
     [ "FiftyOne.DeviceDetection.Examples.Cloud.GettingStartedWeb.Program", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_cloud_1_1_getting_started_web_1_1_program.html", null ],
+    [ "FiftyOne.DeviceDetection.Examples.OnPremise.GettingStartedConsole.Program", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_getting_started_console_1_1_program.html", null ],
     [ "Cloud_Client_Hints.Program", "class_cloud___client___hints_1_1_program.html", null ],
     [ "Cloud_Client_Hints_Not_Integrated.Program", "class_cloud___client___hints___not___integrated_1_1_program.html", null ],
-    [ "FiftyOne.DeviceDetection.Examples.OnPremise.GettingStartedConsole.Program", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_getting_started_console_1_1_program.html", null ],
+    [ "FiftyOne.DeviceDetection.Examples.OnPremise.Metadata.Program", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_metadata_1_1_program.html", null ],
     [ "Client_Hints.Program", "class_client___hints_1_1_program.html", null ],
-    [ "Client_Hints_Not_Integrated.Program", "class_client___hints___not___integrated_1_1_program.html", null ],
     [ "AppleServerSide_Console.Program", "class_apple_server_side___console_1_1_program.html", null ],
     [ "FiftyOne.DeviceDetection.Examples.OnPremise.UpdateDataFile.Program", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_update_data_file_1_1_program.html", null ],
+    [ "FiftyOne.DeviceDetection.Examples.OnPremise.GettingStartedWeb.Program", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_getting_started_web_1_1_program.html", null ],
     [ "FiftyOne.DeviceDetection.Examples.Cloud.NativeModelLookup.Program", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_cloud_1_1_native_model_lookup_1_1_program.html", null ],
     [ "FiftyOne.DeviceDetection.Examples.OnPremise.MatchMetrics.Program", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_match_metrics_1_1_program.html", null ],
-    [ "FiftyOne.DeviceDetection.Examples.OnPremise.Performance.Program", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_program.html", null ],
-    [ "FiftyOne.DeviceDetection.Examples.OnPremise.Metadata.Program", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_metadata_1_1_program.html", null ],
+    [ "Client_Hints_Not_Integrated.Program", "class_client___hints___not___integrated_1_1_program.html", null ],
     [ "FiftyOne.DeviceDetection.Examples.Cloud.Metadata.Program", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_cloud_1_1_metadata_1_1_program.html", null ],
-    [ "FiftyOne.DeviceDetection.Examples.Cloud.TacLookup.Program", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_cloud_1_1_tac_lookup_1_1_program.html", null ],
-    [ "FiftyOne.DeviceDetection.Examples.OnPremise.GettingStartedWeb.Program", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_getting_started_web_1_1_program.html", null ],
-    [ "FiftyOne.DeviceDetection.Examples.OnPremise.OfflineProcessing.Program", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_offline_processing_1_1_program.html", null ],
-    [ "FiftyOne.DeviceDetection.Examples.Cloud.Configurator.Program", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_cloud_1_1_configurator_1_1_program.html", null ],
-    [ "FiftyOne.DeviceDetection.Examples.Cloud.GetAllProperties.Program", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_cloud_1_1_get_all_properties_1_1_program.html", null ],
     [ "FiftyOne.DeviceDetection.Examples.Cloud.GettingStartedConsole.Program", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_cloud_1_1_getting_started_console_1_1_program.html", null ],
+    [ "FiftyOne.DeviceDetection.Examples.Cloud.TacLookup.Program", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_cloud_1_1_tac_lookup_1_1_program.html", null ],
+    [ "FiftyOne.DeviceDetection.Examples.OnPremise.OfflineProcessing.Program", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_offline_processing_1_1_program.html", null ],
+    [ "FiftyOne.DeviceDetection.Examples.Cloud.GetAllProperties.Program", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_cloud_1_1_get_all_properties_1_1_program.html", null ],
+    [ "FiftyOne.DeviceDetection.Examples.OnPremise.Performance.Program", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_program.html", null ],
+    [ "FiftyOne.DeviceDetection.Examples.Cloud.Configurator.Program", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_cloud_1_1_configurator_1_1_program.html", null ],
     [ "PropertyKeyedCloudEngineBase", null, [
       [ "FiftyOne.DeviceDetection.Cloud.FlowElements.HardwareProfileCloudEngine", "class_fifty_one_1_1_device_detection_1_1_cloud_1_1_flow_elements_1_1_hardware_profile_cloud_engine.html", null ]
     ] ],
     [ "Framework_Web.RouteConfig", "class_framework___web_1_1_route_config.html", null ],
     [ "Client_Hints_Not_Integrated.Startup", "class_client___hints___not___integrated_1_1_startup.html", null ],
-    [ "Cloud_Client_Hints_Not_Integrated.Startup", "class_cloud___client___hints___not___integrated_1_1_startup.html", null ],
     [ "FiftyOne.DeviceDetection.Examples.OnPremise.GettingStartedWeb.Startup", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_getting_started_web_1_1_startup.html", null ],
     [ "Cloud_Client_Hints.Startup", "class_cloud___client___hints_1_1_startup.html", null ],
+    [ "Cloud_Client_Hints_Not_Integrated.Startup", "class_cloud___client___hints___not___integrated_1_1_startup.html", null ],
     [ "FiftyOne.DeviceDetection.Examples.Cloud.GettingStartedWeb.Startup", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_cloud_1_1_getting_started_web_1_1_startup.html", null ],
     [ "Client_Hints.Startup", "class_client___hints_1_1_startup.html", null ],
     [ "FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop.DeviceDetectionHashEngineModulePINVOKE.SWIGExceptionHelper", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_device_d75abb59ed9409b5d3a5b327dc8a52fcc.html", null ],
