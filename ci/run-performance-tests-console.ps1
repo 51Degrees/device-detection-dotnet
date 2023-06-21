@@ -74,6 +74,7 @@ try {
         if ($Configuration.Contains("Release")) {
             $RunConfig = "Release"
         }
+        dotnet build -c $RunConfig /p:Platform=$Arch
         dotnet run -c $RunConfig /p:Platform=$Arch -d $TacFile -u $EvidenceFile -j summary.json
         
         if ($LASTEXITCODE -ne 0) {
