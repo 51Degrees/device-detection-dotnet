@@ -52,20 +52,6 @@ try {
     
     $ExamplesProject = [IO.Path]::Combine($ExamplesRepoPath, "Examples", "ExampleBase")
     
-    # Restore nuget packages in the examples project
-    Write-Output "Entering '$ExamplesRepoPath'"
-    Push-Location $ExamplesRepoPath
-    try {
-
-        Write-Output "Running Nuget Restore"
-        nuget restore
-    }
-    finally {
-
-        Write-Output "Leaving '$ExamplesRepoPath'"
-        Pop-Location
-    }
-    
     # Update the dependency in the examples project to point to the newly bulit package
     Write-Output "Entering '$ExamplesProject'"
     Push-Location $ExamplesProject
@@ -80,15 +66,30 @@ try {
         Pop-Location
     }
     
-    Write-Output "Running performance example"
+    Write-Output "Running performance example with config $Configuration|$Arch"
     Write-Output "Entering '$PerfProject' folder"
     Push-Location "$PerfProject"
     try {
-        dotnet run -c $Configuration /p:Platform=$Arch -d $TacFile -u $EvidenceFile -j summary.json
+        $RunConfig = "Debug"
+        if ($Configuration.Contains("Release")) {
+            $RunConfig = "Release"
+        }
+        dotnet build -c $RunConfig /p:Platform=$Arch /p:OutDir=output
+        Push-Location "output"
+        try {
+            dotnet .\FiftyOne.DeviceDetection.Examples.OnPremise.Performance.dll -d $TacFile -u $EvidenceFile -j summary.json
+        }
+        finally {
+            Pop-Location
+        }
         
+        if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
+        }
+
         # Write out the results for comparison
         Write-Output "Writing performance test results"
-        $Results = Get-Content ./summary.json | ConvertFrom-Json
+        $Results = Get-Content ./output/summary.json | ConvertFrom-Json
         Write-Output "{
             'HigherIsBetter': {
                 'DetectionsPerSecond': $($Results.MaxPerformance.DetectionsPerSecond)

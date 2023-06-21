@@ -19,10 +19,25 @@ try {
 	try {
 
 		Remove-Item -Force -Recurse *
+		if ($BuildType.Contains("Release")) {
+			$BuildType = "Release"
+		}
+		elseif ($BuildType.Contains("Debug")) {
+			$BuildType = "Debug"
+		}
+		else {
+			Write-Error "Build type '$BuildType' not recognized. Must contain Release or Debug."
+			exit 1
+		}
+
 		if ($($env:Os).Contains("Windows")) {
+
 			if ($Arch -eq "x86") {
 				# Map x86 to Win32 is we're building on Windows
 				$Arch = "Win32"
+			}
+			else {
+				$Arch = "x64"
 			}
 			cmake .. -DCMAKE_BUILD_TYPE=$BuildType -A $Arch
 			cmake --build . -t fiftyone-hash-dotnet --config $BuildType	
