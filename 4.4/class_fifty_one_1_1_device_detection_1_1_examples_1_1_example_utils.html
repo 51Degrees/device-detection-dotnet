@@ -112,10 +112,10 @@ Static Public Member Functions</h2>
 </div></td></tr>
 <!-- member dec start -->
 <!-- startMemberItem() -->
-<tr class="c-table__row memitem:ab5cb86e437a6761bea880cd8a26ef3f8"><td class="c-table__cell">static&#160;string<!-- insertMemberAlign -->
-&#160;</td><td class="c-table__cell"><a class="el" href="class_fifty_one_1_1_device_detection_1_1_examples_1_1_example_utils.html#ab5cb86e437a6761bea880cd8a26ef3f8">FindFile</a> (string filename)
+<tr class="c-table__row memitem:a54667c0d9989760b8cd9dcaac814c938"><td class="c-table__cell">static&#160;string<!-- insertMemberAlign -->
+&#160;</td><td class="c-table__cell"><a class="el" href="class_fifty_one_1_1_device_detection_1_1_examples_1_1_example_utils.html#a54667c0d9989760b8cd9dcaac814c938">FindFile</a> (string filename, DirectoryInfo dir=null)
 <!-- startMemberDescription -->
-<div class="c-table__desc memdesc:ab5cb86e437a6761bea880cd8a26ef3f8">Uses a background task to search for the specified filename within the working directory.  <a href="#ab5cb86e437a6761bea880cd8a26ef3f8">More...</a><!-- endMemberDescription -->
+<div class="c-table__desc memdesc:a54667c0d9989760b8cd9dcaac814c938">Uses a background task to search for the specified filename within the working directory.  <a href="#a54667c0d9989760b8cd9dcaac814c938">More...</a><!-- endMemberDescription -->
 </div></td></tr>
 <!-- member dec start -->
 <!-- startMemberItem() -->
@@ -166,6 +166,13 @@ Static Public Member Functions</h2>
 <!-- startMemberDescription -->
 <div class="c-table__desc memdesc:a8b6b280f86ab56779fbcc91c787b5a0c">Checks if the supplied 51Degrees resource key / license key is invalid.  <a href="#a8b6b280f86ab56779fbcc91c787b5a0c">More...</a><!-- endMemberDescription -->
 </div></td></tr>
+<!-- member dec start -->
+<!-- startMemberItem() -->
+<tr class="c-table__row memitem:a4de3aba4463a95479f277b870949e6ef"><td class="c-table__cell">static&#160;void<!-- insertMemberAlign -->
+&#160;</td><td class="c-table__cell"><a class="el" href="class_fifty_one_1_1_device_detection_1_1_examples_1_1_example_utils.html#a4de3aba4463a95479f277b870949e6ef">GetKeyFromEnv</a> (string envVarName, Action&lt; string &gt; setValue)
+<!-- startMemberDescription -->
+<div class="c-table__desc memdesc:a4de3aba4463a95479f277b870949e6ef">Checks if an environment variable exists with the key name provided and then runs the action with the value, or an empty string if the key does not exist.  <a href="#a4de3aba4463a95479f277b870949e6ef">More...</a><!-- endMemberDescription -->
+</div></td></tr>
 <!-- endMemberList -->
 <!-- end member list -->
 </tbody></table></div>
@@ -183,10 +190,17 @@ Public Attributes</h2>
 <tbody class="c-table__body">
 <!-- member dec start -->
 <!-- startMemberItem() -->
-<tr class="c-table__row memitem:a7881e374dc30a2ece7bc28a834d1e584"><td class="c-table__cell">const&#160;string<!-- insertMemberAlign -->
-&#160;</td><td class="c-table__cell"><a class="el" href="class_fifty_one_1_1_device_detection_1_1_examples_1_1_example_utils.html#a7881e374dc30a2ece7bc28a834d1e584">RESOURCE_KEY_ENV_VAR</a> = &quot;51D_RESOURCE_KEY&quot;
+<tr class="c-table__row memitem:a3a1fd7c069d5b3b33014f1681b46e1eb"><td class="c-table__cell">const&#160;string<!-- insertMemberAlign -->
+&#160;</td><td class="c-table__cell"><a class="el" href="class_fifty_one_1_1_device_detection_1_1_examples_1_1_example_utils.html#a3a1fd7c069d5b3b33014f1681b46e1eb">CLOUD_RESOURCE_KEY_ENV_VAR</a> = &quot;SUPER_RESOURCE_KEY&quot;
 <!-- startMemberDescription -->
-<div class="c-table__desc memdesc:a7881e374dc30a2ece7bc28a834d1e584">The default environment variable used to get the resource key to use when running examples.  <a href="#a7881e374dc30a2ece7bc28a834d1e584">More...</a><!-- endMemberDescription -->
+<div class="c-table__desc memdesc:a3a1fd7c069d5b3b33014f1681b46e1eb">The default environment variable key used to get the resource key to use when running cloud examples.  <a href="#a3a1fd7c069d5b3b33014f1681b46e1eb">More...</a><!-- endMemberDescription -->
+</div></td></tr>
+<!-- member dec start -->
+<!-- startMemberItem() -->
+<tr class="c-table__row memitem:a0d11707adb508296ad8ee9a7005306c7"><td class="c-table__cell">const&#160;string<!-- insertMemberAlign -->
+&#160;</td><td class="c-table__cell"><a class="el" href="class_fifty_one_1_1_device_detection_1_1_examples_1_1_example_utils.html#a0d11707adb508296ad8ee9a7005306c7">CLOUD_END_POINT_ENV_VAR</a> = &quot;51D_CLOUD_ENDPOINT&quot;
+<!-- startMemberDescription -->
+<div class="c-table__desc memdesc:a0d11707adb508296ad8ee9a7005306c7">The default environment variable key used to get the end point URL to use when running cloud examples.  <a href="#a0d11707adb508296ad8ee9a7005306c7">More...</a><!-- endMemberDescription -->
 </div></td></tr>
 <!-- member dec start -->
 <!-- startMemberItem() -->
@@ -393,9 +407,9 @@ Static Public Attributes</h2>
 </div>
 </article>
 <article class="c-member">
-<a id="ab5cb86e437a6761bea880cd8a26ef3f8"></a><!-- startMemberDoc -->
+<a id="a54667c0d9989760b8cd9dcaac814c938"></a><!-- startMemberDoc -->
 
-<h2 class="c-member__title"><span class="c-member__anchor"><a href="#ab5cb86e437a6761bea880cd8a26ef3f8">&#9670;&nbsp;</a></span>FindFile()</h2>
+<h2 class="c-member__title"><span class="c-member__anchor"><a href="#a54667c0d9989760b8cd9dcaac814c938">&#9670;&nbsp;</a></span>FindFile()</h2>
 
 <div class="c-member__main">
 <div class="c-member__head">
@@ -412,9 +426,23 @@ Static Public Attributes</h2>
           <td class="c-table__cell">string<!-- endParameterType -->
 &#160;</td>
 <!-- startParameterName -->
-          <td class="c-table__cell"><em>filename</em><!-- endParameterName -->
-</td><td>)</td>
-          <td><!-- endParameterList -->
+          <td class="c-table__cell"><em>filename</em>, <!-- endParameterName -->
+</td>
+        </tr>
+<!-- startParameterType -->
+        <tr>
+          <td class="c-table__cell"></td>
+          <td></td>
+          <td class="c-table__cell">DirectoryInfo<!-- endParameterType -->
+&#160;</td>
+<!-- startParameterName -->
+          <td class="c-table__cell"><em>dir</em> = <code>null</code><!-- endParameterName -->
+&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><!-- endParameterList -->
 </td>
         </tr>
 <!-- endMemberDoc -->
@@ -433,6 +461,7 @@ Static Public Attributes</h2>
 <p>If the file cannot be found, the algorithm will move to the parent directory and repeat the process. This continues until the file is found or a timeout is triggered. </p>
 <dl class="c-list-definition"><dt class="c-list-definition__title">Parameters</dt><dd class="c-list-definition__desc">
     <tr><dd class="c-list-definition__desc"><span class="b-text--red">filename</span> - </dd>
+    <tr><dd class="c-list-definition__desc"><span class="b-text--red">dir</span> - The directory to start looking from. If not provided the current directory is used. </dd>
   </dd>
 </dl>
 <dl class="c-list-definition return"><dt class="c-list-definition__title">Returns</dt><dd class="c-list-definition__desc"></dd></dl>
@@ -543,6 +572,68 @@ Static Public Attributes</h2>
 <p>Get information about the data file used by the specified engine </p>
 <dl class="c-list-definition"><dt class="c-list-definition__title">Parameters</dt><dd class="c-list-definition__desc">
     <tr><dd class="c-list-definition__desc"><span class="b-text--red">engine</span> - </dd>
+  </dd>
+</dl>
+<!-- endIndent -->
+
+</div>
+</div>
+</article>
+<article class="c-member">
+<a id="a4de3aba4463a95479f277b870949e6ef"></a><!-- startMemberDoc -->
+
+<h2 class="c-member__title"><span class="c-member__anchor"><a href="#a4de3aba4463a95479f277b870949e6ef">&#9670;&nbsp;</a></span>GetKeyFromEnv()</h2>
+
+<div class="c-member__main">
+<div class="c-member__head">
+<!-- startMemberDocName -->
+      <div class="c-member__split">
+        <div class="g-table g-table--overflow">
+          <table class="c-table c-table--article">
+            <tr class="c-table__row">
+              <td class="c-table__cell">static void FiftyOne.DeviceDetection.Examples.ExampleUtils.GetKeyFromEnv <!-- endMemberDocName -->
+</td>
+<!-- startParameterList -->
+          <td>(</td>
+<!-- startFirstParameterType -->
+          <td class="c-table__cell">string<!-- endParameterType -->
+&#160;</td>
+<!-- startParameterName -->
+          <td class="c-table__cell"><em>envVarName</em>, <!-- endParameterName -->
+</td>
+        </tr>
+<!-- startParameterType -->
+        <tr>
+          <td class="c-table__cell"></td>
+          <td></td>
+          <td class="c-table__cell">Action&lt; string &gt;<!-- endParameterType -->
+&#160;</td>
+<!-- startParameterName -->
+          <td class="c-table__cell"><em>setValue</em><!-- endParameterName -->
+&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><!-- endParameterList -->
+</td>
+        </tr>
+<!-- endMemberDoc -->
+          </table>
+        </div>
+      </div>
+<!-- startLabels -->
+<div class="c-member__labels">
+<!-- writeLabel(static) -->
+<span class="c-label">static</span><!-- endLabels -->
+</div>
+</div><!-- startIndent -->
+<div class="c-member__body">
+
+<p>Checks if an environment variable exists with the key name provided and then runs the action with the value, or an empty string if the key does not exist. </p>
+<dl class="c-list-definition"><dt class="c-list-definition__title">Parameters</dt><dd class="c-list-definition__desc">
+    <tr><dd class="c-list-definition__desc"><span class="b-text--red">envVarName</span> - </dd>
+    <tr><dd class="c-list-definition__desc"><span class="b-text--red">setValue</span> - </dd>
   </dd>
 </dl>
 <!-- endIndent -->
@@ -779,6 +870,63 @@ Static Public Attributes</h2>
 <h2 class="g-docs__section-heading">Member Data Documentation</h2>
 <!-- startMemberDocList -->
 <article class="c-member">
+<a id="a0d11707adb508296ad8ee9a7005306c7"></a><!-- startMemberDoc -->
+
+<h2 class="c-member__title"><span class="c-member__anchor"><a href="#a0d11707adb508296ad8ee9a7005306c7">&#9670;&nbsp;</a></span>CLOUD_END_POINT_ENV_VAR</h2>
+
+<div class="c-member__main">
+<div class="c-member__head">
+<!-- startMemberDocName -->
+      <div class="c-member__split">
+        <div class="g-table g-table--overflow">
+          <table class="c-table c-table--article">
+            <tr class="c-table__row">
+              <td class="c-table__cell">const string FiftyOne.DeviceDetection.Examples.ExampleUtils.CLOUD_END_POINT_ENV_VAR = &quot;51D_CLOUD_ENDPOINT&quot;<!-- endMemberDocName -->
+</td>
+<!-- endMemberDoc -->
+            </tr>
+          </table>
+        </div>
+      </div>
+</div><!-- startIndent -->
+<div class="c-member__body">
+
+<p>The default environment variable key used to get the end point URL to use when running cloud examples. </p>
+<p>Can be used to override the appsettings.json configuration for testing custom end points. </p>
+<!-- endIndent -->
+
+</div>
+</div>
+</article>
+<article class="c-member">
+<a id="a3a1fd7c069d5b3b33014f1681b46e1eb"></a><!-- startMemberDoc -->
+
+<h2 class="c-member__title"><span class="c-member__anchor"><a href="#a3a1fd7c069d5b3b33014f1681b46e1eb">&#9670;&nbsp;</a></span>CLOUD_RESOURCE_KEY_ENV_VAR</h2>
+
+<div class="c-member__main">
+<div class="c-member__head">
+<!-- startMemberDocName -->
+      <div class="c-member__split">
+        <div class="g-table g-table--overflow">
+          <table class="c-table c-table--article">
+            <tr class="c-table__row">
+              <td class="c-table__cell">const string FiftyOne.DeviceDetection.Examples.ExampleUtils.CLOUD_RESOURCE_KEY_ENV_VAR = &quot;SUPER_RESOURCE_KEY&quot;<!-- endMemberDocName -->
+</td>
+<!-- endMemberDoc -->
+            </tr>
+          </table>
+        </div>
+      </div>
+</div><!-- startIndent -->
+<div class="c-member__body">
+
+<p>The default environment variable key used to get the resource key to use when running cloud examples. </p>
+<!-- endIndent -->
+
+</div>
+</div>
+</article>
+<article class="c-member">
 <a id="a487969e4008ceba0b413347dcf6c9815"></a><!-- startMemberDoc -->
 
 <h2 class="c-member__title"><span class="c-member__anchor"><a href="#a487969e4008ceba0b413347dcf6c9815">&#9670;&nbsp;</a></span>DataFileAgeWarning</h2>
@@ -834,34 +982,6 @@ Static Public Attributes</h2>
 <div class="c-member__body">
 
 <p>This collection contains the various input values that will be passed to the device detection algorithm when running examples </p>
-<!-- endIndent -->
-
-</div>
-</div>
-</article>
-<article class="c-member">
-<a id="a7881e374dc30a2ece7bc28a834d1e584"></a><!-- startMemberDoc -->
-
-<h2 class="c-member__title"><span class="c-member__anchor"><a href="#a7881e374dc30a2ece7bc28a834d1e584">&#9670;&nbsp;</a></span>RESOURCE_KEY_ENV_VAR</h2>
-
-<div class="c-member__main">
-<div class="c-member__head">
-<!-- startMemberDocName -->
-      <div class="c-member__split">
-        <div class="g-table g-table--overflow">
-          <table class="c-table c-table--article">
-            <tr class="c-table__row">
-              <td class="c-table__cell">const string FiftyOne.DeviceDetection.Examples.ExampleUtils.RESOURCE_KEY_ENV_VAR = &quot;51D_RESOURCE_KEY&quot;<!-- endMemberDocName -->
-</td>
-<!-- endMemberDoc -->
-            </tr>
-          </table>
-        </div>
-      </div>
-</div><!-- startIndent -->
-<div class="c-member__body">
-
-<p>The default environment variable used to get the resource key to use when running examples. </p>
 <!-- endIndent -->
 
 </div>
