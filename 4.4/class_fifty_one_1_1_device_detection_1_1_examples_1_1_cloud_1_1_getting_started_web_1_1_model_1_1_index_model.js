@@ -4,6 +4,7 @@ var class_fifty_one_1_1_device_detection_1_1_examples_1_1_cloud_1_1_getting_star
     [ "BrowserName", null, null ],
     [ "BrowserVendor", null, null ],
     [ "BrowserVersion", null, null ],
+    [ "DeviceId", null, null ],
     [ "DeviceType", null, null ],
     [ "Engine", null, null ],
     [ "Evidence", null, null ],

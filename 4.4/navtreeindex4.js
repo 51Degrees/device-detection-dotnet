@@ -1,5 +1,7 @@
 var NAVTREEINDEX4 =
 {
+"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_map_stri19a059297230c4ac79470a9716a8ad77.html#adb08a38dbbf38baeafc43d2d59de45f9":[1,0,6,0,3,0,0,2,17,0,5],
+"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_map_stri19a059297230c4ac79470a9716a8ad77.html#afcc818b7ca7ed26921f3cb72178f499a":[1,0,6,0,3,0,0,2,17,0,2],
 "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_map_string_string_swig.html":[1,0,6,0,3,0,0,2,17],
 "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_map_string_string_swig.html#a030ecd636c1a9643f817ba4037d16aa2":[1,0,6,0,3,0,0,2,17,11],
 "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_map_string_string_swig.html#a0a391215c9e35cc026de1894bdce15a8":[1,0,6,0,3,0,0,2,17,17],
@@ -247,7 +249,5 @@ var NAVTREEINDEX4 =
 "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_date_swig_wrapper.html#aa3275f97e70ad95f2bf2e79388567e50":[1,0,6,0,3,0,0,3,3,1],
 "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_date_swig_wrapper.html#af16d2cdda82126b48b21c8485c192e56":[1,0,6,0,3,0,0,3,3,3],
 "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_double_value_swig_wrapper.html":[1,0,6,0,3,0,0,3,4],
-"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_double_value_swig_wrapper.html#a1109c3048414f9208a7ec90ea704f182":[1,0,6,0,3,0,0,3,4,3],
-"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_double_value_swig_wrapper.html#a699564ebfa74391d9794564745022634":[1,0,6,0,3,0,0,3,4,4],
-"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_double_value_swig_wrapper.html#ab51d3d321f6a28741e7b62e9b654325d":[1,0,6,0,3,0,0,3,4,1]
+"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_double_value_swig_wrapper.html#a1109c3048414f9208a7ec90ea704f182":[1,0,6,0,3,0,0,3,4,3]
 };

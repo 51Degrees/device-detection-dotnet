@@ -5,6 +5,7 @@ var class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_getting
     [ "BrowserVendor", null, null ],
     [ "BrowserVersion", null, null ],
     [ "DataFile", null, null ],
+    [ "DeviceId", null, null ],
     [ "DeviceType", null, null ],
     [ "Engine", null, null ],
     [ "Evidence", null, null ],

@@ -1,5 +1,7 @@
 var NAVTREEINDEX5 =
 {
+"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_double_value_swig_wrapper.html#a699564ebfa74391d9794564745022634":[1,0,6,0,3,0,0,3,4,4],
+"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_double_value_swig_wrapper.html#ab51d3d321f6a28741e7b62e9b654325d":[1,0,6,0,3,0,0,3,4,1],
 "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_double_value_swig_wrapper.html#abc3750ee3b5944a8d707ab874c2b7335":[1,0,6,0,3,0,0,3,4,2],
 "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_double_value_swig_wrapper.html#aeabfc018e3d41e0e008fe13515bad108":[1,0,6,0,3,0,0,3,4,5],
 "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_double_value_swig_wrapper.html#af095dcd93f581ea33f3ad04558ae123e":[1,0,6,0,3,0,0,3,4,0],
@@ -247,7 +249,5 @@ var NAVTREEINDEX5 =
 "interface_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_i_results_swig_wrapper.html#aa59919941acbefb1239c21f0b0675aed":[1,0,6,0,3,0,0,3,15,13],
 "interface_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_i_results_swig_wrapper.html#aac526c969034e01c763b3e9794b15c3d":[1,0,6,0,3,0,0,3,15,9],
 "interface_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_i_results_swig_wrapper.html#ab252fda0d1705f1b18dbe17447a93a2a":[1,0,6,0,3,0,0,3,15,12],
-"interface_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_i_results_swig_wrapper.html#ab96137f0aa3bdf7113281613c4e631d2":[1,0,6,0,3,0,0,3,15,4],
-"interface_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_i_results_swig_wrapper.html#af7c0bd5f2b8e4652d021d6fb463a21e2":[1,0,6,0,3,0,0,3,15,0],
-"interface_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_i_results_swig_wrapper.html#afb87f949c5a559765731b1692f7e9445":[1,0,6,0,3,0,0,3,15,3]
+"interface_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_i_results_swig_wrapper.html#ab96137f0aa3bdf7113281613c4e631d2":[1,0,6,0,3,0,0,3,15,4]
 };
