@@ -14,9 +14,10 @@ on:
 jobs:
   # Run the common workflow on each pull request
   Nightly_PR_to_Main:
-    uses: 51Degrees/common-ci/.github/workflows/nightly-prs-to-main.yml@main
+    uses: ben51Degrees/common-ci/.github/workflows/nightly-prs-to-main.yml@main
     with:
       repo-name: ${{ github.event.repository.name }}
+      org-name: ${{ github.event.repository.owner.login }}
       dryrun: ${{ inputs.dryrun || false }}
     secrets: 
       token: ${{ secrets.ACCESS_TOKEN }}
