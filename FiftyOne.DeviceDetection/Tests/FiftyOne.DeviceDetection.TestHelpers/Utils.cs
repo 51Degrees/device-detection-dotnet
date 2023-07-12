@@ -35,7 +35,7 @@ namespace FiftyOne.DeviceDetection.TestHelpers
         {
             var path = Path.Combine(Environment.CurrentDirectory, filename);
             var file = new FileInfo(path);
-            if (file.Exists == false)
+            if (file.Exists == false || file.Length > 1000) // Checking the length prevents Git LFS pointers from being allowed.
             {
                 Assert.Inconclusive($"Expected data file " +
                     $"'{path}' was missing. Test not run.");
