@@ -2,6 +2,9 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$RepoName,
     [string]$ProjectDir = ".",
+    # Keys contain the License and Resource Keys needed to run the tests.
+    [Parameter(Mandatory=$true)]
+    [Hashtable]$Keys,
     [string]$Name = "Release_x64",
     [string]$Configuration = "CoreRelease",
     [string]$Arch = "x64",
@@ -10,6 +13,15 @@ param(
     [string]$OrgName
 )
 
+function Get-CurrentFileName {
+    $MyInvocation.ScriptName
+}
+function Get-CurrentLineNumber {
+    $MyInvocation.ScriptLineNumber
+}
+
+$RepoPath = [IO.Path]::Combine($pwd, $RepoName)
+$ExamplesRepoName = "$RepoName-examples"
 $NugetPackageFolder = [IO.Path]::Combine($pwd, "package")
 $EvidenceFiles = [IO.Path]::Combine($pwd, $RepoName,"FiftyOne.DeviceDetection", "device-detection-cxx", "device-detection-data")
 $ExamplesRepoName = "device-detection-dotnet-examples"
@@ -21,9 +33,18 @@ try {
         Write-Output "Cloning '$ExamplesRepoName'"
         ./steps/clone-repo.ps1 -RepoName $ExamplesRepoName -OrgName $OrgName
         
-        Write-Output "Moving TAC file for examples"
-        $TacFile = [IO.Path]::Combine($EvidenceFiles, "TAC-HashV41.hash") 
-        Copy-Item $TacFile device-detection-dotnet-examples/device-detection-data/TAC-HashV41.hash
+        if ($Keys.DeviceDetection -ne "") {
+            Write-Output "Moving TAC file for examples"
+            $TacFile = [IO.Path]::Combine($EvidenceFiles, "TAC-HashV41.hash") 
+            Copy-Item $TacFile device-detection-dotnet-examples/device-detection-data/TAC-HashV41.hash
+        }
+        else {
+            Write-Output "::warning file=$(Get-CurrentFileName),line=$(Get-CurrentLineNumber),endLine=$(Get-CurrentLineNumber),title=No On-Premise Data File::No on-premise license was provided, so some on-premise tests will not run."
+        }
+        
+        if ($Keys.TestResourceKey -eq "") {
+            Write-Output "::warning file=$(Get-CurrentFileName),line=$(Get-CurrentLineNumber),endLine=$(Get-CurrentLineNumber),title=No Resource Key::No resource key was provided, so cloud tests will not run."
+        }
 
         Write-Output "Moving evidence files for examples"
         $UAFile = [IO.Path]::Combine($EvidenceFiles, "20000 User Agents.csv") 
