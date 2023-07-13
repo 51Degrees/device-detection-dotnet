@@ -12,6 +12,7 @@ function Get-CurrentLineNumber {
     $MyInvocation.ScriptLineNumber
 }
 $RepoPath = [IO.Path]::Combine($pwd, $RepoName)
+$DataFileDir = [IO.Path]::Combine($pwd, $RepoName, "FiftyOne.DeviceDetection", "device-detection-cxx", "device-detection-data")
 
 if ($DeviceDetection -ne "") {
     # Fetch the TAC data file for testing with
@@ -20,7 +21,6 @@ if ($DeviceDetection -ne "") {
     # Move the data file to the correct location
     $DataFileName = "TAC-HashV41.hash"
     $DataFileSource = [IO.Path]::Combine($pwd, $RepoName, $DataFileName)
-    $DataFileDir = [IO.Path]::Combine($pwd, $RepoName, "FiftyOne.DeviceDetection", "device-detection-cxx", "device-detection-data")
     $DataFileDestination = [IO.Path]::Combine($DataFileDir, $DataFileName)
     Move-Item $DataFileSource $DataFileDestination
 }
