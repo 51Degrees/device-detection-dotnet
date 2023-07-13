@@ -40,6 +40,7 @@ namespace FiftyOne.DeviceDetection.TestHelpers
                 Assert.Inconclusive($"Expected data file " +
                     $"'{path}' was missing. Test not run.");
             }
+            Console.WriteLine($"Using data file '{file.FullName}'");
             return file;
         }
     }
