@@ -31,17 +31,64 @@ namespace FiftyOne.DeviceDetection.TestHelpers
 {
     public static class Utils
     {
+        public static DirectoryInfo GetProjectRoot()
+        {
+            // Start with the DLL directory
+            var current = new DirectoryInfo(Environment.CurrentDirectory);
+
+            // Go up until we get to the bin directory. This is not
+            // always the same number of steps, e.g. bin/Debug/ vs bin/x64/Debug
+            while (current.Name != "bin")
+            {
+                current = current.Parent;
+            }
+            // Go up one more to get to the project
+            current = current.Parent;
+
+            return current;
+        }
+
+        private static bool IsSolutionDir(DirectoryInfo dir)
+        {
+            var files = dir.GetFiles("*.sln");
+            return files.Any();
+        }
+
+        public static DirectoryInfo GetSolutionRoot()
+        {
+            var current = GetProjectRoot();
+            while (IsSolutionDir(current) == false &&
+                current.Parent != null)
+            {
+                current = current.Parent;
+            }
+            return current;
+        }
+
         public static FileInfo GetFilePath(string filename)
         {
-            var path = Path.Combine(Environment.CurrentDirectory, filename);
-            var file = new FileInfo(path);
-            if (file.Exists == false || file.Length > 1000) // Checking the length prevents Git LFS pointers from being allowed.
+            // First look in the working directory
+            var file = new FileInfo(Path.Combine(Environment.CurrentDirectory, filename));
+            if (file.Exists)
             {
-                Assert.Inconclusive($"Expected data file " +
-                    $"'{path}' was missing. Test not run.");
+                Console.WriteLine($"Using data file '{file.FullName}'");
+                return file;
             }
-            Console.WriteLine($"Using data file '{file.FullName}'");
-            return file;
+            // Now look in the solution directory.
+            var searchRoot = GetSolutionRoot();
+            var files = searchRoot.EnumerateFiles(filename,
+                SearchOption.AllDirectories);
+
+            file = files.FirstOrDefault();
+            
+            if (file.Exists)
+            {
+                Console.WriteLine($"Using data file '{file.FullName}'");
+                return file;
+            }
+            Assert.Inconclusive($"Expected data file " +
+                $"'{filename}' was missing. Test not run.");
+            return null;
         }
     }
 }
