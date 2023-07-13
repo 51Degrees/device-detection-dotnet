@@ -71,7 +71,7 @@ namespace FiftyOne.DeviceDetection.TestHelpers
             var file = new FileInfo(Path.Combine(Environment.CurrentDirectory, filename));
             if (file.Exists)
             {
-                Console.WriteLine($"Using data file '{file.FullName}'");
+                Console.WriteLine($"Using data file '{file.FullName}' ({file.Length})");
                 return file;
             }
             // Now look in the solution directory.
