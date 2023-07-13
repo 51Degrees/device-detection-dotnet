@@ -54,6 +54,14 @@ namespace FiftyOne.DeviceDetection.TestHelpers
             return files.Any();
         }
 
+        private static bool IsValidFile(FileInfo file)
+        {
+            return file != null &&
+                file.Exists &&
+                // Check that the file isn't just a file pointer from Git LFS
+                file.Length > 1000;
+        }
+
         public static DirectoryInfo GetSolutionRoot()
         {
             var current = GetProjectRoot();
@@ -69,9 +77,8 @@ namespace FiftyOne.DeviceDetection.TestHelpers
         {
             // First look in the working directory
             var file = new FileInfo(Path.Combine(Environment.CurrentDirectory, filename));
-            if (file.Exists)
+            if (IsValidFile(file))
             {
-                Console.WriteLine($"Using data file '{file.FullName}' ({file.Length})");
                 return file;
             }
             // Now look in the solution directory.
@@ -81,9 +88,8 @@ namespace FiftyOne.DeviceDetection.TestHelpers
 
             file = files.FirstOrDefault();
             
-            if (file.Exists)
+            if (IsValidFile(file))
             {
-                Console.WriteLine($"Using data file '{file.FullName}'");
                 return file;
             }
             Assert.Inconclusive($"Expected data file " +
