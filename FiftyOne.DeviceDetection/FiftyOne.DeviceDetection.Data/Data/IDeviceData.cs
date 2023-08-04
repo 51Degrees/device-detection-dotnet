@@ -158,7 +158,7 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<double> CLDC { get; }
 		/// <summary>
-		/// Indicates the contrast ratio of the device. This property is applicable only for TVs.
+		/// Indicates the contrast ratio of the device.
 		/// </summary>
 		IAspectPropertyValue<string> ContrastRatio { get; }
 		/// <summary>
@@ -298,11 +298,11 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<IReadOnlyList<string>> Durability { get; }
 		/// <summary>
-		/// Indicates the dynamic contrast ratio of the device's screen. This property is applicable only for TVs.
+		/// Indicates the dynamic contrast ratio of the device's screen.
 		/// </summary>
 		IAspectPropertyValue<string> DynamicContrastRatio { get; }
 		/// <summary>
-		/// Indicates the annual energy consumption of the device per year in kWh. This property is applicable only for TVs.
+		/// Indicates the annual energy consumption of the device per year in kWh.
 		/// </summary>
 		IAspectPropertyValue<int> EnergyConsumptionPerYear { get; }
 		/// <summary>
@@ -706,7 +706,7 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<string> OEM { get; }
 		/// <summary>
-		/// Indicates the power consumption of the device while switched on. This property is applicable only for TVs.
+		/// Indicates the power consumption of the device while switched on.
 		/// </summary>
 		IAspectPropertyValue<int> OnPowerConsumption { get; }
 		/// <summary>
@@ -794,7 +794,7 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<bool> Prompts { get; }
 		/// <summary>
-		/// Indicates the number of frames per second the television can display in Hertz. This property is applicable only for TVs.
+		/// Indicates the number of frames per second the television can display in Hertz.
 		/// </summary>
 		IAspectPropertyValue<int> RefreshRate { get; }
 		/// <summary>
@@ -1030,7 +1030,7 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<IReadOnlyList<string>> SupportedSIMCardTypes { get; }
 		/// <summary>
-		/// Indicates if the device supports 24p; a video format that operates at 24 frames per second. This property is applicable only for TVs.
+		/// Indicates if the device supports 24p; a video format that operates at 24 frames per second.
 		/// </summary>
 		IAspectPropertyValue<bool> Supports24p { get; }
 		/// <summary>
@@ -1046,7 +1046,7 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<bool> SupportsWebGL { get; }
 		/// <summary>
-		/// Indicates if the device supports Wireless Display Technology. This property is only applicable for TVs.
+		/// Indicates if the device supports Wireless Display Technology.
 		/// </summary>
 		IAspectPropertyValue<bool> SupportsWiDi { get; }
 		/// <summary>
