@@ -21,20 +21,12 @@
  * ********************************************************************* */
 
 using FiftyOne.DeviceDetection.Shared;
-using FiftyOne.Pipeline.CloudRequestEngine.FlowElements;
-using FiftyOne.Pipeline.Core.Data;
-using FiftyOne.Pipeline.Core.Data.Types;
 using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.Data;
-using FiftyOne.Pipeline.Engines.FiftyOne.Data;
 using FiftyOne.Pipeline.Engines.FlowElements;
 using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace FiftyOne.DeviceDetection.Cloud.Data
 {

@@ -24,7 +24,6 @@ using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop;
 using FiftyOne.Pipeline.Engines.FiftyOne.Data;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 {

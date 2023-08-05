@@ -22,8 +22,6 @@
 
 using FiftyOne.Pipeline.Engines.FiftyOne.Data;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FiftyOne.DeviceDetection.Shared.Data
 {

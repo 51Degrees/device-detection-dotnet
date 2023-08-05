@@ -23,9 +23,6 @@
 using FiftyOne.DeviceDetection.TestHelpers.FlowElements;
 using FiftyOne.Pipeline.Engines;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FiftyOne.DeviceDetection.Hash.Tests.Core.FlowElements
 {

@@ -22,9 +22,7 @@
 
 using FiftyOne.DeviceDetection.Shared.Data;
 using FiftyOne.Pipeline.Engines.FiftyOne.Data;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 {

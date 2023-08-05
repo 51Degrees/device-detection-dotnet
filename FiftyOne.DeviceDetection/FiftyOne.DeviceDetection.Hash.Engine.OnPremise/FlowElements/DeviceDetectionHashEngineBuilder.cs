@@ -23,7 +23,6 @@
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data;
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop;
 using FiftyOne.DeviceDetection.Shared.FlowElements;
-using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.Exceptions;
 using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines;

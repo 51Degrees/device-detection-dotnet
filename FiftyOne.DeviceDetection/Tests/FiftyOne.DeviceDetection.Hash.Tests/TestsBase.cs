@@ -25,7 +25,6 @@ using FiftyOne.Pipeline.Engines;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading;
-using System.Threading.Tasks;
 using Constants = FiftyOne.DeviceDetection.TestHelpers.Constants;
 
 namespace FiftyOne.DeviceDetection.Hash.Tests

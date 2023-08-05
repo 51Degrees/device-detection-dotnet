@@ -21,9 +21,6 @@
  * ********************************************************************* */
 
 using FiftyOne.Pipeline.Core.Data;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FiftyOne.DeviceDetection.TestHelpers.Data
 {

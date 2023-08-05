@@ -22,7 +22,6 @@
 
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop;
 using System;
-using System.Diagnostics;
 
 namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
 {

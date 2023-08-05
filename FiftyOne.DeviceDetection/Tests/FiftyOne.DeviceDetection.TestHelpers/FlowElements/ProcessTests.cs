@@ -24,10 +24,7 @@ using FiftyOne.DeviceDetection.Shared.FlowElements;
 using FiftyOne.DeviceDetection.Shared.Services;
 using FiftyOne.DeviceDetection.TestHelpers.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace FiftyOne.DeviceDetection.TestHelpers.FlowElements
 {

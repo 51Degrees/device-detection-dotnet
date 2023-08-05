@@ -21,18 +21,10 @@
  * ********************************************************************* */
 
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
-using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop;
-using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers;
-using FiftyOne.DeviceDetection.TestHelpers;
-using FiftyOne.Pipeline.Engines.FiftyOne.Data;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using System;
-using System.Buffers;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 
 namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements

@@ -34,7 +34,6 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 
 namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
 {
