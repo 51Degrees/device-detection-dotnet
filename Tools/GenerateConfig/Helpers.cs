@@ -113,7 +113,7 @@ namespace GenerateConfig
             {
                 // Get default value
                 var defaultValueAttr = method.GetCustomAttribute(typeof(DefaultValueAttribute)) as DefaultValueAttribute;
-                object? defaultValue = defaultValueAttr?.DefaultValue;
+                var defaultValue = defaultValueAttr?.DefaultValue;
                 if (defaultValue == null)
                 {
                     defaultValue = "No default value";
@@ -151,7 +151,7 @@ namespace GenerateConfig
                 {
                     // Get default value
                     var defaultValueAttr = parameter.GetCustomAttribute(typeof(DefaultValueAttribute)) as DefaultValueAttribute;
-                    object? defaultValue = defaultValueAttr?.DefaultValue;
+                    var defaultValue = defaultValueAttr?.DefaultValue;
                     if (defaultValue == null)
                     {
                         defaultValue = "No default value";
