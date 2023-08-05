@@ -49,7 +49,7 @@ namespace GenerateConfig
         }
 
         /// <summary>
-        /// Write the configration options for the specified element builder using the 
+        /// Write the configuration options for the specified element builder using the 
         /// specified json writer.
         /// </summary>
         /// <param name="writer"></param>
@@ -72,7 +72,7 @@ namespace GenerateConfig
         }
 
         /// <summary>
-        /// Write the configration options for the specified pipeline builder using the 
+        /// Write the configuration options for the specified pipeline builder using the 
         /// specified json writer.
         /// </summary>
         /// <param name="writer"></param>

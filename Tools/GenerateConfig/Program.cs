@@ -1,6 +1,4 @@
-﻿
-using FiftyOne.DeviceDetection;
-using FiftyOne.DeviceDetection.Apple;
+﻿using FiftyOne.DeviceDetection.Apple;
 using FiftyOne.DeviceDetection.Cloud.FlowElements;
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using FiftyOne.DeviceDetection.Uach;
