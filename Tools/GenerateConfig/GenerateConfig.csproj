@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.4.28" />
+    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.4.29" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\FiftyOne.DeviceDetection\FiftyOne.DeviceDetection\FiftyOne.DeviceDetection.csproj" />
+    <ProjectReference Include="..\..\FiftyOne.DeviceDetection\FiftyOne.DeviceDetection.csproj" />
   </ItemGroup>
 
 </Project>

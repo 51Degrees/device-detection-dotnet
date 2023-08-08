@@ -13,7 +13,6 @@ ExternalProject_Add(ApacheBench
     EXCLUDE_FROM_ALL TRUE
 )
 
-
 function(download_file url filename)
 
 if(NOT EXISTS ${filename})
@@ -23,7 +22,6 @@ if(NOT EXISTS ${filename})
 endif()
 
 endfunction(download_file)
-
 
 download_file(
     https://media.githubusercontent.com/media/51Degrees/device-detection-data/main/20000%20User%20Agents.csv

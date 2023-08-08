@@ -41,14 +41,13 @@ namespace performance_tests
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
 
             services.AddSingleton<DeviceDetectionHashEngineBuilder>();
 
             // Call AddFiftyOne to add all the things the Pipeline will need
             // to the services collection and create it based on the supplied
-            // configruation.
+            // configuration.
             services.AddFiftyOne(Configuration);
         }
 
