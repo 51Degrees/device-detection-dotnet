@@ -49,7 +49,7 @@ $jsonString = $json | ConvertTo-Json -Depth 10
 # Write the updated JSON string back to the appsettings.json file
 $jsonString | Set-Content -Path $SettingsFile
 
-dotnet publish "$PerfPath" -c $Configuration.Replace("Core","") /p:Platform=$Arch -o "$PerfPath/output" /p:BuiltOnCI=true
+dotnet publish "$PerfPath" -c $Configuration /p:Platform=$Arch -o "$PerfPath/output"
 
 if($IsLinux){
     #install APR library for linux
@@ -73,14 +73,7 @@ try {
         # then unset once we're done
         Write-Output "Running performance test"
 
-        if($IsLinux){
-            $dotnetPath = whereis dotnet
-            Write-Output $dotnetPath
-            bash ./runPerf.sh $Arch $Configuration.Replace("Core","") $dotnetPath.Split(" ")[1]
-        }
-        else{
-            ./runPerf.ps1 -c $Configuration.Replace("Core","") -p $Arch
-        }
+        ./runPerf.ps1 -c $Configuration -p $Arch
 		
         Get-ChildItem -Path $PerfPath -Filter "summary.json" -File -Recurse | ForEach-Object {
             $destinationPath = Join-Path -Path $PerfPath/build -ChildPath $_.Name

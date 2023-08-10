@@ -30,8 +30,7 @@ download_file(
 
 add_custom_target(perf ALL
     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/runPerf.ps1 ./
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/runPerf.sh ./
-    DEPENDS ${CMAKE_SOURCE_DIR}/runPerf.ps1 ${CMAKE_SOURCE_DIR}/runPerf.sh
+    DEPENDS ${CMAKE_SOURCE_DIR}/runPerf.ps1
 
     VERBATIM
 )
