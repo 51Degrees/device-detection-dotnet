@@ -22,18 +22,13 @@ $Cores = [System.Environment]::ProcessorCount + 1
 $Jargs = "-j$Cores"
 
 # Ensure the build path is present
-$BuildPath = [IO.Path]::Combine($pwd, "build", $OS, $Arch)
+$BuildPath = [IO.Path]::Combine("build", $OS, $Arch)
 if ($(Test-Path -Path $BuildPath) -eq $False) {
 
 	New-Item -ItemType Directory -Force -Path $BuildPath | Out-Null
 
 }
-$TargetPath = [IO.Path]::Combine($BuildPath, $OS, $Arch)
-if ($(Test-Path -Path $TargetPath) -eq $False) {
 
-	New-Item -ItemType Directory -Force -Path $TargetPath | Out-Null
-
-}
 # Change the current directory to the build path
 Push-Location $BuildPath
 
@@ -53,9 +48,6 @@ try {
 
 		cmake ../../.. -A $Arch -DRebuildSwig=Off
 		cmake --build . -t fiftyone-hash-dotnet --config $BuildType $Jargs
-		Copy-Item `
-			-Path $BuildPath/$BuildType/FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll `
-			-Destination $TargetPath/FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll
 		
 	}
 	else {
@@ -70,9 +62,6 @@ try {
 		}
 		cmake ../../.. "-D32bit=$Is32" "-DCMAKE_BUILD_TYPE=$BuildType" -DRebuildSwig=Off
 		cmake --build . -t fiftyone-hash-dotnet $Jargs
-		Copy-Item `
-			-Path $BuildPath/$BuildType/FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.so `
-			-Destination $TargetPath/FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.so
 
 	}
 
