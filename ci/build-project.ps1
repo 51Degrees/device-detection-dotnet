@@ -8,7 +8,7 @@ param(
     [string]$BuildMethod = "msbuild"
 )
 
-./dotnet/build-package-requirement.ps1 -RepoName $RepoName -ProjectDir "FiftyOne.DeviceDetection.Hash.OnPremise" -Name $Name -Configuration "Release" -Arch $Arch
+./dotnet/build-package-requirement.ps1 -RepoName $RepoName -ProjectDir "FiftyOne.DeviceDetection" -Name $Name -Configuration "Release" -Arch $Arch
 
 if ($BuildMethod -eq "dotnet"){
 
