@@ -1,0 +1,17 @@
+{
+  "solution": {
+    "path": "FiftyOne.DeviceDetection.sln",
+    "projects": [
+      "FiftyOne.DeviceDetection.Cloud\\FiftyOne.DeviceDetection.Cloud.csproj",
+      "FiftyOne.DeviceDetection.Data\\FiftyOne.DeviceDetection.Shared.csproj",
+      "FiftyOne.DeviceDetection.Hash.Engine.OnPremise\\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.csproj",
+      "FiftyOne.DeviceDetection\\FiftyOne.DeviceDetection.csproj",
+      "Tests\\FiftyOne.DeviceDetection.Cloud.Tests\\FiftyOne.DeviceDetection.Cloud.Tests.csproj",
+      "Tests\\FiftyOne.DeviceDetection.Hash.Tests\\FiftyOne.DeviceDetection.Hash.Tests.csproj",
+      "Tests\\FiftyOne.DeviceDetection.TestHelpers\\FiftyOne.DeviceDetection.TestHelpers.csproj",
+      "Tests\\FiftyOne.DeviceDetection.Tests.Core\\FiftyOne.DeviceDetection.Tests.Core.csproj",
+      "Tools\\GenerateConfig\\GenerateConfig.csproj",
+      "performance-tests\\performance-tests.csproj"
+    ]
+  }
+}
