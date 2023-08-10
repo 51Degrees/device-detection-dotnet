@@ -54,7 +54,6 @@ try {
 
 		cmake ../../.. -A $Arch -DRebuildSwig=Off
 		cmake --build . -t fiftyone-hash-dotnet --config $BuildType $Jargs
-		Write-Output "Copying $BuildPath/$BuildType/FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll -> $TargetPath/FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll"
 		Copy-Item `
 			-Path $BuildPath/$BuildType/FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll `
 			-Destination $TargetPath/FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll
@@ -72,7 +71,6 @@ try {
 		}
 		cmake ../../.. "-D32bit=$Is32" "-DCMAKE_BUILD_TYPE=$BuildType" -DRebuildSwig=Off
 		cmake --build . -t fiftyone-hash-dotnet $Jargs
-		Write-Output "Copying $BuildPath/$BuildType/FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.so -> $TargetPath/FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.so"
 		Copy-Item `
 			-Path $BuildPath/$BuildType/FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.so `
 			-Destination $TargetPath/FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.so
