@@ -34,7 +34,7 @@ else {
     exit
 }
 
-$NativeFilesFolder = [IO.Path]::Combine($RepoPath, $ProjectDir, $Subfolder) 
+$NativeFilesFolder = [IO.Path]::Combine($RepoPath, "FiftyOne.DeviceDetection.Hash.OnPremise", $Subfolder) 
 
 $PackageFolder = "package-files"
 New-Item -Path $PackageFolder -ItemType Directory -Force
