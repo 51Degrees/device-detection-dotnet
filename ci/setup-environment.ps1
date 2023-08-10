@@ -24,7 +24,12 @@ if ($IsLinux) {
 
 }
 
-$env:DEVICEDETECTIONDATAFILE = [IO.Path]::Combine($RepoPath, "FiftyOne.DeviceDetection", "device-detection-cxx", "device-detection-data", "TAC-HashV41.hash")
+if ($Keys.DeviceDetection -ne "") {
+    $env:DEVICEDETECTIONDATAFILE = [IO.Path]::Combine($RepoPath, "FiftyOne.DeviceDetection", "device-detection-cxx", "device-detection-data", "TAC-HashV41.hash")
+}
+else {
+    $env:DEVICEDETECTIONDATAFILE = [IO.Path]::Combine($RepoPath, "FiftyOne.DeviceDetection", "device-detection-cxx", "device-detection-data", "51Degrees-LiteV4.1.hash")
+}
 $env:SUPER_RESOURCE_KEY = $Keys.TestResourceKey
 $env:DEVICEDETECTIONLICENSEKEY_DOTNET = $Keys.DeviceDetection
 $env:ACCEPTCH_BROWSER_KEY = $Keys.AcceptCHBrowserKey
