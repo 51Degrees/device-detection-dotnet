@@ -1,5 +1,5 @@
 param(
-    [string]$ProjectDir = "FiftyOne.DeviceDetection",
+    [string]$ProjectDir = "FiftyOne.DeviceDetection.Hash.OnPremise",
     [string]$Name = "Release_x64",
     [Parameter(Mandatory=$true)]
     [string]$RepoName,
@@ -34,7 +34,7 @@ else {
     exit
 }
 
-$NativeFilesFolder = [IO.Path]::Combine($RepoPath, "FiftyOne.DeviceDetection.Hash.OnPremise", $Subfolder) 
+$NativeFilesFolder = [IO.Path]::Combine($RepoPath, $ProjectDir, $Subfolder) 
 
 $PackageFolder = "package-files"
 New-Item -Path $PackageFolder -ItemType Directory -Force
