@@ -28,13 +28,12 @@ if ($(Test-Path -Path $BuildPath) -eq $False) {
 	New-Item -ItemType Directory -Force -Path $BuildPath | Out-Null
 
 }
-$TargetPath = [IO.Path]::Combine($BuildPath, $OS, $Arch, $BuildType)
+$TargetPath = [IO.Path]::Combine($BuildPath, $OS, $Arch)
 if ($(Test-Path -Path $TargetPath) -eq $False) {
 
 	New-Item -ItemType Directory -Force -Path $TargetPath | Out-Null
 
 }
-
 # Change the current directory to the build path
 Push-Location $BuildPath
 
