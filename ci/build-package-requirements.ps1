@@ -1,5 +1,5 @@
 param(
-    [string]$ProjectDir = "FiftyOne.DeviceDetection",
+    [string]$ProjectDir = "FiftyOne.DeviceDetection.Hash.Engine.OnPremise",
     [string]$Name = "Release_x64",
     [Parameter(Mandatory=$true)]
     [string]$RepoName,
