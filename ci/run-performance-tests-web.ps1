@@ -38,7 +38,7 @@ Write-Output "Setting Data File for testing"
 $SettingsFile = [IO.Path]::Combine($RepoPath, "performance-tests", "appsettings.json") 
 
 # Read the contents of the appsettings.json file
-$json = Get-Content -Path $SettingsFile | ConvertFrom-Json
+$json = (Get-Content -Path $SettingsFile) -replace '^\s*//.*' | Out-String | ConvertFrom-Json
 
 # Update the "DataFile" value
 $json.PipelineOptions.Elements[0].BuildParameters.DataFile = $env:DEVICEDETECTIONDATAFILE
