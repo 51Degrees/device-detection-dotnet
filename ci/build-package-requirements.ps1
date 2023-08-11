@@ -16,6 +16,11 @@ if($IsLinux){
         Remove-Item -LiteralPath "$RepoPath/$ProjectDir/build" -Force -Recurse -ErrorAction SilentlyContinue
     }
 }
+elseif ($IsMacOS -and $Arch -eq "ARM64") {
+     
+    ./cxx/build-project.ps1 -RepoName $RepoName -ProjectDir $ProjectDir -Configuration $Configuration -ExtraArgs "-DCMAKE_OSX_ARCHITECTURES=arm64" -Arch $Arch
+
+}
 else{
     ./dotnet/build-package-requirement.ps1 -RepoName $RepoName -ProjectDir $ProjectDir -Name $Name -Configuration "Release" -Arch $Arch
 }
@@ -23,13 +28,13 @@ else{
 $RepoPath = [IO.Path]::Combine($pwd, $RepoName)
 
 # Verify that the path to binaries exists and copy it to package-files folder  
-if (Test-Path -Path "$RepoPath\$ProjectDir\build\windows") {
+if ($IsWindows) {
     $Subfolder = "windows"
 }
-elseif (Test-Path -Path "$RepoPath\$ProjectDir\build\linux") {
+elseif ($IsLinux) {
     $Subfolder = "linux"
 }
-elseif (Test-Path -Path "$RepoPath\$ProjectDir\build\macos") {
+elseif ($IsMacOS) {
     $Subfolder = "macos"
 }
 else {
