@@ -96,12 +96,12 @@
       <PackagePath>runtimes\win-x86\native</PackagePath>
     </_PackageFiles>
     <!-- Copy the Linux x64 native DLL -->
-    <_PackageFiles Include="..\linux\x64\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.so">
+    <_PackageFiles Include="..\linux\x64\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
       <BuildAction>None</BuildAction>
       <PackagePath>runtimes\linux-x64\native</PackagePath>
     </_PackageFiles>
     <!-- Copy the Linux x86 native DLL -->
-    <_PackageFiles Include="..\linux\x86\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.so">
+    <_PackageFiles Include="..\linux\x86\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
       <BuildAction>None</BuildAction>
       <PackagePath>runtimes\linux-x86\native</PackagePath>
     </_PackageFiles>
@@ -119,7 +119,7 @@
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(Platform)' != 'AnyCPU'">
     <Exec Command="pwsh $(ProjectDir)PreBuild.ps1 -BuildType $(BuildType) -Arch $(Platform)" />
   </Target>
   
