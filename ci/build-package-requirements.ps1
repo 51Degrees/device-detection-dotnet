@@ -31,9 +31,13 @@ elseif ($IsWindows) {
     New-Item -Path $PackageFolder -ItemType Directory -Force
     Copy-Item -Path $NativeFile -Destination "$PackageFolder/$NativeName" -Force
 }
-elseif ($IsMacOS -and $Arch -eq "ARM64") {
+elseif ($IsMacOS) {
     $Subfolder = "osx"
-    ./cxx/build-project.ps1 -RepoName $RepoName -ProjectDir $ProjectDir -Configuration $Configuration -ExtraArgs "-DCMAKE_OSX_ARCHITECTURES=arm64" -Arch $Arch
+    $ExtraArgs = ""
+    if ($Arch -eq "ARM64") {
+        $ExtraArgs += "-DCMAKE_OSX_ARCHITECTURES=arm64"
+    }
+    ./cxx/build-project.ps1 -RepoName $RepoName -ProjectDir $ProjectDir -Configuration $Configuration -ExtraArgs $ExtraArgs -Arch $Arch
     $PackageFolder = "package-files/$SubFolder/$Arch"
     New-Item -Path $PackageFolder -ItemType Directory -Force
     Copy-Item -Path $NativeFile -Destination "$PackageFolder/$NativeName" -Force
