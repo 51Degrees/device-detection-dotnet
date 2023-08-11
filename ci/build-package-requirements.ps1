@@ -23,10 +23,10 @@ else{
 $RepoPath = [IO.Path]::Combine($pwd, $RepoName)
 
 # Verify that the path to binaries exists and copy it to package-files folder  
-if (Test-Path -Path "$RepoPath\$ProjectDir\windows") {
+if ($IsWindows) {
     $Subfolder = "windows"
 }
-elseif (Test-Path -Path "$RepoPath\$ProjectDir\linux") {
+elseif ($IsLinux) {
     $Subfolder = "linux"
 }
 else {
