@@ -33,4 +33,4 @@ $CAL="calibrate"
 $PRO="process"
 $PERF="$scriptRoot/ApacheBench-prefix/src/ApacheBench-build/bin/runPerf.ps1"
 
-Invoke-Expression "$PERF -n $PASSES -s 'dotnet run $pwd $r' -c $CAL -p $PRO -h $SERVICEHOST"
+Invoke-Expression "$PERF -n $PASSES -s 'dotnet run $pwd../ $r' -c $CAL -p $PRO -h $SERVICEHOST"
