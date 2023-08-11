@@ -105,6 +105,11 @@
       <BuildAction>None</BuildAction>
       <PackagePath>runtimes\linux-x86\native</PackagePath>
     </_PackageFiles>
+    <!-- Copy the Mac x64 native DLL -->
+    <_PackageFiles Include="..\macos\x64\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
+      <BuildAction>None</BuildAction>
+      <PackagePath>runtimes\osx-x64\native</PackagePath>
+    </_PackageFiles>
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Messages.Designer.cs">

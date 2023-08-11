@@ -32,7 +32,7 @@ elseif ($IsWindows) {
     Copy-Item -Path $NativeFile -Destination "$PackageFolder/$NativeName" -Force
 }
 elseif ($IsMacOS) {
-    $Subfolder = "osx"
+    $Subfolder = "macos"
     $ExtraArgs = ""
     if ($Arch -eq "ARM64") {
         $ExtraArgs += "-DCMAKE_OSX_ARCHITECTURES=arm64"
