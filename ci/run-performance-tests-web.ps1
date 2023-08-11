@@ -10,7 +10,6 @@ param(
 
 $RepoPath = [IO.Path]::Combine($pwd, $RepoName)
 $PerfPath = [IO.Path]::Combine($RepoPath, "performance-tests")
-$PerfResultsFile = [IO.Path]::Combine($RepoPath, "test-results", "performance-summary", "results_$Name.json")
 
 Write-Output "Entering '$RepoPath'"
 Push-Location $RepoPath
@@ -49,8 +48,6 @@ $jsonString = $json | ConvertTo-Json -Depth 10
 # Write the updated JSON string back to the appsettings.json file
 $jsonString | Set-Content -Path $SettingsFile
 
-dotnet publish "$PerfPath" -c $Configuration /p:Platform=$Arch -o "$PerfPath/output"
-
 if($IsLinux){
     #install APR library for linux
     sudo apt-get install apache2-dev libapr1-dev libaprutil1-dev
@@ -73,7 +70,7 @@ try {
         # then unset once we're done
         Write-Output "Running performance test"
 
-        ./runPerf.ps1 -c $Configuration -p $Arch
+        ./runPerf.ps1 -c $Configuration -p $Arch -r "-c $Configuration /p:Platform=$Arch"
 		
         Get-ChildItem -Path $PerfPath -Filter "summary.json" -File -Recurse | ForEach-Object {
             $destinationPath = Join-Path -Path $PerfPath/build -ChildPath $_.Name
