@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Platforms>x64;x86</Platforms>
+    <Platforms>x64;x86;ARM64</Platforms>
     <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
     <DocumentationFile>FiftyOne.DeviceDetection.Hash.Engine.OnPremise.xml</DocumentationFile>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>

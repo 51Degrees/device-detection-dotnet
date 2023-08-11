@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <IsPackable>false</IsPackable>
-    <Platforms>x86;x64</Platforms>
+    <Platforms>x86;x64;ARM64</Platforms>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">net6.0;net462</TargetFrameworks>
     <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">net6.0</TargetFrameworks>
     <Configurations>Debug;Release</Configurations>

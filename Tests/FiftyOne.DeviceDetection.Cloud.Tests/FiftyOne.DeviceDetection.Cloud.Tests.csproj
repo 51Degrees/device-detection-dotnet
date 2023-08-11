@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <IsPackable>false</IsPackable>
-    <Platforms>AnyCPU;x64;x86</Platforms>
+    <Platforms>AnyCPU;x64;x86;ARM64</Platforms>
     <Configurations>Debug;Release</Configurations>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
