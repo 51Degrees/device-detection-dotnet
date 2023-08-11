@@ -33,4 +33,4 @@ $CAL="calibrate"
 $PRO="process"
 $PERF="$scriptRoot/ApacheBench-prefix/src/ApacheBench-build/bin/runPerf.ps1"
 
-Invoke-Expression "$PERF -n $PASSES -s '$d run --project $pwd/.. -c $c /p:Platform=$p --no-build' -c $CAL -p $PRO -h $SERVICEHOST"
+Invoke-Expression "$PERF -n $PASSES -s '$d $pwd/../bin/$p/$c/net6.0/performance_tests.dll' -c $CAL -p $PRO -h $SERVICEHOST"
