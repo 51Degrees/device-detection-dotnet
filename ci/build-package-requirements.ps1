@@ -18,7 +18,7 @@ if($IsLinux){
         ./dotnet/build-package-requirement.ps1 -RepoName $RepoName -ProjectDir $ProjectDir -Name $Name -Configuration "Release" -Arch $a
         $PackageFolder = "package-files/$SubFolder/$a"
         New-Item -Path $PackageFolder -ItemType Directory -Force
-        Copy-Item -Path "$NativeFilesFolder" -Destination "$PackageFolder/$NativeName" -Force
+        Copy-Item -Path $NativeFile -Destination "$PackageFolder/$NativeName" -Force
       
         # CMake generates build files specific to the architecture. We are deleting the build folder to ensure clean build enviroment. 
         Remove-Item -LiteralPath "$RepoPath/$ProjectDir/build" -Force -Recurse -ErrorAction SilentlyContinue
@@ -29,7 +29,7 @@ elseif ($IsWindows) {
     ./dotnet/build-package-requirement.ps1 -RepoName $RepoName -ProjectDir $ProjectDir -Name $Name -Configuration "Release" -Arch $Arch
     $PackageFolder = "package-files/$SubFolder/$Arch"
     New-Item -Path $PackageFolder -ItemType Directory -Force
-    Copy-Item -Path "$NativeFilesFolder" -Destination "$PackageFolder/$NativeName" -Force
+    Copy-Item -Path $NativeFile -Destination "$PackageFolder/$NativeName" -Force
 }
 else {
     Write-Host "Unsupported OS."
