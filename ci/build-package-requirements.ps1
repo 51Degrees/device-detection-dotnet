@@ -33,14 +33,14 @@ else {
     Write-Host "No appropriate subfolder found."
     exit
 }
+$NativeName = "FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll"
+$NativeFile = [IO.Path]::Combine($RepoPath, $ProjectDir, "build", $NativeName)
 
-$NativeFilesFolder = [IO.Path]::Combine($RepoPath, $ProjectDir, $Subfolder) 
-
-$PackageFolder = "package-files"
+$PackageFolder = "package-files/$SubFolder/$Arch"
 New-Item -Path $PackageFolder -ItemType Directory -Force
 
 
-Copy-Item -Path "$NativeFilesFolder" -Destination "$PackageFolder" -Recurse -Force
+Copy-Item -Path "$NativeFilesFolder" -Destination "$PackageFolder/$NativeName" -Force
 
 
 exit $LASTEXITCODE
