@@ -11,7 +11,7 @@ param(
 )
 
 # Path to this repository
-$BinaryFilesFolder = [IO.Path]::Combine($pwd, $RepoName , "FiftyOne.DeviceDetection")
+$BinaryFilesFolder = [IO.Path]::Combine($pwd, $RepoName)
 
 # Path to where the dll files are downloaded for all the platfoms
 $PackageFilesPath = [IO.Path]::Combine($pwd, "package-files")
