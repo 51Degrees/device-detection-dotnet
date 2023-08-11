@@ -56,7 +56,7 @@
     <None Include="$(ProjectDir)\build\windows\$(Platform)\$(BuildType)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="$([MSBuild]::IsOsPlatform('Windows')) AND '$(Platform)' != 'AnyCPU'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="$(ProjectDir)\build\linux\$(Platform)\$(BuildType)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="'$([MSBuild]::IsOsPlatform('Linux')) AND '$(Platform)' != 'AnyCPU'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
+    <None Include="$(ProjectDir)\build\linux\$(Platform)\$(BuildType)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="$([MSBuild]::IsOsPlatform('Linux')) AND '$(Platform)' != 'AnyCPU'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="$(ProjectDir)\build\macos\$(Platform)\$(BuildType)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="$([MSBuild]::IsOsPlatform('OSX')) AND '$(Platform)' != 'AnyCPU'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
