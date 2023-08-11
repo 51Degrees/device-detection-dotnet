@@ -58,6 +58,7 @@
         "Name": "Mac_x64_Release",
         "Configuration": "Release",
         "Arch": "x64",
+        "PackageRequirement" : true,
         "BuildMethod": "dotnet"
     },
     {
@@ -65,6 +66,7 @@
         "Name": "Mac_M1_Release",
         "Configuration": "Release",
         "Arch": "ARM64",
+        "PackageRequirement" : true,
         "BuildMethod": "dotnet"
     }
 ]
