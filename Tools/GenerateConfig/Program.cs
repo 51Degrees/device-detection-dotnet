@@ -1,6 +1,4 @@
-﻿
-using FiftyOne.DeviceDetection;
-using FiftyOne.DeviceDetection.Apple;
+﻿using FiftyOne.DeviceDetection.Apple;
 using FiftyOne.DeviceDetection.Cloud.FlowElements;
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using FiftyOne.DeviceDetection.Uach;
@@ -11,6 +9,9 @@ using FiftyOne.Pipeline.JavaScriptBuilder.FlowElement;
 using FiftyOne.Pipeline.JsonBuilder.FlowElement;
 using FiftyOne.Pipeline.Web.Shared;
 using GenerateConfig;
+using System;
+using System.IO;
+using System.Linq;
 using System.Text.Json;
 
 var writerOptions = new JsonWriterOptions

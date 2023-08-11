@@ -12,7 +12,7 @@ param (
 # Move the data file to the correct location
 $DataFileName = "TAC-HashV41.hash"
 $DataFileSource = [IO.Path]::Combine($pwd, $RepoName, $DataFileName)
-$DataFileDir = [IO.Path]::Combine($pwd, $RepoName, "FiftyOne.DeviceDetection", "device-detection-cxx", "device-detection-data")
+$DataFileDir = [IO.Path]::Combine($pwd, $RepoName, "FiftyOne.DeviceDetection.Hash.Engine.OnPremise", "device-detection-cxx", "device-detection-data")
 $DataFileDestination = [IO.Path]::Combine($DataFileDir, $DataFileName)
 Move-Item $DataFileSource $DataFileDestination
 
