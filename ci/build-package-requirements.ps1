@@ -8,7 +8,7 @@ param(
 $RepoPath = [IO.Path]::Combine($pwd, $RepoName)
 
 $NativeName = "FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll"
-$NativeFile = [IO.Path]::Combine($RepoPath, $ProjectDir, "build", $NativeName)
+$NativeFile = [IO.Path]::Combine($RepoPath, $ProjectDir, "build", "Release", $NativeName)
 
 if($IsLinux){
     $Subfolder = "linux"
