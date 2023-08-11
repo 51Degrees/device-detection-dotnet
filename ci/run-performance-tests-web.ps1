@@ -70,7 +70,7 @@ try {
         # then unset once we're done
         Write-Output "Running performance test"
 
-        ./runPerf.ps1 -c $Configuration -p $Arch -r "-c $Configuration /p:Platform=$Arch"
+        ./runPerf.ps1 -c $Configuration -p $Arch 
 		
         Get-ChildItem -Path $PerfPath -Filter "summary.json" -File -Recurse | ForEach-Object {
             $destinationPath = Join-Path -Path $PerfPath/build -ChildPath $_.Name
@@ -86,7 +86,7 @@ try {
             Write-Output "$($file.Name) :"
             Get-Content $file
         }
-        
+
         Write-Output "Leaving build"
         Pop-Location
 
