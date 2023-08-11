@@ -59,5 +59,12 @@
         "Configuration": "Release",
         "Arch": "x64",
         "BuildMethod": "dotnet"
+    },
+    {
+        "Image": "macos-latest",
+        "Name": "Mac_M1_Release",
+        "Configuration": "Release",
+        "Arch": "ARM64",
+        "BuildMethod": "dotnet"
     }
 ]
