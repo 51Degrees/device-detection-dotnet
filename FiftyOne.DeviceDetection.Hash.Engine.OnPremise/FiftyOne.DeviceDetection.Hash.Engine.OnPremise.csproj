@@ -56,7 +56,10 @@
     <None Include="$(ProjectDir)\build\windows\$(Platform)\$(BuildType)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="'$(OS)' == 'Windows_NT' AND '$(Platform)' != 'AnyCPU'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="$(ProjectDir)\build\linux\$(Platform)\$(BuildType)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="'$(OS)' != 'Windows_NT' AND '$(Platform)' != 'AnyCPU'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
+    <None Include="$(ProjectDir)\build\linux\$(Platform)\$(BuildType)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="'$(OS)' == 'Unix' AND !$([System.IO.File]::Exists('/usr/lib/libc.dylib')) AND '$(Platform)' != 'AnyCPU'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="$(ProjectDir)\build\macos\$(Platform)\$(BuildType)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="'$(OS)' == 'Unix' AND $([System.IO.File]::Exists('/usr/lib/libc.dylib')) AND '$(Platform)' != 'AnyCPU'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
 
