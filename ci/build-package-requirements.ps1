@@ -29,6 +29,9 @@ if (Test-Path -Path "$RepoPath\$ProjectDir\build\windows") {
 elseif (Test-Path -Path "$RepoPath\$ProjectDir\build\linux") {
     $Subfolder = "linux"
 }
+elseif (Test-Path -Path "$RepoPath\$ProjectDir\build\macos") {
+    $Subfolder = "macos"
+}
 else {
     Write-Host "No appropriate subfolder found."
     exit
