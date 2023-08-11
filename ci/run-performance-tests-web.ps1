@@ -77,16 +77,16 @@ try {
             Copy-Item -Path $_.FullName -Destination $destinationPath -Force -ErrorAction SilentlyContinue
             Write-Host "Copied $($_.Name) to $destinationPath"
         }
-	
+    }
+    finally {
+
         # Output the results as it's useful for debugging.
         $files = Get-ChildItem -Filter "*.out" -File -Recurse
         foreach ($file in $files) {
             Write-Output "$($file.Name) :"
             Get-Content $file
         }
-
-    }
-    finally {
+        
         Write-Output "Leaving build"
         Pop-Location
 
