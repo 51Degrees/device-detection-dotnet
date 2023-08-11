@@ -23,24 +23,24 @@ else{
 $RepoPath = [IO.Path]::Combine($pwd, $RepoName)
 
 # Verify that the path to binaries exists and copy it to package-files folder  
-if (Test-Path -Path "$RepoPath\$ProjectDir\build\windows") {
+if ($IsWindows) {
     $Subfolder = "windows"
 }
-elseif (Test-Path -Path "$RepoPath\$ProjectDir\build\linux") {
+elseif ($IsLinux) {
     $Subfolder = "linux"
 }
 else {
     Write-Host "No appropriate subfolder found."
     exit
 }
+$NativeName = "FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll"
+$NativeFile = [IO.Path]::Combine($RepoPath, $ProjectDir, "build", $NativeName)
 
-$NativeFilesFolder = [IO.Path]::Combine($RepoPath, $ProjectDir, "build", $Subfolder, $Arch, "Release") 
-
-$PackageFolder = "package-files"
+$PackageFolder = "package-files/$SubFolder/$Arch"
 New-Item -Path $PackageFolder -ItemType Directory -Force
 
 
-Copy-Item -Path "$NativeFilesFolder" -Destination "$PackageFolder" -Recurse -Force
+Copy-Item -Path "$NativeFilesFolder" -Destination "$PackageFolder/$NativeName" -Force
 
 
 exit $LASTEXITCODE
