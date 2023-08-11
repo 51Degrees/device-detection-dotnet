@@ -23,10 +23,10 @@ else{
 $RepoPath = [IO.Path]::Combine($pwd, $RepoName)
 
 # Verify that the path to binaries exists and copy it to package-files folder  
-if (Test-Path -Path "$RepoPath\$ProjectDir\windows") {
+if (Test-Path -Path "$RepoPath\$ProjectDir\build\windows") {
     $Subfolder = "windows"
 }
-elseif (Test-Path -Path "$RepoPath\$ProjectDir\linux") {
+elseif (Test-Path -Path "$RepoPath\$ProjectDir\build\linux") {
     $Subfolder = "linux"
 }
 else {
@@ -34,7 +34,7 @@ else {
     exit
 }
 
-$NativeFilesFolder = [IO.Path]::Combine($RepoPath, $ProjectDir, $Subfolder) 
+$NativeFilesFolder = [IO.Path]::Combine($RepoPath, $ProjectDir, "build", $Subfolder, $Arch, "Release") 
 
 $PackageFolder = "package-files"
 New-Item -Path $PackageFolder -ItemType Directory -Force
