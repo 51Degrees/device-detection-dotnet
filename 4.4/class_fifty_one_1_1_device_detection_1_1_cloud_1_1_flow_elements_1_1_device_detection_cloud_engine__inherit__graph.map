@@ -1,4 +1,0 @@
-<map id="FiftyOne.DeviceDetection.Cloud.FlowElements.DeviceDetectionCloudEngine" name="FiftyOne.DeviceDetection.Cloud.FlowElements.DeviceDetectionCloudEngine">
-<area shape="rect" id="node1" title="Engine that takes the JSON response from the CloudRequestEngine and uses it populate a DeviceDataClou..." alt="" coords="5,95,272,151"/>
-<area shape="rect" id="node2" title=" " alt="" coords="49,5,228,47"/>
-</map>

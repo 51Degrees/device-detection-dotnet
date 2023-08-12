@@ -8,9 +8,9 @@
  viewBox="0.00 0.00 304.00 328.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 324.5)">
 <title>Graphical Class Hierarchy</title>
-<!-- Node192 -->
+<!-- Node61 -->
 <g id="node1" class="node">
-<title>Node192</title>
+<title>Node61</title>
 <g id="a_node1"><a xlink:title=" ">
 <polygon fill="none" stroke="#bfbfbf" points="0,-161.5 0,-180.5 65,-180.5 65,-161.5 0,-161.5"/>
 <text text-anchor="middle" x="32.5" y="-168.5" font-family="Helvetica,sans-Serif" font-size="10.00">Controller</text>
@@ -27,15 +27,15 @@
 </a>
 </g>
 </g>
-<!-- Node192&#45;&gt;Node0 -->
+<!-- Node61&#45;&gt;Node0 -->
 <g id="edge1" class="edge">
-<title>Node192&#45;&gt;Node0</title>
+<title>Node61&#45;&gt;Node0</title>
 <path fill="none" stroke="midnightblue" d="M40,-190.11C49.44,-214.94 69.36,-257.83 101,-281 109.84,-287.48 120.24,-292.22 130.87,-295.68"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="43.28,-188.9 36.59,-180.69 36.7,-191.28 43.28,-188.9"/>
 </g>
-<!-- Node194 -->
+<!-- Node63 -->
 <g id="node3" class="node">
-<title>Node194</title>
+<title>Node63</title>
 <g id="a_node3"><a xlink:href="class_client___hints___not___integrated_1_1_home_controller.html" target="_top" xlink:title=" ">
 <polygon fill="none" stroke="black" points="120,-241 120,-271 277,-271 277,-241 120,-241"/>
 <text text-anchor="start" x="128" y="-259" font-family="Helvetica,sans-Serif" font-size="10.00">Client_Hints_Not_Integrated.</text>
@@ -43,15 +43,15 @@
 </a>
 </g>
 </g>
-<!-- Node192&#45;&gt;Node194 -->
+<!-- Node61&#45;&gt;Node63 -->
 <g id="edge2" class="edge">
-<title>Node192&#45;&gt;Node194</title>
+<title>Node61&#45;&gt;Node63</title>
 <path fill="none" stroke="midnightblue" d="M48.63,-188.36C61.32,-201.88 80.61,-220.12 101,-231 108.25,-234.87 116.14,-238.16 124.17,-240.96"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="50.94,-185.7 41.62,-180.66 45.76,-190.41 50.94,-185.7"/>
 </g>
-<!-- Node195 -->
+<!-- Node64 -->
 <g id="node4" class="node">
-<title>Node195</title>
+<title>Node64</title>
 <g id="a_node4"><a xlink:href="class_cloud___client___hints___net_core__31_1_1_controllers_1_1_home_controller.html" target="_top" xlink:title=" ">
 <polygon fill="none" stroke="black" points="115,-180.5 115,-221.5 282,-221.5 282,-180.5 115,-180.5"/>
 <text text-anchor="start" x="123" y="-209.5" font-family="Helvetica,sans-Serif" font-size="10.00">Cloud_Client_Hints</text>
@@ -60,15 +60,15 @@
 </a>
 </g>
 </g>
-<!-- Node192&#45;&gt;Node195 -->
+<!-- Node61&#45;&gt;Node64 -->
 <g id="edge3" class="edge">
-<title>Node192&#45;&gt;Node195</title>
+<title>Node61&#45;&gt;Node64</title>
 <path fill="none" stroke="midnightblue" d="M74.97,-178.59C87.2,-180.82 101.02,-183.35 114.87,-185.88"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="75.59,-175.14 65.12,-176.78 74.33,-182.03 75.59,-175.14"/>
 </g>
-<!-- Node196 -->
+<!-- Node65 -->
 <g id="node5" class="node">
-<title>Node196</title>
+<title>Node65</title>
 <g id="a_node5"><a xlink:href="class_cloud___client___hints___not___integrated_1_1_controllers_1_1_home_controller.html" target="_top" xlink:title=" ">
 <polygon fill="none" stroke="black" points="121.5,-120.5 121.5,-161.5 275.5,-161.5 275.5,-120.5 121.5,-120.5"/>
 <text text-anchor="start" x="129.5" y="-149.5" font-family="Helvetica,sans-Serif" font-size="10.00">Cloud_Client_Hints</text>
@@ -77,15 +77,15 @@
 </a>
 </g>
 </g>
-<!-- Node192&#45;&gt;Node196 -->
+<!-- Node61&#45;&gt;Node65 -->
 <g id="edge4" class="edge">
-<title>Node192&#45;&gt;Node196</title>
+<title>Node61&#45;&gt;Node65</title>
 <path fill="none" stroke="midnightblue" d="M75.01,-163.41C89.15,-160.82 105.44,-157.84 121.43,-154.92"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="74.33,-159.97 65.12,-165.22 75.59,-166.86 74.33,-159.97"/>
 </g>
-<!-- Node197 -->
+<!-- Node66 -->
 <g id="node6" class="node">
-<title>Node197</title>
+<title>Node66</title>
 <g id="a_node6"><a xlink:href="class_fifty_one_1_1_device_detection_1_1_examples_1_1_cloud_1_1_getting_started_web_1_1_controllers_1_1_home_controller.html" target="_top" xlink:title=" ">
 <polygon fill="none" stroke="black" points="101.5,-60.5 101.5,-101.5 295.5,-101.5 295.5,-60.5 101.5,-60.5"/>
 <text text-anchor="start" x="109.5" y="-89.5" font-family="Helvetica,sans-Serif" font-size="10.00">FiftyOne.DeviceDetection.</text>
@@ -94,15 +94,15 @@
 </a>
 </g>
 </g>
-<!-- Node192&#45;&gt;Node197 -->
+<!-- Node61&#45;&gt;Node66 -->
 <g id="edge5" class="edge">
-<title>Node192&#45;&gt;Node197</title>
+<title>Node61&#45;&gt;Node66</title>
 <path fill="none" stroke="midnightblue" d="M49.2,-153.45C61.98,-140.13 81.1,-122.24 101,-111 107.19,-107.51 113.83,-104.37 120.63,-101.56"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="46.37,-151.36 42.12,-161.06 51.49,-156.13 46.37,-151.36"/>
 </g>
-<!-- Node198 -->
+<!-- Node67 -->
 <g id="node7" class="node">
-<title>Node198</title>
+<title>Node67</title>
 <g id="a_node7"><a xlink:href="class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_getting_started_web_1_1_controllers_1_1_home_controller.html" target="_top" xlink:title=" ">
 <polygon fill="none" stroke="black" points="101,-0.5 101,-41.5 296,-41.5 296,-0.5 101,-0.5"/>
 <text text-anchor="start" x="109" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00">FiftyOne.DeviceDetection.</text>
@@ -111,9 +111,9 @@
 </a>
 </g>
 </g>
-<!-- Node192&#45;&gt;Node198 -->
+<!-- Node61&#45;&gt;Node67 -->
 <g id="edge6" class="edge">
-<title>Node192&#45;&gt;Node198</title>
+<title>Node61&#45;&gt;Node67</title>
 <path fill="none" stroke="midnightblue" d="M39.34,-151.61C48.31,-125.07 68,-77.68 101,-51 105.37,-47.47 110.15,-44.35 115.17,-41.6"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="35.95,-150.7 36.23,-161.29 42.62,-152.83 35.95,-150.7"/>
 </g>

@@ -69,30 +69,31 @@ $(document).ready(function(){initNavTree('md__home_runner_work_device-detection-
 <h2 class="g-docs__page-title">51Degrees Device Detection Engines </h2></div><!--header-->
 <div class="g-docs__inner">
 <div class="g-docs__primary" id="primary">
-<section class="g-docs__section"><img src="https://51degrees.com/DesktopModules/FiftyOne/Distributor/Logo.ashx?utm_source=github&utm_medium=repository&utm_content=readme_main&utm_campaign=dotnet-open-source" alt="51Degrees" title="Data rewards the curious" class="inline"/>
+<section class="g-docs__section"><img src="https://51degrees.com/DesktopModules/FiftyOne/Distributor/Logo.ashx?utm_source=github&utm_medium=repository&utm_content=readme_main&utm_campaign=dotnet-open-source" alt="51Degrees" class="inline"/>
  <b>Pipeline API</b></p>
-<p><a href="https://51degrees.com/device-detection-dotnet/index.html?utm_source=github&amp;utm_medium=repository&amp;utm_content=documentation&amp;utm_campaign=dotnet-open-source" title="developer documentation">Developer Documentation</a></p>
+<p><a href="https://51degrees.com/device-detection-dotnet/index.html?utm_source=github&amp;utm_medium=repository&amp;utm_content=documentation&amp;utm_campaign=dotnet-open-source">Developer Documentation</a></p>
 <h2>Introduction</h2>
 <p>This repository contains the device detection engines for the .NET implementation of the Pipeline API.</p>
 <p>The specification is also available on GitHub and is recommended reading if you wish to understand the concepts and design of this API.</p>
 <h2>Dependencies</h2>
 <p>Visual Studio 2022 or later is recommended. Although Visual Studio Code can be used for working with most of the projects.</p>
 <p>The core device detection projects are written in C and C++. The Pipeline engines are written in C# and target .NET Standard 2.0.3. Example and test projects mostly target .NET 6.0 though in some cases, projects are available targeting other frameworks.</p>
-<p>For runtime dependencies, see our <a href="https://51degrees.com/documentation/_info__dependencies.html">dependencies</a> page. The <a href="https://51degrees.com/documentation/_info__tested_versions.html">tested versions</a> page shows the .NET versions that we currently test against. The software may run fine against other versions, but additional caution should be applied.</p>
+<p>For runtime dependencies, see our <a href="https://51degrees.com/documentation/_info__dependencies.html">dependencies</a> page. The <code>ci/options.json</code> file lists the tested and packaged .NET versions and operating systems automatic tests are performed with. The solution will likely operate with other versions.</p>
 <h3>Data</h3>
 <p>The API can either use our cloud service to get its data or it can use a local (on-premise) copy of the data.</p>
 <h4>Cloud</h4>
 <p>You will require a <a href="https://51degrees.com/documentation/_info__resource_keys.html">resource key</a> to use the Cloud API. You can create resource keys using our <a href="https://configure.51degrees.com/">configurator</a>, see our <a href="https://51degrees.com/documentation/_concepts__configurator.html">documentation</a> on how to use this.</p>
 <h4>On-Premise</h4>
 <p>In order to perform device detection on-premise, you will need to use a 51Degrees data file. This repository includes a free, 'lite' file in the 'device-detection-data' sub-module that has a significantly reduced set of properties. To obtain a file with a more complete set of device properties see the <a href="https://51degrees.com/pricing">51Degrees website</a>. If you want to use the lite file, you will need to install <a href="https://git-lfs.github.com/">GitLFS</a>.</p>
-<p>On Linux: </p><div class="c-code__block c-code__block--outline"><div class="c-code__line">sudo apt-get install git-lfs</div><div class="c-code__line">git lfs install</div></div><p>Then, navigate to '<a class="el" href="namespace_fifty_one_1_1_device_detection.html">FiftyOne.DeviceDetection</a>/device-detection-cxx/device-detection-data' and execute:</p>
+<p>On Linux:</p>
+<div class="c-code__block c-code__block--outline"><div class="c-code__line">sudo apt-get install git-lfs</div><div class="c-code__line">git lfs install</div></div><p>Then, navigate to 'device-detection-cxx/device-detection-data' and execute:</p>
 <div class="c-code__block c-code__block--outline"><div class="c-code__line">git lfs pull</div></div><h2>Solutions and projects</h2>
 <ul>
 <li><b><a class="el" href="namespace_fifty_one_1_1_device_detection.html">FiftyOne.DeviceDetection</a></b> - Device detection engines and related projects.<ul>
-<li><b><a class="el" href="namespace_fifty_one_1_1_device_detection_1_1_hash.html">FiftyOne.DeviceDetection.Hash</a></b> - .NET implementation of the device detection hash engine.</li>
-<li><b>FiftyOne.DeviceDetection.Shared</b> - Shared classes used by the device detection engines.</li>
 <li><b><a class="el" href="namespace_fifty_one_1_1_device_detection.html">FiftyOne.DeviceDetection</a></b> - Contains device detection engine builders.</li>
-<li><b><a class="el" href="namespace_fifty_one_1_1_device_detection_1_1_cloud.html">FiftyOne.DeviceDetection.Cloud</a></b> - A .NET engine which retrieves device detection results by consuming the 51Degrees cloud service. This can be swapped out with either the hash or pattern engines seamlessly.</li>
+<li><b>FiftyOne.DeviceDetection.Cloud</b> - A .NET engine which retrieves device detection results by consuming the 51Degrees cloud service. This can be swapped out with either the hash or pattern engines seamlessly.</li>
+<li><b>FiftyOne.DeviceDetection.Hash.Engine.OnPremise</b> - .NET implementation of the device detection hash engine. CMake is used to build the native binaries.</li>
+<li><b>FiftyOne.DeviceDetection.Shared</b> - Shared classes used by the device detection engines.</li>
 </ul>
 </li>
 </ul>
@@ -100,7 +101,7 @@ $(document).ready(function(){initNavTree('md__home_runner_work_device-detection-
 <h3>Nuget</h3>
 <p>The easiest way to install is to use NuGet to add the reference to the package:</p>
 <div class="c-code__block c-code__block--outline"><div class="c-code__line">Install-Package FiftyOne.DeviceDetection</div></div><h3>Build from Source</h3>
-<p>Device detection on-premise uses a native binary. (i.e. compiled from C code to target a specific platform/architecture) The NuGet package contains several binaries for common platforms. However, in some cases, you'll need to build the native binaries yourself for your target platform. This section explains how to do this.</p>
+<p>Device detection on-premise uses a native binary (i.e. compiled from C code to target a specific platform/architecture). The NuGet package contains several binaries for common platforms. However, in some cases, you'll need to build the native binaries yourself for your target platform. This section explains how to do this.</p>
 <h4>Pre-requisites</h4>
 <ul>
 <li>Install C build tools:<ul>
@@ -123,12 +124,12 @@ $(document).ready(function(){initNavTree('md__home_runner_work_device-detection-
 </ul>
 </li>
 </ul>
-<p>Visual studio should now be able to build the native binaries as part of it's normal build process.</p>
+<p>Visual studio should now be able to build the native binaries as part of its normal build process.</p>
 <h2>Examples</h2>
-<p>Examples can be found in <a href="https://github.com/51Degrees/device-detection-dotnet-examples">device-detection-dotnet-examples</a> repository</p>
+<p>Examples can be found in <a href="https://github.com/51Degrees/device-detection-dotnet-examples">device-detection-dotnet-examples</a> repository.</p>
 <h2>Tests</h2>
 <p>Tests can be found in the <code>Tests/</code> folder. These can all be run from within Visual Studio or by using the <code>dotnet test</code> command line tool.</p>
-<p>Some tests require additional resources in order to run. These will either fail or return an 'inconclusive' result if these resources are not provided.</p>
+<p>Some tests require additional resources to run. These will either fail or return an 'inconclusive' result if these resources are not provided.</p>
 <ul>
 <li>Some tests require an 'Enterprise' data file. This can be obtained by <a href="https://51degrees.com/pricing">purchasing a license</a>.<ul>
 <li>Once available, the full path to this data file must be specified in the <code>DEVICEDETECTIONDATAFILE</code> environment variable.</li>

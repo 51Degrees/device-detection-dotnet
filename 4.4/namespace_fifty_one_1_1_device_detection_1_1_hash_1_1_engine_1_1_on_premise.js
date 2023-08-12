@@ -1,8 +1,0 @@
-var namespace_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise =
-[
-    [ "Data", "namespace_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_data.html", "namespace_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_data" ],
-    [ "FlowElements", "namespace_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_flow_elements.html", "namespace_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_flow_elements" ],
-    [ "Interop", "namespace_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop.html", "namespace_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop" ],
-    [ "Wrappers", "namespace_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers.html", "namespace_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers" ],
-    [ "Messages", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_messages.html", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_messages" ]
-];

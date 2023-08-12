@@ -1,6 +1,0 @@
-var class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_property_collection_swig_wrapper =
-[
-    [ "PropertyCollectionSwigWrapper", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_property_collection_swig_wrapper.html#a14bb262bc5f3ac3a0e8d9c9f7774d278", null ],
-    [ "Dispose", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_property_collection_swig_wrapper.html#a03b87cffc92428df6600edd6fb6dbe98", null ],
-    [ "GetEnumerator", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_property_collection_swig_wrapper.html#ad5da5ae34a51c40a314a223d864f58b0", null ]
-];
