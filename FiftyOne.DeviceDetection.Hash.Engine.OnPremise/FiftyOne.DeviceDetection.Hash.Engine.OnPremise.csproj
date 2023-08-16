@@ -66,12 +66,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
 
-    <None Include="..\..\.editorconfig" Link="Interop\Swig\.editorconfig" />
-    <None Include="..\..\Images\51d-logo.png" Condition="$(BuiltOnCI)">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-    <None Include="..\Images\51d-logo.png" Condition="!$(BuiltOnCI)">
+    <None Include="..\.editorconfig" Link="Interop\Swig\.editorconfig" />
+    <None Include="..\Images\51d-logo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
