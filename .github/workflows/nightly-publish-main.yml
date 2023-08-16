@@ -12,6 +12,7 @@ jobs:
     uses: 51Degrees/common-ci/.github/workflows/nightly-publish-main.yml@main
     with:
       repo-name: ${{ github.event.repository.name }}
+      org-name: ${{ github.event.repository.owner.login }}
       build-platform: windows-latest
     secrets: 
       token: ${{ secrets.ACCESS_TOKEN }}
