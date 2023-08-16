@@ -24,6 +24,9 @@
     <NeutralLanguage>en</NeutralLanguage>
 	  <PackageIcon>51d-logo.png</PackageIcon>
 	  <Configurations>Debug;Release</Configurations>
+
+    <!-- GitHub CI -->
+    <BuiltOnCI>false</BuiltOnCI>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -52,7 +55,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\Images\51d-logo.png">
+    <None Include="..\..\Images\51d-logo.png" Condition="$(BuiltOnCI)">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\Images\51d-logo.png" Condition="!$(BuiltOnCI)">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
