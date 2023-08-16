@@ -17,7 +17,7 @@ $BinaryFilesFolder = [IO.Path]::Combine($pwd, $RepoName , "FiftyOne.DeviceDetect
 $PackageFilesPath = [IO.Path]::Combine($pwd, "package-files")
 
 # Copy files over from target to package-files folder
-$Files = Get-ChildItem -Path $PackageFilesPath/* -Recurse -Include "linux", "windows" 
+$Files = Get-ChildItem -Path $PackageFilesPath/* -Recurse -Include "linux", "windows", "macos"
 foreach($file in $Files){
     Write-Output "Copying '$file' into '$BinaryFilesFolder'"
     Copy-Item -Path $file -Destination $BinaryFilesFolder -Recurse -Force
