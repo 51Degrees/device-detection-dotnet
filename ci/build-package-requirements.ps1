@@ -37,8 +37,8 @@ elseif ($IsMacOS) {
     foreach($a in $Archs){
         $ExtraArgs = ""
         if ($a -eq "ARM64") {
-            $ExtraArgs += "-DCMAKE_OSX_ARCHITECTURES=arm64"
-            $ExtraArgs += "-DBUILD_TESTING=OFF"
+            $ExtraArgs += " -DCMAKE_OSX_ARCHITECTURES=arm64"
+            $ExtraArgs += " -DBUILD_TESTING=OFF"
         }
         ./cxx/build-project.ps1 -RepoName $RepoName -ProjectDir $ProjectDir -Configuration "Release" -ExtraArgs $ExtraArgs -Arch $a
         $PackageFolder = "package-files/$SubFolder/$a"
