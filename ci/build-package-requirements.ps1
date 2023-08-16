@@ -39,7 +39,7 @@ elseif ($IsMacOS) {
         if ($a -eq "ARM64") {
             $ExtraArgs += "-DCMAKE_OSX_ARCHITECTURES=arm64"
         }
-        ./cxx/build-project.ps1 -RepoName $RepoName -ProjectDir $ProjectDir -Configuration $Configuration -ExtraArgs $ExtraArgs -Arch $a
+        ./cxx/build-project.ps1 -RepoName $RepoName -ProjectDir $ProjectDir -Configuration "Release" -ExtraArgs $ExtraArgs -Arch $a
         $PackageFolder = "package-files/$SubFolder/$a"
         New-Item -Path $PackageFolder -ItemType Directory -Force
         Copy-Item -Path $NativeFile -Destination "$PackageFolder/$NativeName" -Force
