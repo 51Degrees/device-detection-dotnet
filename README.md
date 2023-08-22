@@ -119,6 +119,49 @@ do this.
 Visual studio should now be able to build the native binaries as part of its
 normal build process.
 
+#### Packaging
+
+You can package a project into NuGet `*.nupkg` file by running a command like:
+
+```text
+dotnet pack [Project] -o "[PackagesFolder]" /p:PackageVersion=0.0.0 -c [Configuration] /p:Platform=[Architecture]
+```
+
+##### ⚠️ Notes on packaging `FiftyOne.DeviceDetection.Hash.Engine.OnPremise`
+
+📝 Using `AnyCPU` might prevent the unmanaged (C++) code from being built into `.Native.dll` library. Use `x86`/`x64`/`arm64` specifically.
+
+📝 If creating cross-platform package from multiple native dlls, put all 6x `FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll` into respective folders:
+
+```text
+../
+    macos/
+        arm64/
+        x64/
+    linux/
+        x64/
+        x86/
+    windows/
+        x64/
+        x86/
+```
+
+and add to the packaging command:
+
+```text
+/p:BuiltOnCI=true
+```
+
+related CI scripts:
+
+- `BuiltOnCI` var:
+  - [https://github.com/51Degrees/common-ci/blob/main/dotnet/build-project-core.ps1]
+  - [https://github.com/51Degrees/common-ci/blob/main/dotnet/build-package-nuget.ps1]
+  - [https://github.com/51Degrees/common-ci/blob/main/dotnet/build-project-framework.ps1]
+  - [https://github.com/51Degrees/device-detection-dotnet/blob/main/ci/run-performance-tests-console.ps1]
+- Copying native binaries:
+  - [https://github.com/51Degrees/device-detection-dotnet/blob/main/ci/build-package.ps1]
+
 ## Examples
 
 Examples can be found in
