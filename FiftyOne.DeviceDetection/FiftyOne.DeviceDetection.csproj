@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Platforms>AnyCPU;x86;x64</Platforms>
+    <Platforms>AnyCPU;x86;x64;ARM64</Platforms>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <DocumentationFile>FiftyOne.DeviceDetection.xml</DocumentationFile>
@@ -24,6 +24,9 @@
     <NeutralLanguage>en</NeutralLanguage>
 	  <PackageIcon>51d-logo.png</PackageIcon>
 	  <Configurations>Debug;Release</Configurations>
+
+    <!-- GitHub CI -->
+    <BuiltOnCI>false</BuiltOnCI>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">

@@ -21,8 +21,7 @@
         "Name": "Windows_x64_Debug",
         "Configuration": "Debug",
         "Arch": "x64",
-        "BuildMethod": "msbuild",
-        "RunPerformance": true
+        "BuildMethod": "msbuild"
     },
     {
         "Image": "windows-latest",
@@ -45,7 +44,21 @@
         "Name": "Ubuntu_x64_Debug",
         "Configuration": "Debug",
         "Arch": "x64",
-        "BuildMethod": "dotnet",
-        "RunPerformance": true
+        "BuildMethod": "dotnet"
+    },
+    {
+        "Image": "macos-latest",
+        "Name": "Mac_x64_Debug",
+        "Configuration": "Debug",
+        "Arch": "x64",
+        "BuildMethod": "dotnet"
+    },
+    {
+        "Image": "macos-latest",
+        "Name": "Mac_x64_Release",
+        "Configuration": "Release",
+        "Arch": "x64",
+        "PackageRequirement" : true,
+        "BuildMethod": "dotnet"
     }
 ]

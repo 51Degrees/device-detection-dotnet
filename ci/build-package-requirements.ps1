@@ -31,6 +31,24 @@ elseif ($IsWindows) {
     New-Item -Path $PackageFolder -ItemType Directory -Force
     Copy-Item -Path $NativeFile -Destination "$PackageFolder/$NativeName" -Force
 }
+elseif ($IsMacOS) {
+    $Subfolder = "macos"
+    $Archs = @("x64", "ARM64")
+    foreach($a in $Archs){
+        $ExtraArgs = ""
+        if ($a -eq "ARM64") {
+            $ExtraArgs += " -DCMAKE_OSX_ARCHITECTURES=arm64"
+            $ExtraArgs += " -DBUILD_TESTING=OFF"
+        }
+        ./cxx/build-project.ps1 -RepoName $RepoName -ProjectDir $ProjectDir -Configuration "Release" -ExtraArgs $ExtraArgs -Arch $a
+        $PackageFolder = "package-files/$SubFolder/$a"
+        New-Item -Path $PackageFolder -ItemType Directory -Force
+        Copy-Item -Path $NativeFile -Destination "$PackageFolder/$NativeName" -Force
+        
+        # CMake generates build files specific to the architecture. We are deleting the build folder to ensure clean build enviroment. 
+        Remove-Item -LiteralPath "$RepoPath/$ProjectDir/build" -Force -Recurse -ErrorAction SilentlyContinue
+    }
+}
 else {
     Write-Host "Unsupported OS."
     exit
