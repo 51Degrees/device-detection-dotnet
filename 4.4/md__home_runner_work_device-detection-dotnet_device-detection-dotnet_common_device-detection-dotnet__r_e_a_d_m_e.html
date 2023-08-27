@@ -125,6 +125,26 @@ $(document).ready(function(){initNavTree('md__home_runner_work_device-detection-
 </li>
 </ul>
 <p>Visual studio should now be able to build the native binaries as part of its normal build process.</p>
+<h4>Packaging</h4>
+<p>You can package a project into NuGet <code>*.nupkg</code> file by running a command like:</p>
+<div class="c-code__block c-code__block--outline"><div class="c-code__line">dotnet pack [Project] -o &quot;[PackagesFolder]&quot; /p:PackageVersion=0.0.0 -c [Configuration] /p:Platform=[Architecture]</div></div><h5>⚠️ Notes on packaging <code>FiftyOne.DeviceDetection.Hash.Engine.OnPremise</code></h5>
+<p>📝 Using <code>AnyCPU</code> might prevent the unmanaged (C++) code from being built into <code>.Native.dll</code> library. Use <code>x86</code>/<code>x64</code>/<code>arm64</code> specifically.</p>
+<p>📝 If creating cross-platform package from multiple native dlls, put all 6x <code>FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll</code> into respective folders:</p>
+<div class="c-code__block c-code__block--outline"><div class="c-code__line">../</div><div class="c-code__line">    macos/</div><div class="c-code__line">        arm64/</div><div class="c-code__line">        x64/</div><div class="c-code__line">    linux/</div><div class="c-code__line">        x64/</div><div class="c-code__line">        x86/</div><div class="c-code__line">    windows/</div><div class="c-code__line">        x64/</div><div class="c-code__line">        x86/</div></div><p>and add to the packaging command:</p>
+<div class="c-code__block c-code__block--outline"><div class="c-code__line">/p:BuiltOnCI=true</div></div><p>related CI scripts:</p>
+<ul>
+<li><code>BuiltOnCI</code> var:<ul>
+<li>[<a href="https://github.com/51Degrees/common-ci/blob/main/dotnet/build-project-core.ps1">https://github.com/51Degrees/common-ci/blob/main/dotnet/build-project-core.ps1</a>]</li>
+<li>[<a href="https://github.com/51Degrees/common-ci/blob/main/dotnet/build-package-nuget.ps1">https://github.com/51Degrees/common-ci/blob/main/dotnet/build-package-nuget.ps1</a>]</li>
+<li>[<a href="https://github.com/51Degrees/common-ci/blob/main/dotnet/build-project-framework.ps1">https://github.com/51Degrees/common-ci/blob/main/dotnet/build-project-framework.ps1</a>]</li>
+<li>[<a href="https://github.com/51Degrees/device-detection-dotnet/blob/main/ci/run-performance-tests-console.ps1">https://github.com/51Degrees/device-detection-dotnet/blob/main/ci/run-performance-tests-console.ps1</a>]</li>
+</ul>
+</li>
+<li>Copying native binaries:<ul>
+<li>[<a href="https://github.com/51Degrees/device-detection-dotnet/blob/main/ci/build-package.ps1">https://github.com/51Degrees/device-detection-dotnet/blob/main/ci/build-package.ps1</a>]</li>
+</ul>
+</li>
+</ul>
 <h2>Examples</h2>
 <p>Examples can be found in <a href="https://github.com/51Degrees/device-detection-dotnet-examples">device-detection-dotnet-examples</a> repository.</p>
 <h2>Tests</h2>
