@@ -41,7 +41,16 @@ namespace FiftyOne.DeviceDetection.TestHelpers.Data
             PerformanceProfiles profile, 
             bool inmemory)
         {
-            if (inmemory) return 800;
+            if (inmemory)
+            {
+                switch (profile)
+                {
+                    case PerformanceProfiles.MaxPerformance:
+                        return 600;
+                    default:
+                        return 800;
+                }
+            }
             switch (profile)
             {
                 case PerformanceProfiles.MaxPerformance:
