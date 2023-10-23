@@ -32,6 +32,9 @@ finally {
 
 }
 
+# workaround, see https://github.com/actions/runner-images/issues/8598
+$env:PATH = $env:PATH -replace "C:\\Strawberry\\c\\bin;"
+
 Write-Output "Setting Data File for testing"
 
 $SettingsFile = [IO.Path]::Combine($RepoPath, "performance-tests", "appsettings.json") 
