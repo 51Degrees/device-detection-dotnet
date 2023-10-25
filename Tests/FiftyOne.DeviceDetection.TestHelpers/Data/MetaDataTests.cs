@@ -153,8 +153,14 @@ namespace FiftyOne.DeviceDetection.TestHelpers.Data
             var refreshResults = reloader.Result;
 
             LogWithTimestamp($"Refreshed the dataset {refreshResults.Count} times.");
-            ValidateResults(HashTaskCount, hashes, refreshResults);
-            DumpLogs();
+            try
+            {
+                ValidateResults(HashTaskCount, hashes, refreshResults);
+            }
+            finally
+            {
+                DumpLogs();
+            }
         }
 
         private void ValidateResults(
