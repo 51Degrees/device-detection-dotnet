@@ -26,6 +26,7 @@ using FiftyOne.Pipeline.Core.Exceptions;
 using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines;
 using FiftyOne.Pipeline.Engines.Configuration;
+using FiftyOne.Pipeline.Engines.Data;
 using FiftyOne.Pipeline.Engines.FiftyOne.FlowElements;
 using FiftyOne.Pipeline.Engines.FlowElements;
 using FiftyOne.Pipeline.Engines.Services;
@@ -51,6 +52,11 @@ namespace FiftyOne.DeviceDetection
 
         private bool? _autoUpdateEnabled = null;
         private bool? _dataUpdateOnStartUpEnabled = null;
+        private string _dataUpdateUrlString = null;
+        private Uri _dataUpdateUrlUri = null;
+        private bool? _useFormatter = null;
+        private IDataUpdateUrlFormatter _dataUpdateUrlFormatter = null;
+        private bool? _dataUpdateVerifyMd5 = null;
         private bool? _dataFileSystemWatcherEnabled = null;
         private int? _updatePollingInterval = null;
         private int? _updateRandomisationMax = null;
@@ -405,6 +411,111 @@ namespace FiftyOne.DeviceDetection
         }
 
         /// <summary>
+        /// Configure the engine to use the specified URL when looking for
+        /// an updated data file.
+        /// </summary>
+        /// <param name="url">
+        /// The URL to check for a new data file.
+        /// </param>
+        /// <returns>
+        /// This builder instance.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if url parameter is null or and empty string
+        /// </exception>
+        public DeviceDetectionOnPremisePipelineBuilder SetDataUpdateUrl(string url)
+        {
+            if (string.IsNullOrEmpty(url)) throw new ArgumentNullException(nameof(url));
+            _dataUpdateUrlString = url;
+            _dataUpdateUrlUri = null;
+            return this;
+        }
+
+        /// <summary>
+        /// Configure the engine to use the specified URL when looking for
+        /// an updated data file.
+        /// </summary>
+        /// <param name="url">
+        /// The URL to check for a new data file.
+        /// </param>
+        /// <returns>
+        /// This builder instance.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if url parameter is null
+        /// </exception>
+        public DeviceDetectionOnPremisePipelineBuilder SetDataUpdateUrl(Uri url)
+        {
+            if (url == null) throw new ArgumentNullException(nameof(url));
+            _dataUpdateUrlString = null;
+            _dataUpdateUrlUri = url;
+            return this;
+        }
+
+        /// <summary>
+        /// Specify a <see cref="IDataUpdateUrlFormatter"/> to be 
+        /// used by the <see cref="DataUpdateService"/> when building the 
+        /// complete URL to query for updated data.
+        /// </summary>
+        /// <param name="formatter">
+        /// The formatter to use.
+        /// </param>
+        /// <returns>
+        /// This builder instance.
+        /// </returns>
+        public DeviceDetectionOnPremisePipelineBuilder SetDataUpdateUrlFormatter(
+            IDataUpdateUrlFormatter formatter)
+        {
+            _dataUpdateUrlFormatter = formatter;
+            _useFormatter = null;
+            return this;
+        }
+
+        /// <summary>
+        /// Enable or disable the <see cref="IDataUpdateUrlFormatter"/>
+        /// to be used when creating the complete URL to request updates
+        /// from.
+        /// </summary>
+        /// <remarks>
+        /// Setting this to false is equivalent to calling 
+        /// <see cref="SetDataUpdateUrlFormatter(IDataUpdateUrlFormatter)"/>
+        /// with a null parameter.
+        /// It is available as a separate method in order to support 
+        /// disabling the formatter from a configuration file.
+        /// </remarks>
+        /// <param name="useFormatter">
+        /// True to use the specified formatter (default). False to
+        /// prevent the specified formatter from being used.
+        /// </param>
+        /// <returns>
+        /// This builder instance.
+        /// </returns>
+        public DeviceDetectionOnPremisePipelineBuilder SetDataUpdateUseUrlFormatter(bool useFormatter)
+        {
+            _useFormatter = useFormatter;
+            return this;
+        }
+
+        /// <summary>
+        /// Set a value indicating if the <see cref="DataUpdateService"/>
+        /// should expect the response from the data update URL to contain a
+        /// 'content-md5' HTTP header that can be used to verify the integrity
+        /// of the content.
+        /// </summary>
+        /// <param name="verify">
+        /// True if the content should be verified with the Md5 hash.
+        /// False otherwise.
+        /// </param>
+        /// <returns>
+        /// This builder instance.
+        /// </returns>
+        public DeviceDetectionOnPremisePipelineBuilder SetDataUpdateVerifyMd5(bool verify)
+        {
+            _dataUpdateVerifyMd5 = verify;
+            return this;
+        }
+
+        /// <summary>
         /// Set the maximum difference to allow when processing HTTP headers.
         /// The difference is the difference in hash value between the 
         /// hash that was found, and the hash that is being searched for. 
@@ -586,6 +697,29 @@ namespace FiftyOne.DeviceDetection
             {
                 builder.SetDataUpdateOnStartup(_dataUpdateOnStartUpEnabled.Value);
             }
+
+            // Configure DataUpdate URL, formatter and validation
+            if (_dataUpdateUrlString != null)
+            {
+                builder.SetDataUpdateUrl(_dataUpdateUrlString);
+            }
+            else if (_dataUpdateUrlUri != null)
+            {
+                builder.SetDataUpdateUrl(_dataUpdateUrlUri);
+            }
+            if (_dataUpdateUrlFormatter != null)
+            {
+                builder.SetDataUpdateUrlFormatter(_dataUpdateUrlFormatter);
+            }
+            if (_useFormatter.HasValue)
+            {
+                builder.SetDataUpdateUseUrlFormatter(_useFormatter.Value);
+            }
+            if (_dataUpdateVerifyMd5.HasValue)
+            {
+                builder.SetDataUpdateVerifyMd5(_dataUpdateVerifyMd5.Value);
+            }
+
             // Configure file system watcher.
             if (_dataFileSystemWatcherEnabled.HasValue)
             {
