@@ -23,6 +23,7 @@
 using FiftyOne.Pipeline.Engines;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -89,6 +90,7 @@ namespace FiftyOne.DeviceDetection.TestHelpers.Data
         private const int HashTaskCount = 6;
         // Number of hashing tasks currently running
         private int _hashTasksActive = 0;
+        private AutoResetEvent _hashTaskStarted = new AutoResetEvent(false);
 
 
 
@@ -118,7 +120,7 @@ namespace FiftyOne.DeviceDetection.TestHelpers.Data
             CancellationTokenSource cancelRefresh = new CancellationTokenSource();
             var reloader = Refresh(wrapper, cancelRefresh.Token, profile);
 
-            Reload(wrapper, hasher, reloader, cancelRefresh, false);
+            Reload(wrapper, hasher, reloader, cancelRefresh, HashTaskDelay(false));
         }
 
         public void ReloadMemory(IWrapper wrapper, 
@@ -130,18 +132,18 @@ namespace FiftyOne.DeviceDetection.TestHelpers.Data
             CancellationTokenSource cancelRefresh = new CancellationTokenSource();
             var reloader = RefreshInMemory(wrapper, masterData, cancelRefresh.Token, profile);
 
-            Reload(wrapper, hasher, reloader, cancelRefresh, true);
+            Reload(wrapper, hasher, reloader, cancelRefresh, HashTaskDelay(true));
         }
 
         private void Reload(IWrapper wrapper, 
             IMetaDataHasher hasher, 
             Task<List<RefreshResult>> reloader,
             CancellationTokenSource cancelRefresh,
-            bool inMemory)
+            int taskInterval)
         {
             IList<Task<HashTaskResult>> tasks = StartHashingTasks(
                 HashTaskCount,
-                inMemory,
+                taskInterval,
                 wrapper,
                 hasher);
             HashTaskResult[] hashes = Task.WhenAll(tasks).Result;
@@ -149,11 +151,18 @@ namespace FiftyOne.DeviceDetection.TestHelpers.Data
             cancelRefresh.Cancel();
             var refreshResults = reloader.Result;
 
-            Console.WriteLine($"Refreshed the dataset {refreshResults.Count} times.");
-            ValidateResults(HashTaskCount, hashes, refreshResults);
+            LogWithTimestamp($"Refreshed the dataset {refreshResults.Count} times.");
+            try
+            {
+                ValidateResults(HashTaskCount, hashes, refreshResults);
+            }
+            finally
+            {
+                DumpLogs();
+            }
         }
 
-        private static void ValidateResults(
+        private void ValidateResults(
             int taskCount,
             HashTaskResult[] hashes,
             List<RefreshResult> refreshResults)
@@ -175,7 +184,7 @@ namespace FiftyOne.DeviceDetection.TestHelpers.Data
                     r.StartTime < h.FinishTime) ||
                     (r.FinishTime > h.StartTime &&
                     r.FinishTime < h.FinishTime)));
-            Console.WriteLine($"{refreshesDuringActiveHashTasks.Count()} " +
+            LogWithTimestamp($"{refreshesDuringActiveHashTasks.Count()} " +
                 $"refreshes during active hash tasks");
             Assert.IsTrue(refreshesDuringActiveHashTasks.Count() > 0,
                 "At least 1 refresh needs to occur while hash tasks are " +
@@ -187,21 +196,21 @@ namespace FiftyOne.DeviceDetection.TestHelpers.Data
 
         private IList<Task<HashTaskResult>> StartHashingTasks(
             int taskCount,
-            bool inMemory,
+            int taskInterval,
             IWrapper wrapper,
             IMetaDataHasher hasher)
         {
             var tasks = new List<Task<HashTaskResult>>();
-            while (tasks.Count < taskCount)
+            for (int taskID = 0; taskID < taskCount; ++taskID)
             {
-                tasks.Add(HashData(tasks.Count * HashTaskDelay(inMemory), inMemory, wrapper, hasher));
+                tasks.Add(HashData(tasks.Count * taskInterval, taskID, wrapper, hasher));
             }
             return tasks;
         }
 
         private async Task<HashTaskResult> HashData(
             int delayMs,
-            bool inMemory,
+            int taskId,
             IWrapper wrapper,
             IMetaDataHasher hasher)
         {
@@ -209,10 +218,11 @@ namespace FiftyOne.DeviceDetection.TestHelpers.Data
 
             await Task.Delay(delayMs);
 
-            int taskId = delayMs / HashTaskDelay(inMemory);
-            Console.WriteLine($"Hash task '{taskId}' started.");
+            LogWithTimestamp($"Hash task '{taskId}' started.");
 
             Interlocked.Increment(ref _hashTasksActive);
+            _hashTaskStarted.Set();
+
             int hash = 0;
 
             try
@@ -224,10 +234,11 @@ namespace FiftyOne.DeviceDetection.TestHelpers.Data
             }
             finally
             {
+                _hashTaskStarted.Reset();
                 Interlocked.Decrement(ref _hashTasksActive);
             }
 
-            Console.WriteLine($"Hash task '{taskId}' finished with hash value '{hash}'.");
+            LogWithTimestamp($"Hash task '{taskId}' finished with hash value '{hash}'.");
 
             return new HashTaskResult()
             {
@@ -246,7 +257,8 @@ namespace FiftyOne.DeviceDetection.TestHelpers.Data
             while (cancellationToken.IsCancellationRequested == false &&
                 result.Count < RefreshLimit())
             {
-                if (_hashTasksActive == 0)
+                int tasksNow = 0;
+                if ((tasksNow = _hashTasksActive) == 0)
                 {
                     // No hash tasks active so just wait and 
                     // then try again.
@@ -255,9 +267,9 @@ namespace FiftyOne.DeviceDetection.TestHelpers.Data
                 else
                 {
                     DateTime start = DateTime.UtcNow;
-                    Console.WriteLine("Refresh started");
+                    LogWithTimestamp($"Refresh started (active tasks: {tasksNow} / {_hashTasksActive})");
                     wrapper.GetEngine().RefreshData(null);
-                    Console.WriteLine("Refresh completed");
+                    LogWithTimestamp("Refresh completed");
                     result.Add(new RefreshResult()
                     {
                         StartTime = start,
@@ -277,40 +289,72 @@ namespace FiftyOne.DeviceDetection.TestHelpers.Data
             PerformanceProfiles profile)
         {
             List<RefreshResult> result = new List<RefreshResult>();
+            Func<bool> shouldLoop = () => (!cancellationToken.IsCancellationRequested) && (result.Count < RefreshLimit());
 
-            while (cancellationToken.IsCancellationRequested == false &&
-                result.Count < RefreshLimit())
+            await Task.Yield();
+
+            while (shouldLoop())
             {
-                if (_hashTasksActive == 0)
+                LogWithTimestamp($"Refresh will create MemoryStream (active tasks: {_hashTasksActive})");
+                using (var stream = new MemoryStream())
                 {
-                    // No hash tasks active so just wait and 
-                    // then try again.
-                    await Task.Delay(10);
-                }
-                else
-                {
-                    using (var stream = new MemoryStream())
-                    {
-                        stream.Write(masterData, 0, masterData.Length);
-                        stream.Seek(0, SeekOrigin.Begin);
+                    stream.Write(masterData, 0, masterData.Length);
+                    stream.Seek(0, SeekOrigin.Begin);
 
-                        DateTime start = DateTime.UtcNow;
-                        Console.WriteLine("Refresh started");
-                        wrapper.GetEngine().RefreshData(
-                            wrapper.GetEngine().DataFiles[0].Identifier,
-                            stream);
-                        Console.WriteLine("Refresh completed");
-                        result.Add(new RefreshResult()
+                    LogWithTimestamp($"Refresh will wait for next hash task to start (active tasks: {_hashTasksActive})");
+                    while (!_hashTaskStarted.WaitOne(10))
+                    {
+                        if (!shouldLoop())
                         {
-                            StartTime = start,
-                            FinishTime = DateTime.UtcNow
-                        });
+                            return result;
+                        }
                     }
-                    await Task.Delay(ReloadDelay(profile, true));
+
+                    DateTime start = DateTime.UtcNow;
+                    LogWithTimestamp($"Refresh started (active tasks: {_hashTasksActive})");
+                    wrapper.GetEngine().RefreshData(
+                        wrapper.GetEngine().DataFiles[0].Identifier,
+                        stream);
+                    LogWithTimestamp("Refresh completed");
+                    result.Add(new RefreshResult()
+                    {
+                        StartTime = start,
+                        FinishTime = DateTime.UtcNow
+                    });
                 }
+                await Task.Delay(ReloadDelay(profile, true));
             }
 
             return result;
+        }
+
+        private struct LoggedMessage
+        {
+            public readonly DateTime timestamp;
+            public readonly string message;
+
+            public LoggedMessage(string message)
+            {
+                timestamp = DateTime.Now;
+                this.message = message;
+            }
+        }
+
+        private ConcurrentQueue<LoggedMessage> logs = new ConcurrentQueue<LoggedMessage>();
+
+        private void DumpLogs()
+        {
+            foreach (var log in logs.OrderBy(x => x.timestamp))
+            {
+                Console.WriteLine(LogEntryToString(log));
+            }
+        }
+
+        private string LogEntryToString(LoggedMessage entry) => $"[{entry.timestamp:O}] {entry.message}";
+
+        private void LogWithTimestamp(string message)
+        {
+            logs.Enqueue(new LoggedMessage(message));
         }
     }
 }
