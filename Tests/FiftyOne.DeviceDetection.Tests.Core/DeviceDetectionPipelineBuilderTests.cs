@@ -22,18 +22,170 @@
 
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using FiftyOne.DeviceDetection.TestHelpers;
+using FiftyOne.Pipeline.Core.FlowElements;
+using FiftyOne.Pipeline.Engines.Configuration;
+using FiftyOne.Pipeline.Engines.Data;
 using FiftyOne.Pipeline.Engines.FiftyOne.FlowElements;
 using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
+using static FiftyOne.DeviceDetection.Tests.Core.DeviceDetectionPipelineBuilderTests;
 
 namespace FiftyOne.DeviceDetection.Tests.Core
 {
     [TestClass]
     public class DeviceDetectionPipelineBuilderTests
     {
+        #region Records 
+
+        public record SetupAction(
+            string Description,
+            Func<DeviceDetectionOnPremisePipelineBuilder, DeviceDetectionOnPremisePipelineBuilder> Setup);
+
+        public record PipelineDecomp(
+            IPipeline Pipeline,
+            DeviceDetectionHashEngine Engine,
+            IAspectEngineDataFile DataFile,
+            IDataFileConfiguration DataFileConfig
+            );
+
+        public record ValidationAction(
+            string Description,
+            Action<PipelineDecomp> Validate);
+
+        public record TestFragment(
+            IList<SetupAction> SetupActions,
+            ValidationAction ValidationAction
+            )
+        {
+            public TestFragment(
+                string desc,
+                Func<DeviceDetectionOnPremisePipelineBuilder, DeviceDetectionOnPremisePipelineBuilder> setupCall,
+                Action<PipelineDecomp> validationCall) : this(
+                    (setupCall is not null) 
+                    ? new SetupAction[] { new SetupAction(desc, setupCall) }
+                    : new SetupAction[0], 
+                    new ValidationAction(desc, validationCall))
+            { }
+        }
+
+        public record TestParamsComplete(
+            string DataFileName,
+            string LicenseKey,
+            IList<SetupAction> SetupActions,
+            IList<ValidationAction> ValidationActions);
+
+        #endregion
+
+
+        #region AutoUpdate
+
+        private static TestFragment AutoUpdateTestFragment(bool autoUpdate, string licenseKey) =>
+            new TestFragment(
+                $"{nameof(DeviceDetectionOnPremisePipelineBuilder.SetAutoUpdate)}({autoUpdate})",
+                b => b.SetAutoUpdate(autoUpdate),
+                (pd) => Assert.AreEqual(autoUpdate && (licenseKey is not null), pd.DataFile.AutomaticUpdatesEnabled));
+
+        #endregion
+
+
+        #region LicenseKey
+
+        private static IEnumerable<string> PossibleLicenseKeys(bool autoUpdate)
+        {
+            yield return null;
+            if (autoUpdate) { yield return "key1"; }
+        }
+        private static TestFragment TestFragmentForLicenseKey(string licenseKey) => new TestFragment(
+            $"{nameof(DeviceDetectionPipelineBuilder.UseOnPremise)}(licenseKey='{licenseKey}')",
+            null,
+            (licenseKey is not null) 
+            ? pd => Assert.AreEqual(licenseKey, pd.DataFileConfig.DataUpdateLicenseKeys[0])
+            : pd => Assert.AreEqual(0, pd.DataFileConfig.DataUpdateLicenseKeys.Count));
+
+        #endregion
+
+
+        #region ShareUsage
+
+        private static IEnumerable<bool> PossibleShareUsageFlags => new bool[] { true, false };
+        private static TestFragment ShareUsageTestFragment(bool shareUsage) => new TestFragment(
+            $"{nameof(DeviceDetectionOnPremisePipelineBuilder.SetShareUsage)}({shareUsage})",
+            b => b.SetShareUsage(shareUsage),
+            shareUsage
+            ? (pd => {
+                Assert.AreEqual(2, pd.Pipeline.FlowElements.Count);
+                Assert.IsTrue(pd.Pipeline.FlowElements.Any(
+                    e => e.GetType() == typeof(ShareUsageElement)));
+            }) 
+            : (pd => Assert.AreEqual(1, pd.Pipeline.FlowElements.Count)));
+
+        #endregion
+
+
+        #region XXXXX
+
+        #endregion
+
+
+        #region FragmentsMerge
+
+        private static IEnumerable<IList<TestFragment>> TestFragmentVariantsForAutoUpdate(bool autoUpdate, string licenseKey) {
+            yield return new TestFragment[] { AutoUpdateTestFragment(autoUpdate, licenseKey) };
+            yield return new TestFragment[] { TestFragmentForLicenseKey(licenseKey) };
+            yield return PossibleShareUsageFlags.Select(ShareUsageTestFragment).ToList();
+        }
+
+        private static IEnumerable<TestFragment> PickComboFromVariants(IList<IList<TestFragment>> variants, long comboIndex)
+        {
+            long remainingIndex = comboIndex;
+            foreach (var variantList in variants)
+            {
+                var currentIndex = remainingIndex % variantList.Count;
+                remainingIndex /= variantList.Count;
+                yield return variantList[(int)currentIndex];
+            }
+        }
+
+        private static IEnumerable<IEnumerable<TestFragment>> TestFragmentCombosForAutoUpdate(bool autoUpdate, string licenseKey)
+        {
+            var variants = TestFragmentVariantsForAutoUpdate(autoUpdate, licenseKey).ToList();
+            long combosCount = variants.Aggregate(1, (c, l) => c * l.Count);
+            for (long i = 0; i < combosCount; ++i)
+            {
+                yield return PickComboFromVariants(variants, i);
+            }
+        }
+
+        private static IEnumerable<TestParamsComplete> AllTestParamsRaw(string dataFileName)
+        {
+            foreach(var autoUpdate in new bool[] { false, true })
+            {
+                foreach(var licenseKey in PossibleLicenseKeys(autoUpdate))
+                {
+                    foreach(var fragmentsCombo in TestFragmentCombosForAutoUpdate(autoUpdate, licenseKey))
+                    {
+                        yield return new TestParamsComplete(
+                            dataFileName,
+                            licenseKey,
+                            fragmentsCombo.SelectMany(f => f.SetupActions).ToList(),
+                            fragmentsCombo.Select(f => f.ValidationAction).ToList());
+                    }
+                }
+            }
+        }
+
+        private static IEnumerable<object[]> AllTestParams
+            => AllTestParamsRaw(Constants.LITE_HASH_DATA_FILE_NAME).Select(t => new object[] { t });
+
+        #endregion
+
 
         /// <summary>
         /// Test that certain configuration options passed to the builder
@@ -52,37 +204,36 @@ namespace FiftyOne.DeviceDetection.Tests.Core
         /// The license key to use when performing automatic update.
         /// </param>
         [DataTestMethod]
-        [DataRow(Constants.LITE_HASH_DATA_FILE_NAME, true, false, null)]
-        [DataRow(Constants.LITE_HASH_DATA_FILE_NAME, false, false, null)]
-        [DataRow(Constants.LITE_HASH_DATA_FILE_NAME, true, true, null)]
-        [DataRow(Constants.LITE_HASH_DATA_FILE_NAME, false, true, null)]
-        [DataRow(Constants.LITE_HASH_DATA_FILE_NAME, true, false, "key1")]
-        [DataRow(Constants.LITE_HASH_DATA_FILE_NAME, true, true, "key1")]
-        public void DeviceDetectionPipelineBuilder_CheckConfiguration(
-            string dataFilename, bool autoUpdate, bool shareUsage, string licenseKey)
+        [DynamicData(nameof(AllTestParams))]
+        public void DeviceDetectionPipelineBuilder_CheckConfiguration(TestParamsComplete testParams)
         {
-            var datafile = Utils.GetFilePath(dataFilename);
+            var datafile = Utils.GetFilePath(testParams.DataFileName);
             var updateService = new Mock<IDataUpdateService>();
 
-            // Configure the pipeline.
-            var pipeline = new DeviceDetectionPipelineBuilder(
-                new NullLoggerFactory(), null, updateService.Object)
-                .UseOnPremise(datafile.FullName, licenseKey, false)
-                .SetAutoUpdate(autoUpdate)
-                .SetShareUsage(shareUsage)
-                .Build();
+            Console.WriteLine(
+                $"Preparing base builder with ("
+                + $"{nameof(testParams.DataFileName)} = {testParams.DataFileName}, "
+                + $"{nameof(testParams.LicenseKey)} = {testParams.LicenseKey})");
 
-            // Check that the flow elements in the pipeline are as expected.
-            if (shareUsage)
+            // Configure the pipeline.
+            var pipelineBuilder = new DeviceDetectionPipelineBuilder(
+                new NullLoggerFactory(), null, updateService.Object)
+                .UseOnPremise(datafile.FullName, testParams.LicenseKey, false);
+
+            foreach(var setupAction in testParams.SetupActions)
             {
-                Assert.AreEqual(2, pipeline.FlowElements.Count);
-                Assert.IsTrue(pipeline.FlowElements.Any(
-                    e => e.GetType() == typeof(ShareUsageElement)));
+                Console.WriteLine($"Setting up: {setupAction.Description}");
+                pipelineBuilder = setupAction.Setup(pipelineBuilder);
             }
-            else
-            {
-                Assert.AreEqual(1, pipeline.FlowElements.Count);
-            }
+
+            Console.WriteLine("Building...");
+
+            // Build the pipeline
+            using var pipeline = pipelineBuilder.Build();
+
+
+            Console.WriteLine("Building finished!");
+
             Assert.IsTrue(pipeline.FlowElements.Any(
                 e => e.GetType() == typeof(DeviceDetectionHashEngine)));
 
@@ -91,17 +242,21 @@ namespace FiftyOne.DeviceDetection.Tests.Core
             var engine = pipeline.FlowElements.Single(
                 e => e.GetType() == typeof(DeviceDetectionHashEngine)) as DeviceDetectionHashEngine;
 
-            if(licenseKey != null)
-            {
-                Assert.AreEqual(autoUpdate, engine.DataFiles[0].AutomaticUpdatesEnabled);
-                Assert.AreEqual(licenseKey, engine.DataFiles[0].Configuration.DataUpdateLicenseKeys[0]);
-            } else
-            {
-                // If there is no license key configured then automatic updates will be
-                // disabled.
-                Assert.AreEqual(false, engine.DataFiles[0].AutomaticUpdatesEnabled);
-            }
+            var dataFile = engine.DataFiles[0];
+            var dataFileConfig = dataFile.Configuration;
 
+            var pipelineDecomposition = new PipelineDecomp(
+                pipeline,
+                engine,
+                dataFile,
+                dataFileConfig);
+
+            // Validate expectations
+            foreach(var validationAction in testParams.ValidationActions)
+            {
+                Console.WriteLine($"Validating: {validationAction.Description}");
+                validationAction.Validate(pipelineDecomposition);
+            }
         }
     }
 }
