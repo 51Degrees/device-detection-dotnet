@@ -131,11 +131,76 @@ namespace FiftyOne.DeviceDetection.Tests.Core
 
         #region VerifyMd5
 
-        private static IEnumerable<bool> PossibleVerifyMD5Flags => new bool[] { true, false };
-        private static TestFragment VerifyMD5TestFragment(bool verifyMd5) => new TestFragment(
+        private static IEnumerable<bool?> PossibleVerifyMD5Flags => new bool?[] { null, true, false };
+        private static TestFragment VerifyMD5TestFragment(bool? verifyMd5) => new TestFragment(
             $"{nameof(DeviceDetectionOnPremisePipelineBuilder.SetDataUpdateVerifyMd5)}({verifyMd5})",
-            b => b.SetDataUpdateVerifyMd5(verifyMd5),
-            pd => Assert.AreEqual(verifyMd5, pd.DataFileConfig.VerifyMd5));
+            verifyMd5.HasValue 
+            ? b => b.SetDataUpdateVerifyMd5(verifyMd5.Value) 
+            : b => b,
+            pd => Assert.AreEqual(verifyMd5 ?? true, pd.DataFileConfig.VerifyMd5));
+
+        #endregion
+
+
+        #region DataUpdateURL
+
+        private record UriDef(
+            Uri Uri, 
+            bool AsString);
+
+        private static IEnumerable<IList<UriDef>> DataUpdateURLCombos() 
+        {
+            var testUris = new Uri[]
+            {
+                new Uri("https://localhost/"),
+                new Uri("https://127.0.0.1/"),
+            };
+            var modes = new bool?[] { null, false, true };
+            var nextDefs = new List<UriDef>(testUris.Length);
+            for (int comboIndex = 0, combosCount = testUris.Length * modes.Length; comboIndex < combosCount; ++comboIndex)
+            {
+                nextDefs.Clear();
+                var remState = comboIndex;
+                foreach (var candidateUri in testUris)
+                {
+                    var nextMode = modes[remState % modes.Length];
+                    remState /= modes.Length;
+                    if (nextMode.HasValue)
+                    {
+                        nextDefs.Add(new UriDef(candidateUri, nextMode.Value));
+                    }
+                }
+                yield return (nextDefs.Count <= 0) ? null : nextDefs.ToList();
+            }
+        }
+        private static TestFragment DataUpdateURLTestFragment(IList<UriDef> uris)
+        {
+            if (uris is null)
+            {
+                return null;
+            }
+
+            var setupBlocks = uris.Select(u => new SetupAction(
+                $"{nameof(DeviceDetectionOnPremisePipelineBuilder.SetDataUpdateUrl)}({u})",
+                u.AsString
+                ? b => b.SetDataUpdateUrl(u.Uri.AbsoluteUri)
+                : b => b.SetDataUpdateUrl(u.Uri)));
+
+            var lastUriString = uris[uris.Count - 1].Uri.AbsoluteUri;
+
+            var validationBlock = new ValidationAction(
+                $"{nameof(DeviceDetectionOnPremisePipelineBuilder.SetDataUpdateUrl)}({lastUriString})",
+                pd => Assert.AreEqual(lastUriString, pd.DataFileConfig.DataUpdateUrl));
+
+            return new TestFragment(setupBlocks.ToList(), validationBlock);
+        }
+
+        #endregion
+
+
+        #region XXXXX
+
+        // expansion placeholder
 
         #endregion
 
@@ -147,6 +212,7 @@ namespace FiftyOne.DeviceDetection.Tests.Core
             yield return new TestFragment[] { TestFragmentForLicenseKey(licenseKey) };
             yield return PossibleShareUsageFlags.Select(ShareUsageTestFragment).ToList();
             yield return PossibleVerifyMD5Flags.Select(VerifyMD5TestFragment).ToList();
+            yield return DataUpdateURLCombos().Select(DataUpdateURLTestFragment).ToList();
         }
 
         private static IEnumerable<TestFragment> PickComboFromVariants(IList<IList<TestFragment>> variants, long comboIndex)
@@ -156,7 +222,10 @@ namespace FiftyOne.DeviceDetection.Tests.Core
             {
                 var currentIndex = remainingIndex % variantList.Count;
                 remainingIndex /= variantList.Count;
-                yield return variantList[(int)currentIndex];
+                if (variantList[(int)currentIndex] is TestFragment nextFragment)
+                {
+                    yield return nextFragment;
+                }
             }
         }
 
