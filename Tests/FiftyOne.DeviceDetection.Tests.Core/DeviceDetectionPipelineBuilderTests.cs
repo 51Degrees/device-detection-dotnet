@@ -198,9 +198,19 @@ namespace FiftyOne.DeviceDetection.Tests.Core
         #endregion
 
 
-        #region XXXXX
+        #region DataUpdateUseUrlFormatter
 
-        // expansion placeholder
+        private static IEnumerable<bool?> PossibleUseUrlFormatterFlags => new bool?[] { null, true, false };
+        private static TestFragment UseUrlFormatterTestFragment(bool? useUrlFormatter) => new TestFragment(
+            $"{nameof(DeviceDetectionOnPremisePipelineBuilder.SetDataUpdateUseUrlFormatter)}({useUrlFormatter})",
+
+            useUrlFormatter.HasValue
+            ? b => b.SetDataUpdateUseUrlFormatter(useUrlFormatter.Value)
+            : b => b,
+
+            (useUrlFormatter ?? true)
+            ? pd => Assert.IsNotNull(pd.DataFileConfig.UrlFormatter)
+            : pd => Assert.IsNull(pd.DataFileConfig.UrlFormatter));
 
         #endregion
 
@@ -213,6 +223,7 @@ namespace FiftyOne.DeviceDetection.Tests.Core
             yield return PossibleShareUsageFlags.Select(ShareUsageTestFragment).ToList();
             yield return PossibleVerifyMD5Flags.Select(VerifyMD5TestFragment).ToList();
             yield return DataUpdateURLCombos().Select(DataUpdateURLTestFragment).ToList();
+            yield return PossibleUseUrlFormatterFlags.Select(UseUrlFormatterTestFragment).ToList();
         }
 
         private static IEnumerable<TestFragment> PickComboFromVariants(IList<IList<TestFragment>> variants, long comboIndex)
