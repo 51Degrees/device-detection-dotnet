@@ -129,7 +129,13 @@ namespace FiftyOne.DeviceDetection.Tests.Core
         #endregion
 
 
-        #region XXXXX
+        #region VerifyMd5
+
+        private static IEnumerable<bool> PossibleVerifyMD5Flags => new bool[] { true, false };
+        private static TestFragment VerifyMD5TestFragment(bool verifyMd5) => new TestFragment(
+            $"{nameof(DeviceDetectionOnPremisePipelineBuilder.SetDataUpdateVerifyMd5)}({verifyMd5})",
+            b => b.SetDataUpdateVerifyMd5(verifyMd5),
+            pd => Assert.AreEqual(verifyMd5, pd.DataFileConfig.VerifyMd5));
 
         #endregion
 
@@ -140,6 +146,7 @@ namespace FiftyOne.DeviceDetection.Tests.Core
             yield return new TestFragment[] { AutoUpdateTestFragment(autoUpdate, licenseKey) };
             yield return new TestFragment[] { TestFragmentForLicenseKey(licenseKey) };
             yield return PossibleShareUsageFlags.Select(ShareUsageTestFragment).ToList();
+            yield return PossibleVerifyMD5Flags.Select(VerifyMD5TestFragment).ToList();
         }
 
         private static IEnumerable<TestFragment> PickComboFromVariants(IList<IList<TestFragment>> variants, long comboIndex)
