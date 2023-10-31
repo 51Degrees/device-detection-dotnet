@@ -200,7 +200,49 @@ namespace FiftyOne.DeviceDetection.Tests.Core
 
         #region DataUpdateURLFormatter
 
-        // FIXME: Implement
+        private record DummyUrlFormatter(Uri FinalUri) : IDataUpdateUrlFormatter
+        {
+            public Uri GetFormattedDataUpdateUri(IAspectEngineDataFile dataFile) => FinalUri;
+            public string GetFormattedDataUpdateUrl(IAspectEngineDataFile dataFile) => FinalUri.AbsoluteUri;
+        }
+
+        private static IEnumerable<IList<IDataUpdateUrlFormatter>> PossibleUrlFormatters()
+        {
+            var alpha = new DummyUrlFormatter(new Uri("http://localhost/"));
+            var beta = new DummyUrlFormatter(new Uri("http://127.0.0.42/"));
+
+            yield return null;
+            yield return new IDataUpdateUrlFormatter[] { null };
+            yield return new IDataUpdateUrlFormatter[] { alpha };
+            yield return new IDataUpdateUrlFormatter[] { null, alpha };
+            yield return new IDataUpdateUrlFormatter[] { beta, null };
+            yield return new IDataUpdateUrlFormatter[] { alpha, beta };
+            yield return new IDataUpdateUrlFormatter[] { beta, alpha };
+        }
+        private static TestFragment UrlFormatterTestFragment(IList<IDataUpdateUrlFormatter> formatterBox)
+        {
+            const string methodDesc = nameof(DeviceDetectionOnPremisePipelineBuilder.SetDataUpdateUrl);
+            Func<IDataUpdateUrlFormatter, string> TitleFor = static f => $"{methodDesc}({f})";
+
+            return (formatterBox is null)
+                ? new TestFragment(
+                    $"no {methodDesc}",
+                    b => b,
+                    pd => Assert.IsNotNull(pd.DataFileConfig.UrlFormatter))
+
+                : new TestFragment(
+                    formatterBox.Select(
+                        nextFormatter => new SetupAction(
+                            TitleFor(nextFormatter),
+                            b => b.SetDataUpdateUrlFormatter(nextFormatter)))
+                    .ToList(),
+
+                    new ValidationAction(
+                        TitleFor(formatterBox[formatterBox.Count - 1]),
+                        pd => Assert.AreEqual(
+                            formatterBox[formatterBox.Count - 1],
+                            pd.DataFileConfig.UrlFormatter)));
+        }
 
         #endregion
 
@@ -213,6 +255,7 @@ namespace FiftyOne.DeviceDetection.Tests.Core
             yield return PossibleShareUsageFlags.Select(ShareUsageTestFragment).ToList();
             yield return PossibleVerifyMD5Flags.Select(VerifyMD5TestFragment).ToList();
             yield return DataUpdateURLCombos().Select(DataUpdateURLTestFragment).ToList();
+            yield return PossibleUrlFormatters().Select(UrlFormatterTestFragment).ToList();
         }
 
         private static IEnumerable<TestFragment> PickComboFromVariants(IList<IList<TestFragment>> variants, long comboIndex)
