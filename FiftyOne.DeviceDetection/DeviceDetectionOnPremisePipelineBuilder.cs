@@ -54,8 +54,7 @@ namespace FiftyOne.DeviceDetection
         private bool? _dataUpdateOnStartUpEnabled = null;
         private string _dataUpdateUrlString = null;
         private Uri _dataUpdateUrlUri = null;
-        private bool? _useFormatter = null;
-        private IDataUpdateUrlFormatter _dataUpdateUrlFormatter = null;
+        private IList<IDataUpdateUrlFormatter> _dataUpdateUrlFormatter = null;
         private bool? _dataUpdateVerifyMd5 = null;
         private bool? _dataFileSystemWatcherEnabled = null;
         private int? _updatePollingInterval = null;
@@ -466,33 +465,7 @@ namespace FiftyOne.DeviceDetection
         public DeviceDetectionOnPremisePipelineBuilder SetDataUpdateUrlFormatter(
             IDataUpdateUrlFormatter formatter)
         {
-            _dataUpdateUrlFormatter = formatter;
-            _useFormatter = null;
-            return this;
-        }
-
-        /// <summary>
-        /// Enable or disable the <see cref="IDataUpdateUrlFormatter"/>
-        /// to be used when creating the complete URL to request updates
-        /// from.
-        /// </summary>
-        /// <remarks>
-        /// Setting this to false is equivalent to calling 
-        /// <see cref="SetDataUpdateUrlFormatter(IDataUpdateUrlFormatter)"/>
-        /// with a null parameter.
-        /// It is available as a separate method in order to support 
-        /// disabling the formatter from a configuration file.
-        /// </remarks>
-        /// <param name="useFormatter">
-        /// True to use the specified formatter (default). False to
-        /// prevent the specified formatter from being used.
-        /// </param>
-        /// <returns>
-        /// This builder instance.
-        /// </returns>
-        public DeviceDetectionOnPremisePipelineBuilder SetDataUpdateUseUrlFormatter(bool useFormatter)
-        {
-            _useFormatter = useFormatter;
+            _dataUpdateUrlFormatter = new IDataUpdateUrlFormatter[] { formatter };
             return this;
         }
 
@@ -707,13 +680,9 @@ namespace FiftyOne.DeviceDetection
             {
                 builder.SetDataUpdateUrl(_dataUpdateUrlUri);
             }
-            if (_dataUpdateUrlFormatter != null)
+            if (_dataUpdateUrlFormatter != null && _dataUpdateUrlFormatter.Count > 0)
             {
-                builder.SetDataUpdateUrlFormatter(_dataUpdateUrlFormatter);
-            }
-            if (_useFormatter.HasValue)
-            {
-                builder.SetDataUpdateUseUrlFormatter(_useFormatter.Value);
+                builder.SetDataUpdateUrlFormatter(_dataUpdateUrlFormatter[0]);
             }
             if (_dataUpdateVerifyMd5.HasValue)
             {
