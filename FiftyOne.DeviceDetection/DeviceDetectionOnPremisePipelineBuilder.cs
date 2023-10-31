@@ -54,7 +54,12 @@ namespace FiftyOne.DeviceDetection
         private bool? _dataUpdateOnStartUpEnabled = null;
         private string _dataUpdateUrlString = null;
         private Uri _dataUpdateUrlUri = null;
+
+        /// <summary>
+        /// A Nullable box for a single nullable formatter reference.
+        /// </summary>
         private IList<IDataUpdateUrlFormatter> _dataUpdateUrlFormatter = null;
+
         private bool? _dataUpdateVerifyMd5 = null;
         private bool? _dataFileSystemWatcherEnabled = null;
         private int? _updatePollingInterval = null;
