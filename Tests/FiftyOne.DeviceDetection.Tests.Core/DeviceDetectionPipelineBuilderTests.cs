@@ -31,11 +31,8 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
-using static FiftyOne.DeviceDetection.Tests.Core.DeviceDetectionPipelineBuilderTests;
 
 namespace FiftyOne.DeviceDetection.Tests.Core
 {
