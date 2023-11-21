@@ -23,18 +23,9 @@ for the JavaScript code in this file
 */
 var NAVTREE =
 [
+    [ "General Docs", "../../documentation/4.4/index.html", null ],
     [ "51Degrees Device Detection Engines", "md__home_runner_work_device-detection-dotnet_device-detection-dotnet_common_device-detection-dotnet__r_e_a_d_m_e.html", null ],
-    [ "Classes", "annotated.html", [
-      [ "Class List", "annotated.html", "annotated_dup" ],
-      [ "Class Index", "classes.html", null ],
-      [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
-      [ "Class Members", "functions.html", [
-        [ "All", "functions.html", null ],
-        [ "Functions", "functions_func.html", null ],
-        [ "Variables", "functions_vars.html", null ],
-        [ "Properties", "functions_prop.html", null ]
-      ] ]
-    ] ],
+    [ "Classes", "annotated.html", "annotated" ],
     [ "Examples", "examples.html", "examples" ]
 ];
 
@@ -44,8 +35,8 @@ var NAVTREEHIDESYNC = true;
 
 var NAVTREEINDEX =
 [
-"_cloud-_u_a_c_h_2_startup_8cs-example.html",
-"class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_program_1_1_benchmark_result.html"
+"../../documentation/4.4/index.html",
+"class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_program.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -1,4 +1,4 @@
-var annotated_dup =
+var annotated =
 [
     [ "AppleServerSide_Console", "namespace_apple_server_side___console.html", "namespace_apple_server_side___console" ],
     [ "Client_Hints", "namespace_client___hints.html", "namespace_client___hints" ],
