@@ -21,4 +21,10 @@ jobs:
       dryrun: ${{ inputs.dryrun || false }}
     secrets:
       token: ${{ secrets.ACCESS_TOKEN }}
-      asset-keys: '{ "DeviceDetection": "${{ secrets.DEVICE_DETECTION_KEY }}","DeviceDetectionUrl": "${{ secrets.DEVICE_DETECTION_URL }}", "TestResourceKey": "${{ secrets.SUPER_RESOURCE_KEY}}","AcceptCHBrowserKey" : "${{ secrets.ACCEPTCH_BROWSER_KEY}}","AcceptCHHardwareKey" : "${{ secrets.ACCEPTCH_HARDWARE_KEY}}","AcceptCHPlatformKey" : "${{ secrets.ACCEPTCH_PLATFORM_KEY}}","AcceptCHNoneKey" : "${{ secrets.ACCEPTCH_NONE_KEY}}" }'
+      DeviceDetection: ${{ secrets.DEVICE_DETECTION_KEY }}
+      DeviceDetectionUrl: ${{ secrets.DEVICE_DETECTION_URL }}
+      TestResourceKey: ${{ secrets.SUPER_RESOURCE_KEY}}
+      AcceptCHBrowserKey: ${{ secrets.ACCEPTCH_BROWSER_KEY}}
+      AcceptCHHardwareKey: ${{ secrets.ACCEPTCH_HARDWARE_KEY}}
+      AcceptCHPlatformKey: ${{ secrets.ACCEPTCH_PLATFORM_KEY}}
+      AcceptCHNoneKey: ${{ secrets.ACCEPTCH_NONE_KEY}}
