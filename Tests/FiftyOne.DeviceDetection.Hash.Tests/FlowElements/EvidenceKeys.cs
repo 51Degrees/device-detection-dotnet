@@ -50,6 +50,14 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
 
         [DataTestMethod]
         [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase), DynamicDataSourceType.Method)]
+        public void EvidenceKeys_Hash_Core_ContainsQueryParams(PerformanceProfiles profile)
+        {
+            InitWrapperAndUserAgents(profile);
+            EvidenceKeyTests.ContainsQueryParams(Wrapper);
+        }
+
+        [DataTestMethod]
+        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase), DynamicDataSourceType.Method)]
         public void EvidenceKeys_Hash_Core_ContainsOverrides(PerformanceProfiles profile)
         {
             InitWrapperAndUserAgents(profile);
