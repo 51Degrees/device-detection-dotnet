@@ -13,7 +13,7 @@
 	  <PackageId>FiftyOne.DeviceDetection</PackageId>
 	  <Title>Device detection service for the 51Degrees Pipeline API</Title>
     <Description>The 51Degrees Pipeline API provides a fast, modern architecture for consuming real-time digital data services. Device detection will provide detailed information about the hardware and software of devices that are being used to access your website or service.</Description>
-	  <Authors>51D_Steve;Ben51Degrees;Joseph51Degrees</Authors>
+	  <Authors>51Degrees Engineering</Authors>
 	  <PackageLicenseExpression>EUPL-1.2</PackageLicenseExpression>
     <PackageIconUrl>https://51degrees.com/portals/0/Logos/Square%20Logo.png?width=64</PackageIconUrl>
 	  <Copyright>51Degrees Mobile Experts Limited</Copyright>
