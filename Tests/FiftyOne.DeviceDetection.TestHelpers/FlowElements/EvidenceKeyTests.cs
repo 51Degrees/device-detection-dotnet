@@ -41,6 +41,7 @@ namespace FiftyOne.DeviceDetection.TestHelpers.FlowElements
         {
             Assert.IsTrue(wrapper.GetEngine().EvidenceKeyFilter.Include("query.user-agent"));
             Assert.IsTrue(wrapper.GetEngine().EvidenceKeyFilter.Include("query.device-stock-ua"));
+            Assert.IsTrue(wrapper.GetEngine().EvidenceKeyFilter.Include("query.51D_deviceId"));
         }
 
         public static void CaseInsensitiveKeys(IWrapper wrapper)
