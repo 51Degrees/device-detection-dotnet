@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.Common.TestHelpers" Version="4.4.12" />
+    <PackageReference Include="FiftyOne.Common.TestHelpers" Version="4.4.13" />
   </ItemGroup>
 
   <ItemGroup>
