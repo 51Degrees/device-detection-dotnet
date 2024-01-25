@@ -19,7 +19,7 @@
 	  <Copyright>51Degrees Mobile Experts Limited</Copyright>
 	  <PackageTags>51degrees,pipeline,data service,device detection,user-agent,cloud</PackageTags>
 	  <RepositoryUrl>https://github.com/51Degrees/device-detection-dotnet</RepositoryUrl>
-    <PackageProjectUrl>51degrees.com</PackageProjectUrl>
+    <PackageProjectUrl>https://51degrees.com</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <PackageIcon>51d-logo.png</PackageIcon>
     <NeutralLanguage>en</NeutralLanguage>
