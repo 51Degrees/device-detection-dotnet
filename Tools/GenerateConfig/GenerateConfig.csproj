@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.4.66" />
+    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.4.67" />
   </ItemGroup>
 
   <ItemGroup>
