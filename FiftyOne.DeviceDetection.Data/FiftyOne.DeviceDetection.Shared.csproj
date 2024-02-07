@@ -12,7 +12,7 @@
 	  <!-- NuGet package properties -->
 	  <PackageId>FiftyOne.DeviceDetection.Shared</PackageId>
 	  <Title>Shared code library for device detection services for the 51Degrees Pipeline API</Title>
-	  <Description>51Degrees Device Detection parses HTTP headers to return detailed hardware, operating system, browser, and crawler information for the devices used to access your website or service. This is an alternative to popular UAParser packages.</Description>
+	  <Description>51Degrees Device Detection parses HTTP headers to return detailed hardware, operating system, browser, and crawler information for the devices used to access your website or service. This package contains shared classes used by the device detection engines.</Description>
 	  <Authors>51Degrees Engineering</Authors>
 	  <PackageLicenseExpression>EUPL-1.2</PackageLicenseExpression>
     <PackageIconUrl>https://51degrees.com/portals/0/Logos/Square%20Logo.png?width=64</PackageIconUrl>
@@ -27,6 +27,7 @@
 
     <!-- GitHub CI -->
     <BuiltOnCI>false</BuiltOnCI>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -39,6 +40,10 @@
   </ItemGroup>
   
   <ItemGroup>
+    <None Include="..\..\common-dotnet\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="..\Images\51d-logo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>

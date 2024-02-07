@@ -12,7 +12,7 @@
 	  <!-- NuGet package properties -->
 	  <PackageId>FiftyOne.DeviceDetection.Hash.Engine.OnPremise</PackageId>
 	  <Title>On-premise device detection service for the 51Degrees Pipeline API</Title>
-    <Description>51Degrees Device Detection parses HTTP headers to return detailed hardware, operating system, browser, and crawler information for the devices used to access your website or service. This is an alternative to popular UAParser packages.</Description>
+    <Description>51Degrees Device Detection parses HTTP headers to return detailed hardware, operating system, browser, and crawler information for the devices used to access your website or service. This package is an implementation of the device detection hash engine. CMake is used to build the native binaries.</Description>
 	  <Authors>51Degrees Engineering</Authors>
 	  <PackageLicenseExpression>EUPL-1.2</PackageLicenseExpression>
     <PackageIconUrl>https://51degrees.com/portals/0/Logos/Square%20Logo.png?width=64</PackageIconUrl>
@@ -27,6 +27,7 @@
 
     <!-- GitHub CI -->
     <BuiltOnCI>false</BuiltOnCI>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <!-- 
@@ -64,6 +65,10 @@
     </None>
     <None Include="$(ProjectDir)\build\macos\$(Platform)\$(BuildType)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="$([MSBuild]::IsOsPlatform('OSX')) AND '$(Platform)' != 'AnyCPU'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\common-dotnet\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
 
     <None Include="..\.editorconfig" Link="Interop\Swig\.editorconfig" />
