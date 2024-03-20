@@ -88,7 +88,7 @@ namespace FiftyOne.DeviceDetection {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Evidence value for key &apos;{0}&apos; is not in the expected format. This should be a base 64 encoded JSON string from a JavaScript call to navigator.userAgentData.getHighEntropyValues. Supplied value was &apos;{1}&apos;.
+        ///   Looks up a localized string similar to Evidence value for key &apos;{0}&apos; is not in the expected format. This should be a base 64 encoded JSON string from a JavaScript call to navigator.userAgentData.getHighEntropyValues..
         /// </summary>
         internal static string ExceptionUachJsUnexpectedFormat {
             get {
