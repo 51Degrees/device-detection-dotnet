@@ -111,9 +111,9 @@ namespace FiftyOne.DeviceDetection.Uach
                     uachData = JsonConvert.DeserializeObject<UachJson>(decodedValue);
                 }
                 catch (FormatException)
-                { ThrowException(usedEvidenceKey, encodedValue); }
+                { ThrowException(usedEvidenceKey); }
                 catch (JsonReaderException)
-                { ThrowException(usedEvidenceKey, encodedValue); }
+                { ThrowException(usedEvidenceKey); }
 
                 if (uachData != null)
                 {
@@ -161,7 +161,7 @@ namespace FiftyOne.DeviceDetection.Uach
 
                     if (evidenceAdded == false)
                     {
-                        ThrowException(usedEvidenceKey, encodedValue);
+                        ThrowException(usedEvidenceKey);
                     }
                 }
             }
@@ -173,14 +173,11 @@ namespace FiftyOne.DeviceDetection.Uach
         /// <param name="usedEvidenceKey">
         /// The key of the evidence value that was processed
         /// </param>
-        /// <param name="encodedValue">
-        /// The raw value from evidence
-        /// </param>
-        private static void ThrowException(string usedEvidenceKey, string encodedValue)
+        private static void ThrowException(string usedEvidenceKey)
         {
             throw new PipelineException(string.Format(
                 System.Globalization.CultureInfo.InvariantCulture,
-                Messages.ExceptionUachJsUnexpectedFormat, usedEvidenceKey, encodedValue));
+                Messages.ExceptionUachJsUnexpectedFormat, usedEvidenceKey));
         }
 
         /// <summary>

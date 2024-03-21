@@ -127,7 +127,7 @@
     <value>No source for engine data. Use SetFilename or SetEngineData to configure this.</value>
   </data>
   <data name="ExceptionUachJsUnexpectedFormat" xml:space="preserve">
-    <value>Evidence value for key '{0}' is not in the expected format. This should be a base 64 encoded JSON string from a JavaScript call to navigator.userAgentData.getHighEntropyValues. Supplied value was '{1}'</value>
+    <value>Evidence value for key '{0}' is not in the expected format. This should be a base 64 encoded JSON string from a JavaScript call to navigator.userAgentData.getHighEntropyValues.</value>
   </data>
   <data name="ExceptionUnrecognizedFileExtension" xml:space="preserve">
     <value>Unrecognized filename '{0}'. Expected a '*.hash' Hash data file.</value>
