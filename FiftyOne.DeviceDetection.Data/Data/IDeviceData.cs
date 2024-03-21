@@ -13,10 +13,10 @@
  * amended by the European Commission) shall be deemed incompatible for
  * the purposes of the Work and the provisions of the compatibility
  * clause in Article 5 of the EUPL shall not apply.
- *
- * If using the Work as, or as part of, a network application, by
+ * 
+ * If using the Work as, or as part of, a network application, by 
  * including the attribution notice(s) required under Article 5 of the EUPL
- * in the end user terms of the application under an appropriate heading,
+ * in the end user terms of the application under an appropriate heading, 
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
@@ -37,7 +37,6 @@ namespace FiftyOne.DeviceDetection
 	/// This includes the hardware, operating system and browser as
 	/// well as crawler details if the request actually came from a 
 	/// bot or other automated system.
-  /// See the <see href="https://github.com/51Degrees/specifications/blob/main/device-detection-specification/data-model.md">Specification</see>
 	/// </summary>
 	public interface IDeviceData : IAspectData
 	{
@@ -89,6 +88,10 @@ namespace FiftyOne.DeviceDetection
 		/// Indicates the name of the browser without the default OS or layout engine.
 		/// </summary>
 		IAspectPropertyValue<string> BrowserFamily { get; }
+		/// <summary>
+		/// A list of logos associated with the Browser. The string contains the caption, followed by the full image URL separated with a tab character.
+		/// </summary>
+		IAspectPropertyValue<IReadOnlyList<string>> BrowserLogos { get; }
 		/// <summary>
 		/// Indicates the name of the browser. Many mobile browsers, by default, come with an operating system (OS). Unless specifically named, these browsers are named after the accompanying OS and/or the layout engine. 
 		/// </summary>
@@ -729,6 +732,10 @@ namespace FiftyOne.DeviceDetection
 		/// The year in which further development for the platform version is stopped by the platform vendor. This occurs when a new stable version of the platform is released.
 		/// </summary>
 		IAspectPropertyValue<int> PlatformDiscontinuedYear { get; }
+		/// <summary>
+		/// A list of logos associated with the Software. The string contains the caption, followed by the full image URL separated with a tab character.
+		/// </summary>
+		IAspectPropertyValue<IReadOnlyList<string>> PlatformLogos { get; }
 		/// <summary>
 		/// Indicates the name of the operating system the device is using.
 		/// </summary>
