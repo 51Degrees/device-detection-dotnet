@@ -89,6 +89,10 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<string> BrowserFamily { get; }
 		/// <summary>
+		/// A list of logos associated with the Browser. The string contains the caption, followed by the full image URL separated with a tab character.
+		/// </summary>
+		IAspectPropertyValue<IReadOnlyList<string>> BrowserLogos { get; }
+		/// <summary>
 		/// Indicates the name of the browser. Many mobile browsers, by default, come with an operating system (OS). Unless specifically named, these browsers are named after the accompanying OS and/or the layout engine. 
 		/// </summary>
 		IAspectPropertyValue<string> BrowserName { get; }
@@ -728,6 +732,10 @@ namespace FiftyOne.DeviceDetection
 		/// The year in which further development for the platform version is stopped by the platform vendor. This occurs when a new stable version of the platform is released.
 		/// </summary>
 		IAspectPropertyValue<int> PlatformDiscontinuedYear { get; }
+		/// <summary>
+		/// A list of logos associated with the Software. The string contains the caption, followed by the full image URL separated with a tab character.
+		/// </summary>
+		IAspectPropertyValue<IReadOnlyList<string>> PlatformLogos { get; }
 		/// <summary>
 		/// Indicates the name of the operating system the device is using.
 		/// </summary>

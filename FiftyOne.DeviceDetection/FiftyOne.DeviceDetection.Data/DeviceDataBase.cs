@@ -81,6 +81,7 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "BrowserDiscontinuedMonth", typeof(IAspectPropertyValue<string>) },
 				{ "BrowserDiscontinuedYear", typeof(IAspectPropertyValue<int>) },
 				{ "BrowserFamily", typeof(IAspectPropertyValue<string>) },
+				{ "BrowserLogos", typeof(IAspectPropertyValue<IReadOnlyList<string>>) },
 				{ "BrowserName", typeof(IAspectPropertyValue<string>) },
 				{ "BrowserPreviewAge", typeof(IAspectPropertyValue<int>) },
 				{ "BrowserPreviewMonth", typeof(IAspectPropertyValue<string>) },
@@ -241,6 +242,7 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "PlatformDiscontinuedAge", typeof(IAspectPropertyValue<int>) },
 				{ "PlatformDiscontinuedMonth", typeof(IAspectPropertyValue<string>) },
 				{ "PlatformDiscontinuedYear", typeof(IAspectPropertyValue<int>) },
+				{ "PlatformLogos", typeof(IAspectPropertyValue<IReadOnlyList<string>>) },
 				{ "PlatformName", typeof(IAspectPropertyValue<string>) },
 				{ "PlatformPreviewAge", typeof(IAspectPropertyValue<int>) },
 				{ "PlatformPreviewMonth", typeof(IAspectPropertyValue<string>) },
@@ -383,6 +385,10 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// Indicates the name of the browser without the default OS or layout engine.
 		/// </summary>
 		public IAspectPropertyValue<string> BrowserFamily { get { return GetAs<IAspectPropertyValue<string>>("BrowserFamily"); } }
+		/// <summary>
+		/// A list of logos associated with the Browser. The string contains the caption, followed by the full image URL separated with a tab character.
+		/// </summary>
+		public IAspectPropertyValue<IReadOnlyList<string>> BrowserLogos { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("BrowserLogos"); } }
 		/// <summary>
 		/// Indicates the name of the browser. Many mobile browsers, by default, come with an operating system (OS). Unless specifically named, these browsers are named after the accompanying OS and/or the layout engine. 
 		/// </summary>
@@ -1023,6 +1029,10 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// The year in which further development for the platform version is stopped by the platform vendor. This occurs when a new stable version of the platform is released.
 		/// </summary>
 		public IAspectPropertyValue<int> PlatformDiscontinuedYear { get { return GetAs<IAspectPropertyValue<int>>("PlatformDiscontinuedYear"); } }
+		/// <summary>
+		/// A list of logos associated with the Software. The string contains the caption, followed by the full image URL separated with a tab character.
+		/// </summary>
+		public IAspectPropertyValue<IReadOnlyList<string>> PlatformLogos { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("PlatformLogos"); } }
 		/// <summary>
 		/// Indicates the name of the operating system the device is using.
 		/// </summary>
