@@ -1,6 +1,1 @@
-build
-.vscode
-CMakeCache.txt
-CMakeFiles
-Makefile
-**/*.a
+FiftyOne.DeviceDetection.xml

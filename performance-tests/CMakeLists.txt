@@ -13,7 +13,6 @@ ExternalProject_Add(ApacheBench
     EXCLUDE_FROM_ALL TRUE
 )
 
-
 function(download_file url filename)
 
 if(NOT EXISTS ${filename})
@@ -24,7 +23,6 @@ endif()
 
 endfunction(download_file)
 
-
 download_file(
     https://media.githubusercontent.com/media/51Degrees/device-detection-data/main/20000%20User%20Agents.csv
     ./uas.csv
@@ -32,8 +30,7 @@ download_file(
 
 add_custom_target(perf ALL
     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/runPerf.ps1 ./
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/runPerf.sh ./
-    DEPENDS ${CMAKE_SOURCE_DIR}/runPerf.ps1 ${CMAKE_SOURCE_DIR}/runPerf.sh
+    DEPENDS ${CMAKE_SOURCE_DIR}/runPerf.ps1
 
     VERBATIM
 )

@@ -1,0 +1,163 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Platforms>x64;x86;ARM64</Platforms>
+    <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
+    <DocumentationFile>FiftyOne.DeviceDetection.Hash.Engine.OnPremise.xml</DocumentationFile>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+
+	  <!-- NuGet package properties -->
+	  <PackageId>FiftyOne.DeviceDetection.Hash.Engine.OnPremise</PackageId>
+	  <Title>On-premise device detection service for the 51Degrees Pipeline API</Title>
+    <Description>51Degrees Device Detection parses HTTP headers to return detailed hardware, operating system, browser, and crawler information for the devices used to access your website or service. This package is an implementation of the device detection hash engine. CMake is used to build the native binaries.</Description>
+	  <Authors>51Degrees Engineering</Authors>
+	  <PackageLicenseExpression>EUPL-1.2</PackageLicenseExpression>
+    <PackageIconUrl>https://51degrees.com/portals/0/Logos/Square%20Logo.png?width=64</PackageIconUrl>
+	  <Copyright>51Degrees Mobile Experts Limited</Copyright>
+	  <PackageTags>51degrees;pipeline;data;device;detection;user-agent;parse;detection-library;bots;crawler;desktop;tablet;mobile;tv,hash</PackageTags>
+	  <RepositoryUrl>https://github.com/51Degrees/device-detection-dotnet</RepositoryUrl>
+    <PackageProjectUrl>https://51degrees.com</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageIcon>51d-logo.png</PackageIcon>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Configurations>Debug;Release</Configurations>
+
+    <!-- GitHub CI -->
+    <BuiltOnCI>false</BuiltOnCI>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <!-- 
+    Debug or Release are the only two outputs from the CMake / PreBuild.ps1 
+    scripts. The $Configuration parameter might contain a wider range of options
+    which will always in the string Debug or Release. The following sets a new
+    parameter called BuildType to Debug or Release based on the content of the
+    $Configuration parameter. This is then used to choose the target compiled
+    binary.
+  -->
+  <PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(Configuration)', 'Debug'))">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <BuildType>Debug</BuildType>
+  </PropertyGroup>
+  <PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(Configuration)', 'Release'))">
+    <BuildType>Release</BuildType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="build\**" />
+    <Compile Remove="device-detection-cxx\**" />
+    <EmbeddedResource Remove="build\**" />
+    <EmbeddedResource Remove="device-detection-cxx\**" />
+    <None Remove="build\**" />
+    <None Remove="device-detection-cxx\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="$(ProjectDir)\build\windows\$(Platform)\$(BuildType)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="$([MSBuild]::IsOsPlatform('Windows')) AND '$(Platform)' != 'AnyCPU'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="$(ProjectDir)\build\linux\$(Platform)\$(BuildType)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="$([MSBuild]::IsOsPlatform('Linux')) AND '$(Platform)' != 'AnyCPU'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="$(ProjectDir)\build\macos\$(Platform)\$(BuildType)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="$([MSBuild]::IsOsPlatform('OSX')) AND '$(Platform)' != 'AnyCPU'" Link="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+
+    <None Include="..\.editorconfig" Link="Interop\Swig\.editorconfig" />
+    <None Include="..\Images\51d-logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Interop\Swig\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FiftyOne.DeviceDetection.Data\FiftyOne.DeviceDetection.Shared.csproj" />
+  </ItemGroup>
+
+  <!-- Package files to add to the NuGet package when packaging -->
+  <ItemGroup>
+    <!-- Package the .targets file which copies the DLLs in Framework projects -->
+    <_PackageFiles Include="FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets">
+      <BuildAction>None</BuildAction>
+      <PackagePath>build</PackagePath>
+    </_PackageFiles>
+
+    <!-- GitHub CI -->
+    <!-- Copy the Windows x64 native DLL -->
+    <_PackageFiles Include="..\windows\x64\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="$(BuiltOnCI)">
+      <BuildAction>None</BuildAction>
+      <PackagePath>runtimes\win-x64\native</PackagePath>
+    </_PackageFiles>
+    <!-- Copy the Windows x86 native DLL -->
+    <_PackageFiles Include="..\windows\x86\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="$(BuiltOnCI)">
+      <BuildAction>None</BuildAction>
+      <PackagePath>runtimes\win-x86\native</PackagePath>
+    </_PackageFiles>
+    <!-- Copy the Linux x64 native DLL -->
+    <_PackageFiles Include="..\linux\x64\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="$(BuiltOnCI)">
+      <BuildAction>None</BuildAction>
+      <PackagePath>runtimes\linux-x64\native</PackagePath>
+    </_PackageFiles>
+    <!-- Copy the Linux x86 native DLL -->
+    <_PackageFiles Include="..\linux\x86\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="$(BuiltOnCI)">
+      <BuildAction>None</BuildAction>
+      <PackagePath>runtimes\linux-x86\native</PackagePath>
+    </_PackageFiles>
+    <!-- Copy the Mac x64 native DLL -->
+    <_PackageFiles Include="..\macos\x64\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="$(BuiltOnCI)">
+      <BuildAction>None</BuildAction>
+      <PackagePath>runtimes\osx-x64\native</PackagePath>
+    </_PackageFiles>
+    <!-- Copy the Mac arm64 native DLL -->
+    <_PackageFiles Include="..\macos\arm64\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="$(BuiltOnCI)">
+      <BuildAction>None</BuildAction>
+      <PackagePath>runtimes\osx-arm64\native</PackagePath>
+    </_PackageFiles>
+
+    <!-- Direct pack -->
+    <!-- Copy the Windows x86/x64 native DLL -->
+    <_PackageFiles Include="$(OutputPath)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="$([MSBuild]::IsOsPlatform('Windows')) AND !$(BuiltOnCI)">
+      <BuildAction>None</BuildAction>
+      <PackagePath>runtimes\win-x$(Platform)\native</PackagePath>
+    </_PackageFiles>
+    <!-- Copy the Linux x86/x64 native DLL -->
+    <_PackageFiles Include="$(OutputPath)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="$([MSBuild]::IsOsPlatform('Linux')) AND !$(BuiltOnCI)">
+      <BuildAction>None</BuildAction>
+      <PackagePath>runtimes\linux-$(Platform)\native</PackagePath>
+    </_PackageFiles>
+    <!-- Copy the Mac x64/arm64 native DLL -->
+    <_PackageFiles Include="$(OutputPath)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="$([MSBuild]::IsOsPlatform('OSX')) AND !$(BuiltOnCI)">
+      <BuildAction>None</BuildAction>
+      <PackagePath>runtimes\osx-$(Platform)\native</PackagePath>
+    </_PackageFiles>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Messages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Messages.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Messages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(Platform)' != 'AnyCPU'">
+    <Exec Command="pwsh $(ProjectDir)PreBuild.ps1 -BuildType $(BuildType) -Arch $(Platform)" />
+  </Target>
+  
+</Project>

@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   schedule:
     # * is a special character in YAML so quote this string
-    - cron:  '0 1 * * *'
+    - cron:  '30 3 * * *'
 
 
 jobs:
@@ -13,7 +13,8 @@ jobs:
     uses: 51Degrees/common-ci/.github/workflows/nightly-documentation-update.yml@main
     with:
       repo-name: ${{ github.event.repository.name }}
+      org-name: ${{ github.event.repository.owner.login }}
       separate-examples: true
-    
-    secrets: 
+
+    secrets:
       token: ${{ secrets.ACCESS_TOKEN }}

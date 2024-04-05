@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <Platforms>x86;x64;ARM64</Platforms>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">net6.0;net462</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">net6.0</TargetFrameworks>
+    <Configurations>Debug;Release</Configurations>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <BaseOutputPath>bin</BaseOutputPath>
+    <BaseIntermediateOutputPath>obj</BaseIntermediateOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="bin\**" />
+    <EmbeddedResource Remove="bin\**" />
+    <None Remove="bin\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.1.1" />
+    <PackageReference Include="Moq" Version="4.20.70" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\FiftyOne.DeviceDetection.Data\FiftyOne.DeviceDetection.Shared.csproj" />
+    <ProjectReference Include="..\..\FiftyOne.DeviceDetection.Hash.Engine.OnPremise\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.csproj" />
+    <ProjectReference Include="..\FiftyOne.DeviceDetection.TestHelpers\FiftyOne.DeviceDetection.TestHelpers.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+</Project>

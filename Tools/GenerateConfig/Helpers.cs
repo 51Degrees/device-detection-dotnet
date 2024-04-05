@@ -1,15 +1,11 @@
 ﻿using FiftyOne.Pipeline.Core.Attributes;
 using FiftyOne.Pipeline.Core.Configuration;
 using FiftyOne.Pipeline.Core.FlowElements;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Metadata;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace GenerateConfig
 {
@@ -53,7 +49,7 @@ namespace GenerateConfig
         }
 
         /// <summary>
-        /// Write the configration options for the specified element builder using the 
+        /// Write the configuration options for the specified element builder using the 
         /// specified json writer.
         /// </summary>
         /// <param name="writer"></param>
@@ -76,7 +72,7 @@ namespace GenerateConfig
         }
 
         /// <summary>
-        /// Write the configration options for the specified pipeline builder using the 
+        /// Write the configuration options for the specified pipeline builder using the 
         /// specified json writer.
         /// </summary>
         /// <param name="writer"></param>
@@ -113,7 +109,7 @@ namespace GenerateConfig
             {
                 // Get default value
                 var defaultValueAttr = method.GetCustomAttribute(typeof(DefaultValueAttribute)) as DefaultValueAttribute;
-                object? defaultValue = defaultValueAttr?.DefaultValue;
+                var defaultValue = defaultValueAttr?.DefaultValue;
                 if (defaultValue == null)
                 {
                     defaultValue = "No default value";
@@ -151,7 +147,7 @@ namespace GenerateConfig
                 {
                     // Get default value
                     var defaultValueAttr = parameter.GetCustomAttribute(typeof(DefaultValueAttribute)) as DefaultValueAttribute;
-                    object? defaultValue = defaultValueAttr?.DefaultValue;
+                    var defaultValue = defaultValueAttr?.DefaultValue;
                     if (defaultValue == null)
                     {
                         defaultValue = "No default value";

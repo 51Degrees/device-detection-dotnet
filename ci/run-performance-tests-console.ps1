@@ -9,10 +9,10 @@ param(
 
 $RepoPath = [IO.Path]::Combine($pwd, $RepoName)
 $PerfResultsFile = [IO.Path]::Combine($RepoPath, "test-results", "performance-summary", "results_$Name.json")
-$EvidenceFiles = [IO.Path]::Combine($pwd, $RepoName,"FiftyOne.DeviceDetection", "device-detection-cxx", "device-detection-data")
+$EvidenceFiles = [IO.Path]::Combine($pwd, $RepoName,"FiftyOne.DeviceDetection.Hash.Engine.OnPremise", "device-detection-cxx", "device-detection-data")
 $ExamplesRepoName = "device-detection-dotnet-examples"
 $ExamplesRepoPath = [IO.Path]::Combine($pwd, $ExamplesRepoName)
-$DeviceDetectionProject = [IO.Path]::Combine($RepoPath, "FiftyOne.DeviceDetection", "FiftyOne.DeviceDetection", "FiftyOne.DeviceDetection.csproj")
+$DeviceDetectionProject = [IO.Path]::Combine($RepoPath, "FiftyOne.DeviceDetection", "FiftyOne.DeviceDetection.csproj")
 $PerfProject = [IO.Path]::Combine($ExamplesRepoPath, "Examples", "OnPremise", "Performance-Console")
 
 Write-Output "Entering '$RepoPath'"
