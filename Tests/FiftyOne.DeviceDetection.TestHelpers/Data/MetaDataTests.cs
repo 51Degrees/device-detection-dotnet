@@ -186,12 +186,15 @@ namespace FiftyOne.DeviceDetection.TestHelpers.Data
                     r.FinishTime < h.FinishTime)));
             LogWithTimestamp($"{refreshesDuringActiveHashTasks.Count()} " +
                 $"refreshes during active hash tasks");
-            Assert.IsTrue(refreshesDuringActiveHashTasks.Count() > 0,
-                "At least 1 refresh needs to occur while hash tasks are " +
-                "active in order for this test to be valid. Check the " +
-                "ReloadDelay and HashTaskDelay settings. " +
-                $"Average hash task time = {avgHashTime} ms. " +
-                $"Average refresh task time = {avgRefreshTime} ms.");
+            if (refreshesDuringActiveHashTasks.Count() <= 0)
+            {
+                Assert.Inconclusive(
+                    "At least 1 refresh needs to occur while hash tasks are " +
+                    "active in order for this test to be valid. Check the " +
+                    "ReloadDelay and HashTaskDelay settings. " +
+                    $"Average hash task time = {avgHashTime} ms. " +
+                    $"Average refresh task time = {avgRefreshTime} ms.");
+            }
         }
 
         private IList<Task<HashTaskResult>> StartHashingTasks(
