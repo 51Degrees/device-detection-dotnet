@@ -36,10 +36,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.Pipeline.CloudRequestEngine" Version="4.4.82" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\FiftyOne.DeviceDetection.Data\FiftyOne.DeviceDetection.Shared.csproj" />
   </ItemGroup>
 
@@ -67,6 +63,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FiftyOne.Pipeline.CloudRequestEngine" Version="4.4.83" />
   </ItemGroup>
 
 </Project>
