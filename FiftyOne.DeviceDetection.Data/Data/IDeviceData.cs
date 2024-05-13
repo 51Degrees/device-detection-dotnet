@@ -129,18 +129,6 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<int> BrowserReleaseYear { get; }
 		/// <summary>
-		/// Name of the underlying browser source project.
-		/// </summary>
-		IAspectPropertyValue<string> BrowserSourceProject { get; }
-		/// <summary>
-		/// Indicates the version or subversion of the underlying browser source project.
-		/// </summary>
-		IAspectPropertyValue<string> BrowserSourceProjectVersion { get; }
-		/// <summary>
-		/// Indicates if the browser session supports the Privacy Sandbox APIs.
-		/// </summary>
-		IAspectPropertyValue<string> BrowserSupportsPrivacySandbox { get; }
-		/// <summary>
 		/// Indicates the name of the company which created the browser.
 		/// </summary>
 		IAspectPropertyValue<string> BrowserVendor { get; }
@@ -593,10 +581,6 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<bool> Javascript { get; }
 		/// <summary>
-		/// Javascript snippet that determines the actual current browser instance and overrides the proerty value.
-		/// </summary>
-		IAspectPropertyValue<JavaScript> JavascriptBrowserOverride { get; }
-		/// <summary>
 		/// Indicates if the browser supports the JavaScript that can manipulate CSS on the browser's web page.
 		/// </summary>
 		IAspectPropertyValue<bool> JavascriptCanManipulateCSS { get; }
@@ -817,14 +801,6 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<bool> Prompts { get; }
 		/// <summary>
-		/// Indicates if a client?s browser session has the Privacy Sandbox Protected Audience API enabled.
-		/// </summary>
-		IAspectPropertyValue<string> ProtectedAudienceAPIEnabled { get; }
-		/// <summary>
-		/// JavaScript that overrides the property value and indicates if a client's browser session has the Privacy Sandbox Protected Audience API enabled. 
-		/// </summary>
-		IAspectPropertyValue<JavaScript> ProtectedAudienceAPIEnabledJavaScript { get; }
-		/// <summary>
 		/// Indicates the number of frames per second the television can display in Hertz.
 		/// </summary>
 		IAspectPropertyValue<int> RefreshRate { get; }
@@ -977,14 +953,6 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<string> SetHeaderPlatformAcceptCH { get; }
 		/// <summary>
-		/// Indicates if a client's browser session has the Privacy Sandbox Shared Storage API enabled.
-		/// </summary>
-		IAspectPropertyValue<string> SharedStorageAPIEnabled { get; }
-		/// <summary>
-		/// JavaScript that overrides the property value to indicate if a client's browser session has the Privacy Sandbox Shared Storage API enabled. 
-		/// </summary>
-		IAspectPropertyValue<JavaScript> SharedStorageAPIEnabledJavaScript { get; }
-		/// <summary>
 		/// Indicates the primary marketing name of the System on Chip (chipset) which includes the CPU, GPU and modem. e.g. Snapdragon S4
 		/// </summary>
 		IAspectPropertyValue<string> SoC { get; }
@@ -1096,14 +1064,6 @@ namespace FiftyOne.DeviceDetection
 		/// Indicates the Type Allocation Code (TAC) for devices supporting GSM/3GPP networks which come from multiple sources. This property will return 'N/A' if we cannot determine the device TAC authenticy.
 		/// </summary>
 		IAspectPropertyValue<IReadOnlyList<string>> TAC { get; }
-		/// <summary>
-		/// Indicates if a client's browser session has the Privacy Sandbox Topics API enabled.
-		/// </summary>
-		IAspectPropertyValue<string> TopicsAPIEnabled { get; }
-		/// <summary>
-		/// JavaScript that overrides the property value to indicate if a client's browser session has the Privacy Sandbox Topics API enabled. 
-		/// </summary>
-		IAspectPropertyValue<JavaScript> TopicsAPIEnabledJavaScript { get; }
 		/// <summary>
 		/// Indicates if the browser supports the method of registering and interpreting finder (or stylus) activity on touch screens or trackpads.
 		/// </summary>

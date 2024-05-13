@@ -91,9 +91,6 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "BrowserReleaseAge", typeof(IAspectPropertyValue<int>) },
 				{ "BrowserReleaseMonth", typeof(IAspectPropertyValue<string>) },
 				{ "BrowserReleaseYear", typeof(IAspectPropertyValue<int>) },
-				{ "BrowserSourceProject", typeof(IAspectPropertyValue<string>) },
-				{ "BrowserSourceProjectVersion", typeof(IAspectPropertyValue<string>) },
-				{ "BrowserSupportsPrivacySandbox", typeof(IAspectPropertyValue<string>) },
 				{ "BrowserVendor", typeof(IAspectPropertyValue<string>) },
 				{ "BrowserVersion", typeof(IAspectPropertyValue<string>) },
 				{ "BrowserVideoCodecsDecode", typeof(IAspectPropertyValue<IReadOnlyList<string>>) },
@@ -207,7 +204,6 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "IsWebApp", typeof(IAspectPropertyValue<bool>) },
 				{ "Iterations", typeof(IAspectPropertyValue<int>) },
 				{ "Javascript", typeof(IAspectPropertyValue<bool>) },
-				{ "JavascriptBrowserOverride", typeof(IAspectPropertyValue<JavaScript>) },
 				{ "JavascriptCanManipulateCSS", typeof(IAspectPropertyValue<bool>) },
 				{ "JavascriptCanManipulateDOM", typeof(IAspectPropertyValue<bool>) },
 				{ "JavascriptGetElementById", typeof(IAspectPropertyValue<bool>) },
@@ -263,8 +259,6 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "Progress", typeof(IAspectPropertyValue<bool>) },
 				{ "Promise", typeof(IAspectPropertyValue<string>) },
 				{ "Prompts", typeof(IAspectPropertyValue<bool>) },
-				{ "ProtectedAudienceAPIEnabled", typeof(IAspectPropertyValue<string>) },
-				{ "ProtectedAudienceAPIEnabledJavaScript", typeof(IAspectPropertyValue<JavaScript>) },
 				{ "RefreshRate", typeof(IAspectPropertyValue<int>) },
 				{ "ReleaseAge", typeof(IAspectPropertyValue<int>) },
 				{ "ReleaseMonth", typeof(IAspectPropertyValue<string>) },
@@ -303,8 +297,6 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "SetHeaderBrowserAccept-CH", typeof(IAspectPropertyValue<string>) },
 				{ "SetHeaderHardwareAccept-CH", typeof(IAspectPropertyValue<string>) },
 				{ "SetHeaderPlatformAccept-CH", typeof(IAspectPropertyValue<string>) },
-				{ "SharedStorageAPIEnabled", typeof(IAspectPropertyValue<string>) },
-				{ "SharedStorageAPIEnabledJavaScript", typeof(IAspectPropertyValue<JavaScript>) },
 				{ "SoC", typeof(IAspectPropertyValue<string>) },
 				{ "SoCDesigner", typeof(IAspectPropertyValue<string>) },
 				{ "SoCModel", typeof(IAspectPropertyValue<string>) },
@@ -333,8 +325,6 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "SupportsWiDi", typeof(IAspectPropertyValue<bool>) },
 				{ "Svg", typeof(IAspectPropertyValue<bool>) },
 				{ "TAC", typeof(IAspectPropertyValue<IReadOnlyList<string>>) },
-				{ "TopicsAPIEnabled", typeof(IAspectPropertyValue<string>) },
-				{ "TopicsAPIEnabledJavaScript", typeof(IAspectPropertyValue<JavaScript>) },
 				{ "TouchEvents", typeof(IAspectPropertyValue<bool>) },
 				{ "Track", typeof(IAspectPropertyValue<bool>) },
 				{ "UserAgents", typeof(IAspectPropertyValue<IReadOnlyList<string>>) },
@@ -435,18 +425,6 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// The year in which the browser version is officially released to users by the browser vendor. This version is called the stable version as any bugs or difficulties highlighted in the Beta/Developer Version will have been fixed for this release.
 		/// </summary>
 		public IAspectPropertyValue<int> BrowserReleaseYear { get { return GetAs<IAspectPropertyValue<int>>("BrowserReleaseYear"); } }
-		/// <summary>
-		/// Name of the underlying browser source project.
-		/// </summary>
-		public IAspectPropertyValue<string> BrowserSourceProject { get { return GetAs<IAspectPropertyValue<string>>("BrowserSourceProject"); } }
-		/// <summary>
-		/// Indicates the version or subversion of the underlying browser source project.
-		/// </summary>
-		public IAspectPropertyValue<string> BrowserSourceProjectVersion { get { return GetAs<IAspectPropertyValue<string>>("BrowserSourceProjectVersion"); } }
-		/// <summary>
-		/// Indicates if the browser session supports the Privacy Sandbox APIs.
-		/// </summary>
-		public IAspectPropertyValue<string> BrowserSupportsPrivacySandbox { get { return GetAs<IAspectPropertyValue<string>>("BrowserSupportsPrivacySandbox"); } }
 		/// <summary>
 		/// Indicates the name of the company which created the browser.
 		/// </summary>
@@ -900,10 +878,6 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<bool> Javascript { get { return GetAs<IAspectPropertyValue<bool>>("Javascript"); } }
 		/// <summary>
-		/// Javascript snippet that determines the actual current browser instance and overrides the proerty value.
-		/// </summary>
-		public IAspectPropertyValue<JavaScript> JavascriptBrowserOverride { get { return GetAs<IAspectPropertyValue<JavaScript>>("JavascriptBrowserOverride"); } }
-		/// <summary>
 		/// Indicates if the browser supports the JavaScript that can manipulate CSS on the browser's web page.
 		/// </summary>
 		public IAspectPropertyValue<bool> JavascriptCanManipulateCSS { get { return GetAs<IAspectPropertyValue<bool>>("JavascriptCanManipulateCSS"); } }
@@ -1124,14 +1098,6 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<bool> Prompts { get { return GetAs<IAspectPropertyValue<bool>>("Prompts"); } }
 		/// <summary>
-		/// Indicates if a client?s browser session has the Privacy Sandbox Protected Audience API enabled.
-		/// </summary>
-		public IAspectPropertyValue<string> ProtectedAudienceAPIEnabled { get { return GetAs<IAspectPropertyValue<string>>("ProtectedAudienceAPIEnabled"); } }
-		/// <summary>
-		/// JavaScript that overrides the property value and indicates if a client's browser session has the Privacy Sandbox Protected Audience API enabled. 
-		/// </summary>
-		public IAspectPropertyValue<JavaScript> ProtectedAudienceAPIEnabledJavaScript { get { return GetAs<IAspectPropertyValue<JavaScript>>("ProtectedAudienceAPIEnabledJavaScript"); } }
-		/// <summary>
 		/// Indicates the number of frames per second the television can display in Hertz.
 		/// </summary>
 		public IAspectPropertyValue<int> RefreshRate { get { return GetAs<IAspectPropertyValue<int>>("RefreshRate"); } }
@@ -1284,14 +1250,6 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<string> SetHeaderPlatformAcceptCH { get { return GetAs<IAspectPropertyValue<string>>("SetHeaderPlatformAccept-CH"); } }
 		/// <summary>
-		/// Indicates if a client's browser session has the Privacy Sandbox Shared Storage API enabled.
-		/// </summary>
-		public IAspectPropertyValue<string> SharedStorageAPIEnabled { get { return GetAs<IAspectPropertyValue<string>>("SharedStorageAPIEnabled"); } }
-		/// <summary>
-		/// JavaScript that overrides the property value to indicate if a client's browser session has the Privacy Sandbox Shared Storage API enabled. 
-		/// </summary>
-		public IAspectPropertyValue<JavaScript> SharedStorageAPIEnabledJavaScript { get { return GetAs<IAspectPropertyValue<JavaScript>>("SharedStorageAPIEnabledJavaScript"); } }
-		/// <summary>
 		/// Indicates the primary marketing name of the System on Chip (chipset) which includes the CPU, GPU and modem. e.g. Snapdragon S4
 		/// </summary>
 		public IAspectPropertyValue<string> SoC { get { return GetAs<IAspectPropertyValue<string>>("SoC"); } }
@@ -1403,14 +1361,6 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// Indicates the Type Allocation Code (TAC) for devices supporting GSM/3GPP networks which come from multiple sources. This property will return 'N/A' if we cannot determine the device TAC authenticy.
 		/// </summary>
 		public IAspectPropertyValue<IReadOnlyList<string>> TAC { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("TAC"); } }
-		/// <summary>
-		/// Indicates if a client's browser session has the Privacy Sandbox Topics API enabled.
-		/// </summary>
-		public IAspectPropertyValue<string> TopicsAPIEnabled { get { return GetAs<IAspectPropertyValue<string>>("TopicsAPIEnabled"); } }
-		/// <summary>
-		/// JavaScript that overrides the property value to indicate if a client's browser session has the Privacy Sandbox Topics API enabled. 
-		/// </summary>
-		public IAspectPropertyValue<JavaScript> TopicsAPIEnabledJavaScript { get { return GetAs<IAspectPropertyValue<JavaScript>>("TopicsAPIEnabledJavaScript"); } }
 		/// <summary>
 		/// Indicates if the browser supports the method of registering and interpreting finder (or stylus) activity on touch screens or trackpads.
 		/// </summary>
