@@ -162,6 +162,12 @@ related CI scripts:
 - Copying native binaries:
   - [https://github.com/51Degrees/device-detection-dotnet/blob/main/ci/build-package.ps1]
 
+#### Strong naming
+
+We currently do not [strong name](https://learn.microsoft.com/en-us/dotnet/standard/library-guidance/strong-naming#create-strong-named-net-libraries) assemblies due to downsides for developers. The main of which is that .NET Framework on Windows enables strict loading of assemblies once an assembly is strong named. A strong-named assembly reference must exactly match the version of the loaded assembly, forcing developers to configure binding redirects when using the assembly.
+
+If it is absolutely critical for your use case to integrate a strong-named assembly - please create a feature request [issue](https://github.com/51Degrees/device-detection-dotnet/issues/new).
+
 ## Examples
 
 Examples can be found in
