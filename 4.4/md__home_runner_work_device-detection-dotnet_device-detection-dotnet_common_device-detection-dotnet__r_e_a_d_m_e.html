@@ -145,6 +145,9 @@ $(document).ready(function(){initNavTree('md__home_runner_work_device-detection-
 </ul>
 </li>
 </ul>
+<h4>Strong naming</h4>
+<p>We currently do not <a href="https://learn.microsoft.com/en-us/dotnet/standard/library-guidance/strong-naming#create-strong-named-net-libraries">strong name</a> assemblies due to downsides for developers. The main of which is that .NET Framework on Windows enables strict loading of assemblies once an assembly is strong named. A strong-named assembly reference must exactly match the version of the loaded assembly, forcing developers to configure binding redirects when using the assembly.</p>
+<p>If it is absolutely critical for your use case to integrate a strong-named assembly - please create a feature request <a href="https://github.com/51Degrees/device-detection-dotnet/issues/new">issue</a>.</p>
 <h2>Examples</h2>
 <p>Examples can be found in <a href="https://github.com/51Degrees/device-detection-dotnet-examples">device-detection-dotnet-examples</a> repository.</p>
 <h2>Tests</h2>
