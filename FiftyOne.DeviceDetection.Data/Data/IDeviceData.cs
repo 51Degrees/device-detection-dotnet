@@ -817,7 +817,7 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<bool> Prompts { get; }
 		/// <summary>
-		/// Refers to the experimental Privacy Sandbox Protected Audience API proposal from Google. Indicates whether the API caller can register an "AdInterestGroup" and checks whether the website has not blocked the Protected Audience API using a Permissions Policy.
+		/// Refers to the experimental Privacy Sandbox Protected Audience API proposal from Google. Indicates whether the API caller can register an "AdInterestGroup" and checks whether the website has not blocked the Protected Audience API using a Permissions Policy. Please be aware we have observed latency issues when interacting with the API.
 		/// </summary>
 		IAspectPropertyValue<string> ProtectedAudienceAPIEnabled { get; }
 		/// <summary>
