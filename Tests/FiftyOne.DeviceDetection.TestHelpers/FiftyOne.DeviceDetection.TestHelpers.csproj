@@ -8,11 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.Common.TestHelpers" Version="4.4.16" />
+    <ProjectReference Include="..\..\FiftyOne.DeviceDetection.Data\FiftyOne.DeviceDetection.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\FiftyOne.DeviceDetection.Data\FiftyOne.DeviceDetection.Shared.csproj" />
+    <PackageReference Include="FiftyOne.Common.TestHelpers" Version="4.4.18" />
   </ItemGroup>
 
 </Project>
