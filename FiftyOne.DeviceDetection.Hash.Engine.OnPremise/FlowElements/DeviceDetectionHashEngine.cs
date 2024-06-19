@@ -362,7 +362,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             "by the parent objects")]
         private IEnumerable<IFiftyOneAspectPropertyMetaData> GetMetricProperties()
         {
-            var dataFileList = new List<string>() { "Lite", "Premium", "Enterprise", "TAC" };
+            var dataFileList = new List<string>() { "Lite", "Premium", "Enterprise", "TAC", "CloudFree" };
             yield return new FiftyOneAspectPropertyMetaDataHash(
                 this,
                 "MatchedNodes",
