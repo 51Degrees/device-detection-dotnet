@@ -282,6 +282,8 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "ScreenMMWidth", typeof(IAspectPropertyValue<double>) },
 				{ "ScreenPixelsHeight", typeof(IAspectPropertyValue<int>) },
 				{ "ScreenPixelsHeightJavaScript", typeof(IAspectPropertyValue<JavaScript>) },
+				{ "ScreenPixelsPhysicalHeight", typeof(IAspectPropertyValue<int>) },
+				{ "ScreenPixelsPhysicalWidth", typeof(IAspectPropertyValue<int>) },
 				{ "ScreenPixelsWidth", typeof(IAspectPropertyValue<int>) },
 				{ "ScreenPixelsWidthJavaScript", typeof(IAspectPropertyValue<JavaScript>) },
 				{ "ScreenType", typeof(IAspectPropertyValue<string>) },
@@ -1199,6 +1201,14 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// JavaScript that can override the property value found by the server using information on the client device. This property is applicable for browsers that support screen pixels height cookie.
 		/// </summary>
 		public IAspectPropertyValue<JavaScript> ScreenPixelsHeightJavaScript { get { return GetAs<IAspectPropertyValue<JavaScript>>("ScreenPixelsHeightJavaScript"); } }
+		/// <summary>
+		/// Indicates the height of the device's screen in physical pixels. This property is not applicable for a device that does not have a screen. For devices such as tablets or TV which are predominantly used in landscape mode, the pixel height will be the smaller value compared to the pixel width. 
+		/// </summary>
+		public IAspectPropertyValue<int> ScreenPixelsPhysicalHeight { get { return GetAs<IAspectPropertyValue<int>>("ScreenPixelsPhysicalHeight"); } }
+		/// <summary>
+		/// Indicates the width of the device's screen in physical pixels. This property is not applicable for a device that does not have a screen. For devices such as tablets or TV which are predominantly used in landscape mode, the pixel width will be the larger value compared to the pixel height.
+		/// </summary>
+		public IAspectPropertyValue<int> ScreenPixelsPhysicalWidth { get { return GetAs<IAspectPropertyValue<int>>("ScreenPixelsPhysicalWidth"); } }
 		/// <summary>
 		/// Indicates the width of the device's screen in pixels. This property is not applicable for a device that does not have a screen. For devices such as tablets or TV which are predominantly used in landscape mode, the pixel width will be the larger value compared to the pixel height.
 		/// </summary>
