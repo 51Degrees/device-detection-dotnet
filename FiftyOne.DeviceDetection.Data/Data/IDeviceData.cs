@@ -1065,7 +1065,7 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<IReadOnlyList<string>> SupportedChargerTypes { get; }
 		/// <summary>
-		/// Indicates the list of input and output communications the device can support, for example 3.5mm audio jack, micro-USB etc.
+		/// Indicates the list of input and output communications the device can support, for example 3.5mm jack, micro-USB etc.
 		/// </summary>
 		IAspectPropertyValue<IReadOnlyList<string>> SupportedIO { get; }
 		/// <summary>
