@@ -1134,7 +1134,7 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<JavaScript> ProtectedAudienceAPIEnabledJavaScript { get { return GetAs<IAspectPropertyValue<JavaScript>>("ProtectedAudienceAPIEnabledJavaScript"); } }
 		/// <summary>
-		/// Indicates the number of frames per second the television can display in Hertz.
+		/// Indicates the maximum number of frames per second of the output image of the device in Hertz.
 		/// </summary>
 		public IAspectPropertyValue<int> RefreshRate { get { return GetAs<IAspectPropertyValue<int>>("RefreshRate"); } }
 		/// <summary>
