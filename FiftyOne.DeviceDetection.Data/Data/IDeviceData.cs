@@ -825,7 +825,7 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<JavaScript> ProtectedAudienceAPIEnabledJavaScript { get; }
 		/// <summary>
-		/// Indicates the number of frames per second the television can display in Hertz.
+		/// Indicates the maximum number of frames per second of the output image of the device in Hertz.
 		/// </summary>
 		IAspectPropertyValue<int> RefreshRate { get; }
 		/// <summary>
