@@ -45,5 +45,13 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         /// instance.
         /// </returns>
         IAspectPropertyValue<IReadOnlyList<string>> GetValues(string propertyName);
+
+        /// <summary>
+        /// Gets a JSON string representation of a property-value map this instance has.
+        /// </summary>
+        /// <returns>
+        /// A JSON object where keys are property names and values are values of these properties. 
+        /// </returns>
+        string GetAllValuesJson();
     }
 }

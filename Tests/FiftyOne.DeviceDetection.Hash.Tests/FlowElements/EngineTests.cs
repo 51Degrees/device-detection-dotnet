@@ -20,8 +20,17 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
+using FiftyOne.Common.TestHelpers;
+using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data;
+using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
+using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
 {
@@ -68,6 +77,7 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
         /// Performs a basic device detection operation to verify that the 
         /// engine is usable.
         /// </summary>
+        [TestMethod]
         private void TestDetection()
         {
             using(var flowData = Wrapper.Pipeline.CreateFlowData())
@@ -83,6 +93,51 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
                     Assert.IsNotNull(item.Key);
                     Assert.IsNotNull(item.Value);
                 }
+            }
+        }
+
+        [TestMethod]
+        [DataRow(TestHelpers.Constants.TAC_HASH_DATA_FILE_NAME, TestHelpers.Constants.JsonOutputTAC)]
+        [DataRow(TestHelpers.Constants.LITE_HASH_DATA_FILE_NAME, TestHelpers.Constants.JsonOutputLite)]
+        public void TestParallelSerialization(string fileName, string expectedOutput)
+        {
+            var dataFileInfo = TestHelpers.Utils.GetFilePath(fileName);
+            var wrapper = new WrapperHash(dataFileInfo, 
+                PerformanceProfiles.MaxPerformance,
+                TestHelpers.Constants.RequiredProperties
+                );
+            const int N = 20;
+            string[] results = new string[N];
+
+            Parallel.For(0, N, (int i) =>
+            {
+                Console.Out.WriteLine(i);
+                using (var flowData = wrapper.Pipeline.CreateFlowData())
+                {
+                    flowData.AddEvidence(
+                        "header.user-agent",
+                        TestHelpers.Constants.MobileUserAgentiOS17);
+                    flowData.Process();
+                    var deviceData = flowData.Get<IDeviceDataHash>();
+                    Assert.IsNotNull(deviceData);
+                    string json = deviceData.GetAllValuesJson();
+                    Assert.AreEqual(json, expectedOutput);
+                    results[i] = json;
+                }
+                using (var flowData = wrapper.Pipeline.CreateFlowData())
+                {
+                    flowData.AddEvidence("nonevidence", "none");
+                    flowData.Process();
+                    var deviceData = flowData.Get<IDeviceDataHash>();
+                    Assert.IsNotNull(deviceData);
+                    string json = deviceData.GetAllValuesJson();
+                    Assert.AreEqual(json, "{}");
+                }
+            });
+
+            foreach (var result in results)
+            {
+                Assert.AreEqual(result, expectedOutput);
             }
         }
     }
