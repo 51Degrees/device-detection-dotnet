@@ -10,18 +10,20 @@
 
 namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop {
 
-public class EvidenceBaseSwig : MapStringStringSwig {
+public class ResultsHashSerializer : global::System.IDisposable {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
+  protected bool swigCMemOwn;
 
-  internal EvidenceBaseSwig(global::System.IntPtr cPtr, bool cMemoryOwn) : base(DeviceDetectionHashEngineModulePINVOKE.EvidenceBaseSwig_SWIGUpcast(cPtr), cMemoryOwn) {
+  internal ResultsHashSerializer(global::System.IntPtr cPtr, bool cMemoryOwn) {
+    swigCMemOwn = cMemoryOwn;
     swigCPtr = new global::System.Runtime.InteropServices.HandleRef(this, cPtr);
   }
 
-  internal static global::System.Runtime.InteropServices.HandleRef getCPtr(EvidenceBaseSwig obj) {
+  internal static global::System.Runtime.InteropServices.HandleRef getCPtr(ResultsHashSerializer obj) {
     return (obj == null) ? new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero) : obj.swigCPtr;
   }
 
-  internal static global::System.Runtime.InteropServices.HandleRef swigRelease(EvidenceBaseSwig obj) {
+  internal static global::System.Runtime.InteropServices.HandleRef swigRelease(ResultsHashSerializer obj) {
     if (obj != null) {
       if (!obj.swigCMemOwn)
         throw new global::System.ApplicationException("Cannot release ownership as memory is not owned");
@@ -34,21 +36,39 @@ public class EvidenceBaseSwig : MapStringStringSwig {
     }
   }
 
-  protected override void Dispose(bool disposing) {
+  ~ResultsHashSerializer() {
+    Dispose(false);
+  }
+
+  public void Dispose() {
+    Dispose(true);
+    global::System.GC.SuppressFinalize(this);
+  }
+
+  protected virtual void Dispose(bool disposing) {
     lock(this) {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwn) {
           swigCMemOwn = false;
-          DeviceDetectionHashEngineModulePINVOKE.delete_EvidenceBaseSwig(swigCPtr);
+          DeviceDetectionHashEngineModulePINVOKE.delete_ResultsHashSerializer(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
-      base.Dispose(disposing);
     }
   }
 
-  public EvidenceBaseSwig() : this(DeviceDetectionHashEngineModulePINVOKE.new_EvidenceBaseSwig(), true) {
+  public ResultsHashSerializer() : this(DeviceDetectionHashEngineModulePINVOKE.new_ResultsHashSerializer__SWIG_0(), true) {
     if (DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Pending) throw DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public ResultsHashSerializer(uint bufferSize) : this(DeviceDetectionHashEngineModulePINVOKE.new_ResultsHashSerializer__SWIG_1(bufferSize), true) {
+    if (DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Pending) throw DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public string allValuesJson(ResultsHashSwig results) {
+    string ret = DeviceDetectionHashEngineModulePINVOKE.ResultsHashSerializer_allValuesJson(swigCPtr, ResultsHashSwig.getCPtr(results));
+    if (DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Pending) throw DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Retrieve();
+    return ret;
   }
 
 }
