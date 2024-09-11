@@ -10,20 +10,20 @@
 
 namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop {
 
-public class ProfileMetaDataCollectionSwig : global::System.IDisposable {
+public class Transform : global::System.IDisposable {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   protected bool swigCMemOwn;
 
-  internal ProfileMetaDataCollectionSwig(global::System.IntPtr cPtr, bool cMemoryOwn) {
+  internal Transform(global::System.IntPtr cPtr, bool cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = new global::System.Runtime.InteropServices.HandleRef(this, cPtr);
   }
 
-  internal static global::System.Runtime.InteropServices.HandleRef getCPtr(ProfileMetaDataCollectionSwig obj) {
+  internal static global::System.Runtime.InteropServices.HandleRef getCPtr(Transform obj) {
     return (obj == null) ? new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero) : obj.swigCPtr;
   }
 
-  internal static global::System.Runtime.InteropServices.HandleRef swigRelease(ProfileMetaDataCollectionSwig obj) {
+  internal static global::System.Runtime.InteropServices.HandleRef swigRelease(Transform obj) {
     if (obj != null) {
       if (!obj.swigCMemOwn)
         throw new global::System.ApplicationException("Cannot release ownership as memory is not owned");
@@ -36,7 +36,7 @@ public class ProfileMetaDataCollectionSwig : global::System.IDisposable {
     }
   }
 
-  ~ProfileMetaDataCollectionSwig() {
+  ~Transform() {
     Dispose(false);
   }
 
@@ -50,29 +50,35 @@ public class ProfileMetaDataCollectionSwig : global::System.IDisposable {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwn) {
           swigCMemOwn = false;
-          DeviceDetectionHashEngineModulePINVOKE.delete_ProfileMetaDataCollectionSwig(swigCPtr);
+          DeviceDetectionHashEngineModulePINVOKE.delete_Transform(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
     }
   }
 
-  public ProfileMetaDataSwig getByKey(uint key) {
-    global::System.IntPtr cPtr = DeviceDetectionHashEngineModulePINVOKE.ProfileMetaDataCollectionSwig_getByKey(swigCPtr, key);
-    ProfileMetaDataSwig ret = (cPtr == global::System.IntPtr.Zero) ? null : new ProfileMetaDataSwig(cPtr, true);
+  public Transform() : this(DeviceDetectionHashEngineModulePINVOKE.new_Transform__SWIG_0(), true) {
+    if (DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Pending) throw DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public Transform(uint capacity) : this(DeviceDetectionHashEngineModulePINVOKE.new_Transform__SWIG_1(capacity), true) {
+    if (DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Pending) throw DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public MapStringStringSwig fromJsonGHEV(string json) {
+    MapStringStringSwig ret = new MapStringStringSwig(DeviceDetectionHashEngineModulePINVOKE.Transform_fromJsonGHEV(swigCPtr, json), true);
     if (DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Pending) throw DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public ProfileMetaDataSwig getByIndex(uint index) {
-    global::System.IntPtr cPtr = DeviceDetectionHashEngineModulePINVOKE.ProfileMetaDataCollectionSwig_getByIndex(swigCPtr, index);
-    ProfileMetaDataSwig ret = (cPtr == global::System.IntPtr.Zero) ? null : new ProfileMetaDataSwig(cPtr, true);
+  public MapStringStringSwig fromBase64GHEV(string json) {
+    MapStringStringSwig ret = new MapStringStringSwig(DeviceDetectionHashEngineModulePINVOKE.Transform_fromBase64GHEV(swigCPtr, json), true);
     if (DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Pending) throw DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public uint getSize() {
-    uint ret = DeviceDetectionHashEngineModulePINVOKE.ProfileMetaDataCollectionSwig_getSize(swigCPtr);
+  public MapStringStringSwig fromSUA(string json) {
+    MapStringStringSwig ret = new MapStringStringSwig(DeviceDetectionHashEngineModulePINVOKE.Transform_fromSUA(swigCPtr, json), true);
     if (DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Pending) throw DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
