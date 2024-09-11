@@ -50,13 +50,18 @@ namespace FiftyOne.DeviceDetection.Hash.Tests
                 .Build();
         }
 
-        public WrapperHash(FileInfo dataFile, PerformanceProfiles profile)
+        public WrapperHash(FileInfo dataFile, PerformanceProfiles profile, 
+            string[] properties = null)
         {
             var builder = new DeviceDetectionHashEngineBuilder(_logger, null)
                 .SetPerformanceProfile(profile)
                 .SetUpdateMatchedUserAgent(true)
                 .SetAutoUpdate(false)
                 .SetDataFileSystemWatcher(false);
+            if (properties != null)
+            {
+                builder.SetProperties(new List<string>(properties));
+            }
             Engine = builder
                 .Build(dataFile.FullName, false);
             Pipeline = new PipelineBuilder(_logger)

@@ -31,6 +31,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop;
+using System.Threading;
 
 namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 {
@@ -41,6 +43,9 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
     internal class DeviceDataHash : DeviceDataBaseOnPremise<IResultsSwigWrapper>, IDeviceDataHash, IDisposable
     {
         private bool disposedValue;
+        private static ThreadLocal<ResultsHashSerializer> resultsHashSerializer = new ThreadLocal<ResultsHashSerializer>(() => (
+            new ResultsHashSerializer()
+        ));
         #region Constructor
 
         /// <summary>
@@ -354,6 +359,20 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
                 }
             }
             return result;
+        }
+
+        public string GetAllValuesJson()
+        {
+            if (Results.HasResults())
+            {
+                var results =  Results.ResultsList[0] as ResultsSwigWrapper;
+                if (results != null)
+                {
+                    return resultsHashSerializer.Value.allValuesJson(results.Object);
+                }
+            }
+            return null;
+            
         }
 
         protected override IAspectPropertyValue<string> GetValueAsString(string propertyName)
