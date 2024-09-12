@@ -23,7 +23,6 @@
 using FiftyOne.DeviceDetection.Apple;
 using FiftyOne.DeviceDetection.Cloud.FlowElements;
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
-using FiftyOne.DeviceDetection.Uach;
 using FiftyOne.Pipeline.CloudRequestEngine.FlowElements;
 using FiftyOne.Pipeline.Core.Configuration;
 using FiftyOne.Pipeline.Engines.FiftyOne.FlowElements;
@@ -47,7 +46,6 @@ var firstBuilders = new Type[]
     typeof(SequenceElementBuilder),
     typeof(ShareUsageBuilder),
     typeof(AppleProfileEngineBuilder),
-    typeof(UachJsConversionElementBuilder),
     typeof(CloudRequestEngineBuilder)
 };
 // builder we want to appear in a specific order at the end of the file.
