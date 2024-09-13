@@ -1055,6 +1055,14 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates the highest version of Bluetooth the device supports.
 		/// </summary>
+		IAspectPropertyValue<double> SupportedBluetooth { get; }
+		/// <summary>
+		/// Indicates the Bluetooth profiles the device supports.
+		/// </summary>
+		IAspectPropertyValue<IReadOnlyList<string>> SupportedBluetoothProfiles { get; }
+		/// <summary>
+		/// Indicates the highest version of Bluetooth the device supports.
+		/// </summary>
 		IAspectPropertyValue<string> SupportedBluetoothVersion { get; }
 		/// <summary>
 		/// Indicates the list of features the device's camera supports.

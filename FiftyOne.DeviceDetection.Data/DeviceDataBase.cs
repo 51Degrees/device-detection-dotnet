@@ -322,6 +322,8 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "SuggestedLinkSizePixels", typeof(IAspectPropertyValue<double>) },
 				{ "SuggestedLinkSizePoints", typeof(IAspectPropertyValue<double>) },
 				{ "SupportedBearers", typeof(IAspectPropertyValue<IReadOnlyList<string>>) },
+				{ "SupportedBluetooth", typeof(IAspectPropertyValue<double>) },
+				{ "SupportedBluetoothProfiles", typeof(IAspectPropertyValue<IReadOnlyList<string>>) },
 				{ "SupportedBluetoothVersion", typeof(IAspectPropertyValue<string>) },
 				{ "SupportedCameraFeatures", typeof(IAspectPropertyValue<IReadOnlyList<string>>) },
 				{ "SupportedChargerTypes", typeof(IAspectPropertyValue<IReadOnlyList<string>>) },
@@ -1361,6 +1363,14 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// Indicates the list of wireless data technologies supported by the device, including Bluetooth and Wi-Fi. For example, 4G cellular network technologies includes 'LTE' (Long Term Evolution), and 5G technologies includes 'NR' (New Radio). If the device supports phone calls, the SMS value is also returned.
 		/// </summary>
 		public IAspectPropertyValue<IReadOnlyList<string>> SupportedBearers { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("SupportedBearers"); } }
+		/// <summary>
+		/// Indicates the highest version of Bluetooth the device supports.
+		/// </summary>
+		public IAspectPropertyValue<double> SupportedBluetooth { get { return GetAs<IAspectPropertyValue<double>>("SupportedBluetooth"); } }
+		/// <summary>
+		/// Indicates the Bluetooth profiles the device supports.
+		/// </summary>
+		public IAspectPropertyValue<IReadOnlyList<string>> SupportedBluetoothProfiles { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("SupportedBluetoothProfiles"); } }
 		/// <summary>
 		/// Indicates the highest version of Bluetooth the device supports.
 		/// </summary>
