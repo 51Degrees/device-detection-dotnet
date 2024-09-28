@@ -517,6 +517,10 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<bool> InVRMode { get; }
 		/// <summary>
+		/// Indicates whether the crawler is confirmed by the crawler controller to be used to train artificial intelligence.
+		/// </summary>
+		IAspectPropertyValue<string> IsArtificialIntelligence { get; }
+		/// <summary>
 		/// Indicates if the device is primarily a game console, such as an Xbox or Playstation.
 		/// </summary>
 		IAspectPropertyValue<bool> IsConsole { get; }
