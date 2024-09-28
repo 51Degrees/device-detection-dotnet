@@ -188,6 +188,7 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "IndexedDB", typeof(IAspectPropertyValue<bool>) },
 				{ "InternalStorageVariants", typeof(IAspectPropertyValue<IReadOnlyList<string>>) },
 				{ "InVRMode", typeof(IAspectPropertyValue<bool>) },
+				{ "IsArtificialIntelligence", typeof(IAspectPropertyValue<string>) },
 				{ "IsConsole", typeof(IAspectPropertyValue<bool>) },
 				{ "IsCrawler", typeof(IAspectPropertyValue<bool>) },
 				{ "IsDataMinimising", typeof(IAspectPropertyValue<bool>) },
@@ -827,6 +828,10 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// Indicates if a web page is accessed through a VR headset.
 		/// </summary>
 		public IAspectPropertyValue<bool> InVRMode { get { return GetAs<IAspectPropertyValue<bool>>("InVRMode"); } }
+		/// <summary>
+		/// Indicates whether the crawler is confirmed by the crawler controller to be used to train artificial intelligence.
+		/// </summary>
+		public IAspectPropertyValue<string> IsArtificialIntelligence { get { return GetAs<IAspectPropertyValue<string>>("IsArtificialIntelligence"); } }
 		/// <summary>
 		/// Indicates if the device is primarily a game console, such as an Xbox or Playstation.
 		/// </summary>
