@@ -1,0 +1,90 @@
+name: Nightly Pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      dryrun:
+        type: boolean
+        default: false
+  schedule:
+    - cron: '2 0 * * *'
+
+jobs:
+  DataFileChange:
+    name: Nightly Data File Change
+    uses: 51Degrees/common-ci/.github/workflows/nightly-data-file-change.yml@nightly-pipeline
+    with:
+      common-ci-ref: nightly-pipeline
+      repo-name: ${{ github.event.repository.name }}
+      org-name: ${{ github.event.repository.owner.login }}
+      dryrun: ${{ inputs.dryrun || false }}
+    secrets:
+      token: ${{ secrets.ACCESS_TOKEN }}
+      device-detection-key: ${{ secrets.DEVICE_DETECTION_KEY }}
+      device-detection-url: ${{ secrets.DEVICE_DETECTION_URL }}
+
+  PackageUpdate:
+    name: Nightly Package Update
+    uses: 51Degrees/common-ci/.github/workflows/nightly-package-update.yml@nightly-pipeline
+    with:
+      common-ci-ref: nightly-pipeline
+      repo-name: ${{ github.event.repository.name }}
+      org-name: ${{ github.event.repository.owner.login }}
+      dryrun: ${{ inputs.dryrun || false }}
+    secrets:
+      token: ${{ secrets.ACCESS_TOKEN }}
+
+  DocumentationUpdate:
+    name: Nightly Documentation Update
+    uses: 51Degrees/common-ci/.github/workflows/nightly-documentation-update.yml@nightly-pipeline
+    with:
+      common-ci-ref: nightly-pipeline
+      repo-name: ${{ github.event.repository.name }}
+      org-name: ${{ github.event.repository.owner.login }}
+      dryrun: ${{ inputs.dryrun || false }}
+      separate-examples: true
+    secrets:
+      token: ${{ secrets.ACCESS_TOKEN }}
+
+  SubmoduleUpdate:
+    name: Nightly Submodule Update
+    uses: 51Degrees/common-ci/.github/workflows/nightly-submodule-update.yml@nightly-pipeline
+    with:
+      common-ci-ref: nightly-pipeline
+      repo-name: ${{ github.event.repository.name }}
+      org-name: ${{ github.event.repository.owner.login }}
+      dryrun: ${{ inputs.dryrun || false }}
+    secrets:
+      token: ${{ secrets.ACCESS_TOKEN }}
+
+  PullRequests:
+    if: ${{ !cancelled() }}
+    needs: [DataFileChange, PackageUpdate, DocumentationUpdate, SubmoduleUpdate]
+    name: Nightly Pull Requests
+    uses: 51Degrees/common-ci/.github/workflows/nightly-pull-requests.yml@nightly-pipeline
+    with:
+      common-ci-ref: nightly-pipeline
+      repo-name: ${{ github.event.repository.name }}
+      org-name: ${{ github.event.repository.owner.login }}
+      dryrun: ${{ inputs.dryrun || false }}
+      cache-assets: true
+    secrets:
+      token: ${{ secrets.ACCESS_TOKEN }}
+      DeviceDetection: ${{ secrets.DEVICE_DETECTION_KEY }}
+      DeviceDetectionUrl: ${{ secrets.DEVICE_DETECTION_URL }}
+
+  Publish:
+    if: ${{ !cancelled() }}
+    needs: PullRequests
+    name: Nightly Publish
+    uses: 51Degrees/common-ci/.github/workflows/nightly-publish.yml@nightly-pipeline
+    with:
+      common-ci-ref: nightly-pipeline
+      repo-name: ${{ github.event.repository.name }}
+      org-name: ${{ github.event.repository.owner.login }}
+      dryrun: ${{ inputs.dryrun || false }}
+      cache-assets: true
+    secrets:
+      token: ${{ secrets.ACCESS_TOKEN }}
+      DeviceDetection: ${{ secrets.DEVICE_DETECTION_KEY }}
+      DeviceDetectionUrl: ${{ secrets.DEVICE_DETECTION_URL }}
