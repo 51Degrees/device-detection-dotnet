@@ -89,6 +89,7 @@ jobs:
       org-name: ${{ github.event.repository.owner.login }}
       dryrun: ${{ inputs.dryrun || false }}
       cache-assets: true
+      build-platform: windows-latest
     secrets:
       token: ${{ secrets.ACCESS_TOKEN }}
       ApiKey: ${{ secrets.NUGET_API_KEY }}
