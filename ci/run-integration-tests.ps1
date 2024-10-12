@@ -7,7 +7,8 @@ param(
     [string]$Arch = "x64",
     [string]$Version,
     [string]$BuildMethod,
-    [string]$OrgName
+    [string]$OrgName,
+    [string]$Branch = "main"
 )
 
 $NugetPackageFolder = [IO.Path]::Combine($pwd, "package")
@@ -18,8 +19,8 @@ $EvidenceFilesDst = [IO.Path]::Combine($ExamplesRepoPath, "device-detection-data
 
 # If the $Version is empty it means that this script is running in a workflow that will not build packages and integration tests will be skipped.
 if([String]::IsNullOrEmpty($Version) -eq $False) { 
-    Write-Output "Cloning '$ExamplesRepoName'"
-    ./steps/clone-repo.ps1 -RepoName $ExamplesRepoName -OrgName $OrgName
+    Write-Output "Cloning '$ExamplesRepoName' branch $Branch"
+    ./steps/clone-repo.ps1 -RepoName $ExamplesRepoName -OrgName $OrgName -Branch $Branch
 
     Write-Output "Moving TAC and evidence files for examples..."
     $EvidenceFileNames = "20000 User Agents.csv", "20000 Evidence Records.yml", "51Degrees-LiteV4.1.hash", "TAC-HashV41.hash"
