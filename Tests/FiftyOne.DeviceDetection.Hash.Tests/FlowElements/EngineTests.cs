@@ -32,6 +32,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop;
+using FiftyOne.Pipeline.Core.Data;
 
 namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
 {
@@ -99,9 +100,7 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
 
         [TestMethod]
         [DataRow(TestHelpers.Constants.TAC_HASH_DATA_FILE_NAME, TestHelpers.Constants.JsonOutputTAC)]
-        //[DataRow(TestHelpers.Constants.LITE_HASH_DATA_FILE_NAME, TestHelpers.Constants.JsonOutputLite)]
-        //TODO: deal with weird logger crash when Pipeline is Disposed in this test method
-        //- only happens on x86 for Lite Data File
+        [DataRow(TestHelpers.Constants.LITE_HASH_DATA_FILE_NAME, TestHelpers.Constants.JsonOutputLite)]
         public void TestParallelSerialization(string fileName, string expectedOutput)
         {
             var dataFileInfo = TestHelpers.Utils.GetFilePath(fileName);
@@ -110,32 +109,39 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
                 TestHelpers.Constants.RequiredProperties
                 );
             const int N = 20;
+            var flowDatas = new List<IFlowData>();
             string[] results = new string[N];
+            var deviceDatas = new List<IDeviceDataHash>();
+            var deviceDatasNone = new List<IDeviceDataHash>();
+            for (int i = 0; i < N; i++)
+            {
+                {
+                    var flowData = wrapper.Pipeline.CreateFlowData();
+                    flowData.AddEvidence(
+                            "header.user-agent",
+                            TestHelpers.Constants.MobileUserAgentiOS17);
+                    flowData.Process();
+                    var deviceData = flowData.Get<DeviceDataHash>();
+                    Assert.IsNotNull(deviceData);
+                    deviceDatas.Add(deviceData);
+                    flowDatas.Add(flowData); //prevent disposing
+                }
+                {
+                    var flowData = wrapper.Pipeline.CreateFlowData();
+                    flowData.AddEvidence("nonevidence", "none");
+                    flowData.Process();
+                    var deviceData = flowData.Get<DeviceDataHash>();
+                    Assert.IsNotNull(deviceData);
+                    deviceDatasNone.Add(deviceData);
+                }
+            }
 
             Parallel.For(0, N, (int i) =>
             {
-                Console.Out.WriteLine(i);
-                using (var flowData = wrapper.Pipeline.CreateFlowData())
-                {
-                    flowData.AddEvidence(
-                        "header.user-agent",
-                        TestHelpers.Constants.MobileUserAgentiOS17);
-                    flowData.Process();
-                    var deviceData = flowData.Get<IDeviceDataHash>();
-                    Assert.IsNotNull(deviceData);
-                    string json = deviceData.GetAllValuesJson();
-                    Assert.AreEqual(json, expectedOutput);
-                    results[i] = json;
-                }
-                using (var flowData = wrapper.Pipeline.CreateFlowData())
-                {
-                    flowData.AddEvidence("nonevidence", "none");
-                    flowData.Process();
-                    var deviceData = flowData.Get<IDeviceDataHash>();
-                    Assert.IsNotNull(deviceData);
-                    string json = deviceData.GetAllValuesJson();
-                    Assert.AreEqual(json, "{}");
-                }
+                string json = deviceDatas[i].GetAllValuesJson();
+                Assert.AreEqual(json, expectedOutput);
+                results[i] = json;
+                Assert.AreEqual(deviceDatasNone[i].GetAllValuesJson(), "{}");
             });
 
             foreach (var result in results)
