@@ -10,6 +10,19 @@ on:
     - cron: '0 3 * * *'
 
 jobs:
+  DataFileChange:
+    name: Nightly Data File Change
+    uses: 51Degrees/common-ci/.github/workflows/nightly-data-file-change.yml@nightly-pipeline
+    with:
+      common-ci-ref: nightly-pipeline
+      repo-name: ${{ github.event.repository.name }}
+      org-name: ${{ github.event.repository.owner.login }}
+      dryrun: ${{ inputs.dryrun || false }}
+    secrets:
+      token: ${{ secrets.ACCESS_TOKEN }}
+      device-detection-key: ${{ secrets.DEVICE_DETECTION_KEY }}
+      device-detection-url: ${{ secrets.DEVICE_DETECTION_URL }}
+
   PackageUpdate:
     name: Nightly Package Update
     uses: 51Degrees/common-ci/.github/workflows/nightly-package-update.yml@nightly-pipeline
@@ -18,6 +31,18 @@ jobs:
       repo-name: ${{ github.event.repository.name }}
       org-name: ${{ github.event.repository.owner.login }}
       dryrun: ${{ inputs.dryrun || false }}
+    secrets:
+      token: ${{ secrets.ACCESS_TOKEN }}
+
+  DocumentationUpdate:
+    name: Nightly Documentation Update
+    uses: 51Degrees/common-ci/.github/workflows/nightly-documentation-update.yml@nightly-pipeline
+    with:
+      common-ci-ref: nightly-pipeline
+      repo-name: ${{ github.event.repository.name }}
+      org-name: ${{ github.event.repository.owner.login }}
+      dryrun: ${{ inputs.dryrun || false }}
+      separate-examples: true
     secrets:
       token: ${{ secrets.ACCESS_TOKEN }}
 
@@ -34,7 +59,7 @@ jobs:
 
   PullRequests:
     if: ${{ !cancelled() }}
-    needs: [PackageUpdate, SubmoduleUpdate]
+    needs: [DataFileChange, PackageUpdate, DocumentationUpdate, SubmoduleUpdate]
     name: Nightly Pull Requests
     uses: 51Degrees/common-ci/.github/workflows/nightly-pull-requests.yml@nightly-pipeline
     with:
@@ -47,8 +72,11 @@ jobs:
       token: ${{ secrets.ACCESS_TOKEN }}
       DeviceDetection: ${{ secrets.DEVICE_DETECTION_KEY }}
       DeviceDetectionUrl: ${{ secrets.DEVICE_DETECTION_URL }}
-      CsvUrl: ${{ secrets.CSV_URL }}
-      PearlLicense: ${{ secrets.PEARLLICENSE }}
+      TestResourceKey: ${{ secrets.SUPER_RESOURCE_KEY}}
+      AcceptCHBrowserKey: ${{ secrets.ACCEPTCH_BROWSER_KEY}}
+      AcceptCHHardwareKey: ${{ secrets.ACCEPTCH_HARDWARE_KEY}}
+      AcceptCHPlatformKey: ${{ secrets.ACCEPTCH_PLATFORM_KEY}}
+      AcceptCHNoneKey: ${{ secrets.ACCEPTCH_NONE_KEY}}
 
   Publish:
     if: ${{ !cancelled() }}
@@ -64,8 +92,16 @@ jobs:
       build-platform: windows-latest
     secrets:
       token: ${{ secrets.ACCESS_TOKEN }}
+      ApiKey: ${{ secrets.NUGET_API_KEY }}
+      CodeSigningKeyVaultUrl: ${{ secrets.CODE_SIGNING_KEY_VAULT_URL }}
+      CodeSigningKeyVaultClientId: ${{ secrets.CODE_SIGNING_KEY_VAULT_CLIENT_ID }}
+      CodeSigningKeyVaultTenantId: ${{ secrets.CODE_SIGNING_KEY_VAULT_TENANT_ID }}
+      CodeSigningKeyVaultClientSecret: ${{ secrets.CODE_SIGNING_KEY_VAULT_CLIENT_SECRET }}
+      CodeSigningKeyVaultCertificateName: ${{ secrets.CODE_SIGNING_KEY_VAULT_CERTIFICATE_NAME }}
       DeviceDetection: ${{ secrets.DEVICE_DETECTION_KEY }}
       DeviceDetectionUrl: ${{ secrets.DEVICE_DETECTION_URL }}
-      DockerPassword: ${{ secrets.DOCKER_PASSWORD }}
-      DockerUser: "ciuser51d"
-      PearlLicense: ${{ secrets.PEARLLICENSE }}
+      TestResourceKey: ${{ secrets.SUPER_RESOURCE_KEY}}
+      AcceptCHBrowserKey: ${{ secrets.ACCEPTCH_BROWSER_KEY}}
+      AcceptCHHardwareKey: ${{ secrets.ACCEPTCH_HARDWARE_KEY}}
+      AcceptCHPlatformKey: ${{ secrets.ACCEPTCH_PLATFORM_KEY}}
+      AcceptCHNoneKey: ${{ secrets.ACCEPTCH_NONE_KEY}}
