@@ -1,5 +1,11 @@
 var NAVTREEINDEX1 =
 {
+"class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_performance_configuration.html#a390fa0f58bc00ce9d23284ba717f85e1":[2,6,0,0,1,5,0,2],
+"class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_performance_configuration.html#a3afdd0d9ecd7a5c3fd4a7b96e8930155":[2,6,0,0,1,5,0,3],
+"class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_performance_configuration.html#a80de3fd45694e29fcba0213bf3f6be52":[2,6,0,0,1,5,0,4],
+"class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_performance_configuration.html#a99bc66e608ef4970a071f48a410a11db":[2,6,0,0,1,5,0,0],
+"class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_performance_configuration.html#af0204e35859c9bf76608b83def03694d":[2,6,0,0,1,5,0,1],
+"class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_performance_configuration.html#af600a29fbc445f9a8bf1b2dccc74e5f1":[2,6,0,0,1,5,0,5],
 "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_program.html":[2,6,0,0,1,5,1],
 "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_program_1_1_benchmark_result.html":[2,6,0,0,1,5,1,0],
 "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_program_1_1_benchmark_result.html#a11df72be58d9583152b180313ffd1266":[2,6,0,0,1,5,1,0,1],

@@ -7,6 +7,7 @@ var class_fifty_one_1_1_device_detection_1_1_examples_1_1_cloud_1_1_getting_star
     [ "DeviceId", null, null ],
     [ "DeviceType", null, null ],
     [ "Engine", null, null ],
+    [ "Errors", null, null ],
     [ "Evidence", null, null ],
     [ "FlowData", null, null ],
     [ "HardwareName", null, null ],

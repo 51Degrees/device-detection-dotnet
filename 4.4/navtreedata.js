@@ -36,7 +36,7 @@ var NAVTREEHIDESYNC = true;
 var NAVTREEINDEX =
 [
 "../../documentation/4.4/index.html",
-"class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_program.html"
+"class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_performance_configuration.html#a390fa0f58bc00ce9d23284ba717f85e1"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
