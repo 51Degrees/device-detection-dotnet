@@ -1377,7 +1377,7 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<IReadOnlyList<string>> SupportedBluetoothProfiles { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("SupportedBluetoothProfiles"); } }
 		/// <summary>
-		/// Indicates the highest version of Bluetooth the device supports.
+		/// This Property is no longer being supported. Please see Properties, SupportedBluetooth and SupportedBluetoothProfiles for the relevant data.
 		/// </summary>
 		public IAspectPropertyValue<string> SupportedBluetoothVersion { get { return GetAs<IAspectPropertyValue<string>>("SupportedBluetoothVersion"); } }
 		/// <summary>
