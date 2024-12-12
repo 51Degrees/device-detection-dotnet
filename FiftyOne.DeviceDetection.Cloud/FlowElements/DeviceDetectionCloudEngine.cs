@@ -113,7 +113,7 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
                 });
 
             var device = CreateAPVDictionary(propertyValues, Properties.ToList());
-            aspectData.PopulateFromDictionary(device);
+            aspectData.PopulateFrom(device);
         }
 
         protected override Type GetPropertyType(
