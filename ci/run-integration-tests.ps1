@@ -37,6 +37,7 @@ if([String]::IsNullOrEmpty($Version) -eq $False) {
         Push-Location $ExamplesRepoPath
 
         Write-Output "Running Nuget Restore"
+        dotnet nuget list source
         nuget restore
     }
     finally {
@@ -46,15 +47,15 @@ if([String]::IsNullOrEmpty($Version) -eq $False) {
     }
     
     $LocalFeed = [IO.Path]::Combine($Home, ".nuget", "packages")
-    
+
     # Install the nuget packages to the local feed. 
     # The packages in the 'package' folder must be pushed to local feed and cannot be used directly,
     # as all the other dependencies will already be installed in the local feed.
     try{
         Write-Output "Entering '$NugetPackageFolder' folder"
         Push-Location "$NugetPackageFolder"
-        
         Write-Output "Pushing nuget packages to the local feed"
+        dotnet nuget add source "$LocalFeed"
         dotnet nuget push "*.nupkg" -s "$LocalFeed"
     }
     finally{
@@ -78,7 +79,7 @@ if([String]::IsNullOrEmpty($Version) -eq $False) {
             $NextFullName = $_.FullName
             Write-Output ""
             Write-Output "Will set the version of the DeviceDetection package to '$Version' in $NextFullName..."
-            dotnet add $NextFullName package "FiftyOne.DeviceDetection" --version $Version --source "$LocalFeed" 
+            dotnet add $NextFullName package "FiftyOne.DeviceDetection" --version $Version
             Write-Output "Did set the version of the DeviceDetection package to '$Version' in $NextFullName..."
             Write-Output ""
         }
