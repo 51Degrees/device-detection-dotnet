@@ -172,5 +172,22 @@ namespace FiftyOne.DeviceDetection.Shared
             Pipeline.Core.Constants.EVIDENCE_HTTPHEADER_PREFIX +
             Pipeline.Core.Constants.EVIDENCE_SEPERATOR +
             EVIDENCE_SECCHUA_PLATFORM_VERSION_SUFFIX;
+        
+        private const string ghev = "gethighentropyvalues";
+        public const string EVIDENCE_COOKIE_GHEV =
+            Pipeline.Core.Constants.EVIDENCE_COOKIE_PREFIX +
+            Pipeline.Core.Constants.EVIDENCE_SEPERATOR +
+        Pipeline.Engines.Constants.FIFTYONE_COOKIE_PREFIX + ghev;
+        public const string EVIDENCE_QUERY_GHEV = Pipeline.Core.Constants.EVIDENCE_QUERY_PREFIX +
+        Pipeline.Core.Constants.EVIDENCE_SEPERATOR +
+        Pipeline.Engines.Constants.FIFTYONE_COOKIE_PREFIX + ghev;
+
+        private const string sua = "structureduseragent";
+        public const string EVIDENCE_COOKIE_SUA = Pipeline.Core.Constants.EVIDENCE_COOKIE_PREFIX +
+        Pipeline.Core.Constants.EVIDENCE_SEPERATOR +
+        Pipeline.Engines.Constants.FIFTYONE_COOKIE_PREFIX + sua;
+        public const string EVIDENCE_QUERY_SUA = Pipeline.Core.Constants.EVIDENCE_QUERY_PREFIX +
+        Pipeline.Core.Constants.EVIDENCE_SEPERATOR +
+        Pipeline.Engines.Constants.FIFTYONE_COOKIE_PREFIX + sua;
     }
 }
