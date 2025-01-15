@@ -1,6 +1,0 @@
-var class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_update_data_file_1_1_program =
-[
-    [ "Example", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_update_data_file_1_1_program_1_1_example.html", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_update_data_file_1_1_program_1_1_example" ],
-    [ "Initialize", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_update_data_file_1_1_program.html#a06196ab1b9bd12a7e86770e13098bdd5", null ],
-    [ "Main", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_update_data_file_1_1_program.html#a24cc8a7628ab5d3309ed6853c188b780", null ]
-];

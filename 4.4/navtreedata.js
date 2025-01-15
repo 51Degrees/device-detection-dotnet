@@ -24,9 +24,7 @@ for the JavaScript code in this file
 var NAVTREE =
 [
     [ "General Docs", "../../documentation/4.4/index.html", null ],
-    [ "51Degrees Device Detection Engines", "md__home_runner_work_device-detection-dotnet_device-detection-dotnet_common_device-detection-dotnet__r_e_a_d_m_e.html", null ],
-    [ "Classes", "annotated.html", "annotated" ],
-    [ "Examples", "examples.html", "examples" ]
+    [ "51Degrees Device Detection Engines", "md__home_runner_work_device-detection-dotnet_device-detection-dotnet_common_device-detection-dotnet__r_e_a_d_m_e.html", null ]
 ];
 
 var NAVTREEHIDEROOT = true;
@@ -35,8 +33,7 @@ var NAVTREEHIDESYNC = true;
 
 var NAVTREEINDEX =
 [
-"../../documentation/4.4/index.html",
-"class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_performance_configuration.html#a390fa0f58bc00ce9d23284ba717f85e1"
+"../../documentation/4.4/index.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

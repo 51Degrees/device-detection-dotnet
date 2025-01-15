@@ -1,4 +1,0 @@
-var namespace_fifty_one_1_1_device_detection_1_1_examples_1_1_cloud_1_1_get_all_properties =
-[
-    [ "Program", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_cloud_1_1_get_all_properties_1_1_program.html", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_cloud_1_1_get_all_properties_1_1_program" ]
-];

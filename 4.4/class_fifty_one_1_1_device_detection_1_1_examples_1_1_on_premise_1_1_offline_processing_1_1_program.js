@@ -1,4 +1,0 @@
-var class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_offline_processing_1_1_program =
-[
-    [ "Example", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_offline_processing_1_1_program_1_1_example.html", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_offline_processing_1_1_program_1_1_example" ]
-];

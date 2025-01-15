@@ -1,4 +1,0 @@
-var namespace_cloud___client___hints___not___integrated_1_1_controllers =
-[
-    [ "HomeController", "class_cloud___client___hints___not___integrated_1_1_controllers_1_1_home_controller.html", "class_cloud___client___hints___not___integrated_1_1_controllers_1_1_home_controller" ]
-];

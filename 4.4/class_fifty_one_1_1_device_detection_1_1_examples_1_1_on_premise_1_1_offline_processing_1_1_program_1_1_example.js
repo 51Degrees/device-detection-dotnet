@@ -1,4 +1,0 @@
-var class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_offline_processing_1_1_program_1_1_example =
-[
-    [ "Run", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_offline_processing_1_1_program_1_1_example.html#af4a680384913aa8318564f1be556052d", null ]
-];

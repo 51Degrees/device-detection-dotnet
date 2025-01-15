@@ -1,6 +1,0 @@
-var class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_getting_started_web_1_1_model_1_1_evidence_model =
-[
-    [ "Key", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_getting_started_web_1_1_model_1_1_evidence_model.html#ad6394b593e2c9a4eb679ccb76b0c29cd", null ],
-    [ "Used", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_getting_started_web_1_1_model_1_1_evidence_model.html#a45b56c2e81d29cc9115be7d5b7ace0d8", null ],
-    [ "Value", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_getting_started_web_1_1_model_1_1_evidence_model.html#ad33464d986a36fd38d9e1273db8325f1", null ]
-];
