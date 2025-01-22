@@ -12,7 +12,7 @@ on:
 jobs:
   DataFileChange:
     name: Nightly Data File Change
-    uses: 51Degrees/common-ci/.github/workflows/nightly-data-file-change.yml@nightly-pipeline
+    uses: 51Degrees/common-ci/.github/workflows/nightly-data-file-change.yml@main
     with:
       common-ci-ref: nightly-pipeline
       repo-name: ${{ github.event.repository.name }}
@@ -25,7 +25,7 @@ jobs:
 
   PackageUpdate:
     name: Nightly Package Update
-    uses: 51Degrees/common-ci/.github/workflows/nightly-package-update.yml@nightly-pipeline
+    uses: 51Degrees/common-ci/.github/workflows/nightly-package-update.yml@main
     with:
       common-ci-ref: nightly-pipeline
       repo-name: ${{ github.event.repository.name }}
@@ -36,7 +36,7 @@ jobs:
 
   DocumentationUpdate:
     name: Nightly Documentation Update
-    uses: 51Degrees/common-ci/.github/workflows/nightly-documentation-update.yml@nightly-pipeline
+    uses: 51Degrees/common-ci/.github/workflows/nightly-documentation-update.yml@main
     with:
       common-ci-ref: nightly-pipeline
       repo-name: ${{ github.event.repository.name }}
@@ -48,7 +48,7 @@ jobs:
 
   SubmoduleUpdate:
     name: Nightly Submodule Update
-    uses: 51Degrees/common-ci/.github/workflows/nightly-submodule-update.yml@nightly-pipeline
+    uses: 51Degrees/common-ci/.github/workflows/nightly-submodule-update.yml@main
     with:
       common-ci-ref: nightly-pipeline
       repo-name: ${{ github.event.repository.name }}
@@ -61,7 +61,7 @@ jobs:
     if: ${{ !cancelled() }}
     needs: [DataFileChange, PackageUpdate, DocumentationUpdate, SubmoduleUpdate]
     name: Nightly Pull Requests
-    uses: 51Degrees/common-ci/.github/workflows/nightly-pull-requests.yml@nightly-pipeline
+    uses: 51Degrees/common-ci/.github/workflows/nightly-pull-requests.yml@main
     with:
       common-ci-ref: nightly-pipeline
       repo-name: ${{ github.event.repository.name }}
@@ -82,7 +82,7 @@ jobs:
     if: ${{ !cancelled() }}
     needs: PullRequests
     name: Nightly Publish
-    uses: 51Degrees/common-ci/.github/workflows/nightly-publish.yml@nightly-pipeline
+    uses: 51Degrees/common-ci/.github/workflows/nightly-publish.yml@main
     with:
       common-ci-ref: nightly-pipeline
       repo-name: ${{ github.event.repository.name }}
