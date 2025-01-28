@@ -29,6 +29,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
         IEngineSwigWrapper CreateEngine(string fileName,
             IConfigSwigWrapper config,
             IRequiredPropertiesConfigSwigWrapper requiredProperties);
+
         IEngineSwigWrapper CreateEngine(byte[] data,
             int dataSize,
             IConfigSwigWrapper config,
@@ -38,7 +39,5 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
             VectorStringSwig properties);
 
         IConfigSwigWrapper CreateConfig();
-
-
     }
 }

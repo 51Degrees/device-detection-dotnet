@@ -14,13 +14,13 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="FiftyOne.Common.TestHelpers" Version="4.4.23" />
-    <PackageReference Include="FiftyOne.Pipeline.Engines.TestHelpers" Version="4.4.126" />
-    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.4.126" />
+    <PackageReference Include="FiftyOne.Pipeline.Engines.TestHelpers" Version="4.5.0-alpha.10" />
+    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.5.0-alpha.10" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageReference Include="Moq" Version="4.20.72" />
-    <PackageReference Include="MSTest.TestAdapter" Version="3.4.3" />
-    <PackageReference Include="MSTest.TestFramework" Version="3.4.3" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.7.3" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.7.3" />
   </ItemGroup>
 
   <ItemGroup>

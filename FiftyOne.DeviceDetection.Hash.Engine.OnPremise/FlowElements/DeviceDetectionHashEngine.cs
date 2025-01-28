@@ -43,23 +43,69 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
     /// which produced them e.g. DeviceType or ReleaseDate.
     /// See the <see href="https://github.com/51Degrees/specifications/blob/main/device-detection-specification/pipeline-elements/device-detection-on-premise.md">Specification</see>
     /// </summary>
-    public class DeviceDetectionHashEngine : OnPremiseDeviceDetectionEngineBase<IDeviceDataHash>        
+    public class DeviceDetectionHashEngine : 
+        OnPremiseDeviceDetectionEngineBase<IDeviceDataHash>        
     {
-        private ISwigFactory _swigFactory;
+        /// <summary>
+        /// The underlying native engine used by this .net instance. Set by
+        /// <see cref="SwigFactory"/> when <see cref="RefreshData(string)"/>
+        /// or <see cref="RefreshData(string, Stream)"/> is called.
+        /// </summary>
         private IEngineSwigWrapper _engine;
 
+        /// <summary>
+        /// Evidence key filter for the engine. Set in 
+        /// <see cref="InitEngineMetaData"/> after refresh.
+        /// </summary>
         private IEvidenceKeyFilter _evidenceKeyFilter;
 
+        /// <summary>
+        /// Properties for the engine. Set in <see cref="InitEngineMetaData"/> 
+        /// after refresh.
+        /// </summary>
         private IList<IFiftyOneAspectPropertyMetaData> _properties;
+
+        /// <summary>
+        /// Components for the engine. Set in <see cref="InitEngineMetaData"/> 
+        /// after refresh.
+        /// </summary>
         private IList<IComponentMetaData> _components;
 
-        private IConfigSwigWrapper _config;
-        private IRequiredPropertiesConfigSwigWrapper _propertiesConfigSwig;
+        /// <summary>
+        /// Factory used to create a new <see cref="IEngineSwigWrapper"/> when
+        /// <see cref="RefreshData(string)"/> or 
+        /// <see cref="RefreshData(string, Stream)"/> is called.
+        /// </summary>
+        /// <remarks>
+        /// Must be set after construction and before usage.
+        /// </remarks>
+        internal ISwigFactory SwigFactory;
 
+        /// <summary>
+        /// Wrapper to pass general configuration from managed code to unmanaged 
+        /// code.
+        /// </summary>
+        /// <remarks>
+        /// Must be set after construction and before usage.
+        /// </remarks>
+        internal IConfigSwigWrapper Config;
+
+        /// <summary>
+        /// Wrapper to pass property configuration from managed code to 
+        /// unmanaged code.
+        /// </summary>
+        internal IRequiredPropertiesConfigSwigWrapper PropertiesConfigSwig;
+
+        /// <summary>
+        /// Used to randomize the next update date time.
+        /// </summary>
         private static Random _rng = new Random();
 
-        // The component used for metric properties.
-        private ComponentMetaDataDefault _deivceMetricsComponent = new ComponentMetaDataHash("Metrics");
+        /// <summary>
+        /// The component used for metric properties. 
+        /// </summary>
+        private ComponentMetaDataDefault _deivceMetricsComponent = 
+            new ComponentMetaDataHash("Metrics");
 
         /// <summary>
         /// This event is fired whenever the data that this engine makes use
@@ -68,42 +114,36 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         public override event EventHandler<EventArgs> RefreshCompleted;
 
         /// <summary>
-        /// Construct a new instance of the Hash engine.
+        /// Construct a new instance of <see cref="DeviceDetectionHashEngine"/>
+        /// from <see cref="DeviceDetectionHashEngineBuilderBase{T}"/> builder.
         /// </summary>
+        /// <remarks>
+        /// The constructor is intended to only be called from 
+        /// <see cref="DeviceDetectionHashEngineBuilderBase{T}.CreateEngine(
+        /// ILoggerFactory, Func{IPipeline, FlowElementBase{IDeviceDataHash, 
+        /// IFiftyOneAspectPropertyMetaData}, IDeviceDataHash}, string)"/> and
+        /// should not be called directly.
+        /// </remarks>
         /// <param name="loggerFactory">Logger to use</param>
         /// <param name="deviceDataFactory">
-        /// Method used to get an aspect data instance
+        /// Method used to get an aspect data instance.
         /// </param>
-        /// <param name="dataFile">Meta data related to the data file</param>
-        /// <param name="config">Configuration instance</param>
-        /// <param name="properties">Properties to be initialised</param>
         /// <param name="tempDataFilePath">
         /// The directory to use when storing temporary copies of the 
         /// data file(s) used by this engine.
         /// </param>
-        /// <param name="swigFactory">
-        /// The factory object to use when creating swig wrapper instances.
-        /// Usually a <see cref="SwigFactory"/> instance.
-        /// Unit tests can override this to mock behaviour as needed.
-        /// </param>
-        internal DeviceDetectionHashEngine(
+        internal protected DeviceDetectionHashEngine(
             ILoggerFactory loggerFactory,
-            IAspectEngineDataFile dataFile,
-            IConfigSwigWrapper config,
-            IRequiredPropertiesConfigSwigWrapper properties,
-            Func<IPipeline, FlowElementBase<IDeviceDataHash, IFiftyOneAspectPropertyMetaData>, IDeviceDataHash> deviceDataFactory,
-            string tempDataFilePath,
-            ISwigFactory swigFactory)
+            Func<IPipeline, FlowElementBase<
+                IDeviceDataHash, 
+                IFiftyOneAspectPropertyMetaData>, 
+                IDeviceDataHash> deviceDataFactory,
+            string tempDataFilePath)
             : base(
                   loggerFactory.CreateLogger<DeviceDetectionHashEngine>(),
                   deviceDataFactory,
                   tempDataFilePath)
         {
-            _config = config;
-            _propertiesConfigSwig = properties;
-            _swigFactory = swigFactory;
-
-            AddDataFile(dataFile);
         }
 
         /// <summary>
@@ -204,7 +244,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             var dataFile = DataFiles.Single();
             if (_engine == null)
             {
-                _engine = _swigFactory.CreateEngine(dataFile.DataFilePath, _config, _propertiesConfigSwig);
+                _engine = SwigFactory.CreateEngine(dataFile.DataFilePath, Config, PropertiesConfigSwig);
             }
             else
             {
@@ -221,7 +261,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                     return;
                 }
             }
-            GetEngineMetaData();
+            InitEngineMetaData();
             RefreshCompleted?.Invoke(this, null);
         }
 
@@ -245,13 +285,13 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
 
             if (_engine == null)
             {
-                _engine = _swigFactory.CreateEngine(data, data.Length, _config, _propertiesConfigSwig);
+                _engine = SwigFactory.CreateEngine(data, data.Length, Config, PropertiesConfigSwig);
             }
             else
             {
                 _engine.refreshData(data, data.Length);
             }
-            GetEngineMetaData();
+            InitEngineMetaData();
             RefreshCompleted?.Invoke(this, null);
         }
 
@@ -299,9 +339,9 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// </summary>
         protected override void UnmanagedResourcesCleanup()
         {
-            if(_config.Object != null)
+            if (Config.Object != null)
             {
-                _config.Object.Dispose();
+                Config.Object.Dispose();
             }
             if (_engine != null)
             {
@@ -337,7 +377,11 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             return result;
         }
 
-        private void GetEngineMetaData()
+        /// <summary>
+        /// Initialize the meta data for the new instance of the underlying
+        /// engine.
+        /// </summary>
+        private void InitEngineMetaData()
         {
             var keyList = new List<string>(_engine.getKeys())
             {
