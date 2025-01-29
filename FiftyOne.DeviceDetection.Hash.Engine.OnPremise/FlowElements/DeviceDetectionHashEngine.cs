@@ -27,7 +27,6 @@ using FiftyOne.DeviceDetection.Shared.Data;
 using FiftyOne.DeviceDetection.Shared.FlowElements;
 using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.FlowElements;
-using FiftyOne.Pipeline.Engines.Data;
 using FiftyOne.Pipeline.Engines.FiftyOne.Data;
 using Microsoft.Extensions.Logging;
 using System;
@@ -104,7 +103,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// <summary>
         /// The component used for metric properties. 
         /// </summary>
-        private ComponentMetaDataDefault _deivceMetricsComponent = 
+        private ComponentMetaDataDefault _deviceMetricsComponent = 
             new ComponentMetaDataHash("Metrics");
 
         /// <summary>
@@ -152,6 +151,10 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// </summary>
         public override string ElementDataKey => "device";
 
+        /// <summary>
+        /// Wrapper to pass metadata from managed code to 
+        /// unmanaged code.
+        /// </summary>
         internal IMetaDataSwigWrapper MetaData => _engine.getMetaData();
 
         /// <summary>
@@ -349,6 +352,10 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             }
         }
 
+        /// <summary>
+        /// Constructs a list of the Components associated with the engine.
+        /// </summary>
+        /// <returns></returns>
         private IList<IComponentMetaData> ConstructComponents()
         {
             var result = new List<IComponentMetaData>();
@@ -359,10 +366,14 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                     result.Add(component);
                 }
             }
-            result.Add(_deivceMetricsComponent);
+            result.Add(_deviceMetricsComponent);
             return result;
         }
 
+        /// <summary>
+        /// Constructs a list of the properties associated with the engine.
+        /// </summary>
+        /// <returns></returns>
         private IList<IFiftyOneAspectPropertyMetaData> ConstructProperties()
         {
             var result = new List<IFiftyOneAspectPropertyMetaData>();
@@ -422,7 +433,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                 "Device Metrics",
                 dataFileList,
                 true,
-                _deivceMetricsComponent,
+                _deviceMetricsComponent,
                 new ValueMetaDataDefault("0"),
                 Enumerable.Empty<ValueMetaDataDefault>(),
                 "Indicates the number of hash nodes matched within the evidence.");
@@ -433,7 +444,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                 "Device Metrics",
                 dataFileList,
                 true,
-                _deivceMetricsComponent,
+                _deviceMetricsComponent,
                 new ValueMetaDataDefault("0"),
                 Enumerable.Empty<ValueMetaDataDefault>(),
                 "Used when detection method is not Exact or None. This is an integer value and the larger the value the less confident the detector is in this result.");
@@ -444,7 +455,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                 "Device Metrics",
                 dataFileList,
                 true,
-                _deivceMetricsComponent,
+                _deviceMetricsComponent,
                 new ValueMetaDataDefault("0"),
                 Enumerable.Empty<ValueMetaDataDefault>(),
                 "Total difference in character positions where the substrings hashes were found away from where they were expected.");
@@ -455,7 +466,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                 "Device Metrics",
                 dataFileList,
                 true,
-                _deivceMetricsComponent,
+                _deviceMetricsComponent,
                 new ValueMetaDataDefault("0-0-0-0"),
                 Enumerable.Empty<ValueMetaDataDefault>(),
                 "Consists of four components separated by a hyphen symbol: Hardware-Platform-Browser-IsCrawler where each Component represents an ID of the corresponding Profile.");
@@ -466,7 +477,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                 "Device Metrics",
                 dataFileList,
                 true,
-                _deivceMetricsComponent,
+                _deviceMetricsComponent,
                 new ValueMetaDataDefault("n/a"),
                 Enumerable.Empty<ValueMetaDataDefault>(),
                 "The matched User-Agents.");
@@ -477,7 +488,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                 "Device Metrics",
                 dataFileList,
                 true,
-                _deivceMetricsComponent,
+                _deviceMetricsComponent,
                 new ValueMetaDataDefault("0"),
                 Enumerable.Empty<ValueMetaDataDefault>(),
                 "The number of iterations carried out in order to find a match. This is the number of nodes in the graph which have been visited.");
@@ -488,7 +499,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                 "Device Metrics",
                 dataFileList,
                 true,
-                _deivceMetricsComponent,
+                _deviceMetricsComponent,
                 new ValueMetaDataDefault("NONE"),
                 new List<ValueMetaDataDefault>()
                 {
@@ -500,6 +511,11 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                 "The method used to determine the match result.");
         }
 
+        /// <summary>
+        /// Retrieves and returns the 'PublishedDate' from the datafile 
+        /// associated with the engine.
+        /// </summary>
+        /// <returns></returns>
         private DateTime GetDataFilePublishedDate()
         {
             if (_engine != null)
@@ -516,6 +532,12 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             }
             return new DateTime();
         }
+
+        /// <summary>
+        /// Retrieves and returns the next available update time from the 
+        /// datafile associated with the engine.
+        /// </summary>
+        /// <returns></returns>
         private DateTime GetDataFileUpdateAvailableTime()
         {
             if (_engine != null)
@@ -532,6 +554,10 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             }
             return new DateTime();
         }
+        /// <summary>
+        /// Gets the datafile's temporary file path.
+        /// </summary>
+        /// <returns></returns>
         private string GetDataFileTempPath()
         {
             return _engine?.getDataFileTempPath();

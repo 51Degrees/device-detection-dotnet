@@ -50,10 +50,12 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
            TEngine>
         where TEngine : DeviceDetectionHashEngine
     {
+        #region Constants
         private const string NATIVE_DEFAULTS = "The default value for this property comes " +
             "from the native C/C++ code. You can find these defaults in the following files: " +
             "https://github.com/51Degrees/common-cxx/blob/master/config.h, " +
             "https://github.com/51Degrees/device-detection-cxx/blob/master/src/config-dd.h";
+        #endregion
 
         #region Private Properties
 
@@ -64,8 +66,18 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
 
         #endregion
 
+        #region Public Properties
+        /// <summary>
+        /// Factory used to create a new <see cref="SwigConfig"/>. 
+        /// </summary>
+        /// <remarks>
+        /// Must be set after construction and before usage.
+        /// </remarks>
         internal ISwigFactory SwigFactory { get; set; } = new SwigFactory();
 
+        /// <summary>
+        /// Wrapper used to build a Configuration file for the engine.
+        /// </summary>
         private IConfigSwigWrapper SwigConfig
         {
             get
@@ -77,6 +89,8 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                 return _config;
             }
         }
+        
+        #endregion
 
         #region Constructor
 
@@ -113,22 +127,6 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         }
 
         #endregion
-
-        /// <summary>
-        /// Overridden in the implementing class to create a new instance of
-        /// TEngine with the constructor parameters provided.
-        /// </summary>
-        /// <param name="loggerFactory"></param>
-        /// <param name="deviceDataFactory"></param>
-        /// <param name="tempDataFilePath"></param>
-        /// <returns></returns>
-        protected abstract TEngine CreateEngine(
-            ILoggerFactory loggerFactory,
-            Func<IPipeline, FlowElementBase<
-                IDeviceDataHash,
-                IFiftyOneAspectPropertyMetaData>,
-                IDeviceDataHash> deviceDataFactory,
-            string tempDataFilePath);
 
         #region Public Methods
 
@@ -438,7 +436,30 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         protected override string DefaultDataDownloadType => "HashV41";
         #endregion
 
+        #region Abstract Methods
+        /// <summary>
+        /// Overridden in the implementing class to create a new instance of
+        /// TEngine with the constructor parameters provided.
+        /// </summary>
+        /// <param name="loggerFactory"></param>
+        /// <param name="deviceDataFactory"></param>
+        /// <param name="tempDataFilePath"></param>
+        /// <returns></returns>
+        protected abstract TEngine CreateEngine(
+            ILoggerFactory loggerFactory,
+            Func<IPipeline, FlowElementBase<
+                IDeviceDataHash,
+                IFiftyOneAspectPropertyMetaData>,
+                IDeviceDataHash> deviceDataFactory,
+            string tempDataFilePath);
+        #endregion
 
+        /// <summary>
+        /// Creates a new instance of <see cref="DeviceDataHash"/>. 
+        /// </summary>
+        /// <param name="pipeline"></param>
+        /// <param name="engine"></param>
+        /// <returns></returns>
         private IDeviceDataHash CreateAspectData(IPipeline pipeline, 
             FlowElementBase<IDeviceDataHash, IFiftyOneAspectPropertyMetaData> engine)
         {

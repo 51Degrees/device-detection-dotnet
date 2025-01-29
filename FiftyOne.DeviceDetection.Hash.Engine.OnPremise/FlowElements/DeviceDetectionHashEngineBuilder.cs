@@ -37,11 +37,17 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
     public class DeviceDetectionHashEngineBuilder :
         DeviceDetectionHashEngineBuilderBase<DeviceDetectionHashEngine>
     {
+        /// <summary>
+        /// Constructor 
+        /// </summary>
+        /// <param name="loggerFactory"></param>
         public DeviceDetectionHashEngineBuilder(
             ILoggerFactory loggerFactory) : base(loggerFactory)
         {
         }
-
+        /// <summary>
+        /// Constructor that also provides the DataUpdateService.
+        /// </summary>
         public DeviceDetectionHashEngineBuilder(
             ILoggerFactory loggerFactory, 
             IDataUpdateService dataUpdateService) 
