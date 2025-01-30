@@ -81,9 +81,10 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
         /// engine is usable.
         /// </summary>
         [TestMethod]
-        private void TestDetection()
+        public void TestDetection()
         {
-            using(var flowData = Wrapper.Pipeline.CreateFlowData())
+            InitWrapperAndUserAgents(PerformanceProfiles.MaxPerformance);
+            using (var flowData = Wrapper.Pipeline.CreateFlowData())
             {
                 flowData.AddEvidence(
                     "user-agent", 
