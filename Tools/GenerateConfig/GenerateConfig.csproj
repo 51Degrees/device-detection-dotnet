@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.4.127" />
+    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.4.128" />
     <PackageReference Include="System.Text.Json" Version="6.0.11" />
   </ItemGroup>
 
