@@ -388,22 +388,27 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             return result;
         }
 
+        private static readonly IEnumerable<string> ForcedKeys = new[]
+        {
+            Shared.Constants.EVIDENCE_QUERY_GHEV,
+            Shared.Constants.EVIDENCE_QUERY_SUA,
+            Shared.Constants.EVIDENCE_COOKIE_GHEV,
+            Shared.Constants.EVIDENCE_COOKIE_SUA,
+        };
+
         /// <summary>
         /// Initialize the meta data for the new instance of the underlying
         /// engine.
         /// </summary>
         private void InitEngineMetaData()
         {
-            var keyList = new List<string>(_engine.getKeys())
-            {
-                Shared.Constants.EVIDENCE_QUERY_GHEV,
-                Shared.Constants.EVIDENCE_QUERY_SUA,
-                Shared.Constants.EVIDENCE_COOKIE_GHEV,
-                Shared.Constants.EVIDENCE_COOKIE_SUA
-            };
-
-            _evidenceKeyFilter = new EvidenceKeyFilterWhitelist(
-                keyList,
+            var baseKeys = _engine.getKeys().ToList();
+            var missingKeys = ForcedKeys
+                .Where(k => !baseKeys.Contains(k, StringComparer.InvariantCultureIgnoreCase));
+            var keys = baseKeys
+                .Concat(missingKeys)
+                .ToList();
+            _evidenceKeyFilter = new EvidenceKeyFilterWhitelist(keys,
                 StringComparer.InvariantCultureIgnoreCase);
             
             _properties = ConstructProperties();
