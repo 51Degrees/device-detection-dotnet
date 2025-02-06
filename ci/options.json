@@ -48,21 +48,14 @@
     },
     {
         "Image": "macos-13",
-        "Name": "Mac_x64_Debug",
-        "Configuration": "Debug",
-        "Arch": "x64",
-        "BuildMethod": "dotnet"
-    },
-    {
-        "Image": "macos-13",
         "Name": "Mac_x64_Release",
         "Configuration": "Release",
         "Arch": "x64",
-        "PackageRequirement" : true,
+        "PackageRequirement": true,
         "BuildMethod": "dotnet"
     },
     {
-        "Image": "macos-14",
+        "Image": "macos-latest",
         "Name": "Mac_arm64_Release",
         "Configuration": "Release",
         "Arch": "arm64",
