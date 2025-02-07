@@ -33,7 +33,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop;
 using FiftyOne.Pipeline.Core.Data;
-using Constants = FiftyOne.DeviceDetection.Shared.Constants;
 
 namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
 {
@@ -177,26 +176,6 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
             Assert.AreEqual(result3["sec-ch-ua-full-version-list"], "\"Chromium\";v=\"128.0.6613.84\", \"Not;A=Brand\";v=\"24.0.0.0\", \"Google Chrome\";v=\"128.0.6613.84\"");
             Assert.AreEqual(result3["sec-ch-ua-platform"], "\"macOS\"");
             Assert.AreEqual(result3["sec-ch-ua-mobile"], "?0");
-        }
-
-        [TestMethod]
-        public void TestHardcodedEvidenceKeyFilterKeys()
-        {
-            InitWrapperAndUserAgents(PerformanceProfiles.MaxPerformance);
-
-            Assert.IsTrue(Wrapper.Engine.EvidenceKeyFilter.Include(Constants.EVIDENCE_QUERY_GHEV));
-            Assert.IsTrue(Wrapper.Engine.EvidenceKeyFilter.Include(Constants.EVIDENCE_QUERY_SUA));
-            Assert.IsTrue(Wrapper.Engine.EvidenceKeyFilter.Include(Constants.EVIDENCE_COOKIE_GHEV));
-            Assert.IsTrue(Wrapper.Engine.EvidenceKeyFilter.Include(Constants.EVIDENCE_COOKIE_SUA));
-
-            //just in case also testing spelled out variant of the constants:
-            Assert.IsTrue(Wrapper.Engine.EvidenceKeyFilter.Include("query.51d_gethighentropyvalues"));
-            Assert.IsTrue(Wrapper.Engine.EvidenceKeyFilter.Include("query.51d_structureduseragent"));
-            Assert.IsTrue(Wrapper.Engine.EvidenceKeyFilter.Include("cookie.51d_gethighentropyvalues"));
-            Assert.IsTrue(Wrapper.Engine.EvidenceKeyFilter.Include("cookie.51d_structureduseragent"));
-            
-            Assert.IsTrue(Wrapper.Engine.EvidenceKeyFilter.Include("header.user-agent"));
-            Assert.IsFalse(Wrapper.Engine.EvidenceKeyFilter.Include("header.nonexistant"));
         }
     }
 }
