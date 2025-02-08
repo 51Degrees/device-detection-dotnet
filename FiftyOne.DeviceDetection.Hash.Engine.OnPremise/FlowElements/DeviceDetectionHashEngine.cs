@@ -394,16 +394,8 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// </summary>
         private void InitEngineMetaData()
         {
-            var keyList = new List<string>(_engine.getKeys())
-            {
-                Shared.Constants.EVIDENCE_QUERY_GHEV,
-                Shared.Constants.EVIDENCE_QUERY_SUA,
-                Shared.Constants.EVIDENCE_COOKIE_GHEV,
-                Shared.Constants.EVIDENCE_COOKIE_SUA
-            };
-
             _evidenceKeyFilter = new EvidenceKeyFilterWhitelist(
-                keyList,
+                new List<string>(_engine.getKeys()),
                 StringComparer.InvariantCultureIgnoreCase);
             
             _properties = ConstructProperties();
