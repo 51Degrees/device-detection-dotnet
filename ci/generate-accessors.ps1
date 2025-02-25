@@ -1,8 +1,10 @@
+param (
+    [Parameter(Mandatory)][string]$RepoName,
+    [string]$DataFile = "$RepoName/TAC-HashV41.hash"
+)
+$ErrorActionPreference = "Stop"
 
-./tools/ci/generate-dd-accessors.ps1
+./tools/ci/generate-accessors.ps1 @PSBoundParameters
 
-$ToolsPath = [IO.Path]::Combine($pwd, "tools")
-$DdPath = [IO.Path]::Combine($pwd, "device-detection-dotnet")
-
-Copy-Item "$ToolsPath/CSharp/IDeviceData.cs" "$DdPath/FiftyOne.DeviceDetection.Data/Data/"
-Copy-Item "$ToolsPath/CSharp/DeviceDataBase.cs" "$DdPath/FiftyOne.DeviceDetection.Data/"
+Copy-Item "tools/CSharp/IDeviceData.cs" "device-detection-dotnet/FiftyOne.DeviceDetection.Data/Data/"
+Copy-Item "tools/CSharp/DeviceDataBase.cs" "device-detection-dotnet/FiftyOne.DeviceDetection.Data/"
