@@ -19,8 +19,8 @@
  * in the end user terms of the application under an appropriate heading, 
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
-using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.Data.Types;
+using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.Data;
 using FiftyOne.Pipeline.Engines.FlowElements;
@@ -61,6 +61,10 @@ namespace FiftyOne.DeviceDetection.Shared
 			IMissingPropertyService missingPropertyService)
 			: base(logger, pipeline, engine, missingPropertyService) { }
 
+		/// <summary>
+		/// Dictionary of property value types, keyed on the string
+		/// name of the type.
+		/// </summary>
 		protected static readonly IReadOnlyDictionary<string, Type> PropertyTypes =
 			new Dictionary<string, Type>()
 			{
