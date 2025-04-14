@@ -92,6 +92,8 @@ if([String]::IsNullOrEmpty($Version) -eq $False) {
     }
     
     # Test Examples project now that all is set up
+    Write-Output "Building Examples Project"
+    & $ExamplesRepoPath/ci/build-project.ps1 -RepoName "device-detection-dotnet-examples" -ProjectDir $ProjectDir -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod
     Write-Output "Testing Examples Project"
     ./dotnet/run-integration-tests.ps1 -RepoName $ExamplesRepoName -ProjectDir $ProjectDir -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod "dotnet" -DirNameFormatForDotnet "*" -DirNameFormatForNotDotnet "*" -Filter ".*\.sln"
     
