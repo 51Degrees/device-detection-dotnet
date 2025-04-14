@@ -2,6 +2,11 @@ name: Nightly Publish Main
 
 on:
   workflow_dispatch:
+    inputs:
+      dryrun:
+        default: false
+        type: boolean
+        description: Dry Run
   workflow_run:
     workflows: [Nightly PRs to Main]
     types: [completed]
@@ -9,10 +14,12 @@ on:
 jobs:
   # Run the common workflow to test and publish the main branch
   Nightly_Publish_Main:
-    uses: 51Degrees/common-ci/.github/workflows/nightly-publish-main.yml@main
+    uses: 51Degrees/common-ci/.github/workflows/nightly-publish-main.yml@dotnet-debug
     with:
       repo-name: ${{ github.event.repository.name }}
       org-name: ${{ github.event.repository.owner.login }}
+      dryrun: ${{ inputs.dryrun || false }}
+      common-ci-ref: dotnet-debug
       build-platform: windows-latest
     secrets: 
       token: ${{ secrets.ACCESS_TOKEN }}

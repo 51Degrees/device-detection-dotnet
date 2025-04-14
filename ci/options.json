@@ -53,13 +53,5 @@
         "Arch": "x64",
         "PackageRequirement": true,
         "BuildMethod": "dotnet"
-    },
-    {
-        "Image": "macos-latest",
-        "Name": "Mac_arm64_Release",
-        "Configuration": "Release",
-        "Arch": "arm64",
-        "PackageRequirement" : true,
-        "BuildMethod": "dotnet"
     }
 ]
