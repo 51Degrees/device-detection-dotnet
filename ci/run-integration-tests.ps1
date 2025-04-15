@@ -22,7 +22,10 @@ if (!$Version) {
 
 Write-Host "Fetching examples..."
 ./steps/clone-repo.ps1 -RepoName $ExamplesRepo -OrgName $OrgName -Branch $ExamplesBranch
-$ExamplesRepo = Rename-Item -PassThru $ExamplesRepo "ex"
+# Shorter name for Windows compatibility. -PassThru parameter doesn't work,
+# 'Name' property is empty for some reason
+Rename-Item $ExamplesRepo "ex"
+$ExamplesRepo = "ex"
 
 Write-Host "Moving TAC and evidence files for examples..."
 foreach ($_ in "20000 User Agents.csv", "20000 Evidence Records.yml", "51Degrees-LiteV4.1.hash", "TAC-HashV41.hash") {
@@ -35,7 +38,7 @@ foreach ($_ in "20000 User Agents.csv", "20000 Evidence Records.yml", "51Degrees
 # other dependencies will be installed in the local feed.
 $localFeed = New-Item -ItemType Directory -Force "$HOME/.nuget/packages"
 dotnet nuget add source $localFeed
-dotnet nuget push -s $localFeed "package/*.nupkg"
+dotnet nuget push -s $localFeed (Get-ChildItem -Path package -Filter '*.nupkg')
 
 Write-Host "Restoring Examples Project..."
 dotnet restore $ExamplesRepo
@@ -45,8 +48,8 @@ Get-ChildItem -Path $ExamplesRepo -Recurse -File -Filter '*.csproj' | ForEach-Ob
 }
 
 Write-Host "Building Examples Project..."
-& $ExamplesRepo/ci/build-project.ps1 -RepoName $ExamplesRepo.Name -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod
+& $ExamplesRepo/ci/build-project.ps1 -RepoName $ExamplesRepo -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod
 Write-Host "Testing Examples Project..."
-./dotnet/run-integration-tests.ps1 -RepoName $ExamplesRepo.Name -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod -DirNameFormatForDotnet "*" -DirNameFormatForNotDotnet "*" -Filter ".*\.sln"
-    
+./dotnet/run-integration-tests.ps1 -RepoName $ExamplesRepo -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod -DirNameFormatForDotnet "*" -DirNameFormatForNotDotnet "*" -Filter ".*\.sln"
+
 Copy-Item $ExamplesRepo/test-results $RepoName -Recurse
