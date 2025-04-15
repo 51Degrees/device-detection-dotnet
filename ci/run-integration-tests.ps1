@@ -45,6 +45,7 @@ Get-ChildItem -Path $ExamplesRepo -Recurse -File -Filter '*.csproj' | ForEach-Ob
 }
 
 Write-Host "Building Examples Project..."
+Write-Host "DEBUG: ExamplesRepo.Name: $($ExamplesRepo.Name)"
 & $ExamplesRepo/ci/build-project.ps1 -RepoName $ExamplesRepo.Name -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod
 Write-Host "Testing Examples Project..."
 ./dotnet/run-integration-tests.ps1 -RepoName $ExamplesRepo.Name -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod -DirNameFormatForDotnet "*" -DirNameFormatForNotDotnet "*" -Filter ".*\.sln"
