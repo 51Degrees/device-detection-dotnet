@@ -31,7 +31,7 @@
         "BuildMethod": "msbuild"
     },
     {
-        "Image": "ubuntu-20.04",
+        "Image": "ubuntu-22.04",
         "Name": "Ubuntu_x64_Release",
         "Configuration": "Release",
         "Arch": "x64",
@@ -40,7 +40,7 @@
         "RunPerformance": true
     },
     {
-        "Image": "ubuntu-20.04",
+        "Image": "ubuntu-22.04",
         "Name": "Ubuntu_x64_Debug",
         "Configuration": "Debug",
         "Arch": "x64",
