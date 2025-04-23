@@ -24,8 +24,8 @@ Write-Host "Fetching examples..."
 ./steps/clone-repo.ps1 -RepoName $ExamplesRepo -OrgName $OrgName -Branch $ExamplesBranch
 # Shorter name for Windows compatibility. -PassThru parameter doesn't work,
 # 'Name' property is empty for some reason
-Rename-Item $ExamplesRepo "ex"
-$ExamplesRepo = "ex"
+Rename-Item $ExamplesRepo "e"
+$ExamplesRepo = "e"
 
 Write-Host "Moving TAC and evidence files for examples..."
 foreach ($_ in "20000 User Agents.csv", "20000 Evidence Records.yml", "51Degrees-LiteV4.1.hash", "TAC-HashV41.hash") {
