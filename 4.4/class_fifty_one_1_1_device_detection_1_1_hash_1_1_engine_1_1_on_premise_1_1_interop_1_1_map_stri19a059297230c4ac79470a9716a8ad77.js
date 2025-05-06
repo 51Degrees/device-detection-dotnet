@@ -1,0 +1,9 @@
+var class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_map_stri19a059297230c4ac79470a9716a8ad77 =
+[
+    [ "MapStringStringSwigEnumerator", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_map_stri19a059297230c4ac79470a9716a8ad77.html#a57c3800fc801b1728f806f5c2a6150a5", null ],
+    [ "Dispose", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_map_stri19a059297230c4ac79470a9716a8ad77.html#a3b2238da2cbc0afc73e03d0b50f1e372", null ],
+    [ "MoveNext", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_map_stri19a059297230c4ac79470a9716a8ad77.html#afcc818b7ca7ed26921f3cb72178f499a", null ],
+    [ "Reset", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_map_stri19a059297230c4ac79470a9716a8ad77.html#a8dda45e0930e46772bb98dda6417b7a9", null ],
+    [ "Current", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_map_stri19a059297230c4ac79470a9716a8ad77.html#a7ad98841a0f7f31162b7f1274d6a7b76", null ],
+    [ "Current", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_map_stri19a059297230c4ac79470a9716a8ad77.html#adb08a38dbbf38baeafc43d2d59de45f9", null ]
+];

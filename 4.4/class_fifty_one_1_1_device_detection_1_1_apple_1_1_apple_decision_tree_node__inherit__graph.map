@@ -1,0 +1,5 @@
+<map id="FiftyOne.DeviceDetection.Apple.AppleDecisionTreeNode" name="FiftyOne.DeviceDetection.Apple.AppleDecisionTreeNode">
+<area shape="rect" id="node1" title="A node in the decision tree that matches an evidence value against a single expected value" alt="" coords="5,155,223,196"/>
+<area shape="rect" id="node2" href="$class_fifty_one_1_1_device_detection_1_1_apple_1_1_apple_decision_tree_node_base.html" title="Base class for nodes in the decision tree used by AppleDecisionTree." alt="" coords="10,80,218,107"/>
+<area shape="rect" id="node3" href="$interface_fifty_one_1_1_device_detection_1_1_apple_1_1_i_apple_decision_tree_node.html" title=" " alt="" coords="24,5,204,32"/>
+</map>

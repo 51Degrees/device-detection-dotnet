@@ -1,0 +1,7 @@
+var class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_engine_device_detection_swig =
+[
+    [ "Dispose", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_engine_device_detection_swig.html#a53658acaa045f8ef5b50d2a08d571c94", null ],
+    [ "processDeviceDetection", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_engine_device_detection_swig.html#aa195d09d1cc586f2a2f345f499c8cf92", null ],
+    [ "processDeviceDetection", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_engine_device_detection_swig.html#a97d0ebd79ffba10b5f7d5439a0839710", null ],
+    [ "defaultElementDataKey", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_engine_device_detection_swig.html#ad8371f1da3a7283b46682f57f97abe7e", null ]
+];

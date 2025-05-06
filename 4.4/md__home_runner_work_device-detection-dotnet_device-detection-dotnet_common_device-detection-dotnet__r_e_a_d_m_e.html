@@ -89,10 +89,10 @@ $(document).ready(function(){initNavTree('md__home_runner_work_device-detection-
 <div class="c-code__block c-code__block--outline"><div class="c-code__line">sudo apt-get install git-lfs</div><div class="c-code__line">git lfs install</div></div><p>Then, navigate to 'device-detection-cxx/device-detection-data' and execute:</p>
 <div class="c-code__block c-code__block--outline"><div class="c-code__line">git lfs pull</div></div><h2>Solutions and projects</h2>
 <ul>
-<li><b>FiftyOne.DeviceDetection</b> - Device detection engines and related projects.<ul>
-<li><b>FiftyOne.DeviceDetection</b> - Contains device detection engine builders.</li>
-<li><b>FiftyOne.DeviceDetection.Cloud</b> - A .NET engine which retrieves device detection results by consuming the 51Degrees cloud service. This can be swapped out with either the hash or pattern engines seamlessly.</li>
-<li><b>FiftyOne.DeviceDetection.Hash.Engine.OnPremise</b> - .NET implementation of the device detection hash engine. CMake is used to build the native binaries.</li>
+<li><b><a class="el" href="namespace_fifty_one_1_1_device_detection.html">FiftyOne.DeviceDetection</a></b> - Device detection engines and related projects.<ul>
+<li><b><a class="el" href="namespace_fifty_one_1_1_device_detection.html">FiftyOne.DeviceDetection</a></b> - Contains device detection engine builders.</li>
+<li><b><a class="el" href="namespace_fifty_one_1_1_device_detection_1_1_cloud.html">FiftyOne.DeviceDetection.Cloud</a></b> - A .NET engine which retrieves device detection results by consuming the 51Degrees cloud service. This can be swapped out with either the hash or pattern engines seamlessly.</li>
+<li><b><a class="el" href="namespace_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise.html">FiftyOne.DeviceDetection.Hash.Engine.OnPremise</a></b> - .NET implementation of the device detection hash engine. CMake is used to build the native binaries.</li>
 <li><b>FiftyOne.DeviceDetection.Shared</b> - Shared classes used by the device detection engines.</li>
 </ul>
 </li>
@@ -127,7 +127,7 @@ $(document).ready(function(){initNavTree('md__home_runner_work_device-detection-
 <p>Visual studio should now be able to build the native binaries as part of its normal build process.</p>
 <h4>Packaging</h4>
 <p>You can package a project into NuGet <code>*.nupkg</code> file by running a command like:</p>
-<div class="c-code__block c-code__block--outline"><div class="c-code__line">dotnet pack [Project] -o &quot;[PackagesFolder]&quot; /p:PackageVersion=0.0.0 -c [Configuration] /p:Platform=[Architecture]</div></div><h5>⚠️ Notes on packaging <code>FiftyOne.DeviceDetection.Hash.Engine.OnPremise</code></h5>
+<div class="c-code__block c-code__block--outline"><div class="c-code__line">dotnet pack [Project] -o &quot;[PackagesFolder]&quot; /p:PackageVersion=0.0.0 -c [Configuration] /p:Platform=[Architecture]</div></div><h5>⚠️ Notes on packaging <code><a class="el" href="namespace_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise.html">FiftyOne.DeviceDetection.Hash.Engine.OnPremise</a></code></h5>
 <p>📝 Using <code>AnyCPU</code> might prevent the unmanaged (C++) code from being built into <code>.Native.dll</code> library. Use <code>x86</code>/<code>x64</code>/<code>arm64</code> specifically.</p>
 <p>📝 If creating cross-platform package from multiple native dlls, put all 6x <code>FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll</code> into respective folders:</p>
 <div class="c-code__block c-code__block--outline"><div class="c-code__line">../</div><div class="c-code__line">    macos/</div><div class="c-code__line">        arm64/</div><div class="c-code__line">        x64/</div><div class="c-code__line">    linux/</div><div class="c-code__line">        x64/</div><div class="c-code__line">        x86/</div><div class="c-code__line">    windows/</div><div class="c-code__line">        x64/</div><div class="c-code__line">        x86/</div></div><p>and add to the packaging command:</p>
