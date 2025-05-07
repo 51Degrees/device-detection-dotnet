@@ -1,0 +1,5 @@
+var class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_program =
+[
+    [ "BenchmarkResult", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_program_1_1_benchmark_result.html", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_program_1_1_benchmark_result" ],
+    [ "Example", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_program_1_1_example.html", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_program_1_1_example" ]
+];

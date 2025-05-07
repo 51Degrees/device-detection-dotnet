@@ -1,0 +1,5 @@
+var namespace_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance =
+[
+    [ "PerformanceConfiguration", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_performance_configuration.html", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_performance_configuration" ],
+    [ "Program", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_program.html", "class_fifty_one_1_1_device_detection_1_1_examples_1_1_on_premise_1_1_performance_1_1_program" ]
+];

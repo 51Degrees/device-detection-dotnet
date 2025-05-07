@@ -31,7 +31,8 @@ var NAVTREE =
     [ "API Specific CI Approach", "md__home_runner_work_device-detection-dotnet_device-detection-dotnet_common_device-detection-dot3aab0b8ae0e774763e04e63352d1d4e0.html", null ],
     [ "51Degrees Common Code Library", "md__home_runner_work_device-detection-dotnet_device-detection-dotnet_common_device-detection-dot97b3d82d7f2a67358273563edf1971a7.html", null ],
     [ "51Degrees Device Detection Engines", "md__home_runner_work_device-detection-dotnet_device-detection-dotnet_common_device-detection-dotnet__r_e_a_d_m_e.html", null ],
-    [ "Classes", "annotated.html", "annotated" ]
+    [ "Classes", "annotated.html", "annotated" ],
+    [ "Examples", "examples.html", "examples" ]
 ];
 
 var NAVTREEHIDEROOT = true;
@@ -41,10 +42,12 @@ var NAVTREEHIDESYNC = true;
 var NAVTREEINDEX =
 [
 "../../documentation/4.4/index.html",
-"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_data_1_1_value_meta_data.html#ac3a013aa303504ba1ca2e6ae5828ac4c",
-"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_device_dcb35914c07fb09d64e68f10508bf6bd9.html#a5ce9d731033f7f18f865119097f28791",
-"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_meta_data_swig.html#a0e770446ac106e70ba4d400fe3fef5c9",
-"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_meta_data_swig_wrapper.html"
+"class_fifty_one_1_1_device_detection_1_1_examples_1_1_cloud_1_1_getting_started_web_1_1_model_1_1_error_model.html",
+"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_data_1_1_property_meta_data_hash.html#ab672dc40ed37b65d0f21b1c4fcbf287d",
+"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_device_dcb35914c07fb09d64e68f10508bf6bd9.html#a4b66581fc6a9776ecbde3ead0e05a330",
+"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_map_string_string_swig.html#a0a391215c9e35cc026de1894bdce15a8",
+"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_double_value_swig_wrapper.html#af095dcd93f581ea33f3ad04558ae123e",
+"namespace_fifty_one_1_1_device_detection_1_1_cloud_1_1_flow_elements.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
