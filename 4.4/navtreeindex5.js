@@ -1,5 +1,10 @@
 var NAVTREEINDEX5 =
 {
+"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_double_value_swig_wrapper.html#a1109c3048414f9208a7ec90ea704f182":[8,5,0,3,0,0,3,4,3],
+"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_double_value_swig_wrapper.html#a699564ebfa74391d9794564745022634":[8,5,0,3,0,0,3,4,4],
+"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_double_value_swig_wrapper.html#ab51d3d321f6a28741e7b62e9b654325d":[8,5,0,3,0,0,3,4,1],
+"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_double_value_swig_wrapper.html#abc3750ee3b5944a8d707ab874c2b7335":[8,5,0,3,0,0,3,4,2],
+"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_double_value_swig_wrapper.html#aeabfc018e3d41e0e008fe13515bad108":[8,5,0,3,0,0,3,4,5],
 "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_double_value_swig_wrapper.html#af095dcd93f581ea33f3ad04558ae123e":[8,5,0,3,0,0,3,4,0],
 "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_engine_swig_wrapper.html":[8,5,0,3,0,0,3,5],
 "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_engine_swig_wrapper.html#a3a30b1f9f2a6e3a723c181b394aaf808":[8,5,0,3,0,0,3,5,3],
@@ -133,8 +138,8 @@ var NAVTREEINDEX5 =
 "class_fifty_one_1_1_device_detection_1_1_uach_1_1_uach_json_brand.html#a0b9e45ab3052c3d9031edf9f7a0ddf34":[8,5,0,4,5,0],
 "class_fifty_one_1_1_device_detection_1_1_uach_1_1_uach_json_brand.html#a98efb2811eaa7a075ae4b5d32a85bfeb":[8,5,0,4,5,1],
 "class_framework___web_1_1_default.html":[8,6,0],
-"class_framework___web_1_1_default.html#a70966f4374f4dfff18d45f662be00f21":[8,6,0,1],
 "class_framework___web_1_1_default.html#a70966f4374f4dfff18d45f662be00f21":[8,6,0,0],
+"class_framework___web_1_1_default.html#a70966f4374f4dfff18d45f662be00f21":[8,6,0,1],
 "class_framework___web_1_1_global.html":[8,6,1],
 "class_getting_started___web___client_only_1_1_pages_1_1_error_model.html":[8,7,0,0],
 "class_getting_started___web___client_only_1_1_pages_1_1_error_model.html#a028fb8b39dc23e47eb4962c8c774e55a":[8,7,0,0,1],
@@ -244,10 +249,5 @@ var NAVTREEINDEX5 =
 "namespace_cloud___client___hints___net_core__31.html":[8,3],
 "namespace_cloud___client___hints___net_core__31_1_1_controllers.html":[8,3,0],
 "namespace_cloud___client___hints___not___integrated.html":[8,4],
-"namespace_cloud___client___hints___not___integrated_1_1_controllers.html":[8,4,0],
-"namespace_fifty_one.html":[8,5],
-"namespace_fifty_one_1_1_device_detection.html":[8,5,0],
-"namespace_fifty_one_1_1_device_detection_1_1_apple.html":[8,5,0,0],
-"namespace_fifty_one_1_1_device_detection_1_1_cloud.html":[8,5,0,1],
-"namespace_fifty_one_1_1_device_detection_1_1_cloud_1_1_data.html":[8,5,0,1,0]
+"namespace_cloud___client___hints___not___integrated_1_1_controllers.html":[8,4,0]
 };

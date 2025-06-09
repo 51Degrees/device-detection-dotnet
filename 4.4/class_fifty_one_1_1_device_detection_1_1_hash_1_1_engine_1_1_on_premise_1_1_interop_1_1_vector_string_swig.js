@@ -32,6 +32,7 @@ var class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_
     [ "swigCMemOwn", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_vector_string_swig.html#a72b277012bc8d6a1b0971aca1ddf1941", null ],
     [ "Capacity", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_vector_string_swig.html#a38077107b80db41598eaccb391288512", null ],
     [ "Count", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_vector_string_swig.html#aca75df0e2f4e337ce7acc8a9c6bcf9f5", null ],
+    [ "IsEmpty", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_vector_string_swig.html#a2948ccf287609d87c2936e89b4b9e2ff", null ],
     [ "IsFixedSize", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_vector_string_swig.html#a121ea728e269ea69d7fbfbb29b603b1d", null ],
     [ "IsReadOnly", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_vector_string_swig.html#a3d5b55b7738ddb1dd1e0e434f8e42acd", null ],
     [ "IsSynchronized", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_vector_string_swig.html#af1ddf05363e175d3ef87b268ddd0e052", null ],

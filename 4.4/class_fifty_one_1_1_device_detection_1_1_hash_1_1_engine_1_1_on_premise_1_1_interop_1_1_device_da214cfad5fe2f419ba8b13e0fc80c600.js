@@ -1,0 +1,5 @@
+var class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_device_da214cfad5fe2f419ba8b13e0fc80c600 =
+[
+    [ "SWIG_c_to_csharp_string", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_device_da214cfad5fe2f419ba8b13e0fc80c600.html#ad75b23f8505120a79bf15b694540f9a5", null ],
+    [ "SWIG_csharp_string_to_c", "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_device_da214cfad5fe2f419ba8b13e0fc80c600.html#adcc8b8963b71f73cdf606205e28b2737", null ]
+];
