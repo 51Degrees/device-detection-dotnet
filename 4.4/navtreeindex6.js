@@ -1,5 +1,8 @@
 var NAVTREEINDEX6 =
 {
+"namespace_cloud___client___hints___net_core__31_1_1_controllers.html":[8,3,0],
+"namespace_cloud___client___hints___not___integrated.html":[8,4],
+"namespace_cloud___client___hints___not___integrated_1_1_controllers.html":[8,4,0],
 "namespace_fifty_one.html":[8,5],
 "namespace_fifty_one_1_1_device_detection.html":[8,5,0],
 "namespace_fifty_one_1_1_device_detection_1_1_apple.html":[8,5,0,0],

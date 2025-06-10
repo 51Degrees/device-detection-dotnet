@@ -1,5 +1,8 @@
 var NAVTREEINDEX4 =
 {
+"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_map_stri19a059297230c4ac79470a9716a8ad77.html#a57c3800fc801b1728f806f5c2a6150a5":[8,5,0,3,0,0,2,17,0,0],
+"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_map_stri19a059297230c4ac79470a9716a8ad77.html#a7ad98841a0f7f31162b7f1274d6a7b76":[8,5,0,3,0,0,2,17,0,4],
+"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_map_stri19a059297230c4ac79470a9716a8ad77.html#a8dda45e0930e46772bb98dda6417b7a9":[8,5,0,3,0,0,2,17,0,3],
 "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_map_stri19a059297230c4ac79470a9716a8ad77.html#adb08a38dbbf38baeafc43d2d59de45f9":[8,5,0,3,0,0,2,17,0,5],
 "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_map_stri19a059297230c4ac79470a9716a8ad77.html#afcc818b7ca7ed26921f3cb72178f499a":[8,5,0,3,0,0,2,17,0,2],
 "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_interop_1_1_map_string_string_swig.html":[8,5,0,3,0,0,2,17],
@@ -246,8 +249,5 @@ var NAVTREEINDEX4 =
 "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_config_swig_wrapper.html#ae34fe047b89e9a7d4d858c1040909f4d":[8,5,0,3,0,0,3,2,8],
 "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_date_swig_wrapper.html":[8,5,0,3,0,0,3,3],
 "class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_date_swig_wrapper.html#a33489ea86f9b0ce0c15bc60c04df99cc":[8,5,0,3,0,0,3,3,2],
-"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_date_swig_wrapper.html#a55e03345ddadfa6eecb9e63f6021fa05":[8,5,0,3,0,0,3,3,0],
-"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_date_swig_wrapper.html#aa3275f97e70ad95f2bf2e79388567e50":[8,5,0,3,0,0,3,3,1],
-"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_date_swig_wrapper.html#af16d2cdda82126b48b21c8485c192e56":[8,5,0,3,0,0,3,3,3],
-"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_double_value_swig_wrapper.html":[8,5,0,3,0,0,3,4]
+"class_fifty_one_1_1_device_detection_1_1_hash_1_1_engine_1_1_on_premise_1_1_wrappers_1_1_date_swig_wrapper.html#a55e03345ddadfa6eecb9e63f6021fa05":[8,5,0,3,0,0,3,3,0]
 };
