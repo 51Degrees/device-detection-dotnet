@@ -14,8 +14,8 @@ var examples =
     [ "OnPremise/MatchMetrics-Console/Program.cs", "_on_premise_2_match_metrics-_console_2_program_8cs-example.html", null ],
     [ "OnPremise/Metadata-Console/Program.cs", "_on_premise_2_metadata-_console_2_program_8cs-example.html", null ],
     [ "OnPremise/OfflineProcessing-Console/Program.cs", "_on_premise_2_offline_processing-_console_2_program_8cs-example.html", null ],
+    [ "OnPremise/Performance-Console/Program.cs", "_on_premise_2_performance-_console_2_program_8cs-example.html", null ],
     [ "OnPremise/UpdateDataFile-Console/Program.cs", "_on_premise_2_update_data_file-_console_2_program_8cs-example.html", null ],
-    [ "Performance-Console/Program.cs", "_performance-_console_2_program_8cs-example.html", null ],
     [ "UACH-manual/Startup.cs", "_u_a_c_h-manual_2_startup_8cs-example.html", null ],
     [ "UACH/Startup.cs", "_u_a_c_h_2_startup_8cs-example.html", null ]
 ];
