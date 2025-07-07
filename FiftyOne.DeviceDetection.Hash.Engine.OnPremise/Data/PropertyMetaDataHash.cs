@@ -191,7 +191,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
                     case "javascript": return typeof(JavaScript);
                     case "string[]": return typeof(IReadOnlyList<string>);
                     default: return typeof(string);
-                };
+                }
             }
         }
 
