@@ -14,8 +14,8 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="FiftyOne.Common.TestHelpers" Version="4.4.27" />
-    <PackageReference Include="FiftyOne.Pipeline.Engines.TestHelpers" Version="4.4.135" />
-    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.4.135" />
+    <PackageReference Include="FiftyOne.Pipeline.Engines.TestHelpers" Version="4.4.137" />
+    <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.4.137" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
     <PackageReference Include="Moq" Version="4.20.72" />
