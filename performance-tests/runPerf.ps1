@@ -33,4 +33,16 @@ $CAL="calibrate"
 $PRO="process"
 $PERF="$scriptRoot/ApacheBench-prefix/src/ApacheBench-build/bin/runPerf.ps1"
 
-Invoke-Expression "$PERF -n $PASSES -s '$d $pwd/../bin/$p/$c/net6.0/performance_tests.dll' -c $CAL -p $PRO -h $SERVICEHOST"
+# Find the target framework directory dynamically
+$binPath = "$pwd/../bin/$p/$c"
+$targetFrameworkDir = Get-ChildItem $binPath -Directory -Filter "net*" -ErrorAction SilentlyContinue | Select-Object -First 1
+
+if ($targetFrameworkDir -eq $null) {
+    Write-Error "Could not find .NET framework directory in $binPath"
+    exit 1
+}
+
+$dllPath = Join-Path $targetFrameworkDir.FullName "performance_tests.dll"
+Write-Host "Using DLL path: $dllPath"
+
+Invoke-Expression "$PERF -n $PASSES -s '$d $dllPath' -c $CAL -p $PRO -h $SERVICEHOST"
