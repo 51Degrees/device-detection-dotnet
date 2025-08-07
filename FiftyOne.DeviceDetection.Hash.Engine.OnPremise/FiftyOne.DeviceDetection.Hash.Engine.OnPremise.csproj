@@ -115,6 +115,11 @@
       <!-- <BuildAction>None</BuildAction> -->
       <!-- <PackagePath>runtimes\linux-x86\native</PackagePath> -->
     <!-- </_PackageFiles> -->
+    <!-- Copy the Linux arm64 native DLL -->
+    <_PackageFiles Include="..\linux\arm64\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="$(BuiltOnCI)">
+      <BuildAction>None</BuildAction>
+      <PackagePath>runtimes\linux-arm64\native</PackagePath>
+    </_PackageFiles>
     <!-- Copy the Mac x64 native DLL -->
     <_PackageFiles Include="..\macos\x64\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="$(BuiltOnCI)">
       <BuildAction>None</BuildAction>
