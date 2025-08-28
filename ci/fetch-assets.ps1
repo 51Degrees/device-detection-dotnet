@@ -1,28 +1,16 @@
-
 param (
-    [string]$RepoName,
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory)][string]$RepoName,
     [string]$DeviceDetection,
     [string]$DeviceDetectionUrl
 )
+$ErrorActionPreference = "Stop"
 
-# Fetch the TAC data file for testing with
-./steps/fetch-hash-assets.ps1 -RepoName $RepoName -LicenseKey $DeviceDetection -Url $DeviceDetectionUrl
+$deviceDetectionData = "$RepoName/FiftyOne.DeviceDetection.Hash.Engine.OnPremise/device-detection-cxx/device-detection-data"
 
-# Move the data file to the correct location
-$DataFileName = "TAC-HashV41.hash"
-$DataFileSource = [IO.Path]::Combine($pwd, $RepoName, $DataFileName)
-$DataFileDir = [IO.Path]::Combine($pwd, $RepoName, "FiftyOne.DeviceDetection.Hash.Engine.OnPremise", "device-detection-cxx", "device-detection-data")
-$DataFileDestination = [IO.Path]::Combine($DataFileDir, $DataFileName)
-Move-Item $DataFileSource $DataFileDestination
+./steps/fetch-assets.ps1 -DeviceDetection $DeviceDetection -DeviceDetectionUrl $DeviceDetectionUrl `
+    -Assets "TAC-HashV41.hash", "51Degrees-LiteV4.1.hash", "20000 Evidence Records.yml", "20000 User Agents.csv"
 
-# Get the evidence files for testing. These are in the device-detection-data submodule,
-# But are not pulled by default.
-Push-Location $DataFileDir
-try {
-    Write-Output "Pulling evidence files"
-    git lfs pull
-}
-finally {
-    Pop-Location
-}
+Copy-Item "assets/TAC-HashV41.hash" $deviceDetectionData
+Copy-Item "assets/51Degrees-LiteV4.1.hash" $deviceDetectionData
+Copy-Item "assets/20000 Evidence Records.yml" $deviceDetectionData
+Copy-Item "assets/20000 User Agents.csv" $deviceDetectionData
