@@ -1081,7 +1081,7 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<IReadOnlyList<string>> HardwareAudioCodecsDecode { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("HardwareAudioCodecsDecode"); } }
 		/// <summary>
-		/// Refers to the list of video codecs supported for decoding by a Chipset. An video codec is a program used to playback digital video files. The values of this property are the codec's common name. 
+		/// Refers to the list of video codecs supported for decoding by a Chipset. A video codec is a program used to playback digital video files. The values of this property are the codec's common name. 
 		/// </summary>
 		public IAspectPropertyValue<IReadOnlyList<string>> HardwareVideoCodecsDecode { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("HardwareVideoCodecsDecode"); } }
 		/// <summary>
@@ -1153,7 +1153,7 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<IReadOnlyList<string>> HardwareAudioCodecsEncode { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("HardwareAudioCodecsEncode"); } }
 		/// <summary>
-		/// Refers to the list of video codecs supported for encoding by a Chipset. An video codec is a program used to capture digital video files. The values of this property are the codec's common name. 
+		/// Refers to the list of video codecs supported for encoding by a Chipset. A video codec is a program used to capture digital video files. The values of this property are the codec's common name. 
 		/// </summary>
 		public IAspectPropertyValue<IReadOnlyList<string>> HardwareVideoCodecsEncode { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("HardwareVideoCodecsEncode"); } }
 		/// <summary>
