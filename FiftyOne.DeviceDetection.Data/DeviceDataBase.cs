@@ -199,6 +199,7 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "IsHardwareGroup", typeof(IAspectPropertyValue<bool>) },
 				{ "IsMediaHub", typeof(IAspectPropertyValue<bool>) },
 				{ "IsMobile", typeof(IAspectPropertyValue<bool>) },
+				{ "IsPlatformVersionFrozen", typeof(IAspectPropertyValue<string>) },
 				{ "IsScreenFoldable", typeof(IAspectPropertyValue<bool>) },
 				{ "IsSmallScreen", typeof(IAspectPropertyValue<bool>) },
 				{ "IsSmartPhone", typeof(IAspectPropertyValue<bool>) },
@@ -401,7 +402,7 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<string> PlatformName { get { return GetAs<IAspectPropertyValue<string>>("PlatformName"); } }
 		/// <summary>
-		/// Indicates the version or subversion of the software platform.
+		/// Indicates the version or subversion of the software platform. Where the PlatformVendor is Apple, the PlatformVersion returned will be the most likely version. It may be different to the value provided in the evidence.
 		/// </summary>
 		public IAspectPropertyValue<string> PlatformVersion { get { return GetAs<IAspectPropertyValue<string>>("PlatformVersion"); } }
 		/// <summary>
@@ -1452,6 +1453,10 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// Indicates whether the crawler is confirmed by the crawler controller to be used to train artificial intelligence.
 		/// </summary>
 		public IAspectPropertyValue<string> IsArtificialIntelligence { get { return GetAs<IAspectPropertyValue<string>>("IsArtificialIntelligence"); } }
+		/// <summary>
+		/// Indicates whether the PlatformVendor is providing a frozen or incorrect platform version in the User-Agent evidence. When True, the PlatformVersion will be the most likely version and may be different to the value provided in the evidence.
+		/// </summary>
+		public IAspectPropertyValue<string> IsPlatformVersionFrozen { get { return GetAs<IAspectPropertyValue<string>>("IsPlatformVersionFrozen"); } }
 		/// <summary>
 		/// Indicates the number of hash nodes matched within the evidence.
 		/// </summary>
