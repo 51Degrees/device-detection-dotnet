@@ -11,8 +11,4 @@
     <ProjectReference Include="..\..\FiftyOne.DeviceDetection.Data\FiftyOne.DeviceDetection.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="FiftyOne.Common.TestHelpers" Version="4.4.27" />
-  </ItemGroup>
-
 </Project>
