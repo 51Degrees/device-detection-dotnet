@@ -1,55 +1,113 @@
 param(
-    [Parameter(Mandatory)][string]$RepoName,
-    [Parameter(Mandatory)][string]$OrgName,
+    [Parameter(Mandatory=$true)]
+    [string]$RepoName,
+    [string]$OrgName,
     [string]$Name = "Release_x64",
     [string]$Configuration = "Release",
-    [string]$Arch = "x64",
-    [string]$ExamplesRepo = "device-detection-dotnet-examples",
-    [string]$ExamplesBranch = "main"
+    [string]$Arch = "x64"
 )
-$ErrorActionPreference = "Stop"
-$PSNativeCommandUseErrorActionPreference = $true
-Set-StrictMode -Version 1.0
 
-$resultsDir = New-Item -ItemType Directory -Force "$RepoName/test-results/performance-summary"
-$tacFile = "$PWD/$RepoName/FiftyOne.DeviceDetection.Hash.Engine.OnPremise/device-detection-cxx/device-detection-data/TAC-HashV41.hash"
-$evidenceFile = "$PWD/$RepoName/FiftyOne.DeviceDetection.Hash.Engine.OnPremise/device-detection-cxx/device-detection-data/20000 Evidence Records.yml"
+$RepoPath = [IO.Path]::Combine($pwd, $RepoName)
+$PerfResultsFile = [IO.Path]::Combine($RepoPath, "test-results", "performance-summary", "results_$Name.json")
+$EvidenceFiles = [IO.Path]::Combine($pwd, $RepoName,"FiftyOne.DeviceDetection.Hash.Engine.OnPremise", "device-detection-cxx", "device-detection-data")
+$ExamplesRepoName = "device-detection-dotnet-examples"
+$ExamplesRepoPath = [IO.Path]::Combine($pwd, $ExamplesRepoName)
+$DeviceDetectionProject = [IO.Path]::Combine($RepoPath, "FiftyOne.DeviceDetection", "FiftyOne.DeviceDetection.csproj")
+$PerfProject = [IO.Path]::Combine($ExamplesRepoPath, "Examples", "OnPremise", "Performance-Console")
 
-Write-Host "Fetching examples..."
-./steps/clone-repo.ps1 -RepoName $ExamplesRepo -OrgName $OrgName -Branch $ExamplesBranch
-# Shorter name for Windows compatibility. -PassThru parameter doesn't work,
-# 'Name' property is empty for some reason
-Rename-Item $ExamplesRepo "ex"
-$ExamplesRepo = "ex"
+Write-Output "Entering '$RepoPath'"
+Push-Location $RepoPath
 
-$exampleBase = "$ExamplesRepo/Examples/ExampleBase"
-$ddProject = "$PWD/$RepoName/FiftyOne.DeviceDetection/FiftyOne.DeviceDetection.csproj"
-Push-Location $exampleBase
 try {
-    Write-Output "Replacing the DeviceDetection package with a local reference in $exampleBase"
-    dotnet remove package "FiftyOne.DeviceDetection"
-    dotnet add reference $ddProject
-} finally {
+
+    # Create the output directories if they don't already exist.
+    if ($(Test-Path -Path "test-results") -eq  $False) {
+        mkdir test-results
+    }
+    if ($(Test-Path -Path "test-results/performance-summary") -eq  $False) {
+        mkdir test-results/performance-summary
+    }
+
+}
+finally {
+
+    Write-Output "Leaving '$RepoPath'"
     Pop-Location
+
 }
 
-Push-Location $ExamplesRepo/Examples/OnPremise/Performance-Console
 try {
-    Write-Host "Running performance example with config $Configuration|$Arch"
-    dotnet build -c $Configuration /p:Platform=$Arch /p:OutDir=output /p:BuiltOnCI=true
-    dotnet output/FiftyOne.DeviceDetection.Examples.OnPremise.Performance.dll -d $tacFile -u $evidenceFile -j summary.json
+    if ($(Test-Path -Path $ExamplesRepoName) -eq $False) {
+        Write-Output "Cloning '$ExamplesRepoName'"
+        ./steps/clone-repo.ps1 -RepoName $ExamplesRepoName -OrgName $OrgName
+    }
+
+    Write-Output "Moving TAC file"
+    $TacFile = [IO.Path]::Combine($EvidenceFiles, "TAC-HashV41.hash") 
+    Copy-Item $TacFile device-detection-dotnet-examples/device-detection-data/TAC-HashV41.hash
+
+    Write-Output "Moving evidence file"
+    $EvidenceFile = [IO.Path]::Combine($EvidenceFiles, "20000 Evidence Records.yml")
+    Copy-Item $EvidenceFile "device-detection-dotnet-examples/device-detection-data/20000 Evidence Records.yml"
     
-    # Write out the results for comparison
-    Write-Host "Writing performance test results"
-    $results = Get-Content summary.json | ConvertFrom-Json
-    Write-Output "{
-        'HigherIsBetter': {
-            'DetectionsPerSecond': $($results.MaxPerformance.DetectionsPerSecond)
-        },
-        'LowerIsBetter': {
-            'MsPerDetection': $($results.MaxPerformance.MsPerDetection)
+    $ExamplesProject = [IO.Path]::Combine($ExamplesRepoPath, "Examples", "ExampleBase")
+    
+    # Update the dependency in the examples project to point to the newly bulit package
+    Write-Output "Entering '$ExamplesProject'"
+    Push-Location $ExamplesProject
+    try{
+        # Change the dependency version to the locally build Nuget package
+        Write-Output "Replacing the DeviceDetection package with a local reference."
+        dotnet remove package "FiftyOne.DeviceDetection"
+        dotnet add reference $DeviceDetectionProject
+    }
+    finally{
+        Write-Output "Leaving '$ExamplesProject'"
+        Pop-Location
+    }
+    
+    Write-Output "Running performance example with config $Configuration|$Arch"
+    Write-Output "Entering '$PerfProject' folder"
+    Push-Location "$PerfProject"
+    try {
+        $RunConfig = "Debug"
+        if ($Configuration.Contains("Release")) {
+            $RunConfig = "Release"
         }
-    }" > "$resultsDir/results_$Name.json"
-} finally {
-    Pop-Location
+        dotnet build -c $RunConfig /p:Platform=$Arch /p:OutDir=output /p:BuiltOnCI=true
+        Push-Location "output"
+        try {
+            dotnet FiftyOne.DeviceDetection.Examples.OnPremise.Performance.dll -d $TacFile -u $EvidenceFile -j summary.json
+        }
+        finally {
+            Pop-Location
+        }
+        
+        if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
+        }
+
+        # Write out the results for comparison
+        Write-Output "Writing performance test results"
+        $Results = Get-Content ./output/summary.json | ConvertFrom-Json
+        Write-Output "{
+            'HigherIsBetter': {
+                'DetectionsPerSecond': $($Results.MaxPerformance.DetectionsPerSecond)
+            },
+            'LowerIsBetter': {
+                'MsPerDetection': $($Results.MaxPerformance.MsPerDetection)
+            }
+        }" > $PerfResultsFile
+
+    }
+    finally {
+        Write-Output "Leaving '$PerfProject'"
+        Pop-Location
+    }
+
+    Copy-Item $ExamplesRepoName/test-results $RepoName -Recurse
+}
+
+finally {
+    exit $LASTEXITCODE
 }

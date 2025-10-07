@@ -574,9 +574,6 @@ SWIGINTERN void SWIG_CSharpException(int code, const char *msg) {
     case SWIG_OverflowError:
       exception_code = SWIG_CSharpOverflowException;
       break;
-    case SWIG_NullReferenceError:
-      exception_code = SWIG_CSharpNullReferenceException;
-      break;
     case SWIG_RuntimeError:
     case SWIG_TypeError:
     case SWIG_SyntaxError:
@@ -5583,7 +5580,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPrem
   (&arg2)->assign(jarg2); 
   {
     try {
-      result = (ValueMetaDataKey *)new ValueMetaDataKey(SWIG_STD_MOVE(arg1),SWIG_STD_MOVE(arg2));;
+      result = (ValueMetaDataKey *)new ValueMetaDataKey(arg1,arg2);;
     }
     catch(FatalException& e) {
       {
@@ -6128,7 +6125,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPrem
   arg2 = *argp2; 
   {
     try {
-      result = (ComponentMetaData *)(arg1)->getByKey(SWIG_STD_MOVE(arg2));;
+      result = (ComponentMetaData *)(arg1)->getByKey(arg2);;
     }
     catch(FatalException& e) {
       {
@@ -6376,7 +6373,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPrem
   (&arg2)->assign(jarg2); 
   {
     try {
-      result = (PropertyMetaData *)(arg1)->getByKey(SWIG_STD_MOVE(arg2));;
+      result = (PropertyMetaData *)(arg1)->getByKey(arg2);;
     }
     catch(FatalException& e) {
       {
@@ -6870,7 +6867,7 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPrem
   arg2 = *argp2; 
   {
     try {
-      result = (ValueMetaData *)(arg1)->getByKey(SWIG_STD_MOVE(arg2));;
+      result = (ValueMetaData *)(arg1)->getByKey(arg2);;
     }
     catch(FatalException& e) {
       {
@@ -9198,7 +9195,7 @@ SWIGEXPORT void SWIGSTDCALL CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremis
   arg2 = *argp2; 
   {
     try {
-      (arg1)->setTempDirectories(SWIG_STD_MOVE(arg2));;
+      (arg1)->setTempDirectories(arg2);;
     }
     catch(FatalException& e) {
       {
