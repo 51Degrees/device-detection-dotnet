@@ -1,0 +1,18 @@
+# Triggers the nightly pipeline on non-main branches, as only pipelines on the
+# default branch can be scheduled directly.
+name: Nightly Pipeline Prerelease
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+
+jobs:
+  schedule:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Schedule version/4.5
+        run: gh workflow run nightly-pipeline.yml --repo '${{ github.repository }}' --ref version/4.5
