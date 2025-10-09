@@ -141,9 +141,8 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
 
             // Parse the expected example JSON to get the property names
             JsonDocument expectedDoc = JsonDocument.Parse(expectedJsonExample);
-            var expectedProperties = expectedDoc.RootElement.EnumerateObject()
-                .Select(p => p.Name)
-                .ToHashSet();
+            var expectedProperties = new HashSet<string>(
+                expectedDoc.RootElement.EnumerateObject().Select(p => p.Name));
 
             Parallel.For(0, N, (int i) =>
             {
@@ -165,9 +164,8 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
                     "JSON should contain properties");
 
                 // Validate all expected properties are present
-                var actualProperties = jsonDoc.RootElement.EnumerateObject()
-                    .Select(p => p.Name)
-                    .ToHashSet();
+                var actualProperties = new HashSet<string>(
+                    jsonDoc.RootElement.EnumerateObject().Select(p => p.Name));
 
                 foreach (var expectedProperty in expectedProperties)
                 {
