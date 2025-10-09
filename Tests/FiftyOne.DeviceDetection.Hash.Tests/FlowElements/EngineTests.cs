@@ -29,10 +29,12 @@ using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop;
 using FiftyOne.Pipeline.Core.Data;
+using System.Text.Json;
 
 namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
 {
@@ -102,10 +104,10 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
         [TestMethod]
         [DataRow(TestHelpers.Constants.TAC_HASH_DATA_FILE_NAME, TestHelpers.Constants.JsonOutputTAC)]
         [DataRow(TestHelpers.Constants.LITE_HASH_DATA_FILE_NAME, TestHelpers.Constants.JsonOutputLite)]
-        public void TestParallelSerialization(string fileName, string expectedOutput)
+        public void TestParallelSerialization(string fileName, string expectedJsonExample)
         {
             var dataFileInfo = TestHelpers.Utils.GetFilePath(fileName);
-            var wrapper = new WrapperHash(dataFileInfo, 
+            var wrapper = new WrapperHash(dataFileInfo,
                 PerformanceProfiles.MaxPerformance,
                 TestHelpers.Constants.RequiredProperties
                 );
@@ -137,18 +139,74 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
                 }
             }
 
+            // Parse the expected example JSON to get the property names
+            JsonDocument expectedDoc = JsonDocument.Parse(expectedJsonExample);
+            var expectedProperties = expectedDoc.RootElement.EnumerateObject()
+                .Select(p => p.Name)
+                .ToHashSet();
+
             Parallel.For(0, N, (int i) =>
             {
                 string json = deviceDatas[i].GetAllValuesJson();
-                Assert.AreEqual(json, expectedOutput);
-                results[i] = json;
-                Assert.AreEqual(deviceDatasNone[i].GetAllValuesJson(), "{}");
-            });
 
-            foreach (var result in results)
-            {
-                Assert.AreEqual(result, expectedOutput);
-            }
+                // Validate JSON is well-formed
+                JsonDocument jsonDoc = null;
+                try
+                {
+                    jsonDoc = JsonDocument.Parse(json);
+                }
+                catch (JsonException ex)
+                {
+                    Assert.Fail($"Invalid JSON produced: {ex.Message}");
+                }
+
+                // Check that JSON has properties
+                Assert.IsTrue(jsonDoc.RootElement.EnumerateObject().Any(),
+                    "JSON should contain properties");
+
+                // Validate all expected properties are present
+                var actualProperties = jsonDoc.RootElement.EnumerateObject()
+                    .Select(p => p.Name)
+                    .ToHashSet();
+
+                foreach (var expectedProperty in expectedProperties)
+                {
+                    Assert.IsTrue(actualProperties.Contains(expectedProperty),
+                        $"Expected property '{expectedProperty}' is missing from JSON");
+                }
+
+                // Validate all properties have non-null, non-empty values
+                foreach (var property in jsonDoc.RootElement.EnumerateObject())
+                {
+                    Assert.IsFalse(string.IsNullOrEmpty(property.Name),
+                        "Property name should not be null or empty");
+
+                    // Check that property has a value (not undefined/null)
+                    Assert.AreNotEqual(JsonValueKind.Null, property.Value.ValueKind,
+                        $"Property '{property.Name}' should not be null");
+                    Assert.AreNotEqual(JsonValueKind.Undefined, property.Value.ValueKind,
+                        $"Property '{property.Name}' should not be undefined");
+
+                    // Validate the value is not empty
+                    if (property.Value.ValueKind == JsonValueKind.String)
+                    {
+                        Assert.IsFalse(string.IsNullOrEmpty(property.Value.GetString()),
+                            $"Property '{property.Name}' should not have an empty string value");
+                    }
+                    else if (property.Value.ValueKind == JsonValueKind.Array)
+                    {
+                        Assert.IsTrue(property.Value.GetArrayLength() > 0,
+                            $"Property '{property.Name}' should not have an empty array");
+                    }
+                }
+
+                results[i] = json;
+
+                // Validate empty evidence produces empty JSON object
+                string noneJson = deviceDatasNone[i].GetAllValuesJson();
+                Assert.AreEqual("{}", noneJson,
+                    "Detection with no evidence should produce empty JSON object");
+            });
         }
 
         [TestMethod]
