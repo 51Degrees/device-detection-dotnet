@@ -560,7 +560,7 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates whether the PlatformVendor is providing a frozen or incorrect platform version in the User-Agent evidence. When True, the PlatformVersion will be the most likely version and may be different to the value provided in the evidence.
 		/// </summary>
-		IAspectPropertyValue<string> IsPlatformVersionFrozen { get; }
+		IAspectPropertyValue<bool> IsPlatformVersionFrozen { get; }
 		/// <summary>
 		/// Indicates whether the device screen is foldable or not. If the device does not have a screen or the screen is not foldable, 'False' is returned.
 		/// </summary>
@@ -710,7 +710,7 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<IReadOnlyList<string>> NativeDevice { get; }
 		/// <summary>
-		/// Refers to the 'Model' value returned for Android Google Play native applications, when the android.os.Build.MODEL javascript is used to display the class. For Apple devices this property refers to the device identifier which appears in the native application from the developer usage log, for example 'iPad5,4'.
+		/// Refers to the 'Model' value returned for Android Google Play or Amazon native applications when the android.os.Build.MODEL javascript is used to display the class. For Apple devices, this property refers to the device identifier, for example 'iPad5,4'. This may be obtained by calling sysctlbyname and passing hw.machine as a name parameter or alternatively by obtaining "machine" member from a populated utsname structure using uname API.
 		/// </summary>
 		IAspectPropertyValue<IReadOnlyList<string>> NativeModel { get; }
 		/// <summary>
