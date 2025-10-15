@@ -199,7 +199,7 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "IsHardwareGroup", typeof(IAspectPropertyValue<bool>) },
 				{ "IsMediaHub", typeof(IAspectPropertyValue<bool>) },
 				{ "IsMobile", typeof(IAspectPropertyValue<bool>) },
-				{ "IsPlatformVersionFrozen", typeof(IAspectPropertyValue<string>) },
+				{ "IsPlatformVersionFrozen", typeof(IAspectPropertyValue<bool>) },
 				{ "IsScreenFoldable", typeof(IAspectPropertyValue<bool>) },
 				{ "IsSmallScreen", typeof(IAspectPropertyValue<bool>) },
 				{ "IsSmartPhone", typeof(IAspectPropertyValue<bool>) },
@@ -1054,7 +1054,7 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<IReadOnlyList<string>> NativeDevice { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("NativeDevice"); } }
 		/// <summary>
-		/// Refers to the 'Model' value returned for Android Google Play native applications, when the android.os.Build.MODEL javascript is used to display the class. For Apple devices this property refers to the device identifier which appears in the native application from the developer usage log, for example 'iPad5,4'.
+		/// Refers to the 'Model' value returned for Android Google Play or Amazon native applications when the android.os.Build.MODEL javascript is used to display the class. For Apple devices, this property refers to the device identifier, for example 'iPad5,4'. This may be obtained by calling sysctlbyname and passing hw.machine as a name parameter or alternatively by obtaining "machine" member from a populated utsname structure using uname API.
 		/// </summary>
 		public IAspectPropertyValue<IReadOnlyList<string>> NativeModel { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("NativeModel"); } }
 		/// <summary>
@@ -1456,7 +1456,7 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// <summary>
 		/// Indicates whether the PlatformVendor is providing a frozen or incorrect platform version in the User-Agent evidence. When True, the PlatformVersion will be the most likely version and may be different to the value provided in the evidence.
 		/// </summary>
-		public IAspectPropertyValue<string> IsPlatformVersionFrozen { get { return GetAs<IAspectPropertyValue<string>>("IsPlatformVersionFrozen"); } }
+		public IAspectPropertyValue<bool> IsPlatformVersionFrozen { get { return GetAs<IAspectPropertyValue<bool>>("IsPlatformVersionFrozen"); } }
 		/// <summary>
 		/// Indicates the number of hash nodes matched within the evidence.
 		/// </summary>
