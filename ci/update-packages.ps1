@@ -3,4 +3,4 @@ param(
     [string]$Name
 )
 
-./dotnet/run-update-dependencies.ps1 -RepoName $RepoName -Name $Name -IncludePrerelease
+./dotnet/run-update-dependencies.ps1 -RepoName $RepoName -Name $Name
