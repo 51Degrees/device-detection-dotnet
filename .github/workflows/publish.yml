@@ -1,20 +1,23 @@
-name: Nightly Publish Main
+name: Publish
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows: [Nightly PRs to Main]
-    types: [completed]
+    inputs:
+      dryrun:
+        type: boolean
+        default: false
 
 jobs:
-  # Run the common workflow to test and publish the main branch
-  Nightly_Publish_Main:
-    uses: 51Degrees/common-ci/.github/workflows/nightly-publish-main.yml@main
+  Publish:
+    name: Publish
+    uses: 51Degrees/common-ci/.github/workflows/nightly-publish.yml@main
     with:
       repo-name: ${{ github.event.repository.name }}
       org-name: ${{ github.event.repository.owner.login }}
+      dryrun: ${{ inputs.dryrun || false }}
+      cache-assets: true
       build-platform: windows-latest
-    secrets: 
+    secrets:
       token: ${{ secrets.ACCESS_TOKEN }}
       ApiKey: ${{ secrets.NUGET_API_KEY }}
       CodeSigningKeyVaultUrl: ${{ secrets.CODE_SIGNING_KEY_VAULT_URL }}

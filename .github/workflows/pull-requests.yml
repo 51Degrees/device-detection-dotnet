@@ -1,24 +1,21 @@
-name: Nightly PRs to Main
+name: Pull Requests
 
 on:
   workflow_dispatch:
     inputs:
       dryrun:
-        required: false
         type: boolean
         default: false
-  workflow_run:
-    workflows: [Nightly Submodule Update]
-    types: [completed]
 
 jobs:
-  # Run the common workflow on each pull request
-  Nightly_PR_to_Main:
-    uses: 51Degrees/common-ci/.github/workflows/nightly-prs-to-main.yml@main
+  PullRequests:
+    name: Pull Requests
+    uses: 51Degrees/common-ci/.github/workflows/nightly-pull-requests.yml@main
     with:
       repo-name: ${{ github.event.repository.name }}
       org-name: ${{ github.event.repository.owner.login }}
       dryrun: ${{ inputs.dryrun || false }}
+      cache-assets: true
     secrets:
       token: ${{ secrets.ACCESS_TOKEN }}
       DeviceDetection: ${{ secrets.DEVICE_DETECTION_KEY }}
