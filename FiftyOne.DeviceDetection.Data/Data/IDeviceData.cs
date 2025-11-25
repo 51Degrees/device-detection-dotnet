@@ -274,6 +274,10 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<bool> DataUrl { get; }
 		/// <summary>
+		/// Indicates which app stores are available on the device and come pre-installed by the manufacturer.
+		/// </summary>
+		IAspectPropertyValue<IReadOnlyList<string>> DefaultAppStores { get; }
+		/// <summary>
 		/// Indicates what certifications apply to this device.
 		/// </summary>
 		IAspectPropertyValue<IReadOnlyList<string>> DeviceCertifications { get; }
@@ -798,6 +802,10 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<string> PlatformVersion { get; }
 		/// <summary>
+		/// Refers to the number of unique client IPs from which this device has been seen.
+		/// </summary>
+		IAspectPropertyValue<string> Popularity { get; }
+		/// <summary>
 		/// Indicates if the browser supports messages between different documents.
 		/// </summary>
 		IAspectPropertyValue<bool> PostMessage { get; }
@@ -809,6 +817,10 @@ namespace FiftyOne.DeviceDetection
 		/// Indicates a price range describing the recommended retail price of the device at the date of release, inclusive of tax (where applicable).  Prices are in United States Dollars (USD); if the price is not originally in USD it will be converted to USD using the relevant exchange rate at the time of launch. Prices are for the SIM-free version of the device (if applicable). In cases where there are several versions of the same model of the device, the price will reflect the device that was used to populate the specifications.
 		/// </summary>
 		IAspectPropertyValue<string> PriceBand { get; }
+		/// <summary>
+		/// 
+		/// </summary>
+		IAspectPropertyValue<string> Profiles { get; }
 		/// <summary>
 		/// Indicates if the browser supports progress reports, such as with HTTP requests. The progress element can be used to display the progress of the task. This property doesn't represent a scalar measurement. If the browser supports a gauge, the meter property should be used.
 		/// </summary>
