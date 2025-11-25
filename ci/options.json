@@ -1,4 +1,4 @@
-[  
+[
     {
         "Image": "windows-latest",
         "Name": "Windows_x64_Release",
@@ -54,14 +54,6 @@
         "BuildMethod": "dotnet",
         "RunPerformance": true,
         "PackageRequirement" : true
-    },
-    {
-        "Image": "macos-13",
-        "Name": "Mac_x64_Release",
-        "Configuration": "Release",
-        "Arch": "x64",
-        "PackageRequirement": true,
-        "BuildMethod": "dotnet"
     },
     {
         "Image": "macos-latest",
