@@ -62,5 +62,13 @@
         "Arch": "arm64",
         "PackageRequirement" : true,
         "BuildMethod": "dotnet"
+    },
+    {
+        "Image": "macos-15-intel",
+        "Name": "Mac_x64_Release",
+        "Configuration": "Release",
+        "Arch": "x64",
+        "PackageRequirement" : true,
+        "BuildMethod": "dotnet"
     }
 ]
