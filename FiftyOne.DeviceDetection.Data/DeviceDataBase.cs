@@ -342,6 +342,8 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "SupportsWiDi", typeof(IAspectPropertyValue<bool>) },
 				{ "Svg", typeof(IAspectPropertyValue<bool>) },
 				{ "TAC", typeof(IAspectPropertyValue<IReadOnlyList<string>>) },
+				{ "ThirdPartyCookiesEnabled", typeof(IAspectPropertyValue<string>) },
+				{ "ThirdPartyCookiesEnabledJavaScript", typeof(IAspectPropertyValue<JavaScript>) },
 				{ "TopicsAPIEnabled", typeof(IAspectPropertyValue<string>) },
 				{ "TopicsAPIEnabledJavaScript", typeof(IAspectPropertyValue<JavaScript>) },
 				{ "TouchEvents", typeof(IAspectPropertyValue<bool>) },
@@ -1460,6 +1462,14 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// Indicates which app stores are available on the device and come pre-installed by the manufacturer.
 		/// </summary>
 		public IAspectPropertyValue<IReadOnlyList<string>> DefaultAppStores { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("DefaultAppStores"); } }
+		/// <summary>
+		/// Indicates whether third party cookies are enabled. Where the JavaScript contained in ThirdPartyCookiesEnabledJavaScript has not run this will indicate the likely status.
+		/// </summary>
+		public IAspectPropertyValue<string> ThirdPartyCookiesEnabled { get { return GetAs<IAspectPropertyValue<string>>("ThirdPartyCookiesEnabled"); } }
+		/// <summary>
+		/// Contains JavaScript that can override the property ThirdPartyCookiesEnabled. This property returns NotSupported for browsers which cannot support third party cookies.
+		/// </summary>
+		public IAspectPropertyValue<JavaScript> ThirdPartyCookiesEnabledJavaScript { get { return GetAs<IAspectPropertyValue<JavaScript>>("ThirdPartyCookiesEnabledJavaScript"); } }
 		/// <summary>
 		/// Indicates the Type Allocation Code (TAC) for devices supporting GSM/3GPP networks which come from multiple sources. This property will return 'N/A' if we cannot determine the device TAC authenticy.
 		/// </summary>
