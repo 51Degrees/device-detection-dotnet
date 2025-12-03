@@ -1130,6 +1130,14 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<IReadOnlyList<string>> TAC { get; }
 		/// <summary>
+		/// Indicates whether third party cookies are enabled. Where the JavaScript contained in ThirdPartyCookiesEnabledJavaScript has not run this will indicate the likely status.
+		/// </summary>
+		IAspectPropertyValue<string> ThirdPartyCookiesEnabled { get; }
+		/// <summary>
+		/// Contains JavaScript that can override the property ThirdPartyCookiesEnabled. This property returns NotSupported for browsers which cannot support third party cookies.
+		/// </summary>
+		IAspectPropertyValue<JavaScript> ThirdPartyCookiesEnabledJavaScript { get; }
+		/// <summary>
 		/// Refers to the experimental Privacy Sandbox Topics API proposal from Google. Indicates if the API caller has observed one or more topics for a user and checks whether the website has not blocked the Topics API using a Permissions Policy.
 		/// </summary>
 		IAspectPropertyValue<string> TopicsAPIEnabled { get; }
