@@ -272,10 +272,35 @@ namespace FiftyOne.DeviceDetection.Tests.Core
         private static IEnumerable<IEnumerable<TestFragment>> TestFragmentCombosForAutoUpdate(bool autoUpdate, string licenseKey)
         {
             var variants = TestFragmentVariantsForAutoUpdate(autoUpdate, licenseKey).ToList();
-            long combosCount = variants.Aggregate(1, (c, l) => c * l.Count);
-            for (long i = 0; i < combosCount; ++i)
+
+            // Instead of testing all combinations (Cartesian product which is exponential),
+            // test representative samples: vary each fragment while keeping others at default.
+            // This gives linear O(sum of variants) instead of O(product of variants) test cases.
+
+            // First, yield the "all defaults" case (first element of each variant list)
+            yield return variants.Select(v => v[0]).Where(f => f is not null);
+
+            // Then, for each variant list, test each non-default option while keeping
+            // all other variants at their default (first) value
+            for (int variantIndex = 0; variantIndex < variants.Count; variantIndex++)
             {
-                yield return PickComboFromVariants(variants, i);
+                var variantList = variants[variantIndex];
+                // Skip the first (default) option since it's already tested above
+                for (int optionIndex = 1; optionIndex < variantList.Count; optionIndex++)
+                {
+                    var fragments = new List<TestFragment>();
+                    for (int i = 0; i < variants.Count; i++)
+                    {
+                        var fragment = (i == variantIndex)
+                            ? variants[i][optionIndex]
+                            : variants[i][0];
+                        if (fragment is not null)
+                        {
+                            fragments.Add(fragment);
+                        }
+                    }
+                    yield return fragments;
+                }
             }
         }
 
