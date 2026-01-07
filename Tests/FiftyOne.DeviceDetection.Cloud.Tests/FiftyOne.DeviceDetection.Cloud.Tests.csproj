@@ -13,7 +13,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="FiftyOne.Common.TestHelpers" Version="4.5.2" />
+    <PackageReference Include="FiftyOne.Common.TestHelpers" Version="4.5.3" />
     <PackageReference Include="FiftyOne.Pipeline.Engines.TestHelpers" Version="4.5.12" />
     <PackageReference Include="FiftyOne.Pipeline.Web" Version="4.5.12" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
