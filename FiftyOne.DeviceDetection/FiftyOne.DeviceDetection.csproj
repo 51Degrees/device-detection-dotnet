@@ -15,7 +15,7 @@
     <Description>51Degrees Device Detection parses HTTP headers to return detailed hardware, operating system, browser, and crawler information for the devices used to access your website or service. This is an alternative to popular UAParser, DeviceAtlas, and WURFL packages.</Description>
 	  <Authors>51Degrees Engineering</Authors>
 	  <PackageLicenseExpression>EUPL-1.2</PackageLicenseExpression>
-    <PackageIconUrl>https://51degrees.com/portals/0/Logos/Square%20Logo.png?width=64</PackageIconUrl>
+    <PackageIconUrl>https://51degrees.com/Nuget-FiftyOne.DeviceDetection/Square%20Logo.png</PackageIconUrl>
 	  <Copyright>51Degrees Mobile Experts Limited</Copyright>
 	  <PackageTags>51degrees;pipeline;data;device;detection;user-agent;parse;detection-library;bots;crawler;desktop;tablet;mobile;tv</PackageTags>
 	  <RepositoryUrl>https://github.com/51Degrees/device-detection-dotnet</RepositoryUrl>
