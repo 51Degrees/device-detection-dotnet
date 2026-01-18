@@ -405,6 +405,14 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<IReadOnlyList<string>> HardwareName { get; }
 		/// <summary>
+		/// Marketed name of the device or series (e.g., iPhone). If a device does not have an established naming system, this field will be an empty string.
+		/// </summary>
+		IAspectPropertyValue<string> HardwareNamePrefix { get; }
+		/// <summary>
+		/// Marketed version of the device or series (e.g., 17 Pro Max). If a device does not have an established naming system, this field will be an empty string.
+		/// </summary>
+		IAspectPropertyValue<string> HardwareNameVersion { get; }
+		/// <summary>
 		/// Indicates the source of the profile's specifications. This property will return 'Manufacturer' value if the profile data was obtained from the manufacturer of the device or the device itself. This property will return 'Authoritative' value if the profile data was not obtained from the manufacturer or the device itself but other third party sources (this may include retailers, social media, carriers, etc). This property will return 'Legacy' value if the profile data was obtained prior to 51degrees differentiating between Manufacturer and Authoritative. This property will return 'N/A' value if the profile data was not obtained due to unidentifiable User-Agent. The example profiles are: Generic Android Unknown, Unknown Tablet, etc.
 		/// </summary>
 		IAspectPropertyValue<string> HardwareProfileSource { get; }
