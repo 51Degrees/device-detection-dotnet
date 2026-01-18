@@ -160,6 +160,8 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "HardwareModel", typeof(IAspectPropertyValue<string>) },
 				{ "HardwareModelVariants", typeof(IAspectPropertyValue<IReadOnlyList<string>>) },
 				{ "HardwareName", typeof(IAspectPropertyValue<IReadOnlyList<string>>) },
+				{ "HardwareNamePrefix", typeof(IAspectPropertyValue<string>) },
+				{ "HardwareNameVersion", typeof(IAspectPropertyValue<string>) },
 				{ "HardwareProfileSource", typeof(IAspectPropertyValue<string>) },
 				{ "HardwareRank", typeof(IAspectPropertyValue<int>) },
 				{ "HardwareVendor", typeof(IAspectPropertyValue<string>) },
@@ -1469,6 +1471,14 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// Contains JavaScript that can override the property ThirdPartyCookiesEnabled. This property returns NotSupported for browsers which cannot support third party cookies.
 		/// </summary>
 		public IAspectPropertyValue<JavaScript> ThirdPartyCookiesEnabledJavaScript { get { return GetAs<IAspectPropertyValue<JavaScript>>("ThirdPartyCookiesEnabledJavaScript"); } }
+		/// <summary>
+		/// Marketed name of the device or series (e.g., iPhone). If a device does not have an established naming system, this field will be an empty string.
+		/// </summary>
+		public IAspectPropertyValue<string> HardwareNamePrefix { get { return GetAs<IAspectPropertyValue<string>>("HardwareNamePrefix"); } }
+		/// <summary>
+		/// Marketed version of the device or series (e.g., 17 Pro Max). If a device does not have an established naming system, this field will be an empty string.
+		/// </summary>
+		public IAspectPropertyValue<string> HardwareNameVersion { get { return GetAs<IAspectPropertyValue<string>>("HardwareNameVersion"); } }
 		/// <summary>
 		/// Indicates the Type Allocation Code (TAC) for devices supporting GSM/3GPP networks which come from multiple sources. This property will return 'N/A' if we cannot determine the device TAC authenticy.
 		/// </summary>
