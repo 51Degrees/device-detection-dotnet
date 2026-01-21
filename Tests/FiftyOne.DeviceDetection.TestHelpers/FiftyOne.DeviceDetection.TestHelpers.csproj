@@ -5,6 +5,7 @@
     <Platforms>AnyCPU;x86;x64;ARM64</Platforms>
     <Configurations>Debug;Release</Configurations>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>$(NoWarn);MSTEST0001;MSTEST0037;MSTEST0044</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.Common.TestHelpers" Version="4.5.3" />
+    <PackageReference Include="FiftyOne.Common.TestHelpers" Version="4.5.4" />
   </ItemGroup>
 
 </Project>

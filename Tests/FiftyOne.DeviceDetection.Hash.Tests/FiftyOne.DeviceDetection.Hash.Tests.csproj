@@ -7,6 +7,7 @@
     <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">net8.0</TargetFrameworks>
     <Configurations>Debug;Release</Configurations>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>$(NoWarn);MSTEST0001;MSTEST0017;MSTEST0037;MSTEST0044;MSTEST0052</NoWarn>
     <BaseOutputPath>bin</BaseOutputPath>
     <BaseIntermediateOutputPath>obj</BaseIntermediateOutputPath>
   </PropertyGroup>
@@ -21,7 +22,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageReference Include="Moq" Version="4.20.72" />
-    <PackageReference Include="MSTest.TestAdapter" Version="3.9.3" />
+    <PackageReference Include="MSTest.TestAdapter" Version="4.0.2" />
     <PackageReference Include="System.Text.Json" Version="8.0.6" />
   </ItemGroup>
 

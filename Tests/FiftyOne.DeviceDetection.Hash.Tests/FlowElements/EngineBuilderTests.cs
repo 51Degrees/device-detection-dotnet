@@ -96,10 +96,12 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
         ///on-premise engine.
         ///</summary>
         [TestMethod]
-        [ExpectedException(typeof(NotSupportedException))]
         public void EngineBuilder_CacheSizeDisabled()
         {
-            _ = _builder.SetCacheSize(100);
+            Assert.ThrowsExactly<NotSupportedException>(() =>
+            {
+                _ = _builder.SetCacheSize(100);
+            });
         }
 
         ///<summary>
@@ -107,10 +109,12 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
         ///on-premise engine.
         ///</summary>
         [TestMethod]
-        [ExpectedException(typeof(NotSupportedException))]
         public void EngineBuilder_CacheDisabled()
         {
-            _ = _builder.SetCache(new Pipeline.Engines.Configuration.CacheConfiguration());
+            Assert.ThrowsExactly<NotSupportedException>(() =>
+            {
+                _ = _builder.SetCache(new Pipeline.Engines.Configuration.CacheConfiguration());
+            });
         }
     }
 }
