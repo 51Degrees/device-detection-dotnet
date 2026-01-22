@@ -13,20 +13,13 @@ Write-Host "========== DEBUG: Environment Information =========="
 Write-Host "BuildMethod: $BuildMethod"
 Write-Host "Configuration: $Configuration"
 Write-Host "Arch: $Arch"
+Write-Host "Working Directory: $(Get-Location)"
 Write-Host ""
+
 Write-Host "=== .NET SDK Versions ==="
 dotnet --list-sdks
 Write-Host ""
-Write-Host "=== MSBuild Version ==="
-try {
-    $msbuildPath = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe 2>$null
-    if ($msbuildPath) {
-        & $msbuildPath -version
-    }
-} catch {
-    Write-Host "MSBuild version check failed"
-}
-Write-Host ""
+
 Write-Host "=== NuGet Package Versions (Microsoft.Extensions.Logging*) ==="
 Get-ChildItem -Path "$env:USERPROFILE\.nuget\packages\microsoft.extensions.logging*" -Directory -ErrorAction SilentlyContinue | ForEach-Object {
     $packageName = $_.Name
@@ -35,33 +28,48 @@ Get-ChildItem -Path "$env:USERPROFILE\.nuget\packages\microsoft.extensions.loggi
     }
 }
 Write-Host ""
-Write-Host "=== Assembly Versions in Test Output Directories ==="
-$testDirs = Get-ChildItem -Path "Tests" -Directory -Recurse -Filter "bin" -ErrorAction SilentlyContinue
-foreach ($dir in $testDirs) {
-    $loggingDlls = Get-ChildItem -Path $dir.FullName -Recurse -Filter "Microsoft.Extensions.Logging.Abstractions.dll" -ErrorAction SilentlyContinue
-    foreach ($dll in $loggingDlls) {
-        $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($dll.FullName)
-        Write-Host "$($dll.FullName)"
-        Write-Host "  FileVersion: $($version.FileVersion)"
-        Write-Host "  ProductVersion: $($version.ProductVersion)"
+
+Write-Host "=== net462 Test Output Directory Contents ==="
+$net462Path = "Tests\FiftyOne.DeviceDetection.Hash.Tests\bin\$Arch\$Configuration\net462"
+Write-Host "Checking path: $net462Path"
+if (Test-Path $net462Path) {
+    Write-Host "Directory exists. Files:"
+    Get-ChildItem -Path $net462Path -Filter "*.dll" | ForEach-Object {
+        Write-Host "  $($_.Name)"
     }
+    Write-Host ""
+    Write-Host "Config files:"
+    Get-ChildItem -Path $net462Path -Filter "*.config" | ForEach-Object {
+        Write-Host "  $($_.Name)"
+    }
+} else {
+    Write-Host "Directory does NOT exist!"
 }
 Write-Host ""
-Write-Host "=== Generated Binding Redirects (*.dll.config files) ==="
-$configFiles = Get-ChildItem -Path "Tests" -Directory -Recurse -Filter "*.dll.config" -ErrorAction SilentlyContinue
-foreach ($config in $configFiles) {
-    if ($config.Name -like "*Tests*.dll.config") {
-        Write-Host "File: $($config.FullName)"
-        $content = Get-Content $config.FullName -Raw
-        if ($content -match "Microsoft.Extensions.Logging") {
-            $matches = [regex]::Matches($content, '<dependentAssembly>[\s\S]*?Microsoft\.Extensions\.Logging[\s\S]*?</dependentAssembly>')
-            foreach ($match in $matches) {
-                Write-Host $match.Value
-            }
-        }
-        Write-Host ""
-    }
+
+Write-Host "=== Microsoft.Extensions.Logging.Abstractions.dll Version ==="
+$dllPath = "$net462Path\Microsoft.Extensions.Logging.Abstractions.dll"
+if (Test-Path $dllPath) {
+    $version = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($dllPath)
+    Write-Host "FileVersion: $($version.FileVersion)"
+    Write-Host "ProductVersion: $($version.ProductVersion)"
+    # Get assembly version
+    $assembly = [System.Reflection.Assembly]::LoadFile((Resolve-Path $dllPath))
+    Write-Host "AssemblyVersion: $($assembly.GetName().Version)"
+} else {
+    Write-Host "DLL not found at: $dllPath"
 }
+Write-Host ""
+
+Write-Host "=== FiftyOne.DeviceDetection.Hash.Tests.dll.config Contents ==="
+$configPath = "$net462Path\FiftyOne.DeviceDetection.Hash.Tests.dll.config"
+if (Test-Path $configPath) {
+    Write-Host "Config file contents:"
+    Get-Content $configPath
+} else {
+    Write-Host "Config file not found at: $configPath"
+}
+Write-Host ""
 Write-Host "========== END DEBUG =========="
 Write-Host ""
 
