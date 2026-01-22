@@ -8,6 +8,21 @@ param(
     [string]$BuildMethod = "msbuild"
 )
 
+# DEBUG: Output build environment information
+Write-Host "========== DEBUG: Build Environment Information =========="
+Write-Host "BuildMethod: $BuildMethod"
+Write-Host "Configuration: $Configuration"
+Write-Host "Arch: $Arch"
+Write-Host "ProjectDir: $ProjectDir"
+Write-Host ""
+Write-Host "=== .NET SDK Versions ==="
+dotnet --list-sdks
+Write-Host ""
+Write-Host "=== Restoring packages with detailed verbosity for Hash.Tests ==="
+dotnet restore "Tests\FiftyOne.DeviceDetection.Hash.Tests\FiftyOne.DeviceDetection.Hash.Tests.csproj" --verbosity normal 2>&1 | Select-String -Pattern "Microsoft.Extensions.Logging"
+Write-Host "========== END DEBUG =========="
+Write-Host ""
+
 if ($BuildMethod -eq "dotnet"){
 
     if ($IsWindows) {
