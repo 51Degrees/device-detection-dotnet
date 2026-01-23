@@ -32,7 +32,7 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Data
     public class ValuesHashCoreTests : TestsBase
     {
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(PerformanceProfiles.HighPerformance)]
         [DataRow(PerformanceProfiles.MaxPerformance)]
         [DataRow(PerformanceProfiles.LowMemory)]
@@ -43,7 +43,7 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Data
             ValueTests.ValueTypes(Wrapper);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(PerformanceProfiles.HighPerformance)]
         [DataRow(PerformanceProfiles.MaxPerformance)]
         [DataRow(PerformanceProfiles.LowMemory)]
@@ -54,7 +54,7 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Data
             ValueTests.AvailableProperties(Wrapper);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(PerformanceProfiles.HighPerformance)]
         [DataRow(PerformanceProfiles.MaxPerformance)]
         [DataRow(PerformanceProfiles.LowMemory)]
@@ -65,7 +65,7 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Data
             ValueTests.TypedGetters(Wrapper);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(PerformanceProfiles.HighPerformance)]
         [DataRow(PerformanceProfiles.MaxPerformance)]
         [DataRow(PerformanceProfiles.LowMemory)]
@@ -76,7 +76,7 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Data
             ValueTests.DeviceId(Wrapper);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(PerformanceProfiles.HighPerformance)]
         [DataRow(PerformanceProfiles.MaxPerformance)]
         [DataRow(PerformanceProfiles.LowMemory)]

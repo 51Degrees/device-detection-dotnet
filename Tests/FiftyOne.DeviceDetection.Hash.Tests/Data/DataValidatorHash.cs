@@ -84,7 +84,7 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Data
                     }
                 }
             }
-            Assert.IsTrue(string.IsNullOrEmpty(elementData.DeviceId.Value) == false);
+            Assert.IsFalse(string.IsNullOrEmpty(elementData.DeviceId.Value));
             if (validEvidence == false)
             {
                 Assert.AreEqual("0-0-0-0", elementData.DeviceId.Value);
@@ -92,7 +92,7 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Data
 
             var validKeys = data.GetEvidence().AsDictionary().Keys.Where(
                 k => _engine.EvidenceKeyFilter.Include(k)).Count();
-            Assert.AreEqual(validKeys, elementData.UserAgents.Value.Count);
+            Assert.HasCount(validKeys, elementData.UserAgents.Value);
         }
 
         public void ValidateProfileIds(IFlowData data, string[] profileIds)

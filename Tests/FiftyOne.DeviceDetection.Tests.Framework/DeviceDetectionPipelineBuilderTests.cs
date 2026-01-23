@@ -100,7 +100,7 @@ namespace FiftyOne.DeviceDetection.Tests.Framework
             {
                 // If there is no license key configured then automatic updates will be
                 // disabled.
-                Assert.AreEqual(false, engine.DataFiles[0].AutomaticUpdatesEnabled);
+                Assert.IsFalse(engine.DataFiles[0].AutomaticUpdatesEnabled);
             }
 
         }

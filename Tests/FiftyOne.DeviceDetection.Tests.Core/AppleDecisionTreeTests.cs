@@ -94,7 +94,7 @@ namespace FiftyOne.DeviceDetection.Tests.Core
 
 				// Check root node values
 				Assert.AreEqual("family", tree.Root.EvidenceKey);
-				Assert.AreEqual(2, tree.Root.Children.Count);
+				Assert.HasCount(2, tree.Root.Children);
 
 				// Check first children
 				Assert.IsNull(tree.Root.Children[0].ProfileId);
