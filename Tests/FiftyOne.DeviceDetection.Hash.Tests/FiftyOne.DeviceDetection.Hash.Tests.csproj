@@ -22,8 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Use 8.0.2 to match the transitive dependency version that actually gets copied to output.
-         This prevents auto-generated binding redirects from targeting a non-existent 8.0.0.3 DLL -->
+<!-- Use 8.0.2 to match the transitive dependency version that gets copied to output -->
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageReference Include="Moq" Version="4.20.72" />
