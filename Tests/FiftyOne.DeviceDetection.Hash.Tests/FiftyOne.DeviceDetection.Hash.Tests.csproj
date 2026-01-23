@@ -22,8 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-<!-- Use 8.0.2 to match the transitive dependency version that gets copied to output -->
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageReference Include="Moq" Version="4.20.72" />
     <PackageReference Include="MSTest.TestAdapter" Version="4.0.2" />
