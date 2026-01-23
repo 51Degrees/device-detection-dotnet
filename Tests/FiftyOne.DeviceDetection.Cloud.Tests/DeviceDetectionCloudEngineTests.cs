@@ -89,7 +89,7 @@ namespace FiftyOne.DeviceDetection.Cloud.Tests
         /// so any problems with that service could affect the result
         /// of this test.
         /// </summary>
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(null, true)]
         [DataRow("test.com", true)]
         [DataRow("51degrees.com", false)]
@@ -122,10 +122,9 @@ namespace FiftyOne.DeviceDetection.Cloud.Tests
             {
                 exception = true;
 
-                Assert.IsTrue(ex.Message.Contains(
-                    $"This Resource Key is not authorized " +
-                    $"for use with this domain: '{origin ?? ""}'."), 
-                    $"Exception did not contain expected text " +
+                Assert.Contains($"This Resource Key is not authorized " +
+                    $"for use with this domain: '{origin ?? ""}'.",
+ex.Message, $"Exception did not contain expected text " +
                     $"({ex.Message})");
             }
 

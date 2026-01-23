@@ -41,7 +41,7 @@ namespace FiftyOne.DeviceDetection.TestHelpers.Data
                 IDeviceData device = (IDeviceData)elementData;
                 Assert.IsNotNull(device.DeviceId,
                     "The device id should not be null.");
-                Assert.IsTrue(string.IsNullOrEmpty(device.DeviceId.Value) == false,
+                Assert.IsFalse(string.IsNullOrEmpty(device.DeviceId.Value), 
                     "The device id should not be empty.");
             }
         }
@@ -54,13 +54,13 @@ namespace FiftyOne.DeviceDetection.TestHelpers.Data
                         .Process();
                 var elementData = data.Get(wrapper.GetEngine().ElementDataKey);
                 IDeviceData device = (IDeviceData)elementData;
-                Assert.AreEqual(1, device.UserAgents.Value.Count);
+                Assert.HasCount(1, device.UserAgents.Value);
                 foreach (var matchedUa in device.UserAgents.Value)
                 {
                     foreach (var substring in matchedUa.Split('_', '{', '}'))
                     {
-                        Assert.IsTrue(Constants.MobileUserAgent.Contains(substring),
-                            $"The matched substring '{substring}' does not " +
+                        Assert.Contains(substring,
+Constants.MobileUserAgent, $"The matched substring '{substring}' does not " +
                             $"exist in the original User-Agent.");
                         var index = matchedUa.IndexOf(substring);
                         var original = Constants.MobileUserAgent

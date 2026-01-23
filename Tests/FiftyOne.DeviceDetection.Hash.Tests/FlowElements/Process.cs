@@ -32,88 +32,88 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
     [TestCategory("Process")]
     public class ProcessHashCoreTests : TestsBase
     {
-        [DataTestMethod]
-        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase), DynamicDataSourceType.Method)]
+        [TestMethod]
+        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase))]
         public void Process_Hash_Core_NoEvidence(PerformanceProfiles profile)
         {
             InitWrapperAndUserAgents(profile);
             ProcessTests.NoEvidence(Wrapper, new DataValidatorHash(Wrapper.Engine));
         }
 
-        [DataTestMethod]
-        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase), DynamicDataSourceType.Method)]
+        [TestMethod]
+        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase))]
         public void Process_Hash_Core_EmptyUserAgent(PerformanceProfiles profile)
         {
             InitWrapperAndUserAgents(profile);
             ProcessTests.EmptyUserAgent(Wrapper, new DataValidatorHash(Wrapper.Engine));
         }
 
-        [DataTestMethod]
-        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase), DynamicDataSourceType.Method)]
+        [TestMethod]
+        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase))]
         public void Process_Hash_Core_NoHeaders(PerformanceProfiles profile)
         {
             InitWrapperAndUserAgents(profile);
             ProcessTests.NoHeaders(Wrapper, new DataValidatorHash(Wrapper.Engine));
         }
 
-        [DataTestMethod]
-        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase), DynamicDataSourceType.Method)]
+        [TestMethod]
+        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase))]
         public void Process_Hash_Core_NoUsefulHeaders(PerformanceProfiles profile)
         {
             InitWrapperAndUserAgents(profile);
             ProcessTests.NoUsefulHeaders(Wrapper, new DataValidatorHash(Wrapper.Engine));
         }
 
-        [DataTestMethod]
-        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase), DynamicDataSourceType.Method)]
+        [TestMethod]
+        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase))]
         public void Process_Hash_Core_CaseInsensitiveKeys(PerformanceProfiles profile)
         {
             InitWrapperAndUserAgents(profile);
             ProcessTests.CaseInsensitiveEvidenceKeys(Wrapper, new DataValidatorHash(Wrapper.Engine));
         }
 
-        [DataTestMethod]
-        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase), DynamicDataSourceType.Method)]
+        [TestMethod]
+        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase))]
         public void Process_Hash_Core_ProfileOverride(PerformanceProfiles profile)
         {
             InitWrapperAndUserAgents(profile);
             ProcessTests.ProfileOverride(Wrapper, new DataValidatorHash(Wrapper.Engine));
         }
 
-        [DataTestMethod]
-        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase), DynamicDataSourceType.Method)]
+        [TestMethod]
+        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase))]
         public void Process_Hash_Core_ProfileOverrideNoHeaders(PerformanceProfiles profile)
         {
             InitWrapperAndUserAgents(profile);
             ProcessTests.ProfileOverrideNoHeaders(Wrapper, new DataValidatorHash(Wrapper.Engine));
         }
 
-        [DataTestMethod]
-        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase), DynamicDataSourceType.Method)]
+        [TestMethod]
+        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase))]
         public void Process_Hash_Core_DeviceId(PerformanceProfiles profile)
         {
             InitWrapperAndUserAgents(profile);
             ProcessTests.DeviceId(Wrapper, new DataValidatorHash(Wrapper.Engine));
         }
 
-        [DataTestMethod]
-        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase), DynamicDataSourceType.Method)]
+        [TestMethod]
+        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase))]
         public void Process_Hash_Core_MetaDataService_DefaultProfilesIds(PerformanceProfiles profile)
         {
             InitWrapperAndUserAgents(profile);
             ProcessTests.MetaDataService_DefaultProfilesIds(Wrapper);
         }
 
-        [DataTestMethod]
-        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase), DynamicDataSourceType.Method)]
+        [TestMethod]
+        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase))]
         public void Process_Hash_Core_MetaDataService_ComponentIdForProfile(PerformanceProfiles profile)
         {
             InitWrapperAndUserAgents(profile);
             ProcessTests.MetaDataService_ComponentIdForProfile(Wrapper);
         }
 
-        [DataTestMethod]
-        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase), DynamicDataSourceType.Method)]
+        [TestMethod]
+        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase))]
         public void Process_Hash_Core_MetaDataService_DefaultProfileIdForComponent(PerformanceProfiles profile)
         {
             InitWrapperAndUserAgents(profile);

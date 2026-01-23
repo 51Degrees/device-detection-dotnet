@@ -51,7 +51,7 @@ namespace FiftyOne.DeviceDetection.Tests.Core
             }
         };
 
-        [DataTestMethod]
+        [TestMethod]
         // ******** Hash with a single thread *********
         [DataRow(Constants.LITE_HASH_DATA_FILE_NAME, PerformanceProfiles.MaxPerformance, false, false, DisplayName = "Hash-MaxPerformance-NoLazyLoad-SingleThread")]
         [DataRow(Constants.LITE_HASH_DATA_FILE_NAME, PerformanceProfiles.HighPerformance, false, false, DisplayName = "Hash-HighPerformance-NoLazyLoad-SingleThread")]
@@ -201,7 +201,7 @@ namespace FiftyOne.DeviceDetection.Tests.Core
                             // cancel the parallel process.
                             if (flowData.Errors != null)
                             {
-                                Assert.AreEqual(0, flowData.Errors.Count,
+                                Assert.IsEmpty(flowData.Errors,
                                     $"Expected no errors but got {flowData.Errors.Count}" +
                                     $":{Environment.NewLine}{ReportErrors(flowData.Errors)}");
                                 cancellationSource.Cancel();

@@ -125,7 +125,7 @@ namespace FiftyOne.DeviceDetection.TestHelpers.FlowElements
             // hardware, platform, browser, crawler and metrics.
             // metrics does not actually exist in the data file and
             // does not have a default profile so it will be null.
-            Assert.AreEqual(5, defaultProfiles.Count);
+            Assert.HasCount(5, defaultProfiles);
             Assert.IsTrue(defaultProfiles.ContainsKey(1));
             Assert.IsTrue(defaultProfiles.ContainsKey(2));
             Assert.IsTrue(defaultProfiles.ContainsKey(3));

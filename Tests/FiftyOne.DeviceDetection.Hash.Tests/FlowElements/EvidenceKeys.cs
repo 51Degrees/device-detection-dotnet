@@ -32,40 +32,40 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
     public class EvidenceKeysHashCoreTests : TestsBase
     {
 
-        [DataTestMethod]
-        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase), DynamicDataSourceType.Method)]
+        [TestMethod]
+        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase))]
         public void EvidenceKeys_Hash_Core_ContainsUserAgent(PerformanceProfiles profile)
         {
             InitWrapperAndUserAgents(profile);
             EvidenceKeyTests.ContainsUserAgent(Wrapper);
         }
 
-        [DataTestMethod]
-        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase), DynamicDataSourceType.Method)]
+        [TestMethod]
+        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase))]
         public void EvidenceKeys_Hash_Core_ContainsHeaderNames(PerformanceProfiles profile)
         {
             InitWrapperAndUserAgents(profile);
             EvidenceKeyTests.ContainsHeaderNames(Wrapper);
         }
 
-        [DataTestMethod]
-        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase), DynamicDataSourceType.Method)]
+        [TestMethod]
+        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase))]
         public void EvidenceKeys_Hash_Core_ContainsQueryParams(PerformanceProfiles profile)
         {
             InitWrapperAndUserAgents(profile);
             EvidenceKeyTests.ContainsQueryParams(Wrapper);
         }
 
-        [DataTestMethod]
-        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase), DynamicDataSourceType.Method)]
+        [TestMethod]
+        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase))]
         public void EvidenceKeys_Hash_Core_ContainsOverrides(PerformanceProfiles profile)
         {
             InitWrapperAndUserAgents(profile);
             EvidenceKeyTests.ContainsOverrides(Wrapper);
         }
 
-        [DataTestMethod]
-        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase), DynamicDataSourceType.Method)]
+        [TestMethod]
+        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase))]
         public void EvidenceKeys_Hash_Core_CaseInsensitiveKeys(PerformanceProfiles profile)
         {
             InitWrapperAndUserAgents(profile);

@@ -53,8 +53,8 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
                 Wrapper.Engine.GetDataDownloadType("None"));
         }
 
-        [DataTestMethod]
-        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase), DynamicDataSourceType.Method)]
+        [TestMethod]
+        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase))]
         public void Engine_DataSourceTier_Lite(PerformanceProfiles profile)
         {
             InitWrapperAndUserAgents(
@@ -65,8 +65,8 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
                 Wrapper.Engine.DataSourceTier);
         }
 
-        [DataTestMethod]
-        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase), DynamicDataSourceType.Method)]
+        [TestMethod]
+        [DynamicData(nameof(GetPerformanceProfiles), typeof(TestsBase))]
         public void Engine_DataSourceTier_TAC(PerformanceProfiles profile)
         {
             InitWrapperAndUserAgents(
@@ -92,7 +92,7 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
                     TestHelpers.Constants.MobileUserAgent);
                 flowData.Process();
                 var map = flowData.Get<IDeviceData>().AsDictionary();
-                Assert.IsTrue(map.Count > 0);
+                Assert.IsNotEmpty(map);
                 foreach(var item in map)
                 {
                     Assert.IsNotNull(item.Key);
@@ -169,8 +169,8 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
 
                 foreach (var expectedProperty in expectedProperties)
                 {
-                    Assert.IsTrue(actualProperties.Contains(expectedProperty),
-                        $"Expected property '{expectedProperty}' is missing from JSON");
+                    Assert.Contains(expectedProperty,
+actualProperties, $"Expected property '{expectedProperty}' is missing from JSON");
                 }
 
                 // Validate all properties have non-null, non-empty values
@@ -193,8 +193,8 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
                     }
                     else if (property.Value.ValueKind == JsonValueKind.Array)
                     {
-                        Assert.IsTrue(property.Value.GetArrayLength() > 0,
-                            $"Property '{property.Name}' should not have an empty array");
+                        Assert.IsGreaterThan(0,
+property.Value.GetArrayLength(), $"Property '{property.Name}' should not have an empty array");
                     }
                 }
 
@@ -213,25 +213,25 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
             var transform = new Transform();
 
             var result1 = transform.fromJsonGHEV("{\"architecture\":\"x86\",\"brands\":[{\"brand\":\"Chromium\",\"version\":\"128\"},{\"brand\":\"Not;A=Brand\",\"version\":\"24\"},{\"brand\":\"Google Chrome\",\"version\":\"128\"}],\"fullVersionList\":[{\"brand\":\"Chromium\",\"version\":\"128.0.6613.84\"},{\"brand\":\"Not;A=Brand\",\"version\":\"24.0.0.0\"},{\"brand\":\"Google Chrome\",\"version\":\"128.0.6613.84\"}],\"mobile\":false,\"model\":\"\",\"platform\":\"macOS\",\"platformVersion\":\"14.6.1\"}");
-            Assert.AreEqual(result1["sec-ch-ua-arch"], "\"x86\"");
-            Assert.AreEqual(result1["sec-ch-ua"], "\"Chromium\";v=\"128\", \"Not;A=Brand\";v=\"24\", \"Google Chrome\";v=\"128\"");
-            Assert.AreEqual(result1["sec-ch-ua-full-version-list"], "\"Chromium\";v=\"128.0.6613.84\", \"Not;A=Brand\";v=\"24.0.0.0\", \"Google Chrome\";v=\"128.0.6613.84\"");
-            Assert.AreEqual(result1["sec-ch-ua-platform"], "\"macOS\"");
-            Assert.AreEqual(result1["sec-ch-ua-platform-version"], "\"14.6.1\"");
-            Assert.AreEqual(result1["sec-ch-ua-mobile"], "?0");
+            Assert.AreEqual("\"x86\"", result1["sec-ch-ua-arch"]);
+            Assert.AreEqual("\"Chromium\";v=\"128\", \"Not;A=Brand\";v=\"24\", \"Google Chrome\";v=\"128\"", result1["sec-ch-ua"]);
+            Assert.AreEqual("\"Chromium\";v=\"128.0.6613.84\", \"Not;A=Brand\";v=\"24.0.0.0\", \"Google Chrome\";v=\"128.0.6613.84\"", result1["sec-ch-ua-full-version-list"]);
+            Assert.AreEqual("\"macOS\"", result1["sec-ch-ua-platform"]);
+            Assert.AreEqual("\"14.6.1\"", result1["sec-ch-ua-platform-version"]);
+            Assert.AreEqual("?0", result1["sec-ch-ua-mobile"]);
 
             var result2 = transform.fromSUA("{\"browsers\":[{\"brand\":\"Chromium\",\"version\":[\"124\",\"0\",\"6367\",\"82\"]},{\"brand\":\"Google Chrome\",\"version\":[\"124\",\"0\",\"6367\",\"82\"]},{\"brand\":\"Not-A.Brand\",\"version\":[\"99\",\"0\",\"0\",\"0\"]}],\"platform\":{\"brand\":\"Android\",\"version\":[\"14\",\"0\",\"0\"]},\"mobile\":1,\"model\":\"SM-G998U\",\"source\":2}");
-            Assert.AreEqual(result2["sec-ch-ua-model"], "\"SM-G998U\"");
-            Assert.AreEqual(result2["sec-ch-ua-full-version-list"], "\"Chromium\";v=\"124.0.6367.82\", \"Google Chrome\";v=\"124.0.6367.82\", \"Not-A.Brand\";v=\"99.0.0.0\"");
-            Assert.AreEqual(result2["sec-ch-ua-platform"], "\"Android\"");
-            Assert.AreEqual(result2["sec-ch-ua-platform-version"], "\"14.0.0\"");
-            Assert.AreEqual(result2["sec-ch-ua-mobile"], "?1");
+            Assert.AreEqual("\"SM-G998U\"", result2["sec-ch-ua-model"]);
+            Assert.AreEqual("\"Chromium\";v=\"124.0.6367.82\", \"Google Chrome\";v=\"124.0.6367.82\", \"Not-A.Brand\";v=\"99.0.0.0\"", result2["sec-ch-ua-full-version-list"]);
+            Assert.AreEqual("\"Android\"", result2["sec-ch-ua-platform"]);
+            Assert.AreEqual("\"14.0.0\"", result2["sec-ch-ua-platform-version"]);
+            Assert.AreEqual("?1", result2["sec-ch-ua-mobile"]);
 
             var result3 = transform.fromBase64GHEV("eyJhcmNoaXRlY3R1cmUiOiJ4ODYiLCJiaXRuZXNzIjoiNjQiLCJicmFuZHMiOlt7ImJyYW5kIjoiQ2hyb21pdW0iLCJ2ZXJzaW9uIjoiMTI4In0seyJicmFuZCI6Ik5vdDtBPUJyYW5kIiwidmVyc2lvbiI6IjI0In0seyJicmFuZCI6Ikdvb2dsZSBDaHJvbWUiLCJ2ZXJzaW9uIjoiMTI4In1dLCJmdWxsVmVyc2lvbkxpc3QiOlt7ImJyYW5kIjoiQ2hyb21pdW0iLCJ2ZXJzaW9uIjoiMTI4LjAuNjYxMy44NCJ9LHsiYnJhbmQiOiJOb3Q7QT1CcmFuZCIsInZlcnNpb24iOiIyNC4wLjAuMCJ9LHsiYnJhbmQiOiJHb29nbGUgQ2hyb21lIiwidmVyc2lvbiI6IjEyOC4wLjY2MTMuODQifV0sIm1vYmlsZSI6ZmFsc2UsIm1vZGVsIjoiTWFjQm9vayBQcm8iLCJwbGF0Zm9ybSI6Im1hY09TIn0=");
-            Assert.AreEqual(result3["sec-ch-ua-arch"], "\"x86\"");
-            Assert.AreEqual(result3["sec-ch-ua-full-version-list"], "\"Chromium\";v=\"128.0.6613.84\", \"Not;A=Brand\";v=\"24.0.0.0\", \"Google Chrome\";v=\"128.0.6613.84\"");
-            Assert.AreEqual(result3["sec-ch-ua-platform"], "\"macOS\"");
-            Assert.AreEqual(result3["sec-ch-ua-mobile"], "?0");
+            Assert.AreEqual("\"x86\"", result3["sec-ch-ua-arch"]);
+            Assert.AreEqual("\"Chromium\";v=\"128.0.6613.84\", \"Not;A=Brand\";v=\"24.0.0.0\", \"Google Chrome\";v=\"128.0.6613.84\"", result3["sec-ch-ua-full-version-list"]);
+            Assert.AreEqual("\"macOS\"", result3["sec-ch-ua-platform"]);
+            Assert.AreEqual("?0", result3["sec-ch-ua-mobile"]);
         }
     }
 }
