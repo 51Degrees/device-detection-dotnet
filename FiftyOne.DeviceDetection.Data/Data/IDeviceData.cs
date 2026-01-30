@@ -733,7 +733,7 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<string> NativePlatform { get; }
 		/// <summary>
-		/// Indicates the number of screens the device has. This property is not applicable for a device that does not have a screen.
+		/// Indicates the number of screens the device has. This property is not applicable for a device that does not have a screen. A display is only considered a screen if it could be used to display a web page.
 		/// </summary>
 		IAspectPropertyValue<int> NumberOfScreens { get; }
 		/// <summary>
