@@ -1292,7 +1292,7 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<int> SecondScreenPixelsHeight { get { return GetAs<IAspectPropertyValue<int>>("SecondScreenPixelsHeight"); } }
 		/// <summary>
-		/// Indicates the number of screens the device has. This property is not applicable for a device that does not have a screen.
+		/// Indicates the number of screens the device has. This property is not applicable for a device that does not have a screen. A display is only considered a screen if it could be used to display a web page.
 		/// </summary>
 		public IAspectPropertyValue<int> NumberOfScreens { get { return GetAs<IAspectPropertyValue<int>>("NumberOfScreens"); } }
 		/// <summary>
