@@ -108,6 +108,7 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "CPUDesigner", typeof(IAspectPropertyValue<string>) },
 				{ "CPUMaximumFrequency", typeof(IAspectPropertyValue<double>) },
 				{ "CrawlerName", typeof(IAspectPropertyValue<string>) },
+				{ "CrawlerUsage", typeof(IAspectPropertyValue<IReadOnlyList<string>>) },
 				{ "CssBackground", typeof(IAspectPropertyValue<bool>) },
 				{ "CssBorderImage", typeof(IAspectPropertyValue<bool>) },
 				{ "CssCanvas", typeof(IAspectPropertyValue<bool>) },
@@ -1479,6 +1480,10 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// Marketed version of the device or series (e.g., 17 Pro Max). If a device does not have an established naming system, this field will be an empty string.
 		/// </summary>
 		public IAspectPropertyValue<string> HardwareNameVersion { get { return GetAs<IAspectPropertyValue<string>>("HardwareNameVersion"); } }
+		/// <summary>
+		/// Indicates the purpose for which a crawler accesses content, including search, AI indexing, AI model training, and archiving data.
+		/// </summary>
+		public IAspectPropertyValue<IReadOnlyList<string>> CrawlerUsage { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("CrawlerUsage"); } }
 		/// <summary>
 		/// Indicates the Type Allocation Code (TAC) for devices supporting GSM/3GPP networks which come from multiple sources. This property will return 'N/A' if we cannot determine the device TAC authenticy.
 		/// </summary>
