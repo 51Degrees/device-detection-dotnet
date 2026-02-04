@@ -197,6 +197,10 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<string> CrawlerName { get; }
 		/// <summary>
+		/// Indicates the purpose for which a crawler accesses content, including search, AI indexing, AI model training, and archiving data.
+		/// </summary>
+		IAspectPropertyValue<IReadOnlyList<string>> CrawlerUsage { get; }
+		/// <summary>
 		/// Indicates if the browser supports CSS3 background properties (such as background-image, background-color, etc.) that allow styling of the border and the background of an object, and create a shadow effect.
 		/// </summary>
 		IAspectPropertyValue<bool> CssBackground { get; }
