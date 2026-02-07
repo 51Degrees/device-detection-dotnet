@@ -197,6 +197,10 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<string> CrawlerName { get; }
 		/// <summary>
+		/// Identification tokens, defined by the IETF, that a crawler includes in the User-Agent request header field to identify the crawler software.
+		/// </summary>
+		IAspectPropertyValue<IReadOnlyList<string>> CrawlerProductTokens { get; }
+		/// <summary>
 		/// Indicates the purpose for which a crawler accesses content, including search, AI indexing, AI model training, and archiving data.
 		/// </summary>
 		IAspectPropertyValue<IReadOnlyList<string>> CrawlerUsage { get; }
