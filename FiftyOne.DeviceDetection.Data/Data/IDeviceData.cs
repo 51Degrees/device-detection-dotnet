@@ -133,10 +133,6 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<string> BrowserSourceProjectVersion { get; }
 		/// <summary>
-		/// Indicates if the browser supports the experimental Privacy Sandbox API proposals from Google.
-		/// </summary>
-		IAspectPropertyValue<string> BrowserSupportsPrivacySandbox { get; }
-		/// <summary>
 		/// Indicates the name of the company which created the browser.
 		/// </summary>
 		IAspectPropertyValue<string> BrowserVendor { get; }
@@ -849,14 +845,6 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<bool> Prompts { get; }
 		/// <summary>
-		/// Refers to the experimental Privacy Sandbox Protected Audience API proposal from Google. Indicates whether the API caller can register an "AdInterestGroup" and checks whether the website has not blocked the Protected Audience API using a Permissions Policy. Please be aware we have observed latency issues when interacting with the API.
-		/// </summary>
-		IAspectPropertyValue<string> ProtectedAudienceAPIEnabled { get; }
-		/// <summary>
-		/// JavaScript that overrides the property value for the ProtectedAudienceAPIEnabled property.
-		/// </summary>
-		IAspectPropertyValue<JavaScript> ProtectedAudienceAPIEnabledJavaScript { get; }
-		/// <summary>
 		/// Indicates the maximum number of frames per second of the output image of the device in Hertz.
 		/// </summary>
 		IAspectPropertyValue<int> RefreshRate { get; }
@@ -1017,14 +1005,6 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<string> SetHeaderPlatformAcceptCH { get; }
 		/// <summary>
-		/// Refers to the experimental Privacy Sandbox Shared Storage API proposal from Google. Indicates whether the API caller can access "Shared Storage" and checks whether the website has not blocked the Shared Storage API using a Permissions Policy.
-		/// </summary>
-		IAspectPropertyValue<string> SharedStorageAPIEnabled { get; }
-		/// <summary>
-		/// JavaScript that overrides the property value for the SharedStorageAPIEnabled property.
-		/// </summary>
-		IAspectPropertyValue<JavaScript> SharedStorageAPIEnabledJavaScript { get; }
-		/// <summary>
 		/// Indicates the primary marketing name of the System on Chip (chipset) which includes the CPU, GPU and modem. e.g. Snapdragon S4
 		/// </summary>
 		IAspectPropertyValue<string> SoC { get; }
@@ -1152,14 +1132,6 @@ namespace FiftyOne.DeviceDetection
 		/// Contains JavaScript that can override the property ThirdPartyCookiesEnabled. This property returns NotSupported for browsers which cannot support third party cookies.
 		/// </summary>
 		IAspectPropertyValue<JavaScript> ThirdPartyCookiesEnabledJavaScript { get; }
-		/// <summary>
-		/// Refers to the experimental Privacy Sandbox Topics API proposal from Google. Indicates if the API caller has observed one or more topics for a user and checks whether the website has not blocked the Topics API using a Permissions Policy.
-		/// </summary>
-		IAspectPropertyValue<string> TopicsAPIEnabled { get; }
-		/// <summary>
-		/// JavaScript that overrides the property value for the TopicsAPIEnabled property.
-		/// </summary>
-		IAspectPropertyValue<JavaScript> TopicsAPIEnabledJavaScript { get; }
 		/// <summary>
 		/// Indicates if the browser supports the method of registering and interpreting finder (or stylus) activity on touch screens or trackpads.
 		/// </summary>

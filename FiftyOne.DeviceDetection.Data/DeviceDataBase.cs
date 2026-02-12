@@ -92,7 +92,6 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "BrowserReleaseYear", typeof(IAspectPropertyValue<int>) },
 				{ "BrowserSourceProject", typeof(IAspectPropertyValue<string>) },
 				{ "BrowserSourceProjectVersion", typeof(IAspectPropertyValue<string>) },
-				{ "BrowserSupportsPrivacySandbox", typeof(IAspectPropertyValue<string>) },
 				{ "BrowserVendor", typeof(IAspectPropertyValue<string>) },
 				{ "BrowserVersion", typeof(IAspectPropertyValue<string>) },
 				{ "BrowserVideoCodecsDecode", typeof(IAspectPropertyValue<IReadOnlyList<string>>) },
@@ -271,8 +270,6 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "Progress", typeof(IAspectPropertyValue<bool>) },
 				{ "Promise", typeof(IAspectPropertyValue<string>) },
 				{ "Prompts", typeof(IAspectPropertyValue<bool>) },
-				{ "ProtectedAudienceAPIEnabled", typeof(IAspectPropertyValue<string>) },
-				{ "ProtectedAudienceAPIEnabledJavaScript", typeof(IAspectPropertyValue<JavaScript>) },
 				{ "RefreshRate", typeof(IAspectPropertyValue<int>) },
 				{ "ReleaseAge", typeof(IAspectPropertyValue<int>) },
 				{ "ReleaseMonth", typeof(IAspectPropertyValue<string>) },
@@ -313,8 +310,6 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "SetHeaderBrowserAccept-CH", typeof(IAspectPropertyValue<string>) },
 				{ "SetHeaderHardwareAccept-CH", typeof(IAspectPropertyValue<string>) },
 				{ "SetHeaderPlatformAccept-CH", typeof(IAspectPropertyValue<string>) },
-				{ "SharedStorageAPIEnabled", typeof(IAspectPropertyValue<string>) },
-				{ "SharedStorageAPIEnabledJavaScript", typeof(IAspectPropertyValue<JavaScript>) },
 				{ "SoC", typeof(IAspectPropertyValue<string>) },
 				{ "SoCDesigner", typeof(IAspectPropertyValue<string>) },
 				{ "SoCModel", typeof(IAspectPropertyValue<string>) },
@@ -347,8 +342,6 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "TAC", typeof(IAspectPropertyValue<IReadOnlyList<string>>) },
 				{ "ThirdPartyCookiesEnabled", typeof(IAspectPropertyValue<string>) },
 				{ "ThirdPartyCookiesEnabledJavaScript", typeof(IAspectPropertyValue<JavaScript>) },
-				{ "TopicsAPIEnabled", typeof(IAspectPropertyValue<string>) },
-				{ "TopicsAPIEnabledJavaScript", typeof(IAspectPropertyValue<JavaScript>) },
 				{ "TouchEvents", typeof(IAspectPropertyValue<bool>) },
 				{ "Track", typeof(IAspectPropertyValue<bool>) },
 				{ "UserAgents", typeof(IAspectPropertyValue<IReadOnlyList<string>>) },
@@ -1398,30 +1391,6 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<IReadOnlyList<string>> BrowserLogos { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("BrowserLogos"); } }
 		/// <summary>
-		/// JavaScript that overrides the property value for the SharedStorageAPIEnabled property.
-		/// </summary>
-		public IAspectPropertyValue<JavaScript> SharedStorageAPIEnabledJavaScript { get { return GetAs<IAspectPropertyValue<JavaScript>>("SharedStorageAPIEnabledJavaScript"); } }
-		/// <summary>
-		/// JavaScript that overrides the property value for the ProtectedAudienceAPIEnabled property.
-		/// </summary>
-		public IAspectPropertyValue<JavaScript> ProtectedAudienceAPIEnabledJavaScript { get { return GetAs<IAspectPropertyValue<JavaScript>>("ProtectedAudienceAPIEnabledJavaScript"); } }
-		/// <summary>
-		/// Indicates if the browser supports the experimental Privacy Sandbox API proposals from Google.
-		/// </summary>
-		public IAspectPropertyValue<string> BrowserSupportsPrivacySandbox { get { return GetAs<IAspectPropertyValue<string>>("BrowserSupportsPrivacySandbox"); } }
-		/// <summary>
-		/// JavaScript that overrides the property value for the TopicsAPIEnabled property.
-		/// </summary>
-		public IAspectPropertyValue<JavaScript> TopicsAPIEnabledJavaScript { get { return GetAs<IAspectPropertyValue<JavaScript>>("TopicsAPIEnabledJavaScript"); } }
-		/// <summary>
-		/// Refers to the experimental Privacy Sandbox Shared Storage API proposal from Google. Indicates whether the API caller can access "Shared Storage" and checks whether the website has not blocked the Shared Storage API using a Permissions Policy.
-		/// </summary>
-		public IAspectPropertyValue<string> SharedStorageAPIEnabled { get { return GetAs<IAspectPropertyValue<string>>("SharedStorageAPIEnabled"); } }
-		/// <summary>
-		/// Refers to the experimental Privacy Sandbox Protected Audience API proposal from Google. Indicates whether the API caller can register an "AdInterestGroup" and checks whether the website has not blocked the Protected Audience API using a Permissions Policy. Please be aware we have observed latency issues when interacting with the API.
-		/// </summary>
-		public IAspectPropertyValue<string> ProtectedAudienceAPIEnabled { get { return GetAs<IAspectPropertyValue<string>>("ProtectedAudienceAPIEnabled"); } }
-		/// <summary>
 		/// JavaScript that checks for browser specific features and overrides the ProfileID.
 		/// </summary>
 		public IAspectPropertyValue<JavaScript> JavaScriptBrowserOverride { get { return GetAs<IAspectPropertyValue<JavaScript>>("JavaScriptBrowserOverride"); } }
@@ -1433,10 +1402,6 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// Indicates the version or subversion of the underlying browser source project.
 		/// </summary>
 		public IAspectPropertyValue<string> BrowserSourceProjectVersion { get { return GetAs<IAspectPropertyValue<string>>("BrowserSourceProjectVersion"); } }
-		/// <summary>
-		/// Refers to the experimental Privacy Sandbox Topics API proposal from Google. Indicates if the API caller has observed one or more topics for a user and checks whether the website has not blocked the Topics API using a Permissions Policy.
-		/// </summary>
-		public IAspectPropertyValue<string> TopicsAPIEnabled { get { return GetAs<IAspectPropertyValue<string>>("TopicsAPIEnabled"); } }
 		/// <summary>
 		/// Indicates the height of the device's screen in physical pixels. This property is not applicable for a device that does not have a screen. For devices such as tablets or TV which are predominantly used in landscape mode, the pixel height will be the smaller value compared to the pixel width. 
 		/// </summary>
