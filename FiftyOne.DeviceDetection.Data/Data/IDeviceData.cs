@@ -197,6 +197,10 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<IReadOnlyList<string>> CrawlerProductTokens { get; }
 		/// <summary>
+		/// The url of the web page containing information from the crawler controller about the crawler. Where there is no publicly available information about the crawler, this instead links to their public website.
+		/// </summary>
+		IAspectPropertyValue<string> CrawlerUrl { get; }
+		/// <summary>
 		/// Indicates the purpose for which a crawler accesses content, including search, AI indexing, AI model training, and archiving data.
 		/// </summary>
 		IAspectPropertyValue<IReadOnlyList<string>> CrawlerUsage { get; }
