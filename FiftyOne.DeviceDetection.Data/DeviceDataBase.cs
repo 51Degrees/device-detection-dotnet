@@ -1428,7 +1428,7 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<IReadOnlyList<string>> SupportedBluetoothProfiles { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("SupportedBluetoothProfiles"); } }
 		/// <summary>
-		/// Indicates whether the crawler is confirmed by the crawler controller to be used to train artificial intelligence.
+		/// Indicates whether the crawler operates for an AI related purpose, as defined by the values in the CrawlerUsage property. This is based on our judgement of information available from the crawler controller or other trusted research.
 		/// </summary>
 		public IAspectPropertyValue<string> IsArtificialIntelligence { get { return GetAs<IAspectPropertyValue<string>>("IsArtificialIntelligence"); } }
 		/// <summary>
