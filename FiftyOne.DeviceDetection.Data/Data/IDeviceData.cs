@@ -533,7 +533,7 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<bool> InVRMode { get; }
 		/// <summary>
-		/// Indicates whether the crawler is confirmed by the crawler controller to be used to train artificial intelligence.
+		/// Indicates whether the crawler operates for an AI related purpose, as defined by the values in the CrawlerUsage property. This is based on our judgement of information available from the crawler controller or other trusted research.
 		/// </summary>
 		IAspectPropertyValue<string> IsArtificialIntelligence { get; }
 		/// <summary>
