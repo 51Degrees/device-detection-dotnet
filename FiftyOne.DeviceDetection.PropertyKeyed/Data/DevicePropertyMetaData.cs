@@ -95,9 +95,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
         // --- IFiftyOneAspectPropertyMetaData ---
 
         /// <inheritdoc/>
-#pragma warning disable CA1056
         public string Url => _inner?.Url ?? string.Empty;
-#pragma warning restore CA1056
 
         /// <inheritdoc/>
         public byte DisplayOrder => _inner?.DisplayOrder ?? 0;
@@ -118,21 +116,15 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
         public bool ShowValues => _inner?.ShowValues ?? true;
 
         /// <inheritdoc/>
-#pragma warning disable CA1721
         public IComponentMetaData Component => _inner?.Component;
-#pragma warning restore CA1721
 
         /// <inheritdoc/>
-#pragma warning disable CA1721
         public IReadOnlyList<IValueMetaData> Values => 
             _inner?.Values ?? 
             (IReadOnlyList<IValueMetaData>)new List<IValueMetaData>();
-#pragma warning restore CA1721
 
         /// <inheritdoc/>
-#pragma warning disable CA1721
         public IValueMetaData DefaultValue => _inner?.DefaultValue;
-#pragma warning restore CA1721
 
         /// <summary>
         /// Creates a wrapper with a different associated engine.

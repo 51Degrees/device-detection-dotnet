@@ -8,6 +8,7 @@
     <DocumentationFile>FiftyOne.DeviceDetection.PropertyKeyed.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
+    <NoWarn>$(NoWarn);CA1056;CA1721</NoWarn>
 
 	  <!-- NuGet package properties -->
 	  <PackageId>FiftyOne.DeviceDetection.PropertyKeyed</PackageId>
