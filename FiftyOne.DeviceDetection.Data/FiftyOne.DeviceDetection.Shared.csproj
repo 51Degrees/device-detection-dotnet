@@ -62,8 +62,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <!-- TODO: Revert to NuGet package after publishing pipeline-dotnet with PropertyKeyedEngine -->
-    <ProjectReference Include="..\..\pipeline-dotnet\FiftyOne.Pipeline.Engines.FiftyOne\FiftyOne.Pipeline.Engines.FiftyOne.csproj" />
     <PackageReference Include="FiftyOne.Pipeline.Engines.FiftyOne" Version="4.5.21" />
   </ItemGroup>
 

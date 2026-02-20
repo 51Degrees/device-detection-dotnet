@@ -59,11 +59,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FiftyOne.DeviceDetection.Hash.Engine.OnPremise\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.csproj" />
-    <!-- For local development, reference pipeline-dotnet projects directly. 
-         In CI/release, these will be replaced by NuGet packages. -->
-    <ProjectReference Include="..\..\pipeline-dotnet\FiftyOne.Pipeline.Engines.FiftyOne\FiftyOne.Pipeline.Engines.FiftyOne.csproj" />
-    <ProjectReference Include="..\..\pipeline-dotnet\FiftyOne.Pipeline.Engines\FiftyOne.Pipeline.Engines.csproj" />
-    <ProjectReference Include="..\..\pipeline-dotnet\FiftyOne.Pipeline.Core\FiftyOne.Pipeline.Core.csproj" />
+    <PackageReference Include="FiftyOne.Pipeline.Engines.FiftyOne" Version="4.5.22" />
   </ItemGroup>
 
 </Project>
