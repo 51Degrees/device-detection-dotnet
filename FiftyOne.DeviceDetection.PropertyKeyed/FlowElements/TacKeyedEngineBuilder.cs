@@ -32,10 +32,10 @@ using System.Linq;
 namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
 {
     /// <summary>
-    /// Builder for <see cref="TACKeyedEngine"/>.
+    /// Builder for <see cref="TacKeyedEngine"/>.
     /// </summary>
-    public class TACKeyedEngineBuilder :
-        PropertyKeyedEngineBuilderBase<TACKeyedEngineBuilder, TACKeyedEngine>
+    public class TacKeyedEngineBuilder :
+        PropertyKeyedEngineBuilderBase<TacKeyedEngineBuilder, TacKeyedEngine>
     {
         private PerformanceProfiles _performanceProfile =
             PerformanceProfiles.MaxPerformance;
@@ -44,7 +44,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         /// <summary>
         /// Constructs a new instance.
         /// </summary>
-        public TACKeyedEngineBuilder(
+        public TacKeyedEngineBuilder(
             ILoggerFactory loggerFactory,
             IDataUpdateService dataUpdateService = null)
             : base(loggerFactory, dataUpdateService)
@@ -52,7 +52,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         }
 
         /// <inheritdoc/>
-        public override TACKeyedEngineBuilder SetPerformanceProfile(
+        public override TacKeyedEngineBuilder SetPerformanceProfile(
             PerformanceProfiles profile)
         {
             _performanceProfile = profile;
@@ -62,7 +62,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         /// <summary>
         /// Sets the performance profile from a string value.
         /// </summary>
-        public TACKeyedEngineBuilder SetPerformanceProfile(string profile)
+        public TacKeyedEngineBuilder SetPerformanceProfile(string profile)
         {
             foreach (var matched in Enum.GetValues(typeof(PerformanceProfiles))
                 .Cast<PerformanceProfiles>()
@@ -78,17 +78,17 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         /// <summary>
         /// Sets the concurrency.
         /// </summary>
-        public TACKeyedEngineBuilder SetConcurrency(ushort concurrency)
+        public TacKeyedEngineBuilder SetConcurrency(ushort concurrency)
         {
             _concurrency = concurrency;
             return this;
         }
 
         /// <inheritdoc/>
-        protected override TACKeyedEngine CreateEngine(
+        protected override TacKeyedEngine CreateEngine(
             List<string> properties)
         {
-            return new TACKeyedEngine(
+            return new TacKeyedEngine(
                 _loggerFactory,
                 properties,
                 _performanceProfile,

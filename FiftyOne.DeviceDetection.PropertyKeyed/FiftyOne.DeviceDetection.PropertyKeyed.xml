@@ -294,50 +294,50 @@
             DeviceDetectionHashEngine.
             </summary>
         </member>
-        <member name="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TACKeyedEngine">
+        <member name="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngine">
             <summary>
             An engine that looks up device profiles using TAC (Type Allocation 
             Code) values — the first 8 digits of an IMEI number.
             Adds TAC-specific validation: a TAC must be exactly 8 numeric digits.
             </summary>
         </member>
-        <member name="P:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TACKeyedEngine.ElementDataKey">
+        <member name="P:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngine.ElementDataKey">
             <inheritdoc/>
         </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TACKeyedEngine.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,System.Collections.Generic.IReadOnlyList{System.String},FiftyOne.Pipeline.Engines.PerformanceProfiles,System.UInt16)">
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngine.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,System.Collections.Generic.IReadOnlyList{System.String},FiftyOne.Pipeline.Engines.PerformanceProfiles,System.UInt16)">
             <summary>
-            Constructs a new instance of <see cref="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TACKeyedEngine"/>.
+            Constructs a new instance of <see cref="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngine"/>.
             </summary>
         </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TACKeyedEngine.GetQueryValues(FiftyOne.Pipeline.Core.Data.IFlowData)">
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngine.GetQueryValues(FiftyOne.Pipeline.Core.Data.IFlowData)">
             <summary>
             Overrides to add TAC-specific validation.
             </summary>
         </member>
-        <member name="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TACKeyedEngineBuilder">
+        <member name="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngineBuilder">
             <summary>
-            Builder for <see cref="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TACKeyedEngine"/>.
+            Builder for <see cref="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngine"/>.
             </summary>
         </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TACKeyedEngineBuilder.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,FiftyOne.Pipeline.Engines.Services.IDataUpdateService)">
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngineBuilder.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,FiftyOne.Pipeline.Engines.Services.IDataUpdateService)">
             <summary>
             Constructs a new instance.
             </summary>
         </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TACKeyedEngineBuilder.SetPerformanceProfile(FiftyOne.Pipeline.Engines.PerformanceProfiles)">
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngineBuilder.SetPerformanceProfile(FiftyOne.Pipeline.Engines.PerformanceProfiles)">
             <inheritdoc/>
         </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TACKeyedEngineBuilder.SetPerformanceProfile(System.String)">
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngineBuilder.SetPerformanceProfile(System.String)">
             <summary>
             Sets the performance profile from a string value.
             </summary>
         </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TACKeyedEngineBuilder.SetConcurrency(System.UInt16)">
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngineBuilder.SetConcurrency(System.UInt16)">
             <summary>
             Sets the concurrency.
             </summary>
         </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TACKeyedEngineBuilder.CreateEngine(System.Collections.Generic.List{System.String})">
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngineBuilder.CreateEngine(System.Collections.Generic.List{System.String})">
             <inheritdoc/>
         </member>
         <member name="P:FiftyOne.DeviceDetection.PropertyKeyed.Messages.IncorrectTacEvidence">

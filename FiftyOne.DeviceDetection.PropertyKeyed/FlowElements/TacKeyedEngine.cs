@@ -37,7 +37,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
     /// Code) values — the first 8 digits of an IMEI number.
     /// Adds TAC-specific validation: a TAC must be exactly 8 numeric digits.
     /// </summary>
-    public class TACKeyedEngine : PropertyKeyedDeviceEngine
+    public class TacKeyedEngine : PropertyKeyedDeviceEngine
     {
         private string[] _tacKeys;
         private string[] _otherKeys;
@@ -46,9 +46,9 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         public override string ElementDataKey => "hardware";
 
         /// <summary>
-        /// Constructs a new instance of <see cref="TACKeyedEngine"/>.
+        /// Constructs a new instance of <see cref="TacKeyedEngine"/>.
         /// </summary>
-        public TACKeyedEngine(
+        public TacKeyedEngine(
             ILoggerFactory loggerFactory,
             IReadOnlyList<string> indexedProperties,
             PerformanceProfiles performanceProfile,

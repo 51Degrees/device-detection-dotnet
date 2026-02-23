@@ -38,13 +38,13 @@ using System.Linq;
 namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
 {
     /// <summary>
-    /// Tests for <see cref="TACKeyedEngine"/>.
+    /// Tests for <see cref="TacKeyedEngine"/>.
     /// </summary>
     [TestClass]
-    public class TACKeyedEngineTests
+    public class TacKeyedEngineTests
     {
         private static ILoggerFactory _loggerFactory;
-        private static TACKeyedEngine _engine;
+        private static TacKeyedEngine _engine;
         private static IPipeline _pipeline;
         private IFlowData _data;
 
@@ -66,7 +66,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
             }
 
             _loggerFactory = LoggerFactory.Create(b => { });
-            _engine = new TACKeyedEngineBuilder(
+            _engine = new TacKeyedEngineBuilder(
                     _loggerFactory,
                     new Mock<IDataUpdateService>().Object)
                 .SetAutoUpdate(false)
