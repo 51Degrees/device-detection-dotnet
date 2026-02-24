@@ -20,41 +20,24 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-using FiftyOne.Pipeline.Engines;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Linq;
+using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
+using System.IO;
 
 namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
 {
     /// <summary>
-    /// An engine that looks up device profiles using the NativeModel
-    /// property — the internal device model name exposed by the OS.
-    /// No special validation is needed for NativeModel values.
+    /// Factory-like interface for obtaining an instance of a 
+    /// <see cref="DeviceDetectionHashEngine"/>.
+    /// Used by property-keyed engines to decouple engine creation logic.
     /// </summary>
-    public class NativePropertiesEngine : PropertyKeyedDeviceEngine
+    public interface IEngineProvider
     {
-        /// <inheritdoc/>
-        public override string ElementDataKey => "hardware";
-
         /// <summary>
-        /// Constructs a new instance of 
-        /// <see cref="NativePropertiesEngine"/>.
+        /// Gets an engine instance.
         /// </summary>
-        public NativePropertiesEngine(
-            ILoggerFactory loggerFactory,
-            IReadOnlyList<string> indexedProperties,
-            IEngineProvider engineProvider = null) : base(
-                loggerFactory,
-                indexedProperties,
-                engineProvider)
-        {
-        }
-
-        /// <inheritdoc/>
-        protected override string GetKeyPropertyName()
-        {
-            return IndexedProperties.FirstOrDefault() ?? "NativeModel";
-        }
+        /// <param name="dataFilePath">Optional path to the data file.</param>
+        /// <param name="data">Optional stream containing data.</param>
+        /// <returns>A built <see cref="DeviceDetectionHashEngine"/> instance.</returns>
+        DeviceDetectionHashEngine GetEngine(string dataFilePath = null, Stream data = null);
     }
 }

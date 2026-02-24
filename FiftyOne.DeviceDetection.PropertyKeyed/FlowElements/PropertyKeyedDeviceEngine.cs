@@ -47,33 +47,30 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         PropertyKeyedEngine<IMultiDeviceData, IDeviceData>
     {
         private readonly ILogger<MultiDeviceData> _loggerMultiDd;
-        private readonly Pipeline.Engines.PerformanceProfiles _performanceProfile;
-        private readonly ushort _concurrency;
+        private readonly IEngineProvider _engineProvider;
 
         /// <summary>
         /// Constructs a new instance.
         /// </summary>
-        /// <param name="loggerFactory"></param>
+        /// <param name="loggerFactory">
+        /// The factory used to create loggers.
+        /// </param>
         /// <param name="indexedProperties">
         /// The properties to be indexed (e.g. "TAC", "NativeModel").
         /// </param>
-        /// <param name="performanceProfile">
-        /// Performance profile for the inner DeviceDetectionHashEngine.
-        /// </param>
-        /// <param name="concurrency">
-        /// Expected concurrent operations count.
+        /// <param name="engineProvider">
+        /// The provider used to obtain a <see cref="DeviceDetectionHashEngine"/> instance.
+        /// If null, a default <see cref="NewEngineProvider"/> is used.
         /// </param>
         protected PropertyKeyedDeviceEngine(
             ILoggerFactory loggerFactory,
             IReadOnlyList<string> indexedProperties,
-            Pipeline.Engines.PerformanceProfiles performanceProfile,
-            ushort concurrency) : base(
+            IEngineProvider engineProvider = null) : base(
                 loggerFactory,
                 indexedProperties)
         {
             _loggerMultiDd = loggerFactory.CreateLogger<MultiDeviceData>();
-            _performanceProfile = performanceProfile;
-            _concurrency = concurrency;
+            _engineProvider = engineProvider ?? new NewEngineProvider(loggerFactory);
         }
 
         /// <summary>
@@ -106,84 +103,26 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         }
 
         /// <inheritdoc/>
-        protected override InnerEngineContext CreateInnerEngine(
+        protected override PropertyKeyedDataSet BuildDataSet(
             string dataFilePath)
         {
-            var engine = CreateHashEngineBuilder()
-                .Build(dataFilePath, false);
+            var engine = _engineProvider.GetEngine(dataFilePath, null);
             return BuildContext(engine);
         }
 
         /// <inheritdoc/>
-        protected override InnerEngineContext CreateInnerEngine(
+        protected override PropertyKeyedDataSet BuildDataSet(
             Stream data)
         {
-            var engine = CreateHashEngineBuilder().Build(data);
+            var engine = _engineProvider.GetEngine(null, data);
             return BuildContext(engine);
         }
 
-        /// <inheritdoc/>
-        protected override IEnumerable<string> GetProfilePropertyValues(
-            IElementData data,
-            IFiftyOneAspectPropertyMetaData property)
-        {
-            var dd = data as IDeviceData;
-            if (dd != null)
-            {
-                var value = dd[property.Name] as IAspectPropertyValue;
-                if (value != null)
-                {
-                    return ConvertValues(value);
-                }
-            }
-            return Enumerable.Empty<string>();
-        }
-
-        /// <inheritdoc/>
-        protected override IList<IFiftyOneAspectPropertyMetaData>
-            BuildResultProperties(
-                IList<IFiftyOneAspectPropertyMetaData> keyProperties,
-                IFlowElement engine)
-        {
-            return new List<IFiftyOneAspectPropertyMetaData>
-            {
-                new DevicePropertyMetaData(
-                    engine,
-                    PropertyKeyedDataSet.PROPERTY_PREFIX_NAME,
-                    keyProperties.SelectMany(i =>
-                        i.ItemProperties.OfType<IFiftyOneAspectPropertyMetaData>())
-                        .ToList().AsReadOnly(),
-                    typeof(IReadOnlyList<IDeviceData>))
-            };
-        }
-
-        /// <inheritdoc/>
-        protected override PropertyKeyedIndex CreatePropertyIndex(
-            IFiftyOneAspectPropertyMetaData source)
-        {
-            return new PropertyKeyedIndex(
-                new DevicePropertyMetaData(this, source));
-        }
-
         /// <summary>
-        /// Creates and configures the DeviceDetectionHashEngineBuilder.
-        /// </summary>
-        /// <returns></returns>
-        private DeviceDetectionHashEngineBuilder CreateHashEngineBuilder()
-        {
-            var builder = new DeviceDetectionHashEngineBuilder(LoggerFactory);
-            builder.SetAutoUpdate(false);
-            builder.SetDataFileSystemWatcher(false);
-            builder.SetConcurrency(_concurrency);
-            builder.SetPerformanceProfile(_performanceProfile);
-            return builder;
-        }
-
-        /// <summary>
-        /// Creates an <see cref="InnerEngineContext"/> from a built 
+        /// Creates an <see cref="PropertyKeyedDataSet"/> from a built 
         /// DeviceDetectionHashEngine.
         /// </summary>
-        private InnerEngineContext BuildContext(
+        private PropertyKeyedDataSet BuildContext(
             DeviceDetectionHashEngine engine)
         {
             var pipeline = new PipelineBuilder(LoggerFactory)
@@ -191,17 +130,78 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
                 .AddFlowElement(engine)
                 .Build();
 
-            return new InnerEngineContext
+            var indexes = new List<PropertyKeyedIndex>();
+            foreach (var property in IndexedProperties)
             {
-                Pipeline = pipeline,
-                InnerEngineDataKey = engine.ElementDataKey,
-                ElementDataKey = engine.ElementDataKey,
-                DataSourceTier = engine.DataSourceTier,
-                Profiles = engine.Profiles,
-                ProfileIdEvidenceKey =
-                    Shared.Constants.EVIDENCE_PROFILE_IDS_KEY,
-                Properties = engine.Properties
-            };
+                var metaData = engine.Properties.FirstOrDefault(p =>
+                    p.Name.Equals(property, StringComparison.OrdinalIgnoreCase));
+                if (metaData != null)
+                {
+                    indexes.Add(new PropertyKeyedIndex(
+                        new DevicePropertyMetaData(this, metaData)));
+                }
+            }
+
+            // Populate the indexes using the engine's list of profiles.
+            foreach (var profile in engine.Profiles)
+            {
+                var profileData = pipeline.CreateFlowData();
+                profileData.AddEvidence(Shared.Constants.EVIDENCE_PROFILE_IDS_KEY, profile.ProfileId.ToString());
+                profileData.Process();
+                var dd = profileData.GetFromElement(engine) as IDeviceData;
+
+                if (dd != null)
+                {
+                    foreach (var index in indexes)
+                    {
+                        var value = dd[index.MetaData.Name] as IAspectPropertyValue;
+                        if (value != null)
+                        {
+                            var values = ConvertValues(value);
+                            foreach (var val in values)
+                            {
+                                index.Add(val, profile.ProfileId);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return new PropertyKeyedDataSet(
+                pipeline,
+                engine.ElementDataKey,
+                engine.DataSourceTier,
+                this,
+                indexes,
+                (keyProperties, e) => new List<IFiftyOneAspectPropertyMetaData>
+                {
+                    new DevicePropertyMetaData(
+                        e,
+                        PropertyKeyedDataSet.PROPERTY_PREFIX_NAME,
+                        keyProperties.SelectMany(i =>
+                            i.ItemProperties.OfType<IFiftyOneAspectPropertyMetaData>())
+                            .ToList().AsReadOnly(),
+                        typeof(IReadOnlyList<IDeviceData>))
+                });
+        }
+
+        /// <summary>
+        /// Converts the given <see cref="IAspectPropertyValue"/> to a 
+        /// collection of string values to be indexed.
+        /// </summary>
+        /// <param name="value">The aspect property value.</param>
+        /// <returns>A collection of string values.</returns>
+        private IEnumerable<string> ConvertValues(IAspectPropertyValue value)
+        {
+            if (value.HasValue)
+            {
+                if (value.Value is IEnumerable<string> list)
+                {
+                    return list;
+                }
+                return new[] { value.Value.ToString() };
+            }
+            return Enumerable.Empty<string>();
         }
     }
 }

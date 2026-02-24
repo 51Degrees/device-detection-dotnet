@@ -37,13 +37,13 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
     public class TacKeyedEngineBuilder :
         PropertyKeyedEngineBuilderBase<TacKeyedEngineBuilder, TacKeyedEngine>
     {
-        private PerformanceProfiles _performanceProfile =
-            PerformanceProfiles.MaxPerformance;
-        private ushort _concurrency = 2;
+        private IEngineProvider _engineProvider;
 
         /// <summary>
-        /// Constructs a new instance.
+        /// Constructs a new instance of <see cref="TacKeyedEngineBuilder"/>.
         /// </summary>
+        /// <param name="loggerFactory">The factory used to create loggers.</param>
+        /// <param name="dataUpdateService">The data update service, if any.</param>
         public TacKeyedEngineBuilder(
             ILoggerFactory loggerFactory,
             IDataUpdateService dataUpdateService = null)
@@ -51,28 +51,25 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         {
         }
 
-        /// <inheritdoc/>
-        public override TacKeyedEngineBuilder SetPerformanceProfile(
-            PerformanceProfiles profile)
+        /// <summary>
+        /// Sets the engine provider for creating the inner device detection engine.
+        /// </summary>
+        public TacKeyedEngineBuilder SetEngineProvider(IEngineProvider engineProvider)
         {
-            _performanceProfile = profile;
+            _engineProvider = engineProvider;
             return this;
         }
 
-        /// <summary>
-        /// Sets the performance profile from a string value.
-        /// </summary>
-        public TacKeyedEngineBuilder SetPerformanceProfile(string profile)
+        /// <inheritdoc/>
+        public override TacKeyedEngineBuilder SetPerformanceProfile(
+            FiftyOne.Pipeline.Engines.PerformanceProfiles profile)
         {
-            foreach (var matched in Enum.GetValues(typeof(PerformanceProfiles))
-                .Cast<PerformanceProfiles>()
-                .Where(i => profile.Equals(i.ToString())))
+            if (_loggerFactory != null)
             {
-                return SetPerformanceProfile(matched);
+                _loggerFactory.CreateLogger<TacKeyedEngineBuilder>()
+                    .LogWarning("SetPerformanceProfile is obsolete for PropertyKeyedDeviceEngine. Use SetEngineProvider instead.");
             }
-            throw new PipelineConfigurationException(
-                String.Format(
-                    "'{0}' is not a valid PerformanceProfiles", profile));
+            return this;
         }
 
         /// <summary>
@@ -80,7 +77,11 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         /// </summary>
         public TacKeyedEngineBuilder SetConcurrency(ushort concurrency)
         {
-            _concurrency = concurrency;
+            if (_loggerFactory != null)
+            {
+                _loggerFactory.CreateLogger<TacKeyedEngineBuilder>()
+                    .LogWarning("SetConcurrency is obsolete for PropertyKeyedDeviceEngine. Use SetEngineProvider instead.");
+            }
             return this;
         }
 
@@ -91,8 +92,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
             return new TacKeyedEngine(
                 _loggerFactory,
                 properties,
-                _performanceProfile,
-                _concurrency);
+                _engineProvider);
         }
     }
 }

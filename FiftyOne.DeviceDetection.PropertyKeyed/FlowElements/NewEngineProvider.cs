@@ -20,41 +20,45 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-using FiftyOne.Pipeline.Engines;
+using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 
 namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
 {
     /// <summary>
-    /// An engine that looks up device profiles using the NativeModel
-    /// property — the internal device model name exposed by the OS.
-    /// No special validation is needed for NativeModel values.
+    /// Default implementation of <see cref="IEngineProvider"/> that creates 
+    /// a new <see cref="DeviceDetectionHashEngine"/> using an InMemory profile.
     /// </summary>
-    public class NativePropertiesEngine : PropertyKeyedDeviceEngine
+    public class NewEngineProvider : IEngineProvider
     {
-        /// <inheritdoc/>
-        public override string ElementDataKey => "hardware";
+        private readonly ILoggerFactory _loggerFactory;
 
         /// <summary>
-        /// Constructs a new instance of 
-        /// <see cref="NativePropertiesEngine"/>.
+        /// Constructs a new instance.
         /// </summary>
-        public NativePropertiesEngine(
-            ILoggerFactory loggerFactory,
-            IReadOnlyList<string> indexedProperties,
-            IEngineProvider engineProvider = null) : base(
-                loggerFactory,
-                indexedProperties,
-                engineProvider)
+        /// <param name="loggerFactory">Logger factory to use for building the engine.</param>
+        public NewEngineProvider(ILoggerFactory loggerFactory)
         {
+            _loggerFactory = loggerFactory;
         }
 
         /// <inheritdoc/>
-        protected override string GetKeyPropertyName()
+        public DeviceDetectionHashEngine GetEngine(string dataFilePath = null, Stream data = null)
         {
-            return IndexedProperties.FirstOrDefault() ?? "NativeModel";
+            var builder = new DeviceDetectionHashEngineBuilder(_loggerFactory);
+            builder.SetAutoUpdate(false);
+            builder.SetDataFileSystemWatcher(false);
+            builder.SetPerformanceProfile(FiftyOne.Pipeline.Engines.PerformanceProfiles.MaxPerformance);
+            // Default concurrency if needed
+            builder.SetConcurrency(1);
+
+            if (data != null)
+            {
+                return builder.Build(data);
+            }
+
+            return builder.Build(dataFilePath, false);
         }
     }
 }

@@ -35,12 +35,11 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
     /// <summary>
     /// An engine that looks up device profiles using TAC (Type Allocation 
     /// Code) values — the first 8 digits of an IMEI number.
-    /// Adds TAC-specific validation: a TAC must be exactly 8 numeric digits.
+    /// This engine is configured to key on the "TAC" property and validates 
+    /// that the provided evidence is exactly 8 numeric digits.
     /// </summary>
     public class TacKeyedEngine : PropertyKeyedDeviceEngine
     {
-        private string[] _tacKeys;
-        private string[] _otherKeys;
 
         /// <inheritdoc/>
         public override string ElementDataKey => "hardware";
@@ -51,70 +50,33 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         public TacKeyedEngine(
             ILoggerFactory loggerFactory,
             IReadOnlyList<string> indexedProperties,
-            PerformanceProfiles performanceProfile,
-            ushort concurrency) : base(
+            IEngineProvider engineProvider = null) : base(
                 loggerFactory,
                 indexedProperties,
-                performanceProfile,
-                concurrency)
+                engineProvider)
         {
         }
 
-        /// <summary>
-        /// Overrides to add TAC-specific validation.
-        /// </summary>
-        protected override IEnumerable<KeyValuePair<PropertyKeyedIndex, string>>
-            GetQueryValues(IFlowData data)
+        /// <inheritdoc/>
+        protected override string GetKeyPropertyName()
         {
-            EnsureKeysInitialised();
-
-            foreach (var key in _tacKeys)
-            {
-                if (data.TryGetEvidence(key, out string tac))
-                {
-                    if (tac.Length == 8 && int.TryParse(tac, out var _))
-                    {
-                        yield return BuildResult(key, tac);
-                    }
-                    else
-                    {
-                        data.AddError(
-                            new ArgumentException(String.Format(
-                                Messages.IncorrectTacEvidence,
-                                tac)),
-                            this);
-                    }
-                }
-            }
-            foreach (var key in _otherKeys)
-            {
-                if (data.TryGetEvidence(key, out string value))
-                {
-                    yield return BuildResult(key, value);
-                }
-            }
+            return "TAC";
         }
 
-        private KeyValuePair<PropertyKeyedIndex, string> BuildResult(
-            string key, string value)
+        /// <inheritdoc/>
+        protected override bool Validate(string keyPropertyValue, IFlowData data)
         {
-            var property = DataSet.PropertyIndexes.First(
-                i => i.EvidenceKeys.Contains(key));
-            return new KeyValuePair<PropertyKeyedIndex, string>(
-                property, value);
-        }
-
-        private void EnsureKeysInitialised()
-        {
-            if (_tacKeys == null)
+            if (keyPropertyValue.Length == 8 && int.TryParse(keyPropertyValue, out var _))
             {
-                var list = DataSet.EvidenceKeyFilter.Whitelist;
-                _tacKeys = list.Where(i =>
-                    i.Key.EndsWith("tac")).Select(i => i.Key).ToArray();
-                _otherKeys = list.Where(i =>
-                    _tacKeys.Contains(i.Key) == false).Select(i =>
-                    i.Key).ToArray();
+                return true;
             }
+
+            data.AddError(
+                new ArgumentException(String.Format(
+                    Messages.IncorrectTacEvidence,
+                    keyPropertyValue)),
+                this);
+            return false;
         }
     }
 }

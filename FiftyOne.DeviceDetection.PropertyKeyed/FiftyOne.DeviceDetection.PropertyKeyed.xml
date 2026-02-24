@@ -191,6 +191,21 @@
             </summary>
             <param name="disposing"></param>
         </member>
+        <member name="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.IEngineProvider">
+            <summary>
+            Factory-like interface for obtaining an instance of a 
+            <see cref="T:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements.DeviceDetectionHashEngine"/>.
+            Used by property-keyed engines to decouple engine creation logic.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.IEngineProvider.GetEngine(System.String,System.IO.Stream)">
+            <summary>
+            Gets an engine instance.
+            </summary>
+            <param name="dataFilePath">Optional path to the data file.</param>
+            <param name="data">Optional stream containing data.</param>
+            <returns>A built <see cref="T:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements.DeviceDetectionHashEngine"/> instance.</returns>
+        </member>
         <member name="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.NativePropertiesEngine">
             <summary>
             An engine that looks up device profiles using the NativeModel
@@ -201,11 +216,14 @@
         <member name="P:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.NativePropertiesEngine.ElementDataKey">
             <inheritdoc/>
         </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.NativePropertiesEngine.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,System.Collections.Generic.IReadOnlyList{System.String},FiftyOne.Pipeline.Engines.PerformanceProfiles,System.UInt16)">
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.NativePropertiesEngine.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,System.Collections.Generic.IReadOnlyList{System.String},FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.IEngineProvider)">
             <summary>
             Constructs a new instance of 
             <see cref="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.NativePropertiesEngine"/>.
             </summary>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.NativePropertiesEngine.GetKeyPropertyName">
+            <inheritdoc/>
         </member>
         <member name="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.NativePropertiesEngineBuilder">
             <summary>
@@ -217,13 +235,13 @@
             Constructs a new instance.
             </summary>
         </member>
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.NativePropertiesEngineBuilder.SetEngineProvider(FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.IEngineProvider)">
+            <summary>
+            Sets the engine provider for creating the inner device detection engine.
+            </summary>
+        </member>
         <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.NativePropertiesEngineBuilder.SetPerformanceProfile(FiftyOne.Pipeline.Engines.PerformanceProfiles)">
             <inheritdoc/>
-        </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.NativePropertiesEngineBuilder.SetPerformanceProfile(System.String)">
-            <summary>
-            Sets the performance profile from a string value.
-            </summary>
         </member>
         <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.NativePropertiesEngineBuilder.SetConcurrency(System.UInt16)">
             <summary>
@@ -231,6 +249,21 @@
             </summary>
         </member>
         <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.NativePropertiesEngineBuilder.CreateEngine(System.Collections.Generic.List{System.String})">
+            <inheritdoc/>
+        </member>
+        <member name="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.NewEngineProvider">
+            <summary>
+            Default implementation of <see cref="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.IEngineProvider"/> that creates 
+            a new <see cref="T:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements.DeviceDetectionHashEngine"/> using an InMemory profile.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.NewEngineProvider.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Constructs a new instance.
+            </summary>
+            <param name="loggerFactory">Logger factory to use for building the engine.</param>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.NewEngineProvider.GetEngine(System.String,System.IO.Stream)">
             <inheritdoc/>
         </member>
         <member name="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngine">
@@ -242,7 +275,7 @@
             to device detection.
             </summary>
         </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngine.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,System.Collections.Generic.IReadOnlyList{System.String},FiftyOne.Pipeline.Engines.PerformanceProfiles,System.UInt16)">
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngine.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,System.Collections.Generic.IReadOnlyList{System.String},FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.IEngineProvider)">
             <summary>
             Constructs a new instance.
             </summary>
@@ -250,11 +283,9 @@
             <param name="indexedProperties">
             The properties to be indexed (e.g. "TAC", "NativeModel").
             </param>
-            <param name="performanceProfile">
-            Performance profile for the inner DeviceDetectionHashEngine.
-            </param>
-            <param name="concurrency">
-            Expected concurrent operations count.
+            <param name="engineProvider">
+            The provider used to obtain a DeviceDetectionHashEngine instance.
+            If null, a default NewEngineProvider is used.
             </param>
         </member>
         <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngine.CreateElementData(FiftyOne.Pipeline.Core.FlowElements.IPipeline)">
@@ -267,52 +298,47 @@
         <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngine.ProcessProfileMatch(FiftyOne.Pipeline.Core.Data.IFlowData,FiftyOne.DeviceDetection.PropertyKeyed.Data.IMultiDeviceData,System.UInt32)">
             <inheritdoc/>
         </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngine.CreateInnerEngine(System.String)">
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngine.BuildDataSet(System.String)">
             <inheritdoc/>
         </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngine.CreateInnerEngine(System.IO.Stream)">
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngine.BuildDataSet(System.IO.Stream)">
             <inheritdoc/>
-        </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngine.GetProfilePropertyValues(FiftyOne.Pipeline.Core.Data.IElementData,FiftyOne.Pipeline.Engines.FiftyOne.Data.IFiftyOneAspectPropertyMetaData)">
-            <inheritdoc/>
-        </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngine.BuildResultProperties(System.Collections.Generic.IList{FiftyOne.Pipeline.Engines.FiftyOne.Data.IFiftyOneAspectPropertyMetaData},FiftyOne.Pipeline.Core.FlowElements.IFlowElement)">
-            <inheritdoc/>
-        </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngine.CreatePropertyIndex(FiftyOne.Pipeline.Engines.FiftyOne.Data.IFiftyOneAspectPropertyMetaData)">
-            <inheritdoc/>
-        </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngine.CreateHashEngineBuilder">
-            <summary>
-            Creates and configures the DeviceDetectionHashEngineBuilder.
-            </summary>
-            <returns></returns>
         </member>
         <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngine.BuildContext(FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements.DeviceDetectionHashEngine)">
             <summary>
-            Creates an <see cref="T:FiftyOne.Pipeline.Engines.FiftyOne.FlowElements.InnerEngineContext"/> from a built 
+            Creates an <see cref="T:FiftyOne.Pipeline.Engines.FiftyOne.FlowElements.PropertyKeyedDataSet"/> from a built 
             DeviceDetectionHashEngine.
             </summary>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngine.ConvertValues(FiftyOne.Pipeline.Engines.Data.IAspectPropertyValue)">
+            <summary>
+            Converts the given <see cref="T:FiftyOne.Pipeline.Engines.Data.IAspectPropertyValue"/> to a 
+            collection of string values to be indexed.
+            </summary>
+            <param name="value">The aspect property value.</param>
+            <returns>A collection of string values.</returns>
         </member>
         <member name="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngine">
             <summary>
             An engine that looks up device profiles using TAC (Type Allocation 
             Code) values — the first 8 digits of an IMEI number.
-            Adds TAC-specific validation: a TAC must be exactly 8 numeric digits.
+            This engine is configured to key on the "TAC" property and validates 
+            that the provided evidence is exactly 8 numeric digits.
             </summary>
         </member>
         <member name="P:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngine.ElementDataKey">
             <inheritdoc/>
         </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngine.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,System.Collections.Generic.IReadOnlyList{System.String},FiftyOne.Pipeline.Engines.PerformanceProfiles,System.UInt16)">
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngine.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,System.Collections.Generic.IReadOnlyList{System.String},FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.IEngineProvider)">
             <summary>
             Constructs a new instance of <see cref="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngine"/>.
             </summary>
         </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngine.GetQueryValues(FiftyOne.Pipeline.Core.Data.IFlowData)">
-            <summary>
-            Overrides to add TAC-specific validation.
-            </summary>
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngine.GetKeyPropertyName">
+            <inheritdoc/>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngine.Validate(System.String,FiftyOne.Pipeline.Core.Data.IFlowData)">
+            <inheritdoc/>
         </member>
         <member name="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngineBuilder">
             <summary>
@@ -324,13 +350,13 @@
             Constructs a new instance.
             </summary>
         </member>
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngineBuilder.SetEngineProvider(FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.IEngineProvider)">
+            <summary>
+            Sets the engine provider for creating the inner device detection engine.
+            </summary>
+        </member>
         <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngineBuilder.SetPerformanceProfile(FiftyOne.Pipeline.Engines.PerformanceProfiles)">
             <inheritdoc/>
-        </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngineBuilder.SetPerformanceProfile(System.String)">
-            <summary>
-            Sets the performance profile from a string value.
-            </summary>
         </member>
         <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngineBuilder.SetConcurrency(System.UInt16)">
             <summary>

@@ -39,13 +39,13 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
             NativePropertiesEngineBuilder,
             NativePropertiesEngine>
     {
-        private PerformanceProfiles _performanceProfile =
-            PerformanceProfiles.MaxPerformance;
-        private ushort _concurrency = 2;
+        private IEngineProvider _engineProvider;
 
         /// <summary>
-        /// Constructs a new instance.
+        /// Constructs a new instance of <see cref="NativePropertiesEngineBuilder"/>.
         /// </summary>
+        /// <param name="loggerFactory">The factory used to create loggers.</param>
+        /// <param name="dataUpdateService">The data update service, if any.</param>
         public NativePropertiesEngineBuilder(
             ILoggerFactory loggerFactory,
             IDataUpdateService dataUpdateService = null)
@@ -53,38 +53,37 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         {
         }
 
-        /// <inheritdoc/>
-        public override NativePropertiesEngineBuilder SetPerformanceProfile(
-            PerformanceProfiles profile)
+        /// <summary>
+        /// Sets the engine provider for creating the inner device detection engine.
+        /// </summary>
+        public NativePropertiesEngineBuilder SetEngineProvider(IEngineProvider engineProvider)
         {
-            _performanceProfile = profile;
+            _engineProvider = engineProvider;
             return this;
         }
 
-        /// <summary>
-        /// Sets the performance profile from a string value.
-        /// </summary>
-        public NativePropertiesEngineBuilder SetPerformanceProfile(
-            string profile)
+        /// <inheritdoc/>
+        public override NativePropertiesEngineBuilder SetPerformanceProfile(
+            FiftyOne.Pipeline.Engines.PerformanceProfiles profile)
         {
-            foreach (var matched in Enum.GetValues(typeof(PerformanceProfiles))
-                .Cast<PerformanceProfiles>()
-                .Where(i => profile.Equals(i.ToString())))
+            if (_loggerFactory != null)
             {
-                return SetPerformanceProfile(matched);
+                _loggerFactory.CreateLogger<NativePropertiesEngineBuilder>()
+                    .LogWarning("SetPerformanceProfile is obsolete for PropertyKeyedDeviceEngine. Use SetEngineProvider instead.");
             }
-            throw new PipelineConfigurationException(
-                String.Format(
-                    "'{0}' is not a valid PerformanceProfiles", profile));
+            return this;
         }
 
         /// <summary>
         /// Sets the concurrency.
         /// </summary>
-        public NativePropertiesEngineBuilder SetConcurrency(
-            ushort concurrency)
+        public NativePropertiesEngineBuilder SetConcurrency(ushort concurrency)
         {
-            _concurrency = concurrency;
+            if (_loggerFactory != null)
+            {
+                _loggerFactory.CreateLogger<NativePropertiesEngineBuilder>()
+                    .LogWarning("SetConcurrency is obsolete for PropertyKeyedDeviceEngine. Use SetEngineProvider instead.");
+            }
             return this;
         }
 
@@ -95,8 +94,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
             return new NativePropertiesEngine(
                 _loggerFactory,
                 properties,
-                _performanceProfile,
-                _concurrency);
+                _engineProvider);
         }
     }
 }
