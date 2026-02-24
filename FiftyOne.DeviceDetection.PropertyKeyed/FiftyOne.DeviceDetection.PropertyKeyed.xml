@@ -232,8 +232,10 @@
         </member>
         <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.NativePropertiesEngineBuilder.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,FiftyOne.Pipeline.Engines.Services.IDataUpdateService)">
             <summary>
-            Constructs a new instance.
+            Constructs a new instance of <see cref="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.NativePropertiesEngineBuilder"/>.
             </summary>
+            <param name="loggerFactory">The factory used to create loggers.</param>
+            <param name="dataUpdateService">The data update service, if any.</param>
         </member>
         <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.NativePropertiesEngineBuilder.SetEngineProvider(FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.IEngineProvider)">
             <summary>
@@ -279,13 +281,15 @@
             <summary>
             Constructs a new instance.
             </summary>
-            <param name="loggerFactory"></param>
+            <param name="loggerFactory">
+            The factory used to create loggers.
+            </param>
             <param name="indexedProperties">
             The properties to be indexed (e.g. "TAC", "NativeModel").
             </param>
             <param name="engineProvider">
-            The provider used to obtain a DeviceDetectionHashEngine instance.
-            If null, a default NewEngineProvider is used.
+            The provider used to obtain a <see cref="T:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements.DeviceDetectionHashEngine"/> instance.
+            If null, a default <see cref="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.NewEngineProvider"/> is used.
             </param>
         </member>
         <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngine.CreateElementData(FiftyOne.Pipeline.Core.FlowElements.IPipeline)">
@@ -347,8 +351,10 @@
         </member>
         <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngineBuilder.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,FiftyOne.Pipeline.Engines.Services.IDataUpdateService)">
             <summary>
-            Constructs a new instance.
+            Constructs a new instance of <see cref="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngineBuilder"/>.
             </summary>
+            <param name="loggerFactory">The factory used to create loggers.</param>
+            <param name="dataUpdateService">The data update service, if any.</param>
         </member>
         <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacKeyedEngineBuilder.SetEngineProvider(FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.IEngineProvider)">
             <summary>
