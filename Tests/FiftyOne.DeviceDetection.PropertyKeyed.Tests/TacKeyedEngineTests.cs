@@ -71,9 +71,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
                     new Mock<IDataUpdateService>().Object)
                 .SetAutoUpdate(false)
                 .SetDataFileSystemWatcher(false)
-                .SetPerformanceProfile(PerformanceProfiles.HighPerformance)
                 .SetProperty("TAC")
-                .SetConcurrency(ushort.MaxValue)
                 .Build(ddFile, false);
             _pipeline = new PipelineBuilder(_loggerFactory)
                 .AddFlowElement(_engine)

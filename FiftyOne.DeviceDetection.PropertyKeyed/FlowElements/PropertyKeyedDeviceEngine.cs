@@ -179,7 +179,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
                         e,
                         PropertyKeyedDataSet.PROPERTY_PREFIX_NAME,
                         keyProperties.SelectMany(i =>
-                            i.ItemProperties.OfType<IFiftyOneAspectPropertyMetaData>())
+                            (i.ItemProperties ?? Enumerable.Empty<IElementPropertyMetaData>()).OfType<IFiftyOneAspectPropertyMetaData>())
                             .ToList().AsReadOnly(),
                         typeof(IReadOnlyList<IDeviceData>))
                 });
