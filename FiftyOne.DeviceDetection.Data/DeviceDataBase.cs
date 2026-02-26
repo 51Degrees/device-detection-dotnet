@@ -1260,6 +1260,14 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<bool> InVRMode { get { return GetAs<IAspectPropertyValue<bool>>("InVRMode"); } }
 		/// <summary>
+		/// Indicates the Type Allocation Code (TAC) for devices supporting GSM/3GPP networks which come from multiple sources. This property will return 'N/A' if we cannot determine the device TAC authenticy.
+		/// </summary>
+		public IAspectPropertyValue<IReadOnlyList<string>> TAC { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("TAC"); } }
+		/// <summary>
+		/// Indicates the list of frequency bands supported by the device.
+		/// </summary>
+		public IAspectPropertyValue<IReadOnlyList<string>> FrequencyBands { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("FrequencyBands"); } }
+		/// <summary>
 		/// Indicates if the browser supports the WebP image format.
 		/// </summary>
 		public IAspectPropertyValue<bool> WebP { get { return GetAs<IAspectPropertyValue<bool>>("WebP"); } }
@@ -1460,44 +1468,36 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<string> CrawlerUrl { get { return GetAs<IAspectPropertyValue<string>>("CrawlerUrl"); } }
 		/// <summary>
-		/// Indicates the Type Allocation Code (TAC) for devices supporting GSM/3GPP networks which come from multiple sources. This property will return 'N/A' if we cannot determine the device TAC authenticy.
-		/// </summary>
-		public IAspectPropertyValue<IReadOnlyList<string>> TAC { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("TAC"); } }
-		/// <summary>
-		/// Indicates the list of frequency bands supported by the device.
-		/// </summary>
-		public IAspectPropertyValue<IReadOnlyList<string>> FrequencyBands { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("FrequencyBands"); } }
-		/// <summary>
 		/// 
 		/// </summary>
 		public IAspectPropertyValue<string> Profiles { get { return GetAs<IAspectPropertyValue<string>>("Profiles"); } }
-		/// <summary>
-		/// Used when detection method is not Exact or None. This is an integer value and the larger the value the less confident the detector is in this result.
-		/// </summary>
-		public IAspectPropertyValue<int> Difference { get { return GetAs<IAspectPropertyValue<int>>("Difference"); } }
-		/// <summary>
-		/// The number of iterations carried out in order to find a match. This is the number of nodes in the graph which have been visited.
-		/// </summary>
-		public IAspectPropertyValue<int> Iterations { get { return GetAs<IAspectPropertyValue<int>>("Iterations"); } }
-		/// <summary>
-		/// Consists of four components separated by a hyphen symbol: Hardware-Platform-Browser-IsCrawler where each Component represents an ID of the corresponding Profile.
-		/// </summary>
-		public IAspectPropertyValue<string> DeviceId { get { return GetAs<IAspectPropertyValue<string>>("DeviceId"); } }
 		/// <summary>
 		/// The method used to determine the match result.
 		/// </summary>
 		public IAspectPropertyValue<string> Method { get { return GetAs<IAspectPropertyValue<string>>("Method"); } }
 		/// <summary>
-		/// Indicates the number of hash nodes matched within the evidence.
-		/// </summary>
-		public IAspectPropertyValue<int> MatchedNodes { get { return GetAs<IAspectPropertyValue<int>>("MatchedNodes"); } }
-		/// <summary>
 		/// The matched User-Agents.
 		/// </summary>
 		public IAspectPropertyValue<IReadOnlyList<string>> UserAgents { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("UserAgents"); } }
 		/// <summary>
+		/// The number of iterations carried out in order to find a match. This is the number of nodes in the graph which have been visited.
+		/// </summary>
+		public IAspectPropertyValue<int> Iterations { get { return GetAs<IAspectPropertyValue<int>>("Iterations"); } }
+		/// <summary>
 		/// Total difference in character positions where the substrings hashes were found away from where they were expected.
 		/// </summary>
 		public IAspectPropertyValue<int> Drift { get { return GetAs<IAspectPropertyValue<int>>("Drift"); } }
+		/// <summary>
+		/// Indicates the number of hash nodes matched within the evidence.
+		/// </summary>
+		public IAspectPropertyValue<int> MatchedNodes { get { return GetAs<IAspectPropertyValue<int>>("MatchedNodes"); } }
+		/// <summary>
+		/// Used when detection method is not Exact or None. This is an integer value and the larger the value the less confident the detector is in this result.
+		/// </summary>
+		public IAspectPropertyValue<int> Difference { get { return GetAs<IAspectPropertyValue<int>>("Difference"); } }
+		/// <summary>
+		/// Consists of four components separated by a hyphen symbol: Hardware-Platform-Browser-IsCrawler where each Component represents an ID of the corresponding Profile.
+		/// </summary>
+		public IAspectPropertyValue<string> DeviceId { get { return GetAs<IAspectPropertyValue<string>>("DeviceId"); } }
 	}
 }
