@@ -56,5 +56,12 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         {
             return IndexedProperties.FirstOrDefault() ?? "NativeModel";
         }
+
+        /// <inheritdoc/>
+        protected override bool Validate(string keyPropertyValue, Pipeline.Core.Data.IFlowData data)
+        {
+            // No special validation is needed for NativeModel values.
+            return true;
+        }
     }
 }
