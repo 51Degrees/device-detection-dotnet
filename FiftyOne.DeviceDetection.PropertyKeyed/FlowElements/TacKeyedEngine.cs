@@ -49,11 +49,9 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         /// </summary>
         public TacKeyedEngine(
             ILoggerFactory loggerFactory,
-            IReadOnlyList<string> indexedProperties,
-            IEngineProvider engineProvider = null) : base(
+            IReadOnlyList<string> indexedProperties) : base(
                 loggerFactory,
-                indexedProperties,
-                engineProvider)
+                indexedProperties)
         {
         }
 

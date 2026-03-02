@@ -47,7 +47,6 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         PropertyKeyedEngine<IMultiDeviceData, IDeviceData>
     {
         private readonly ILogger<MultiDeviceData> _loggerMultiDd;
-        private readonly IEngineProvider _engineProvider;
 
         /// <summary>
         /// Constructs a new instance.
@@ -58,19 +57,13 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         /// <param name="indexedProperties">
         /// The properties to be indexed (e.g. "TAC", "NativeModel").
         /// </param>
-        /// <param name="engineProvider">
-        /// The provider used to obtain a <see cref="DeviceDetectionHashEngine"/> instance.
-        /// If null, a default <see cref="NewEngineProvider"/> is used.
-        /// </param>
         protected PropertyKeyedDeviceEngine(
             ILoggerFactory loggerFactory,
-            IReadOnlyList<string> indexedProperties,
-            IEngineProvider engineProvider = null) : base(
+            IReadOnlyList<string> indexedProperties) : base(
                 loggerFactory,
                 indexedProperties)
         {
             _loggerMultiDd = loggerFactory.CreateLogger<MultiDeviceData>();
-            _engineProvider = engineProvider ?? new NewEngineProvider(loggerFactory);
         }
 
         /// <summary>
@@ -103,19 +96,32 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         }
 
         /// <inheritdoc/>
+        public override void AddPipeline(IPipeline pipeline)
+        {
+            base.AddPipeline(pipeline);
+            var engine = pipeline.GetElement<DeviceDetectionHashEngine>();
+            if (engine != null)
+            {
+                DataSet = BuildContext(engine);
+            }
+            else
+            {
+                _loggerMultiDd.LogWarning("DeviceDetectionHashEngine was not found in the pipeline.");
+            }
+        }
+
+        /// <inheritdoc/>
         protected override PropertyKeyedDataSet BuildDataSet(
             string dataFilePath)
         {
-            var engine = _engineProvider.GetEngine(dataFilePath, null);
-            return BuildContext(engine);
+            throw new NotSupportedException("BuildDataSet is not supported for this element type. Use AddPipeline instead.");
         }
 
         /// <inheritdoc/>
         protected override PropertyKeyedDataSet BuildDataSet(
             Stream data)
         {
-            var engine = _engineProvider.GetEngine(null, data);
-            return BuildContext(engine);
+            throw new NotSupportedException("BuildDataSet is not supported for this element type. Use AddPipeline instead.");
         }
 
         /// <summary>
@@ -125,7 +131,8 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         private PropertyKeyedDataSet BuildContext(
             DeviceDetectionHashEngine engine)
         {
-            var pipeline = new PipelineBuilder(LoggerFactory)
+            // Use the pipeline passed to this engine, or fallback to a new one if necessary for context
+            var contextPipeline = new PipelineBuilder(LoggerFactory)
                 .SetAutoDisposeElements(true)
                 .AddFlowElement(engine)
                 .Build();
@@ -145,7 +152,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
             // Populate the indexes using the engine's list of profiles.
             foreach (var profile in engine.Profiles)
             {
-                var profileData = pipeline.CreateFlowData();
+                var profileData = contextPipeline.CreateFlowData();
                 profileData.AddEvidence(Shared.Constants.EVIDENCE_PROFILE_IDS_KEY, profile.ProfileId.ToString());
                 profileData.Process();
                 var dd = profileData.GetFromElement(engine) as IDeviceData;
@@ -168,7 +175,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
             }
 
             return new PropertyKeyedDataSet(
-                pipeline,
+                contextPipeline,
                 engine.ElementDataKey,
                 engine.DataSourceTier,
                 this,

@@ -37,8 +37,6 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
     public class TacKeyedEngineBuilder :
         PropertyKeyedEngineBuilderBase<TacKeyedEngineBuilder, TacKeyedEngine>
     {
-        private IEngineProvider _engineProvider;
-
         /// <summary>
         /// Constructs a new instance of <see cref="TacKeyedEngineBuilder"/>.
         /// </summary>
@@ -49,15 +47,6 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
             IDataUpdateService dataUpdateService = null)
             : base(loggerFactory, dataUpdateService)
         {
-        }
-
-        /// <summary>
-        /// Sets the engine provider for creating the inner device detection engine.
-        /// </summary>
-        public TacKeyedEngineBuilder SetEngineProvider(IEngineProvider engineProvider)
-        {
-            _engineProvider = engineProvider;
-            return this;
         }
 
         /// <inheritdoc/>
@@ -91,8 +80,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         {
             return new TacKeyedEngine(
                 _loggerFactory,
-                properties,
-                _engineProvider);
+                properties);
         }
     }
 }

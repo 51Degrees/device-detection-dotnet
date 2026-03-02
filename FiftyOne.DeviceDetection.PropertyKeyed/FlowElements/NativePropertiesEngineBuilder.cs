@@ -39,8 +39,6 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
             NativePropertiesEngineBuilder,
             NativePropertiesEngine>
     {
-        private IEngineProvider _engineProvider;
-
         /// <summary>
         /// Constructs a new instance of <see cref="NativePropertiesEngineBuilder"/>.
         /// </summary>
@@ -51,15 +49,6 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
             IDataUpdateService dataUpdateService = null)
             : base(loggerFactory, dataUpdateService)
         {
-        }
-
-        /// <summary>
-        /// Sets the engine provider for creating the inner device detection engine.
-        /// </summary>
-        public NativePropertiesEngineBuilder SetEngineProvider(IEngineProvider engineProvider)
-        {
-            _engineProvider = engineProvider;
-            return this;
         }
 
         /// <inheritdoc/>
@@ -93,8 +82,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         {
             return new NativePropertiesEngine(
                 _loggerFactory,
-                properties,
-                _engineProvider);
+                properties);
         }
     }
 }
