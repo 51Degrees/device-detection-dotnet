@@ -68,7 +68,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
                 ? _inner.ItemProperties
                 : (_itemProperties ?? 
                     (IReadOnlyList<IElementPropertyMetaData>)
-                    new List<IElementPropertyMetaData>());
+                    Array.Empty<IElementPropertyMetaData>());
 
         /// <inheritdoc/>
         public IReadOnlyDictionary<string, IElementPropertyMetaData> 
@@ -81,13 +81,13 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
         /// <inheritdoc/>
         public IReadOnlyList<string> EvidenceProperties => 
             _inner?.EvidenceProperties ?? 
-            (IReadOnlyList<string>)new List<string>();
+            (IReadOnlyList<string>)Array.Empty<string>();
 
         // --- IAspectPropertyMetaData ---
 
         /// <inheritdoc/>
         public IList<string> DataTiersWherePresent => 
-            _inner?.DataTiersWherePresent ?? new List<string>();
+            _inner?.DataTiersWherePresent ?? Array.Empty<string>();
 
         /// <inheritdoc/>
         public string Description => _inner?.Description ?? string.Empty;
@@ -121,7 +121,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
         /// <inheritdoc/>
         public IReadOnlyList<IValueMetaData> Values => 
             _inner?.Values ?? 
-            (IReadOnlyList<IValueMetaData>)new List<IValueMetaData>();
+            (IReadOnlyList<IValueMetaData>)Array.Empty<IValueMetaData>();
 
         /// <inheritdoc/>
         public IValueMetaData DefaultValue => _inner?.DefaultValue;
@@ -206,7 +206,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
         /// <inheritdoc/>
         public bool Equals(IFiftyOneAspectPropertyMetaData other)
         {
-            if (other == null) return false;
+            if (other is null) return false;
             return Name == other.Name && Element == other.Element;
         }
 
@@ -219,15 +219,27 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
         /// <inheritdoc/>
         public int CompareTo(IFiftyOneAspectPropertyMetaData other)
         {
-            if (other == null) return 1;
+            if (other is null) return 1;
             return string.Compare(Name, other.Name, 
                 StringComparison.Ordinal);
+        }
+
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        /// <param name="disposing">
+        /// True if called from Dispose(), false if called from finalizer.
+        /// </param>
+        protected virtual void Dispose(bool disposing)
+        {
+            // Nothing to dispose — this is a lightweight wrapper.
         }
 
         /// <inheritdoc/>
         public void Dispose()
         {
-            // Nothing to dispose — this is a lightweight wrapper.
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <inheritdoc/>

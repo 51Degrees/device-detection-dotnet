@@ -99,6 +99,10 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         public override void AddPipeline(IPipeline pipeline)
         {
             base.AddPipeline(pipeline);
+            // Note: This method is called by the Pipeline during its construction 
+            // after all elements have been added to it via the PipelineBuilder.
+            // As a result, GetElement will successfully find the DeviceDetectionHashEngine 
+            // regardless of the order in which elements were added to the builder.
             var engine = pipeline.GetElement<DeviceDetectionHashEngine>();
             if (engine != null)
             {
