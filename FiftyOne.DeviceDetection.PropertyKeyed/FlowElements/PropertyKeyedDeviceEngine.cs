@@ -47,6 +47,8 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         PropertyKeyedEngine<IMultiDeviceData, IDeviceData>
     {
         private readonly ILogger<MultiDeviceData> _loggerMultiDd;
+        private readonly object _dataSetLock = new object();
+        private bool _isDataSetInitialized = false;
 
         /// <summary>
         /// Constructs a new instance.
@@ -74,11 +76,43 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         protected override IMultiDeviceData CreateElementData(
             IPipeline pipeline)
         {
+            EnsureDataSetInitialized(pipeline);
+            
             return new MultiDeviceData(
                 _loggerMultiDd,
                 pipeline,
                 this as Pipeline.Engines.FlowElements.IAspectEngine,
                 Pipeline.Engines.Services.MissingPropertyService.Instance);
+        }
+
+        /// <summary>
+        /// Ensures that the <see cref="DataSet"/> is initialized exactly once 
+        /// by resolving the <see cref="DeviceDetectionHashEngine"/> from the pipeline.
+        /// This is done lazily at runtime because the engine might not be available 
+        /// via <see cref="IPipeline.GetElement{TElement}"/> during construction.
+        /// </summary>
+        /// <param name="pipeline">The pipeline to query for the hash engine.</param>
+        private void EnsureDataSetInitialized(IPipeline pipeline)
+        {
+            if (!_isDataSetInitialized)
+            {
+                lock (_dataSetLock)
+                {
+                    if (!_isDataSetInitialized)
+                    {
+                        var engine = pipeline.GetElement<DeviceDetectionHashEngine>();
+                        if (engine != null)
+                        {
+                            DataSet = BuildContext(engine);
+                        }
+                        else
+                        {
+                            _loggerMultiDd.LogWarning("DeviceDetectionHashEngine was not found in the pipeline.");
+                        }
+                        _isDataSetInitialized = true;
+                    }
+                }
+            }
         }
 
         /// <inheritdoc/>
@@ -99,19 +133,6 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         public override void AddPipeline(IPipeline pipeline)
         {
             base.AddPipeline(pipeline);
-            // Note: This method is called by the Pipeline during its construction 
-            // after all elements have been added to it via the PipelineBuilder.
-            // As a result, GetElement will successfully find the DeviceDetectionHashEngine 
-            // regardless of the order in which elements were added to the builder.
-            var engine = pipeline.GetElement<DeviceDetectionHashEngine>();
-            if (engine != null)
-            {
-                DataSet = BuildContext(engine);
-            }
-            else
-            {
-                _loggerMultiDd.LogWarning("DeviceDetectionHashEngine was not found in the pipeline.");
-            }
         }
 
         /// <inheritdoc/>

@@ -235,6 +235,11 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
             // Nothing to dispose — this is a lightweight wrapper.
         }
 
+        /// <summary>
+        /// Finalizer.
+        /// </summary>
+        ~DevicePropertyMetaData() => Dispose(false);
+
         /// <inheritdoc/>
         public void Dispose()
         {
