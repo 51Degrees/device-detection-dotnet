@@ -53,5 +53,23 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed {
                 return ResourceManager.GetString("IncorrectTacEvidence", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to SetPerformanceProfile is not supported for PropertyKeyedDeviceEngine. The engine uses DeviceDetectionHashEngine&apos;s configuration..
+        /// </summary>
+        internal static string PerformanceProfileNotSupported {
+            get {
+                return ResourceManager.GetString("PerformanceProfileNotSupported", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to SetConcurrency is not supported for PropertyKeyedDeviceEngine. The engine uses DeviceDetectionHashEngine&apos;s configuration..
+        /// </summary>
+        internal static string ConcurrencyNotSupported {
+            get {
+                return ResourceManager.GetString("ConcurrencyNotSupported", resourceCulture);
+            }
+        }
     }
 }

@@ -61,4 +61,10 @@
   <data name="IncorrectTacEvidence" xml:space="preserve">
     <value>The TAC value '{0}' is not valid. A TAC must be exactly 8 numeric digits.</value>
   </data>
+  <data name="PerformanceProfileNotSupported" xml:space="preserve">
+    <value>SetPerformanceProfile is not supported for PropertyKeyedDeviceEngine. The engine uses DeviceDetectionHashEngine's configuration.</value>
+  </data>
+  <data name="ConcurrencyNotSupported" xml:space="preserve">
+    <value>SetConcurrency is not supported for PropertyKeyedDeviceEngine. The engine uses DeviceDetectionHashEngine's configuration.</value>
+  </data>
 </root>

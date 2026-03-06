@@ -266,8 +266,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
         /// <inheritdoc/>
         public override int GetHashCode()
         {
-            return (Name?.GetHashCode() ?? 0) ^
-                   (Element?.GetHashCode() ?? 0);
+            return HashCode.Combine(Name, Element);
         }
     }
 }

@@ -20,23 +20,20 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-using FiftyOne.Pipeline.Core.Data;
-
 namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
 {
     /// <summary>
     /// Extends <see cref="Pipeline.Engines.Data.IMultiProfileData{T}"/> 
-    /// for device data profiles with the ability to track and 
-    /// dispose associated <see cref="IFlowData"/> instances.
+    /// for device data profiles. Stores profile IDs and resolves them
+    /// to <see cref="IDeviceData"/> instances on demand.
     /// </summary>
     public interface IMultiDeviceData
         : Pipeline.Engines.Data.IMultiProfileData<IDeviceData>
     {
         /// <summary>
-        /// Adds a flow data instance that will be disposed when this 
-        /// instance is disposed.
+        /// Adds a profile ID to be resolved when Profiles is accessed.
         /// </summary>
-        /// <param name="flowData"></param>
-        void AddFlowData(IFlowData flowData);
+        /// <param name="profileId">The profile ID to add.</param>
+        void AddProfileId(uint profileId);
     }
 }

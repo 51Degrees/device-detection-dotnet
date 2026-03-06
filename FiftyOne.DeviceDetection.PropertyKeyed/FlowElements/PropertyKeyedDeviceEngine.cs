@@ -23,11 +23,11 @@
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using FiftyOne.DeviceDetection.PropertyKeyed.Data;
 using FiftyOne.Pipeline.Core.Data;
+using FiftyOne.Pipeline.Core.Exceptions;
 using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.Data;
 using FiftyOne.Pipeline.Engines.FiftyOne.Data;
 using FiftyOne.Pipeline.Engines.FiftyOne.FlowElements;
-using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -37,42 +37,75 @@ using System.Linq;
 namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
 {
     /// <summary>
-    /// Base class for device detection engines that use property-keyed 
+    /// A generic device detection engine that uses property-keyed 
     /// lookups against a <see cref="DeviceDetectionHashEngine"/>.
-    /// Implements all abstract methods from 
-    /// <see cref="PropertyKeyedEngine{TData, TProfile}"/> specific
-    /// to device detection.
+    /// Can be configured to validate input and use any property as the key.
     /// </summary>
-    public abstract class PropertyKeyedDeviceEngine :
+    public class PropertyKeyedDeviceEngine :
         PropertyKeyedEngine<IMultiDeviceData, IDeviceData>
     {
+        private readonly ILogger<PropertyKeyedDeviceEngine> _logger;
         private readonly ILogger<MultiDeviceData> _loggerMultiDd;
+        private readonly string _keyProperty;
+        private readonly string _elementDataKeyValue;
+        private readonly Func<string, IFlowData, bool> _validator;
         private readonly object _dataSetLock = new object();
-        private bool _isDataSetInitialized = false;
+        private bool _isDataSetInitialized;
+
+        /// <inheritdoc/>
+        public override string ElementDataKey => _elementDataKeyValue;
 
         /// <summary>
         /// Constructs a new instance.
         /// </summary>
-        /// <param name="loggerFactory">
-        /// The factory used to create loggers.
-        /// </param>
-        /// <param name="indexedProperties">
-        /// The properties to be indexed (e.g. "TAC", "NativeModel").
-        /// </param>
-        protected PropertyKeyedDeviceEngine(
+        /// <param name="loggerFactory">The factory used to create loggers.</param>
+        /// <param name="indexedProperties">The properties to be indexed.</param>
+        /// <param name="keyProperty">The property name to use for lookups (e.g. "TAC", "NativeModel").</param>
+        /// <param name="elementDataKey">The unique key for this engine's data in flow data.</param>
+        /// <param name="validator">Optional validation function for the key property value. Returns true if valid.</param>
+        public PropertyKeyedDeviceEngine(
             ILoggerFactory loggerFactory,
-            IReadOnlyList<string> indexedProperties) : base(
+            IReadOnlyList<string> indexedProperties,
+            string keyProperty,
+            string elementDataKey,
+            Func<string, IFlowData, bool> validator = null) : base(
                 loggerFactory,
                 indexedProperties)
         {
+            if (string.IsNullOrEmpty(keyProperty))
+            {
+                throw new ArgumentException(
+                    "keyProperty is required and cannot be null or empty.",
+                    nameof(keyProperty));
+            }
+            if (string.IsNullOrEmpty(elementDataKey))
+            {
+                throw new ArgumentException(
+                    "elementDataKey is required and cannot be null or empty.",
+                    nameof(elementDataKey));
+            }
+
+            _logger = loggerFactory.CreateLogger<PropertyKeyedDeviceEngine>();
             _loggerMultiDd = loggerFactory.CreateLogger<MultiDeviceData>();
+            _keyProperty = keyProperty;
+            _elementDataKeyValue = elementDataKey;
+            _validator = validator ?? ((value, flowData) => true);
+        }
+
+        /// <inheritdoc/>
+        protected override string GetKeyPropertyName() => _keyProperty;
+
+        /// <inheritdoc/>
+        protected override bool Validate(string keyPropertyValue, IFlowData data)
+        {
+            return _validator(keyPropertyValue, data);
         }
 
         /// <summary>
         /// Creates the element data for each request.
         /// </summary>
-        /// <param name="pipeline"></param>
-        /// <returns></returns>
+        /// <param name="pipeline">The pipeline instance.</param>
+        /// <returns>A new MultiDeviceData instance.</returns>
         protected override IMultiDeviceData CreateElementData(
             IPipeline pipeline)
         {
@@ -81,33 +114,62 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
             return new MultiDeviceData(
                 _loggerMultiDd,
                 pipeline,
-                this as Pipeline.Engines.FlowElements.IAspectEngine,
-                Pipeline.Engines.Services.MissingPropertyService.Instance);
+                this,
+                Pipeline.Engines.Services.MissingPropertyService.Instance,
+                DataSet);
         }
 
         /// <summary>
-        /// Ensures that the <see cref="DataSet"/> is initialized exactly once 
-        /// by resolving the <see cref="DeviceDetectionHashEngine"/> from the pipeline.
-        /// This is done lazily at runtime because the engine might not be available 
-        /// via <see cref="IPipeline.GetElement{TElement}"/> during construction.
+        /// Called when pipeline is added. Attempts early initialization.
+        /// </summary>
+        /// <param name="pipeline">The pipeline being added.</param>
+        public override void AddPipeline(IPipeline pipeline)
+        {
+            base.AddPipeline(pipeline);
+
+            // Attempt early initialization with fail-fast
+            var engine = pipeline.GetElement<DeviceDetectionHashEngine>();
+            if (engine == null)
+            {
+                throw new PipelineConfigurationException(
+                    $"{GetType().Name} requires DeviceDetectionHashEngine to be present " +
+                    "in the pipeline. Ensure DeviceDetectionHashEngine is added before " +
+                    "this engine.");
+            }
+
+            lock (_dataSetLock)
+            {
+                if (_isDataSetInitialized == false)
+                {
+                    DataSet = BuildContext(engine, pipeline);
+                    _isDataSetInitialized = true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Ensures that the DataSet is initialized.
+        /// This is a fallback in case AddPipeline wasn't called.
         /// </summary>
         /// <param name="pipeline">The pipeline to query for the hash engine.</param>
         private void EnsureDataSetInitialized(IPipeline pipeline)
         {
-            if (!_isDataSetInitialized)
+            if (_isDataSetInitialized == false)
             {
                 lock (_dataSetLock)
                 {
-                    if (!_isDataSetInitialized)
+                    if (_isDataSetInitialized == false)
                     {
                         var engine = pipeline.GetElement<DeviceDetectionHashEngine>();
                         if (engine != null)
                         {
-                            DataSet = BuildContext(engine);
+                            DataSet = BuildContext(engine, pipeline);
                         }
                         else
                         {
-                            _loggerMultiDd.LogWarning("DeviceDetectionHashEngine was not found in the pipeline.");
+                            _logger.LogWarning(
+                                "DeviceDetectionHashEngine was not found in the pipeline. " +
+                                "Profile lookups will not work.");
                         }
                         _isDataSetInitialized = true;
                     }
@@ -121,78 +183,92 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
             IMultiDeviceData aspectData,
             uint profileId)
         {
-            var flow = DataSet.Pipeline.CreateFlowData();
-            flow.AddEvidence(
-                Shared.Constants.EVIDENCE_PROFILE_IDS_KEY,
-                profileId.ToString());
-            flow.Process();
-            aspectData.AddFlowData(flow);
-        }
-
-        /// <inheritdoc/>
-        public override void AddPipeline(IPipeline pipeline)
-        {
-            base.AddPipeline(pipeline);
+            aspectData.AddProfileId(profileId);
         }
 
         /// <inheritdoc/>
         protected override PropertyKeyedDataSet BuildDataSet(
             string dataFilePath)
         {
-            throw new NotSupportedException("BuildDataSet is not supported for this element type. Use AddPipeline instead.");
+            throw new NotSupportedException(
+                $"{GetType().Name} does not support direct data file loading. " +
+                "It resolves data from DeviceDetectionHashEngine in the pipeline. " +
+                "Ensure DeviceDetectionHashEngine is added to the pipeline before this engine.");
         }
 
         /// <inheritdoc/>
         protected override PropertyKeyedDataSet BuildDataSet(
             Stream data)
         {
-            throw new NotSupportedException("BuildDataSet is not supported for this element type. Use AddPipeline instead.");
+            throw new NotSupportedException(
+                $"{GetType().Name} does not support direct data stream loading. " +
+                "It resolves data from DeviceDetectionHashEngine in the pipeline. " +
+                "Ensure DeviceDetectionHashEngine is added to the pipeline before this engine.");
         }
 
         /// <summary>
-        /// Creates an <see cref="PropertyKeyedDataSet"/> from a built 
-        /// DeviceDetectionHashEngine.
+        /// Creates a PropertyKeyedDataSet from a DeviceDetectionHashEngine.
         /// </summary>
+        /// <param name="engine">The hash engine to build from.</param>
+        /// <param name="pipeline">The pipeline for context.</param>
+        /// <returns>A new PropertyKeyedDataSet.</returns>
         private PropertyKeyedDataSet BuildContext(
-            DeviceDetectionHashEngine engine)
+            DeviceDetectionHashEngine engine,
+            IPipeline pipeline)
         {
-            // Use the pipeline passed to this engine, or fallback to a new one if necessary for context
-            var contextPipeline = new PipelineBuilder(LoggerFactory)
-                .SetAutoDisposeElements(true)
-                .AddFlowElement(engine)
-                .Build();
+            // Create lookup dictionary for O(1) property access
+            var propertyLookup = engine.Properties
+                .ToDictionary(
+                    p => p.Name,
+                    p => p,
+                    StringComparer.OrdinalIgnoreCase);
 
             var indexes = new List<PropertyKeyedIndex>();
             foreach (var property in IndexedProperties)
             {
-                var metaData = engine.Properties.FirstOrDefault(p =>
-                    p.Name.Equals(property, StringComparison.OrdinalIgnoreCase));
-                if (metaData != null)
+                if (propertyLookup.TryGetValue(property, out var metaData))
                 {
                     indexes.Add(new PropertyKeyedIndex(
                         new DevicePropertyMetaData(this, metaData)));
                 }
+                else
+                {
+                    _logger.LogWarning(
+                        "Property '{Property}' not found in DeviceDetectionHashEngine. " +
+                        "It will not be indexed.",
+                        property);
+                }
             }
 
-            // Populate the indexes using the engine's list of profiles.
+            // Build context pipeline for profile resolution
+            var contextPipeline = new PipelineBuilder(LoggerFactory)
+                .SetAutoDisposeElements(false) // Don't dispose the shared engine
+                .AddFlowElement(engine)
+                .Build();
+
+            // Populate the indexes using the engine's list of profiles
             foreach (var profile in engine.Profiles)
             {
-                var profileData = contextPipeline.CreateFlowData();
-                profileData.AddEvidence(Shared.Constants.EVIDENCE_PROFILE_IDS_KEY, profile.ProfileId.ToString());
-                profileData.Process();
-                var dd = profileData.GetFromElement(engine) as IDeviceData;
-
-                if (dd != null)
+                using (var profileData = contextPipeline.CreateFlowData())
                 {
-                    foreach (var index in indexes)
+                    profileData.AddEvidence(
+                        Shared.Constants.EVIDENCE_PROFILE_IDS_KEY,
+                        profile.ProfileId.ToString());
+                    profileData.Process();
+
+                    var dd = profileData.GetFromElement(engine) as IDeviceData;
+                    if (dd != null)
                     {
-                        var value = dd[index.MetaData.Name] as IAspectPropertyValue;
-                        if (value != null)
+                        foreach (var index in indexes)
                         {
-                            var values = ConvertValues(value);
-                            foreach (var val in values)
+                            var value = dd[index.MetaData.Name] as IAspectPropertyValue;
+                            if (value != null)
                             {
-                                index.Add(val, profile.ProfileId);
+                                var values = ConvertValues(value);
+                                foreach (var val in values)
+                                {
+                                    index.Add(val, profile.ProfileId);
+                                }
                             }
                         }
                     }
@@ -210,20 +286,23 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
                     new DevicePropertyMetaData(
                         e,
                         PropertyKeyedDataSet.PROPERTY_PREFIX_NAME,
-                        keyProperties.SelectMany(i =>
-                            (i.ItemProperties ?? Enumerable.Empty<IElementPropertyMetaData>()).OfType<IFiftyOneAspectPropertyMetaData>())
-                            .ToList().AsReadOnly(),
+                        keyProperties
+                            .SelectMany(i =>
+                                (i.ItemProperties ?? Enumerable.Empty<IElementPropertyMetaData>())
+                                .OfType<IFiftyOneAspectPropertyMetaData>())
+                            .ToList()
+                            .AsReadOnly(),
                         typeof(IReadOnlyList<IDeviceData>))
                 });
         }
 
         /// <summary>
-        /// Converts the given <see cref="IAspectPropertyValue"/> to a 
+        /// Converts the given IAspectPropertyValue to a 
         /// collection of string values to be indexed.
         /// </summary>
         /// <param name="value">The aspect property value.</param>
         /// <returns>A collection of string values.</returns>
-        private IEnumerable<string> ConvertValues(IAspectPropertyValue value)
+        private static IEnumerable<string> ConvertValues(IAspectPropertyValue value)
         {
             if (value.HasValue)
             {

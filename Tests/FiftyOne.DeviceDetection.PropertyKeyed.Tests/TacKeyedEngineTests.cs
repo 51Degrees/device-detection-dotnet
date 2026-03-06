@@ -20,12 +20,12 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
+using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using FiftyOne.DeviceDetection.PropertyKeyed.Data;
 using FiftyOne.DeviceDetection.PropertyKeyed.FlowElements;
 using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.Exceptions;
 using FiftyOne.Pipeline.Core.FlowElements;
-using FiftyOne.Pipeline.Engines;
 using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -38,13 +38,13 @@ using System.Linq;
 namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
 {
     /// <summary>
-    /// Tests for <see cref="TacKeyedEngine"/>.
+    /// Tests for <see cref="PropertyKeyedDeviceEngine"/> with TAC configuration.
     /// </summary>
     [TestClass]
-    public class TacKeyedEngineTests
+    public class TacConfiguredEngineTests
     {
         private static ILoggerFactory _loggerFactory;
-        private static TacKeyedEngine _engine;
+        private static PropertyKeyedDeviceEngine _engine;
         private static IPipeline _pipeline;
         private IFlowData _data;
 
@@ -66,14 +66,22 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
             }
 
             _loggerFactory = LoggerFactory.Create(b => { });
-            _engine = new TacKeyedEngineBuilder(
-                    _loggerFactory,
-                    new Mock<IDataUpdateService>().Object)
+
+            // Build DeviceDetectionHashEngine first
+            var hashEngine = new DeviceDetectionHashEngineBuilder(_loggerFactory)
                 .SetAutoUpdate(false)
                 .SetDataFileSystemWatcher(false)
-                .SetProperty("TAC")
                 .Build(ddFile, false);
+
+            // Build PropertyKeyedDeviceEngine configured for TAC
+            _engine = new PropertyKeyedDeviceEngineBuilder(
+                    _loggerFactory,
+                    new Mock<IDataUpdateService>().Object)
+                .ConfigureForTac()
+                .Build();
+
             _pipeline = new PipelineBuilder(_loggerFactory)
+                .AddFlowElement(hashEngine)
                 .AddFlowElement(_engine)
                 .SetSuppressProcessExceptions(true)
                 .SetAutoDisposeElements(true)
@@ -167,6 +175,15 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         {
             Assert.AreNotEqual(0, _engine.Properties.Count,
                 "Engine should have at least one property.");
+        }
+
+        /// <summary>
+        /// ElementDataKey should be unique for TAC configuration.
+        /// </summary>
+        [TestMethod]
+        public void ElementDataKey_IsUnique()
+        {
+            Assert.AreEqual("tac-profiles", _engine.ElementDataKey);
         }
     }
 }
