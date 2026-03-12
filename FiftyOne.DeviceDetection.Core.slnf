@@ -9,6 +9,7 @@
       "FiftyOne.DeviceDetection\\FiftyOne.DeviceDetection.csproj",
       "Tests\\FiftyOne.DeviceDetection.Cloud.Tests\\FiftyOne.DeviceDetection.Cloud.Tests.csproj",
       "Tests\\FiftyOne.DeviceDetection.Hash.Tests\\FiftyOne.DeviceDetection.Hash.Tests.csproj",
+      "Tests\\FiftyOne.DeviceDetection.PropertyKeyed.Tests\\FiftyOne.DeviceDetection.PropertyKeyed.Tests.csproj",
       "Tests\\FiftyOne.DeviceDetection.TestHelpers\\FiftyOne.DeviceDetection.TestHelpers.csproj",
       "Tests\\FiftyOne.DeviceDetection.Tests.Core\\FiftyOne.DeviceDetection.Tests.Core.csproj",
       "Tools\\GenerateConfig\\GenerateConfig.csproj",
