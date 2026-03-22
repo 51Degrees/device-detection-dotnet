@@ -1,32 +1,29 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.1;net8.0</TargetFrameworks>
     <Platforms>AnyCPU;x64;x86;ARM64</Platforms>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <DocumentationFile>FiftyOne.DeviceDetection.Shared.xml</DocumentationFile>
+    <DocumentationFile>FiftyOne.DeviceDetection.PropertyKeyed.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
-    
+    <NoWarn>$(NoWarn);CA1056;CA1721</NoWarn>
+
 	  <!-- NuGet package properties -->
-	  <PackageId>FiftyOne.DeviceDetection.Shared</PackageId>
-	  <Title>51Degrees Device Detection – Shared Pipeline API Components (User-Agent and HTTP Header Parsing)</Title>
-	  <Description>51Degrees Device Detection parses HTTP headers to return detailed hardware, operating system, browser, and crawler information for the devices used to access your website or service. This package contains shared classes used by the device detection engines.</Description>
+	  <PackageId>FiftyOne.DeviceDetection.PropertyKeyed</PackageId>
+	  <Title>51Degrees Device Detection – Property Keyed Engines</Title>
+	  <Description>51Degrees Device Detection engines that use property-keyed lookups (TAC, NativeModel) against on-premise hash data files.</Description>
 	  <Authors>51Degrees Engineering</Authors>
-	  <PackageLicenseExpression>EUPL-1.2</PackageLicenseExpression>
-    <PackageIconUrl>https://51degrees.com/Nuget-FiftyOne.DeviceDetection.Shared/Square%20Logo.png</PackageIconUrl>
+    <PackageLicenseExpression>EUPL-1.2</PackageLicenseExpression>
 	  <Copyright>51Degrees Mobile Experts Limited</Copyright>
-	  <PackageTags>51degrees;pipeline;data;device;detection;user-agent;parse;detection-library;bots;crawler;desktop;tablet;mobile;tv</PackageTags>
+	  <PackageTags>51degrees;pipeline;data;device;detection;tac;nativemodel</PackageTags>
 	  <RepositoryUrl>https://github.com/51Degrees/device-detection-dotnet</RepositoryUrl>
 	  <PackageProjectUrl>https://51degrees.com</PackageProjectUrl>
 	  <RepositoryType>git</RepositoryType>
 	  <PackageIcon>51d-logo.png</PackageIcon>
 	  <NeutralLanguage>en</NeutralLanguage>
 	  <Configurations>Debug;Release</Configurations>
-
-    <!-- GitHub CI -->
-    <BuiltOnCI>false</BuiltOnCI>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
@@ -34,7 +31,7 @@
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <None Include="..\README.md">
       <Pack>True</Pack>
@@ -45,7 +42,7 @@
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-  
+
   <ItemGroup>
     <Compile Update="Messages.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -53,15 +50,16 @@
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
   </ItemGroup>
-  
+
   <ItemGroup>
     <EmbeddedResource Update="Messages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  
+
   <ItemGroup>
+    <ProjectReference Include="..\FiftyOne.DeviceDetection.Hash.Engine.OnPremise\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.csproj" />
     <PackageReference Include="FiftyOne.Pipeline.Engines.FiftyOne" Version="4.5.24" />
   </ItemGroup>
 
