@@ -1,5 +1,4 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -243,20 +242,20 @@ Global
 		{D1714E71-CAE7-4DFD-9C1E-678E87FF450B}.Release|x86.Build.0 = Release|x86
 		{4D43E364-5253-4023-95EB-B6FC89D1CF0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4D43E364-5253-4023-95EB-B6FC89D1CF0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4D43E364-5253-4023-95EB-B6FC89D1CF0C}.Debug|ARM64.ActiveCfg = Debug|x64
-		{4D43E364-5253-4023-95EB-B6FC89D1CF0C}.Debug|ARM64.Build.0 = Debug|x64
+		{4D43E364-5253-4023-95EB-B6FC89D1CF0C}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{4D43E364-5253-4023-95EB-B6FC89D1CF0C}.Debug|ARM64.Build.0 = Debug|ARM64
 		{4D43E364-5253-4023-95EB-B6FC89D1CF0C}.Debug|x64.ActiveCfg = Debug|x64
 		{4D43E364-5253-4023-95EB-B6FC89D1CF0C}.Debug|x64.Build.0 = Debug|x64
-		{4D43E364-5253-4023-95EB-B6FC89D1CF0C}.Debug|x86.ActiveCfg = Debug|x64
-		{4D43E364-5253-4023-95EB-B6FC89D1CF0C}.Debug|x86.Build.0 = Debug|x64
+		{4D43E364-5253-4023-95EB-B6FC89D1CF0C}.Debug|x86.ActiveCfg = Debug|x86
+		{4D43E364-5253-4023-95EB-B6FC89D1CF0C}.Debug|x86.Build.0 = Debug|x86
 		{4D43E364-5253-4023-95EB-B6FC89D1CF0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D43E364-5253-4023-95EB-B6FC89D1CF0C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4D43E364-5253-4023-95EB-B6FC89D1CF0C}.Release|ARM64.ActiveCfg = Release|x64
-		{4D43E364-5253-4023-95EB-B6FC89D1CF0C}.Release|ARM64.Build.0 = Release|x64
+		{4D43E364-5253-4023-95EB-B6FC89D1CF0C}.Release|ARM64.ActiveCfg = Release|ARM64
+		{4D43E364-5253-4023-95EB-B6FC89D1CF0C}.Release|ARM64.Build.0 = Release|ARM64
 		{4D43E364-5253-4023-95EB-B6FC89D1CF0C}.Release|x64.ActiveCfg = Release|x64
 		{4D43E364-5253-4023-95EB-B6FC89D1CF0C}.Release|x64.Build.0 = Release|x64
-		{4D43E364-5253-4023-95EB-B6FC89D1CF0C}.Release|x86.ActiveCfg = Release|x64
-		{4D43E364-5253-4023-95EB-B6FC89D1CF0C}.Release|x86.Build.0 = Release|x64
+		{4D43E364-5253-4023-95EB-B6FC89D1CF0C}.Release|x86.ActiveCfg = Release|x86
+		{4D43E364-5253-4023-95EB-B6FC89D1CF0C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
