@@ -356,9 +356,9 @@ namespace FiftyOne.DeviceDetection.Shared
 			};
 
 		/// <summary>
-		/// JavaScript that can override the property value found by the server using information on the client device. This property is applicable for browsers that support screen pixels height cookie.
+		/// Indicates if the browser supports the 'Iframe' element, used to embed another document within a current HTML document.
 		/// </summary>
-		public IAspectPropertyValue<JavaScript> ScreenPixelsHeightJavaScript { get { return GetAs<IAspectPropertyValue<JavaScript>>("ScreenPixelsHeightJavaScript"); } }
+		public IAspectPropertyValue<bool> Iframe { get { return GetAs<IAspectPropertyValue<bool>>("Iframe"); } }
 		/// <summary>
 		/// Indicates if the device is primarily marketed as a tablet or phablet and has a screen size equal to or greater than 7 inches.
 		/// </summary>
@@ -396,9 +396,9 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<bool> IsConsole { get { return GetAs<IAspectPropertyValue<bool>>("IsConsole"); } }
 		/// <summary>
-		/// Indicates the name of the company that developed the operating system.
+		/// Indicates if the browser has the ability to embed custom data attributes on all HTML elements using the 'data-' prefix.
 		/// </summary>
-		public IAspectPropertyValue<string> PlatformVendor { get { return GetAs<IAspectPropertyValue<string>>("PlatformVendor"); } }
+		public IAspectPropertyValue<bool> DataSet { get { return GetAs<IAspectPropertyValue<bool>>("DataSet"); } }
 		/// <summary>
 		/// Indicates the name of the operating system the device is using.
 		/// </summary>
@@ -636,10 +636,6 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<bool> CssUI { get { return GetAs<IAspectPropertyValue<bool>>("CssUI"); } }
 		/// <summary>
-		/// Indicates if the browser has the ability to embed custom data attributes on all HTML elements using the 'data-' prefix.
-		/// </summary>
-		public IAspectPropertyValue<bool> DataSet { get { return GetAs<IAspectPropertyValue<bool>>("DataSet"); } }
-		/// <summary>
 		/// Indicates if the browser allows encoded data to be contained in a URL.
 		/// </summary>
 		public IAspectPropertyValue<bool> DataUrl { get { return GetAs<IAspectPropertyValue<bool>>("DataUrl"); } }
@@ -679,10 +675,6 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// Indicates if the browser is able to use media inputs, e.g. webcam and microphone, in a script and as an input for forms, e.g. '&lt;input type="file" accept="image/*" id="capture"&gt;' would prompt image- capturing software to open.
 		/// </summary>
 		public IAspectPropertyValue<bool> HtmlMediaCapture { get { return GetAs<IAspectPropertyValue<bool>>("Html-Media-Capture"); } }
-		/// <summary>
-		/// Indicates if the browser supports the 'Iframe' element, used to embed another document within a current HTML document.
-		/// </summary>
-		public IAspectPropertyValue<bool> Iframe { get { return GetAs<IAspectPropertyValue<bool>>("Iframe"); } }
 		/// <summary>
 		/// Indicates if the browser supports an indexed local database.
 		/// </summary>
@@ -828,13 +820,29 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<string> ContrastRatio { get { return GetAs<IAspectPropertyValue<string>>("ContrastRatio"); } }
 		/// <summary>
-		/// Refers to the JavaScript snippet used to determine the response times and bandwidth to monitor the performance of the website.
+		/// Indicates if the device is a media hub or set top box that requires an external display(s).
 		/// </summary>
-		public IAspectPropertyValue<JavaScript> JavascriptBandwidth { get { return GetAs<IAspectPropertyValue<JavaScript>>("JavascriptBandwidth"); } }
+		public IAspectPropertyValue<bool> IsMediaHub { get { return GetAs<IAspectPropertyValue<bool>>("IsMediaHub"); } }
 		/// <summary>
-		/// JavaScript that can override the profile found by the server using information on the client device. This property is applicable for Apple devices which do not provide information about the model in the User-Agent string.
+		/// Indicates the area of the device's screen in square millimetres rounded to the nearest whole number. This property will return the value  'Unknown' for desktop or for devices which do not have an integrated screen.
 		/// </summary>
-		public IAspectPropertyValue<JavaScript> JavascriptHardwareProfile { get { return GetAs<IAspectPropertyValue<JavaScript>>("JavascriptHardwareProfile"); } }
+		public IAspectPropertyValue<int> ScreenMMSquare { get { return GetAs<IAspectPropertyValue<int>>("ScreenMMSquare"); } }
+		/// <summary>
+		/// Indicate the diagonal size of the device's screen in millimetres rounded to the nearest whole number. This property will return the value 'Unknown' for desktop or for devices which do not have an integrated screen.
+		/// </summary>
+		public IAspectPropertyValue<int> ScreenMMDiagonalRounded { get { return GetAs<IAspectPropertyValue<int>>("ScreenMMDiagonalRounded"); } }
+		/// <summary>
+		/// Indicates the area of the device's screen in square inches rounded to the nearest whole number. This property will return the value 'Unknown' for desktop or for devices which do not have an integrated screen.
+		/// </summary>
+		public IAspectPropertyValue<int> ScreenInchesSquare { get { return GetAs<IAspectPropertyValue<int>>("ScreenInchesSquare"); } }
+		/// <summary>
+		/// Indicates the diagonal size of the device's screen in inches rounded to the nearest whole number. This property will return the value 'Unknown' for desktop or for devices which do not have an integrated screen.
+		/// </summary>
+		public IAspectPropertyValue<int> ScreenInchesDiagonalRounded { get { return GetAs<IAspectPropertyValue<int>>("ScreenInchesDiagonalRounded"); } }
+		/// <summary>
+		/// Indicates the type of the device based on values set in other properties, such as IsMobile, IsTablet, IsSmartphone, IsSmallScreen etc.
+		/// </summary>
+		public IAspectPropertyValue<string> DeviceType { get { return GetAs<IAspectPropertyValue<string>>("DeviceType"); } }
 		/// <summary>
 		/// Refers to the JavaScript snippet used to optimise images.
 		/// </summary>
@@ -843,6 +851,126 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// A list of images associated with the device. The string contains the caption, followed by the full image URL separated with a tab character.
 		/// </summary>
 		public IAspectPropertyValue<IReadOnlyList<string>> HardwareImages { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("HardwareImages"); } }
+		/// <summary>
+		/// Indicates the source from which browser properties have been validated. Primary browser data are retrieved from the internal test and populated manually, then they might be validated against an external source such as Caniuse or RingMark. 
+		/// </summary>
+		public IAspectPropertyValue<string> BrowserPropertySource { get { return GetAs<IAspectPropertyValue<string>>("BrowserPropertySource"); } }
+		/// <summary>
+		/// Indicates if the device's primary data connection is wireless and the device is designed to operate mostly by battery power (e.g. mobile phone, smartphone or tablet). This property does not indicate if the device is a mobile phone or not. Laptops are not classified as mobile devices under this definition and so 'IsMobile' will be 'False'.
+		/// </summary>
+		public IAspectPropertyValue<bool> IsMobile { get { return GetAs<IAspectPropertyValue<bool>>("IsMobile"); } }
+		/// <summary>
+		/// Indicates the name of the company that developed the operating system.
+		/// </summary>
+		public IAspectPropertyValue<string> PlatformVendor { get { return GetAs<IAspectPropertyValue<string>>("PlatformVendor"); } }
+		/// <summary>
+		/// Indicates if the browser supports WebGL technology to generate hardware-accelerated 3D graphics.
+		/// </summary>
+		public IAspectPropertyValue<bool> SupportsWebGL { get { return GetAs<IAspectPropertyValue<bool>>("SupportsWebGL"); } }
+		/// <summary>
+		/// Indicates if the mobile device accessing a web page emulates a desktop computer. This property is not applicable for desktops, media hubs, TVs and consoles.
+		/// </summary>
+		public IAspectPropertyValue<bool> IsEmulatingDesktop { get { return GetAs<IAspectPropertyValue<bool>>("IsEmulatingDesktop"); } }
+		/// <summary>
+		/// Indicates if the device can receive and make telephone calls using available bearers without any additional software such as VoIP. Devices that support voice calls do not necessarily support phone calls.
+		/// </summary>
+		public IAspectPropertyValue<bool> SupportsPhoneCalls { get { return GetAs<IAspectPropertyValue<bool>>("SupportsPhoneCalls"); } }
+		/// <summary>
+		/// Indicates if the browser supports the new markup in HTML 5 that also refers to 'New Semantic Elements' such as <![CDATA[<header>, <nav>, <section>, <aside>,<footer>]]> etc.
+		/// </summary>
+		public IAspectPropertyValue<bool> Html5 { get { return GetAs<IAspectPropertyValue<bool>>("Html5"); } }
+		/// <summary>
+		/// Indicates if the browser supports the canvas element, useful for drawing graphics via scripting (usually JavaScript).
+		/// </summary>
+		public IAspectPropertyValue<bool> Canvas { get { return GetAs<IAspectPropertyValue<bool>>("Canvas"); } }
+		/// <summary>
+		/// Indicates if the browser or app is being used to access a web page through a WebView.
+		/// </summary>
+		public IAspectPropertyValue<bool> IsWebApp { get { return GetAs<IAspectPropertyValue<bool>>("IsWebApp"); } }
+		/// <summary>
+		/// Indicates if the browser supports a meter element that represents a scalar measurement within a known range or fractional value. This property does not indicate whether the browser supports the progress bar indication. For this purpose, the progress property should be used.
+		/// </summary>
+		public IAspectPropertyValue<bool> Meter { get { return GetAs<IAspectPropertyValue<bool>>("Meter"); } }
+		/// <summary>
+		/// Indicates if the device is a web enabled computerised wristwatch with other capabilities beyond timekeeping, such as push notifications. It runs on a Smart Operating System i.e. Android, WatchOS, Tizen, Ubuntu Touch and is designed to be wearable technology.
+		/// </summary>
+		public IAspectPropertyValue<bool> IsSmartWatch { get { return GetAs<IAspectPropertyValue<bool>>("IsSmartWatch"); } }
+		/// <summary>
+		/// JavaScript that can override the property value found by the server using information on the client device. This property is applicable for browsers that support screen pixels height cookie.
+		/// </summary>
+		public IAspectPropertyValue<JavaScript> ScreenPixelsHeightJavaScript { get { return GetAs<IAspectPropertyValue<JavaScript>>("ScreenPixelsHeightJavaScript"); } }
+		/// <summary>
+		/// JavaScript that can override the property value found by the server using information on the client device. This property is applicable for browsers that support screen pixels width cookie. 
+		/// </summary>
+		public IAspectPropertyValue<JavaScript> ScreenPixelsWidthJavaScript { get { return GetAs<IAspectPropertyValue<JavaScript>>("ScreenPixelsWidthJavaScript"); } }
+		/// <summary>
+		/// Lists what audio formats, if any, the browser supports using the HTML5 <![CDATA[<audio>]]> tag.
+		/// </summary>
+		public IAspectPropertyValue<IReadOnlyList<string>> Html5Audio { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("Html5Audio"); } }
+		/// <summary>
+		/// Lists what video formats, if any, the browser supports using the HTLM5 <![CDATA[<video>]]> tag.
+		/// </summary>
+		public IAspectPropertyValue<IReadOnlyList<string>> Html5Video { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("Html5Video"); } }
+		/// <summary>
+		/// Indicates the dynamic contrast ratio of the device's screen.
+		/// </summary>
+		public IAspectPropertyValue<string> DynamicContrastRatio { get { return GetAs<IAspectPropertyValue<string>>("DynamicContrastRatio"); } }
+		/// <summary>
+		/// Indicates the crawler name when applicable. Returns NotCrawler when the device is not a crawler.
+		/// </summary>
+		public IAspectPropertyValue<string> CrawlerName { get { return GetAs<IAspectPropertyValue<string>>("CrawlerName"); } }
+		/// <summary>
+		/// Indicates the level of support for the Promise object. The Promise object represents the eventual completion (or failure) of an asynchronous operation, and its resulting value.
+		/// </summary>
+		public IAspectPropertyValue<string> Promise { get { return GetAs<IAspectPropertyValue<string>>("Promise"); } }
+		/// <summary>
+		/// Indicates the source of the profile's specifications. This property will return 'Manufacturer' value if the profile data was obtained from the manufacturer of the device or the device itself. This property will return 'Authoritative' value if the profile data was not obtained from the manufacturer or the device itself but other third party sources (this may include retailers, social media, carriers, etc). This property will return 'Legacy' value if the profile data was obtained prior to 51degrees differentiating between Manufacturer and Authoritative. This property will return 'N/A' value if the profile data was not obtained due to unidentifiable User-Agent. The example profiles are: Generic Android Unknown, Unknown Tablet, etc.
+		/// </summary>
+		public IAspectPropertyValue<string> HardwareProfileSource { get { return GetAs<IAspectPropertyValue<string>>("HardwareProfileSource"); } }
+		/// <summary>
+		/// Indicates if a web page is accessed through a VR headset.
+		/// </summary>
+		public IAspectPropertyValue<bool> InVRMode { get { return GetAs<IAspectPropertyValue<bool>>("InVRMode"); } }
+		/// <summary>
+		/// Indicates if the browser supports the WebP image format.
+		/// </summary>
+		public IAspectPropertyValue<bool> WebP { get { return GetAs<IAspectPropertyValue<bool>>("WebP"); } }
+		/// <summary>
+		/// Indicates if the browser supports the Fetch API.
+		/// </summary>
+		public IAspectPropertyValue<bool> Fetch { get { return GetAs<IAspectPropertyValue<bool>>("Fetch"); } }
+		/// <summary>
+		/// Indicates if the browser supports all CSS grid properties.
+		/// </summary>
+		public IAspectPropertyValue<bool> CssGrid { get { return GetAs<IAspectPropertyValue<bool>>("CssGrid"); } }
+		/// <summary>
+		/// Indicates whether the device screen is foldable or not. If the device does not have a screen or the screen is not foldable, 'False' is returned.
+		/// </summary>
+		public IAspectPropertyValue<bool> IsScreenFoldable { get { return GetAs<IAspectPropertyValue<bool>>("IsScreenFoldable"); } }
+		/// <summary>
+		/// Indicates the number of screens the device has. This property is not applicable for a device that does not have a screen. A display is only considered a screen if it could be used to display a web page.
+		/// </summary>
+		public IAspectPropertyValue<int> NumberOfScreens { get { return GetAs<IAspectPropertyValue<int>>("NumberOfScreens"); } }
+		/// <summary>
+		/// Indicates if the browser supports HTTP version 2.
+		/// </summary>
+		public IAspectPropertyValue<bool> Http2 { get { return GetAs<IAspectPropertyValue<bool>>("Http2"); } }
+		/// <summary>
+		/// Indicates if the browser can prefetch resources without executing them.
+		/// </summary>
+		public IAspectPropertyValue<bool> Preload { get { return GetAs<IAspectPropertyValue<bool>>("Preload"); } }
+		/// <summary>
+		/// Indicates the browser supports JPEG 2000 image format.
+		/// </summary>
+		public IAspectPropertyValue<bool> Jpeg2000 { get { return GetAs<IAspectPropertyValue<bool>>("Jpeg2000"); } }
+		/// <summary>
+		/// Refers to the JavaScript snippet used to determine the response times and bandwidth to monitor the performance of the website.
+		/// </summary>
+		public IAspectPropertyValue<JavaScript> JavascriptBandwidth { get { return GetAs<IAspectPropertyValue<JavaScript>>("JavascriptBandwidth"); } }
+		/// <summary>
+		/// JavaScript that can override the profile found by the server using information on the client device. This property is applicable for Apple devices which do not provide information about the model in the User-Agent string.
+		/// </summary>
+		public IAspectPropertyValue<JavaScript> JavascriptHardwareProfile { get { return GetAs<IAspectPropertyValue<JavaScript>>("JavascriptHardwareProfile"); } }
 		/// <summary>
 		/// Indicates the resolution of the device's back camera in megapixels. For a device that has a rotating camera the same value is returned for front and back megapixels properties.
 		/// </summary>
@@ -956,81 +1084,13 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<IReadOnlyList<string>> SupportedSIMCardTypes { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("SupportedSIMCardTypes"); } }
 		/// <summary>
-		/// Indicates the type of the device based on values set in other properties, such as IsMobile, IsTablet, IsSmartphone, IsSmallScreen etc.
-		/// </summary>
-		public IAspectPropertyValue<string> DeviceType { get { return GetAs<IAspectPropertyValue<string>>("DeviceType"); } }
-		/// <summary>
-		/// Indicates the diagonal size of the device's screen in inches rounded to the nearest whole number. This property will return the value 'Unknown' for desktop or for devices which do not have an integrated screen.
-		/// </summary>
-		public IAspectPropertyValue<int> ScreenInchesDiagonalRounded { get { return GetAs<IAspectPropertyValue<int>>("ScreenInchesDiagonalRounded"); } }
-		/// <summary>
-		/// Indicate the diagonal size of the device's screen in millimetres rounded to the nearest whole number. This property will return the value 'Unknown' for desktop or for devices which do not have an integrated screen.
-		/// </summary>
-		public IAspectPropertyValue<int> ScreenMMDiagonalRounded { get { return GetAs<IAspectPropertyValue<int>>("ScreenMMDiagonalRounded"); } }
-		/// <summary>
-		/// Indicates the area of the device's screen in square millimetres rounded to the nearest whole number. This property will return the value  'Unknown' for desktop or for devices which do not have an integrated screen.
-		/// </summary>
-		public IAspectPropertyValue<int> ScreenMMSquare { get { return GetAs<IAspectPropertyValue<int>>("ScreenMMSquare"); } }
-		/// <summary>
-		/// Indicates the area of the device's screen in square inches rounded to the nearest whole number. This property will return the value 'Unknown' for desktop or for devices which do not have an integrated screen.
-		/// </summary>
-		public IAspectPropertyValue<int> ScreenInchesSquare { get { return GetAs<IAspectPropertyValue<int>>("ScreenInchesSquare"); } }
-		/// <summary>
 		/// Indicates a price range describing the recommended retail price of the device at the date of release, inclusive of tax (where applicable).  Prices are in United States Dollars (USD); if the price is not originally in USD it will be converted to USD using the relevant exchange rate at the time of launch. Prices are for the SIM-free version of the device (if applicable). In cases where there are several versions of the same model of the device, the price will reflect the device that was used to populate the specifications.
 		/// </summary>
 		public IAspectPropertyValue<string> PriceBand { get { return GetAs<IAspectPropertyValue<string>>("PriceBand"); } }
 		/// <summary>
-		/// Indicates if the device is a media hub or set top box that requires an external display(s).
-		/// </summary>
-		public IAspectPropertyValue<bool> IsMediaHub { get { return GetAs<IAspectPropertyValue<bool>>("IsMediaHub"); } }
-		/// <summary>
-		/// Indicates the source from which browser properties have been validated. Primary browser data are retrieved from the internal test and populated manually, then they might be validated against an external source such as Caniuse or RingMark. 
-		/// </summary>
-		public IAspectPropertyValue<string> BrowserPropertySource { get { return GetAs<IAspectPropertyValue<string>>("BrowserPropertySource"); } }
-		/// <summary>
-		/// Indicates if the browser supports the new markup in HTML 5 that also refers to 'New Semantic Elements' such as <![CDATA[<header>, <nav>, <section>, <aside>,<footer>]]> etc.
-		/// </summary>
-		public IAspectPropertyValue<bool> Html5 { get { return GetAs<IAspectPropertyValue<bool>>("Html5"); } }
-		/// <summary>
-		/// Indicates if the browser supports the canvas element, useful for drawing graphics via scripting (usually JavaScript).
-		/// </summary>
-		public IAspectPropertyValue<bool> Canvas { get { return GetAs<IAspectPropertyValue<bool>>("Canvas"); } }
-		/// <summary>
-		/// Indicates if the browser supports WebGL technology to generate hardware-accelerated 3D graphics.
-		/// </summary>
-		public IAspectPropertyValue<bool> SupportsWebGL { get { return GetAs<IAspectPropertyValue<bool>>("SupportsWebGL"); } }
-		/// <summary>
-		/// Indicates if the mobile device accessing a web page emulates a desktop computer. This property is not applicable for desktops, media hubs, TVs and consoles.
-		/// </summary>
-		public IAspectPropertyValue<bool> IsEmulatingDesktop { get { return GetAs<IAspectPropertyValue<bool>>("IsEmulatingDesktop"); } }
-		/// <summary>
-		/// Indicates if the device can receive and make telephone calls using available bearers without any additional software such as VoIP. Devices that support voice calls do not necessarily support phone calls.
-		/// </summary>
-		public IAspectPropertyValue<bool> SupportsPhoneCalls { get { return GetAs<IAspectPropertyValue<bool>>("SupportsPhoneCalls"); } }
-		/// <summary>
-		/// Indicates if the browser or app is being used to access a web page through a WebView.
-		/// </summary>
-		public IAspectPropertyValue<bool> IsWebApp { get { return GetAs<IAspectPropertyValue<bool>>("IsWebApp"); } }
-		/// <summary>
-		/// Indicates if the browser supports a meter element that represents a scalar measurement within a known range or fractional value. This property does not indicate whether the browser supports the progress bar indication. For this purpose, the progress property should be used.
-		/// </summary>
-		public IAspectPropertyValue<bool> Meter { get { return GetAs<IAspectPropertyValue<bool>>("Meter"); } }
-		/// <summary>
 		/// Indicates  the device's supported satellite navigation types.
 		/// </summary>
 		public IAspectPropertyValue<IReadOnlyList<string>> SatelliteNavigationTypes { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("SatelliteNavigationTypes"); } }
-		/// <summary>
-		/// Indicates if the device is a web enabled computerised wristwatch with other capabilities beyond timekeeping, such as push notifications. It runs on a Smart Operating System i.e. Android, WatchOS, Tizen, Ubuntu Touch and is designed to be wearable technology.
-		/// </summary>
-		public IAspectPropertyValue<bool> IsSmartWatch { get { return GetAs<IAspectPropertyValue<bool>>("IsSmartWatch"); } }
-		/// <summary>
-		/// JavaScript that can override the property value found by the server using information on the client device. This property is applicable for browsers that support screen pixels width cookie. 
-		/// </summary>
-		public IAspectPropertyValue<JavaScript> ScreenPixelsWidthJavaScript { get { return GetAs<IAspectPropertyValue<JavaScript>>("ScreenPixelsWidthJavaScript"); } }
-		/// <summary>
-		/// Indicates if the device's primary data connection is wireless and the device is designed to operate mostly by battery power (e.g. mobile phone, smartphone or tablet). This property does not indicate if the device is a mobile phone or not. Laptops are not classified as mobile devices under this definition and so 'IsMobile' will be 'False'.
-		/// </summary>
-		public IAspectPropertyValue<bool> IsMobile { get { return GetAs<IAspectPropertyValue<bool>>("IsMobile"); } }
 		/// <summary>
 		/// Indicates the resolution of the device's second back camera in megapixels.
 		/// </summary>
@@ -1111,14 +1171,6 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// Indicates if the browser may be optimised for low bandwidth. A true value indicates the browser supports a feature that can improve performance on low bandwidth connections, either via the removal of elements, features, a proxy or other methods.
 		/// </summary>
 		public IAspectPropertyValue<bool> IsDataMinimising { get { return GetAs<IAspectPropertyValue<bool>>("IsDataMinimising"); } }
-		/// <summary>
-		/// Lists what audio formats, if any, the browser supports using the HTML5 <![CDATA[<audio>]]> tag.
-		/// </summary>
-		public IAspectPropertyValue<IReadOnlyList<string>> Html5Audio { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("Html5Audio"); } }
-		/// <summary>
-		/// Lists what video formats, if any, the browser supports using the HTLM5 <![CDATA[<video>]]> tag.
-		/// </summary>
-		public IAspectPropertyValue<IReadOnlyList<string>> Html5Video { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("Html5Video"); } }
 		/// <summary>
 		/// Refers to the list of audio codecs supported by an operating system. This list of codecs is supported for playback on a  basic software installation. The values of this property are the codec's common name.
 		/// </summary>
@@ -1232,18 +1284,6 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<double> SecondFrontCameraMegaPixels { get { return GetAs<IAspectPropertyValue<double>>("SecondFrontCameraMegaPixels"); } }
 		/// <summary>
-		/// Indicates the dynamic contrast ratio of the device's screen.
-		/// </summary>
-		public IAspectPropertyValue<string> DynamicContrastRatio { get { return GetAs<IAspectPropertyValue<string>>("DynamicContrastRatio"); } }
-		/// <summary>
-		/// Indicates the crawler name when applicable. Returns NotCrawler when the device is not a crawler.
-		/// </summary>
-		public IAspectPropertyValue<string> CrawlerName { get { return GetAs<IAspectPropertyValue<string>>("CrawlerName"); } }
-		/// <summary>
-		/// Indicates the level of support for the Promise object. The Promise object represents the eventual completion (or failure) of an asynchronous operation, and its resulting value.
-		/// </summary>
-		public IAspectPropertyValue<string> Promise { get { return GetAs<IAspectPropertyValue<string>>("Promise"); } }
-		/// <summary>
 		/// Indicates the internal persistent storage (ROM capacity) options the device can be supplied with in gigabytes (GB), including the device's Operating System and bundled applications. This could also be referred to as "Electrically Erasable Programmable Read-Only Memory (EEPROM)" or "Non Volatile Random Access Memory (NVRAM)". If no variants are found, then the value returned will be the same as "MaxInternalStorage".
 		/// </summary>
 		public IAspectPropertyValue<IReadOnlyList<string>> InternalStorageVariants { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("InternalStorageVariants"); } }
@@ -1252,14 +1292,6 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<IReadOnlyList<string>> DeviceRAMVariants { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("DeviceRAMVariants"); } }
 		/// <summary>
-		/// Indicates the source of the profile's specifications. This property will return 'Manufacturer' value if the profile data was obtained from the manufacturer of the device or the device itself. This property will return 'Authoritative' value if the profile data was not obtained from the manufacturer or the device itself but other third party sources (this may include retailers, social media, carriers, etc). This property will return 'Legacy' value if the profile data was obtained prior to 51degrees differentiating between Manufacturer and Authoritative. This property will return 'N/A' value if the profile data was not obtained due to unidentifiable User-Agent. The example profiles are: Generic Android Unknown, Unknown Tablet, etc.
-		/// </summary>
-		public IAspectPropertyValue<string> HardwareProfileSource { get { return GetAs<IAspectPropertyValue<string>>("HardwareProfileSource"); } }
-		/// <summary>
-		/// Indicates if a web page is accessed through a VR headset.
-		/// </summary>
-		public IAspectPropertyValue<bool> InVRMode { get { return GetAs<IAspectPropertyValue<bool>>("InVRMode"); } }
-		/// <summary>
 		/// Indicates the Type Allocation Code (TAC) for devices supporting GSM/3GPP networks which come from multiple sources. This property will return 'N/A' if we cannot determine the device TAC authenticy.
 		/// </summary>
 		public IAspectPropertyValue<IReadOnlyList<string>> TAC { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("TAC"); } }
@@ -1267,22 +1299,6 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// Indicates the list of frequency bands supported by the device.
 		/// </summary>
 		public IAspectPropertyValue<IReadOnlyList<string>> FrequencyBands { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("FrequencyBands"); } }
-		/// <summary>
-		/// Indicates if the browser supports the WebP image format.
-		/// </summary>
-		public IAspectPropertyValue<bool> WebP { get { return GetAs<IAspectPropertyValue<bool>>("WebP"); } }
-		/// <summary>
-		/// Indicates if the browser supports the Fetch API.
-		/// </summary>
-		public IAspectPropertyValue<bool> Fetch { get { return GetAs<IAspectPropertyValue<bool>>("Fetch"); } }
-		/// <summary>
-		/// Indicates if the browser supports all CSS grid properties.
-		/// </summary>
-		public IAspectPropertyValue<bool> CssGrid { get { return GetAs<IAspectPropertyValue<bool>>("CssGrid"); } }
-		/// <summary>
-		/// Indicates whether the device screen is foldable or not. If the device does not have a screen or the screen is not foldable, 'False' is returned.
-		/// </summary>
-		public IAspectPropertyValue<bool> IsScreenFoldable { get { return GetAs<IAspectPropertyValue<bool>>("IsScreenFoldable"); } }
 		/// <summary>
 		/// Indicates the diagonal size of the device's second screen in inches. This property is not applicable for a device that does not have a second screen.
 		/// </summary>
@@ -1295,18 +1311,6 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// Indicates the height of the device's second screen in pixels. This property is not applicable for a device that does not have a second screen.
 		/// </summary>
 		public IAspectPropertyValue<int> SecondScreenPixelsHeight { get { return GetAs<IAspectPropertyValue<int>>("SecondScreenPixelsHeight"); } }
-		/// <summary>
-		/// Indicates the number of screens the device has. This property is not applicable for a device that does not have a screen. A display is only considered a screen if it could be used to display a web page.
-		/// </summary>
-		public IAspectPropertyValue<int> NumberOfScreens { get { return GetAs<IAspectPropertyValue<int>>("NumberOfScreens"); } }
-		/// <summary>
-		/// Indicates if the browser supports HTTP version 2.
-		/// </summary>
-		public IAspectPropertyValue<bool> Http2 { get { return GetAs<IAspectPropertyValue<bool>>("Http2"); } }
-		/// <summary>
-		/// Indicates if the browser can prefetch resources without executing them.
-		/// </summary>
-		public IAspectPropertyValue<bool> Preload { get { return GetAs<IAspectPropertyValue<bool>>("Preload"); } }
 		/// <summary>
 		/// Refers to the second screen width of the device in millimetres. This property will return 'N/A' for desktops or for devices which do not have a second screen.
 		/// </summary>
@@ -1343,10 +1347,6 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// Refers to the width of the device's second screen in inches. This property will return the value 'N/A' for desktop or for devices which do not have a second screen.
 		/// </summary>
 		public IAspectPropertyValue<double> SecondScreenInchesWidth { get { return GetAs<IAspectPropertyValue<double>>("SecondScreenInchesWidth"); } }
-		/// <summary>
-		/// Indicates the browser supports JPEG 2000 image format.
-		/// </summary>
-		public IAspectPropertyValue<bool> Jpeg2000 { get { return GetAs<IAspectPropertyValue<bool>>("Jpeg2000"); } }
 		/// <summary>
 		/// Refers to the list of audio codecs in specific formats supported for Decode by the Web Browser. This list of codecs is supported for playback on a basic browser installation.
 		/// </summary>
@@ -1472,29 +1472,29 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<string> Profiles { get { return GetAs<IAspectPropertyValue<string>>("Profiles"); } }
 		/// <summary>
-		/// The method used to determine the match result.
-		/// </summary>
-		public IAspectPropertyValue<string> Method { get { return GetAs<IAspectPropertyValue<string>>("Method"); } }
-		/// <summary>
 		/// The matched User-Agents.
 		/// </summary>
 		public IAspectPropertyValue<IReadOnlyList<string>> UserAgents { get { return GetAs<IAspectPropertyValue<IReadOnlyList<string>>>("UserAgents"); } }
-		/// <summary>
-		/// The number of iterations carried out in order to find a match. This is the number of nodes in the graph which have been visited.
-		/// </summary>
-		public IAspectPropertyValue<int> Iterations { get { return GetAs<IAspectPropertyValue<int>>("Iterations"); } }
-		/// <summary>
-		/// Total difference in character positions where the substrings hashes were found away from where they were expected.
-		/// </summary>
-		public IAspectPropertyValue<int> Drift { get { return GetAs<IAspectPropertyValue<int>>("Drift"); } }
 		/// <summary>
 		/// Indicates the number of hash nodes matched within the evidence.
 		/// </summary>
 		public IAspectPropertyValue<int> MatchedNodes { get { return GetAs<IAspectPropertyValue<int>>("MatchedNodes"); } }
 		/// <summary>
+		/// The number of iterations carried out in order to find a match. This is the number of nodes in the graph which have been visited.
+		/// </summary>
+		public IAspectPropertyValue<int> Iterations { get { return GetAs<IAspectPropertyValue<int>>("Iterations"); } }
+		/// <summary>
+		/// The method used to determine the match result.
+		/// </summary>
+		public IAspectPropertyValue<string> Method { get { return GetAs<IAspectPropertyValue<string>>("Method"); } }
+		/// <summary>
 		/// Used when detection method is not Exact or None. This is an integer value and the larger the value the less confident the detector is in this result.
 		/// </summary>
 		public IAspectPropertyValue<int> Difference { get { return GetAs<IAspectPropertyValue<int>>("Difference"); } }
+		/// <summary>
+		/// Total difference in character positions where the substrings hashes were found away from where they were expected.
+		/// </summary>
+		public IAspectPropertyValue<int> Drift { get { return GetAs<IAspectPropertyValue<int>>("Drift"); } }
 		/// <summary>
 		/// Consists of four components separated by a hyphen symbol: Hardware-Platform-Browser-IsCrawler where each Component represents an ID of the corresponding Profile.
 		/// </summary>
