@@ -1,4 +1,4 @@
-﻿/* *********************************************************************
+/* *********************************************************************
  * This Original Work is copyright of 51 Degrees Mobile Experts Limited.
  * Copyright 2026 51 Degrees Mobile Experts Limited, Davidson House,
  * Forbury Square, Reading, Berkshire, United Kingdom RG1 3EU.
@@ -20,33 +20,24 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
-using FiftyOne.Pipeline.Core.FlowElements;
-using FiftyOne.Pipeline.Engines.FiftyOne.FlowElements;
-using System.Threading;
-using System.Threading.Tasks;
+using FiftyOne.Pipeline.Engines.Data;
 
-namespace FiftyOne.DeviceDetection.PropertyKeyed.Services
+namespace FiftyOne.DeviceDetection.RobotsTxt.Data
 {
-    public interface IDataSetService
+    /// <summary>
+    /// Output data structures for the provide crawler usages.
+    /// </summary>
+    public interface IRobotsTxtData : IAspectData
     {
         /// <summary>
-        /// Builds the property value index from the pipeline provided.
+        /// A complete text block ready to write to a file robots.txt.
         /// </summary>
-        /// <param name="element">
-        /// The element that already exists in the pipeline that will consume
-        /// the resulting data set.
-        /// </param>
-        /// <param name="pipeline">
-        /// The source pipeline that must contain a
-        /// <see cref="DeviceDetectionHashEngine"/> instance.
-        /// </param>
-        /// <returns>
-        /// A new instance of a data set populated with property values from
-        /// the engine.
-        /// </returns>
-        PropertyKeyedDataSet BuildDataSet(
-            IFlowElement element,
-            IPipeline pipeline);
+        IAspectPropertyValue<string> PlainText { get; }
+
+        /// <summary>
+        /// A complete annotated text block ready to write to a file 
+        /// robots.txt.
+        /// </summary>
+        IAspectPropertyValue<string> AnnotatedText { get; }
     }
 }

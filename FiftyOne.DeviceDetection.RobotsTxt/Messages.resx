@@ -117,16 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="IncorrectTacEvidence" xml:space="preserve">
-    <value>The TAC value '{0}' is not valid. A TAC must be exactly 8 numeric digits.</value>
+  <data name="MissingRobotsTxtEvidence" xml:space="preserve">
+    <value>Value '{0}' is not valid for crawler usage with robots.txt.</value>
   </data>
-  <data name="PerformanceProfileNotSupported" xml:space="preserve">
-    <value>SetPerformanceProfile is not supported for PropertyKeyedDeviceEngine. The engine uses DeviceDetectionHashEngine's configuration.</value>
+  <data name="PlainTextDescription" xml:space="preserve">
+    <value>A simple version of the robots.txt lines with minimal comments.</value>
   </data>
-  <data name="ConcurrencyNotSupported" xml:space="preserve">
-    <value>SetConcurrency is not supported for PropertyKeyedDeviceEngine. The engine uses DeviceDetectionHashEngine's configuration.</value>
-  </data>
-  <data name="IncorrectNativeEvidence" xml:space="preserve">
-    <value>The NativeModel must be at least two or more characters.</value>
+  <data name="AnnotatedTextDescription" xml:space="preserve">
+    <value>A version of the robots.txt not intended for production use that contains comments explaining how each crawler is being treated and URLs to find out more information.</value>
   </data>
 </root>

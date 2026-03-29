@@ -20,33 +20,38 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
-using FiftyOne.Pipeline.Core.FlowElements;
+using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Engines.FiftyOne.FlowElements;
-using System.Threading;
-using System.Threading.Tasks;
+using FiftyOne.Pipeline.Engines.Services;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
 
-namespace FiftyOne.DeviceDetection.PropertyKeyed.Services
+namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
 {
-    public interface IDataSetService
+    public class NativeEngineBuilder :
+        PropertyKeyedDeviceEngineBaseBuilder<NativeEngineBuilder, NativeEngine>
     {
-        /// <summary>
-        /// Builds the property value index from the pipeline provided.
-        /// </summary>
-        /// <param name="element">
-        /// The element that already exists in the pipeline that will consume
-        /// the resulting data set.
-        /// </param>
-        /// <param name="pipeline">
-        /// The source pipeline that must contain a
-        /// <see cref="DeviceDetectionHashEngine"/> instance.
-        /// </param>
-        /// <returns>
-        /// A new instance of a data set populated with property values from
-        /// the engine.
-        /// </returns>
-        PropertyKeyedDataSet BuildDataSet(
-            IFlowElement element,
-            IPipeline pipeline);
+        public NativeEngineBuilder(
+            ILoggerFactory loggerFactory,
+            IDataUpdateService dataUpdateService = null) : 
+            base(loggerFactory, dataUpdateService)
+        {
+            _elementDataKey = "native-profiles";
+            SetKeyProperty("NativeModel");
+
+            // TODO: Work around for - https://github.com/51Degrees/pipeline-dotnet/issues/274
+            SetProperty("NativeModel");
+        }
+
+        /// <inheritdoc/>
+        protected override NativeEngine CreateEngine(List<string> properties)
+        {
+            return new NativeEngine(
+                _loggerFactory,
+                properties,
+                _keyProperty,
+                _elementDataKey);
+        }
     }
 }

@@ -22,31 +22,39 @@
 
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using FiftyOne.Pipeline.Core.FlowElements;
-using FiftyOne.Pipeline.Engines.FiftyOne.FlowElements;
-using System.Threading;
-using System.Threading.Tasks;
+using FiftyOne.Pipeline.Engines.FiftyOne.Data;
+using System.Collections.Generic;
 
 namespace FiftyOne.DeviceDetection.PropertyKeyed.Services
 {
-    public interface IDataSetService
+    public interface IPropertyValueQueryService
     {
         /// <summary>
-        /// Builds the property value index from the pipeline provided.
+        /// The properties in the <see cref="DeviceDetectionHashEngine"/> to
+        /// index.
         /// </summary>
-        /// <param name="element">
-        /// The element that already exists in the pipeline that will consume
-        /// the resulting data set.
-        /// </param>
-        /// <param name="pipeline">
-        /// The source pipeline that must contain a
-        /// <see cref="DeviceDetectionHashEngine"/> instance.
+        public IReadOnlyList<string> IndexedProperties { get; }
+
+        /// <summary>
+        /// Creates a pipeline that only contains the engine provided.
+        /// </summary>
+        /// <param name="engine"></param>
+        /// <returns>
+        /// A pipeline ready to be passed to <see cref="Query(IPipeline)"/>.
+        /// </returns>
+        IPipeline CreateContext(DeviceDetectionHashEngine engine);
+
+        /// <summary>
+        /// Iterates over the profiles and associated data where the profile
+        /// contains the properties the service is filtering for.
+        /// </summary>
+        /// <param name="contextPipeline">
+        /// A pipeline created specifically for querying for profiles.
         /// </param>
         /// <returns>
-        /// A new instance of a data set populated with property values from
-        /// the engine.
+        /// All the relevant profiles and meta data.
         /// </returns>
-        PropertyKeyedDataSet BuildDataSet(
-            IFlowElement element,
-            IPipeline pipeline);
+        IEnumerable<(IProfileMetaData Profile, IDeviceData Data)> Query(
+            IPipeline contextPipeline);
     }
 }

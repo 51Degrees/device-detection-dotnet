@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FiftyOne.DeviceDetection.PropertyKeyed {
+namespace FiftyOne.DeviceDetection.RobotsTxt {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiftyOne.DeviceDetection.PropertyKeyed.Messages", typeof(Messages).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FiftyOne.DeviceDetection.RobotsTxt.Messages", typeof(Messages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,38 +61,29 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SetConcurrency is not supported for PropertyKeyedDeviceEngine. The engine uses DeviceDetectionHashEngine&apos;s configuration..
+        ///   Looks up a localized string similar to A version of the robots.txt not intended for production use that contains comments explaining how each crawler is being treated and URLs to find out more information..
         /// </summary>
-        internal static string ConcurrencyNotSupported {
+        internal static string AnnotatedTextDescription {
             get {
-                return ResourceManager.GetString("ConcurrencyNotSupported", resourceCulture);
+                return ResourceManager.GetString("AnnotatedTextDescription", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The NativeModel must be at least two or more characters..
+        ///   Looks up a localized string similar to Value &apos;{0}&apos; is not valid for crawler usage with robots.txt..
         /// </summary>
-        internal static string IncorrectNativeEvidence {
+        internal static string MissingRobotsTxtEvidence {
             get {
-                return ResourceManager.GetString("IncorrectNativeEvidence", resourceCulture);
+                return ResourceManager.GetString("MissingRobotsTxtEvidence", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The TAC value &apos;{0}&apos; is not valid. A TAC must be exactly 8 numeric digits..
+        ///   Looks up a localized string similar to A simple version of the robots.txt lines with minimal comments..
         /// </summary>
-        internal static string IncorrectTacEvidence {
+        internal static string PlainTextDescription {
             get {
-                return ResourceManager.GetString("IncorrectTacEvidence", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to SetPerformanceProfile is not supported for PropertyKeyedDeviceEngine. The engine uses DeviceDetectionHashEngine&apos;s configuration..
-        /// </summary>
-        internal static string PerformanceProfileNotSupported {
-            get {
-                return ResourceManager.GetString("PerformanceProfileNotSupported", resourceCulture);
+                return ResourceManager.GetString("PlainTextDescription", resourceCulture);
             }
         }
     }

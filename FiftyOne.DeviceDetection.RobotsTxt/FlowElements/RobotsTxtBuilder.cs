@@ -20,61 +20,58 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
+using FiftyOne.DeviceDetection.PropertyKeyed.FlowElements;
+using FiftyOne.DeviceDetection.RobotsTxt.Data;
 using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.Exceptions;
+using FiftyOne.Pipeline.Engines;
 using FiftyOne.Pipeline.Engines.FiftyOne.FlowElements;
 using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 
-namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
+namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
 {
     /// <summary>
-    /// Builder for <see cref="PropertyKeyedDeviceBaseEngine"/>.
-    /// Supports configuring the key property, validation, and element data 
-    /// key.
+    /// Builder for <see cref="RobotsTxtEngine"/>.
     /// </summary>
-    public class PropertyKeyedDeviceEngineBuilder :
-        PropertyKeyedDeviceEngineBaseBuilder<
-            PropertyKeyedDeviceEngineBuilder,
-            PropertyKeyedDeviceBaseEngine>
+    public class RobotsTxtEngineBuilder : PropertyKeyedEngineBuilderBase<
+        RobotsTxtEngineBuilder,
+        RobotsTxtEngine>
     {
-        /// <summary>
-        /// Constructs a new instance of
-        /// <see cref="PropertyKeyedDeviceEngineBuilder"/>.
-        /// </summary>
-        /// <param name="loggerFactory">
-        /// The factory used to create loggers.
-        /// </param>
-        /// <param name="dataUpdateService">
-        /// The data update service, if any.
-        /// </param>
-        public PropertyKeyedDeviceEngineBuilder(
+        public RobotsTxtEngineBuilder(
             ILoggerFactory loggerFactory,
-            IDataUpdateService dataUpdateService = null)
-            : base(loggerFactory, dataUpdateService)
-        {
+            IDataUpdateService dataUpdateService = null) :
+            base(loggerFactory, dataUpdateService)
+        { 
+            // TODO: Work around for - https://github.com/51Degrees/pipeline-dotnet/issues/274
+            SetProperty(nameof(IRobotsTxtData.AnnotatedText));
+            SetProperty(nameof(IRobotsTxtData.PlainText));
         }
 
-        /// <inheritdoc/>
-        protected override PropertyKeyedDeviceBaseEngine CreateEngine(
+        public override RobotsTxtEngineBuilder SetPerformanceProfile(
+            PerformanceProfiles profile)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Build the engine without a data file.
+        /// PropertyKeyedDeviceEngine does not use a DataFile directly — 
+        /// it resolves its data from DeviceDetectionHashEngine via 
+        /// AddPipeline at runtime.
+        /// </summary>
+        /// <returns>The built engine.</returns>
+        public new RobotsTxtEngine Build()
+        {
+            return BuildEngine();
+        }
+
+        protected override RobotsTxtEngine CreateEngine(
             List<string> properties)
         {
-            if (string.IsNullOrEmpty(_keyProperty))
-            {
-                throw new PipelineConfigurationException(
-                    "KeyProperty must be set before building");
-            }
-
-            var elementDataKey = _elementDataKey ?? 
-                $"profiles-{_keyProperty.ToLowerInvariant()}";
-
-            return new PropertyKeyedDeviceEngine(
-                _loggerFactory,
-                properties,
-                _keyProperty,
-                elementDataKey);
+            return new RobotsTxtEngine(properties, _loggerFactory);
         }
     }
 }

@@ -20,33 +20,46 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
-using FiftyOne.Pipeline.Core.FlowElements;
-using FiftyOne.Pipeline.Engines.FiftyOne.FlowElements;
-using System.Threading;
-using System.Threading.Tasks;
+using FiftyOne.Pipeline.Core.Data;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
 
-namespace FiftyOne.DeviceDetection.PropertyKeyed.Services
+namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
 {
-    public interface IDataSetService
+    public class NativeEngine : PropertyKeyedDeviceBaseEngine
     {
+        public NativeEngine(
+            ILoggerFactory loggerFactory,
+            IReadOnlyList<string> indexedProperties,
+            string keyProperty,
+            string elementDataKey) : base(
+                loggerFactory,
+                indexedProperties,
+                keyProperty,
+                elementDataKey)
+        {
+        }
+
         /// <summary>
-        /// Builds the property value index from the pipeline provided.
+        /// Validates the NativeModel is at least the minimum number of
+        /// characters.
         /// </summary>
-        /// <param name="element">
-        /// The element that already exists in the pipeline that will consume
-        /// the resulting data set.
-        /// </param>
-        /// <param name="pipeline">
-        /// The source pipeline that must contain a
-        /// <see cref="DeviceDetectionHashEngine"/> instance.
-        /// </param>
-        /// <returns>
-        /// A new instance of a data set populated with property values from
-        /// the engine.
-        /// </returns>
-        PropertyKeyedDataSet BuildDataSet(
-            IFlowElement element,
-            IPipeline pipeline);
+        protected override bool Validate(
+            string keyPropertyValue,
+            IFlowData data)
+        {
+            if (keyPropertyValue.Length > 1)
+            {
+                return true;
+            }
+
+            data.AddError(
+                new ArgumentException(string.Format(
+                    Messages.IncorrectNativeEvidence,
+                    keyPropertyValue)),
+                data.Pipeline.GetElement<PropertyKeyedDeviceBaseEngine>());
+            return false;
+        }
     }
 }

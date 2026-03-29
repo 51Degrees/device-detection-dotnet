@@ -21,32 +21,37 @@
  * ********************************************************************* */
 
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
+using FiftyOne.Pipeline.Core.Exceptions;
 using FiftyOne.Pipeline.Core.FlowElements;
-using FiftyOne.Pipeline.Engines.FiftyOne.FlowElements;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace FiftyOne.DeviceDetection.PropertyKeyed.Services
+namespace FiftyOne.DeviceDetection.PropertyKeyed
 {
-    public interface IDataSetService
+    public static class Extensions
     {
         /// <summary>
-        /// Builds the property value index from the pipeline provided.
+        /// Returns the <see cref="DeviceDetectionHashEngine"/> if present in
+        /// the pipeline.
         /// </summary>
-        /// <param name="element">
-        /// The element that already exists in the pipeline that will consume
-        /// the resulting data set.
-        /// </param>
-        /// <param name="pipeline">
-        /// The source pipeline that must contain a
-        /// <see cref="DeviceDetectionHashEngine"/> instance.
-        /// </param>
+        /// <param name="pipeline"></param>
         /// <returns>
-        /// A new instance of a data set populated with property values from
-        /// the engine.
+        /// The instance of <see cref="DeviceDetectionHashEngine"/> from the
+        /// pipeline.
         /// </returns>
-        PropertyKeyedDataSet BuildDataSet(
-            IFlowElement element,
-            IPipeline pipeline);
+        /// <exception cref="PipelineConfigurationException">
+        /// Thrown if there is no instance of 
+        /// <see cref="DeviceDetectionHashEngine"/> available.
+        /// </exception>
+        public static DeviceDetectionHashEngine GetDeviceDetectionHashEngine(
+            this IPipeline pipeline)
+        {
+            var engine = pipeline.GetElement<DeviceDetectionHashEngine>();
+            if (engine == null)
+            {
+                throw new PipelineConfigurationException(
+                    $"Ensure {nameof(DeviceDetectionHashEngine)} is added " +
+                    $"to the pipeline");
+            }
+            return engine;
+        }
     }
 }

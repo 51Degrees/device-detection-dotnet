@@ -20,6 +20,7 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
+using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data;
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using FiftyOne.DeviceDetection.PropertyKeyed.Data;
 using FiftyOne.Pipeline.Core.Data;
@@ -29,67 +30,48 @@ using FiftyOne.Pipeline.Engines.Data;
 using FiftyOne.Pipeline.Engines.FiftyOne.Data;
 using FiftyOne.Pipeline.Engines.FiftyOne.FlowElements;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace FiftyOne.DeviceDetection.PropertyKeyed.Services
 {
-    public class DataSetService
+    /// <summary>
+    /// Concrete implementation of the data set service used to create property
+    /// value indexed data sets for flow element processing.
+    /// </summary>
+    public class DataSetService : IDataSetService
     {
-        /// <summary>
-        /// The properties in the <see cref="DeviceDetectionHashEngine"/> to
-        /// index.
-        /// </summary>
-        public IReadOnlyList<string> IndexedProperties { get; }
-
-        private readonly LoggerFactory _loggerFactory;
-
+        private readonly IPropertyValueQueryService _queryService;
         private readonly ILogger<DataSetService> _logger;
 
         /// <summary>
         /// Constructs a new instance of <see cref="DataSetService"/>.
         /// </summary>
-        /// <param name="indexedProperties">
-        /// The properties in the <see cref="DeviceDetectionHashEngine"/> to
-        /// index.
+        /// <param name="queryService">
+        /// Service used to get profile and device data from the 
+        /// <see cref="DeviceDetectionHashEngine"/>.
         /// </param>
-        /// <param name="loggerFactory"></param>
+        /// <param name="logger"></param>
         public DataSetService(
-            IReadOnlyList<string> indexedProperties,
-            LoggerFactory loggerFactory)
+            IPropertyValueQueryService queryService,
+            ILogger<DataSetService> logger)
         {
-            IndexedProperties = indexedProperties;
-            _loggerFactory = loggerFactory;
-            _logger = loggerFactory.CreateLogger<DataSetService>();
+            _queryService = queryService;
+            _logger = logger;
         }
 
         /// <inheritdoc/>
-        public async Task<PropertyKeyedDataSet> BuildDataSet(
+        public PropertyKeyedDataSet BuildDataSet(
             IFlowElement element,
-            IPipeline pipeline,
-            CancellationToken stopToken)
+            IPipeline pipeline)
         {
-            var engine = pipeline.GetElement<DeviceDetectionHashEngine>();
-            if (engine == null)
-            {
-                throw new PipelineConfigurationException(
-                    $"{GetType().Name} requires a " +
-                    $"{nameof(DeviceDetectionHashEngine)} " +
-                    $"instance to be present in the pipeline. Ensure " +
-                    $"{nameof(DeviceDetectionHashEngine)} is added.");
-            }
-            return await BuildDataSet(element, engine, stopToken);
-        }
+            var engine = pipeline.GetDeviceDetectionHashEngine();
 
-        /// <inheritdoc/>
-        public async Task<PropertyKeyedDataSet> BuildDataSet(
-            IFlowElement element,
-            DeviceDetectionHashEngine engine,
-            CancellationToken stopToken)
-        {
             // Create lookup dictionary for O(1) property access
             var propertyLookup = engine.Properties
                 .ToDictionary(
@@ -99,7 +81,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Services
 
             // Create keys for the indexed properties.
             var indexes = new List<PropertyKeyedIndex>();
-            foreach (var property in IndexedProperties)
+            foreach (var property in _queryService.IndexedProperties)
             {
                 if (propertyLookup.TryGetValue(property, out var metaData))
                 {
@@ -116,102 +98,53 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Services
                 }
             }
 
-            // Build context pipeline for profile resolution
-            var contextPipeline = new PipelineBuilder(_loggerFactory)
-                .SetAutoDisposeElements(false) // Don't dispose the shared engine
-                .AddFlowElement(engine)
-                .Build();
+            // Create the context pipeline.
+            var contextPipeline = _queryService.CreateContext(engine);
 
-            // Populate the indexes using the engine's list of profiles
-            Parallel.ForEach(
-                engine.Profiles,
-                new ParallelOptions() { CancellationToken = stopToken },
-                profile => ProcessProfile(
-                    engine,
-                    profile,
-                    indexes,
-                    contextPipeline));
+            // Populate the indexes.
+            foreach (var item in _queryService.Query(contextPipeline))
+            {
+                ProcessProfile(item, indexes);
+            }
 
+            // Build and return the data set.
             return new PropertyKeyedDataSet(
                 contextPipeline,
-                engine.ElementDataKey,
+                element.ElementDataKey,
                 engine.DataSourceTier,
                 element,
                 indexes,
                 BuildProperties);
         }
 
-        private static List<IFiftyOneAspectPropertyMetaData> BuildProperties(
-            IList<IFiftyOneAspectPropertyMetaData> itemProperties, 
-            IFlowElement element)
-        {
-            return new List<IFiftyOneAspectPropertyMetaData>
-                {
-                    new DevicePropertyMetaData(
-                        element,
-                        PropertyKeyedDataSet.PROPERTY_PREFIX_NAME,
-                        itemProperties.SelectMany(i =>
-                            (i.ItemProperties ?? 
-                            Enumerable.Empty<IElementPropertyMetaData>())
-                            .OfType<IFiftyOneAspectPropertyMetaData>())
-                            .ToList()
-                            .AsReadOnly(),
-                        typeof(IReadOnlyList<IDeviceData>))
-                };
-        }
-
         /// <summary>
         /// Extracts any relevant values from the profile and adds when as
         /// keys for the profile.
         /// </summary>
-        /// <param name="engine"></param>
-        /// <param name="profile"></param>
+        /// <param name="item"></param>
         /// <param name="indexes"></param>
-        /// <param name="contextPipeline"></param>
         private void ProcessProfile(
-            DeviceDetectionHashEngine engine, 
-            IProfileMetaData profile, 
-            List<PropertyKeyedIndex> indexes, 
-            IPipeline contextPipeline)
+            (IProfileMetaData Profile, IDeviceData Data) item, 
+            List<PropertyKeyedIndex> indexes)
         {
-            using var data = contextPipeline.CreateFlowData();
-
-            data.AddEvidence(
-                Shared.Constants.EVIDENCE_PROFILE_IDS_KEY,
-                profile.ProfileId.ToString());
-            data.Process();
-
-            var dd = data.Get<IDeviceData>();
-            if (dd != null)
+            foreach (var index in indexes)
             {
-                foreach (var index in indexes)
+                var value = item.Data[index.MetaData.Name] 
+                    as IAspectPropertyValue;
+                if (value != null && value.HasValue)
                 {
-                    var value = dd[index.MetaData.Name] as IAspectPropertyValue;
-                    if (value != null && value.HasValue)
+                    foreach (var val in ConvertValues(value))
                     {
-                        lock (index)
-                        {
-                            foreach (var val in ConvertValues(value))
-                            {
-                                index.Add(val, profile.ProfileId);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        _logger.LogWarning(
-                            "Profile id '{0}' missing property '{1}'",
-                            profile.ProfileId,
-                            index.MetaData.Name);
+                        index.Add(val, item.Profile.ProfileId);
                     }
                 }
-            }
-            else
-            {
-                _logger.LogWarning(
-                    "Profile id '{0}' missing {1}", 
-                    profile.ProfileId,
-                    nameof(IDeviceData));
+                else
+                {
+                    _logger.LogWarning(
+                        "Profile '{0}' missing property '{1}'",
+                        item.Profile,
+                        index.MetaData.Name);
+                }
             }
         }
 
@@ -235,6 +168,25 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Services
             {
                 yield return value.Value.ToString();
             }
+        }
+
+        private static List<IFiftyOneAspectPropertyMetaData> BuildProperties(
+            IList<IFiftyOneAspectPropertyMetaData> itemProperties,
+            IFlowElement element)
+        {
+            return new List<IFiftyOneAspectPropertyMetaData>
+                {
+                    new DevicePropertyMetaData(
+                        element,
+                        PropertyKeyedDataSet.PROPERTY_PREFIX_NAME,
+                        itemProperties.SelectMany(i =>
+                            (i.ItemProperties ??
+                            Enumerable.Empty<IElementPropertyMetaData>())
+                            .OfType<IFiftyOneAspectPropertyMetaData>())
+                            .ToList()
+                            .AsReadOnly(),
+                        typeof(IReadOnlyList<IDeviceData>))
+                };
         }
     }
 }

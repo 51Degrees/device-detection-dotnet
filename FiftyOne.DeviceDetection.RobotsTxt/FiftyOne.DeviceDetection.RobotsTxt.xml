@@ -1,0 +1,433 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FiftyOne.DeviceDetection.RobotsTxt</name>
+    </assembly>
+    <members>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Constants.License">
+            <summary>
+            The plain text of the license. Used for the web page and embedding the
+            license into the robots.txt file annotations.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Constants.LicenseUrl">
+            <summary>
+            The Url of the license for the robots.txt file.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData">
+            <summary>
+            A wrapper around <see cref="T:FiftyOne.Pipeline.Engines.FiftyOne.Data.IFiftyOneAspectPropertyMetaData"/>
+            that re-associates the property with the correct outer engine 
+            rather than the internal DeviceDetectionHashEngine. Can also
+            create a synthetic property with explicit name, type, and 
+            item properties.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.Element">
+            <inheritdoc/>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.Name">
+            <inheritdoc/>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.Category">
+            <inheritdoc/>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.Type">
+            <inheritdoc/>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.Available">
+            <inheritdoc/>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.ItemProperties">
+            <inheritdoc/>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.ItemPropertyDictionary">
+            <inheritdoc/>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.DelayExecution">
+            <inheritdoc/>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.EvidenceProperties">
+            <inheritdoc/>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.DataTiersWherePresent">
+            <inheritdoc/>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.Description">
+            <inheritdoc/>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.Url">
+            <inheritdoc/>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.DisplayOrder">
+            <inheritdoc/>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.Mandatory">
+            <inheritdoc/>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.List">
+            <inheritdoc/>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.Obsolete">
+            <inheritdoc/>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.Show">
+            <inheritdoc/>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.ShowValues">
+            <inheritdoc/>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.Component">
+            <inheritdoc/>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.Values">
+            <inheritdoc/>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.DefaultValue">
+            <inheritdoc/>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.#ctor(FiftyOne.Pipeline.Core.FlowElements.IFlowElement,FiftyOne.Pipeline.Engines.FiftyOne.Data.IFiftyOneAspectPropertyMetaData)">
+            <summary>
+            Creates a wrapper with a different associated engine.
+            </summary>
+            <param name="element">
+            The engine to associate with this property.
+            </param>
+            <param name="source">
+            The original property metadata from the inner engine.
+            </param>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.#ctor(FiftyOne.Pipeline.Core.FlowElements.IFlowElement,System.String,System.Collections.Generic.IReadOnlyList{FiftyOne.Pipeline.Engines.FiftyOne.Data.IFiftyOneAspectPropertyMetaData},System.Type)">
+            <summary>
+            Creates a new synthetic property metadata with explicit name, 
+            type, and item properties.
+            </summary>
+            <param name="element">
+            The engine to associate with this property.
+            </param>
+            <param name="name">
+            The property name (e.g. "Profiles").
+            </param>
+            <param name="itemProperties">
+            Sub-properties of this property.
+            </param>
+            <param name="type">
+            The CLR type of this property.
+            </param>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.GetComponent">
+            <inheritdoc/>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.GetValues">
+            <inheritdoc/>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.GetValue(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.GetDefaultValue">
+            <inheritdoc/>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.Equals(FiftyOne.Pipeline.Engines.FiftyOne.Data.IFiftyOneAspectPropertyMetaData)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.Equals(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.CompareTo(FiftyOne.Pipeline.Engines.FiftyOne.Data.IFiftyOneAspectPropertyMetaData)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.Dispose(System.Boolean)">
+            <summary>
+            Disposes the object.
+            </summary>
+            <param name="disposing">
+            True if called from Dispose(), false if called from finalizer.
+            </param>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.Finalize">
+            <summary>
+            Finalizer.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.Data.DevicePropertyMetaData.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="T:FiftyOne.DeviceDetection.RobotsTxt.Data.IRobotsTxtData">
+            <summary>
+            Output data structures for the provide crawler usages.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Data.IRobotsTxtData.PlainText">
+            <summary>
+            A complete text block ready to write to a file robots.txt.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Data.IRobotsTxtData.AnnotatedText">
+            <summary>
+            A complete annotated text block ready to write to a file 
+            robots.txt.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.DeviceDetection.RobotsTxt.FlowElements.RobotsTxtEngineBuilder">
+            <summary>
+            Builder for <see cref="T:FiftyOne.DeviceDetection.RobotsTxt.FlowElements.RobotsTxtEngine"/>.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.FlowElements.RobotsTxtEngineBuilder.Build">
+            <summary>
+            Build the engine without a data file.
+            PropertyKeyedDeviceEngine does not use a DataFile directly — 
+            it resolves its data from DeviceDetectionHashEngine via 
+            AddPipeline at runtime.
+            </summary>
+            <returns>The built engine.</returns>
+        </member>
+        <member name="F:FiftyOne.DeviceDetection.RobotsTxt.FlowElements.RobotsTxtEngine.AllowValues">
+            <summary>
+            Evidence key values that indicate the crawler usage is allowed.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.DeviceDetection.RobotsTxt.FlowElements.RobotsTxtEngine.DisallowValues">
+            <summary>
+            Evidence key values that indicate the crawler usage is not allowed.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.DeviceDetection.RobotsTxt.FlowElements.RobotsTxtEngine.ValidValues">
+            <summary>
+            Evidence key values that are valid.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.DeviceDetection.RobotsTxt.FlowElements.RobotsTxtEngine._generatorService">
+            <summary>
+            The robots.txt generator service.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.DeviceDetection.RobotsTxt.FlowElements.RobotsTxtEngine._queryService">
+            <summary>
+            The service that converts a <see cref="T:FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements.DeviceDetectionHashEngine"/>
+            into a data set that can then be used to create the model.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.FlowElements.RobotsTxtEngine.Properties">
+            <summary>
+            Properties available for robots.txt.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.FlowElements.RobotsTxtEngine.Process(FiftyOne.Pipeline.Core.Data.IFlowData)">
+            <summary>
+            Only processes if there are evidence keys for this engine
+            available.
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.FlowElements.RobotsTxtEngine.ProcessEngine(FiftyOne.Pipeline.Core.Data.IFlowData,FiftyOne.DeviceDetection.RobotsTxt.Data.IRobotsTxtData)">
+            <summary>
+            Get the allowed usages.
+            </summary>
+            <param name="data"></param>
+            <param name="aspectData"></param>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.FlowElements.RobotsTxtEngine.AddPipeline(FiftyOne.Pipeline.Core.FlowElements.IPipeline)">
+            <summary>
+            Adds the pipeline to build the data set. Then works out all the
+            possible evidence keys that can be used by the engine, and the
+            robots.txt model that will be used with the generator service.
+            </summary>
+            <param name="pipeline"></param>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.FlowElements.RobotsTxtEngine.GetEvidenceKeys(FiftyOne.DeviceDetection.RobotsTxt.Model.UsageModel[])">
+            <summary>
+            Enumerates the various crawler usage values that can be provided
+            as evidence.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:FiftyOne.DeviceDetection.RobotsTxt.Messages">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Messages.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Messages.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Messages.AnnotatedTextDescription">
+            <summary>
+              Looks up a localized string similar to A version of the robots.txt not intended for production use that contains comments explaining how each crawler is being treated and URLs to find out more information..
+            </summary>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Messages.MissingRobotsTxtEvidence">
+            <summary>
+              Looks up a localized string similar to Value &apos;{0}&apos; is not valid for crawler usage with robots.txt..
+            </summary>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Messages.PlainTextDescription">
+            <summary>
+              Looks up a localized string similar to A simple version of the robots.txt lines with minimal comments..
+            </summary>
+        </member>
+        <member name="T:FiftyOne.DeviceDetection.RobotsTxt.Model.CrawlerModel">
+            <summary>
+            Details associated with each crawler. Used both for extraction and then 
+            refinement.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Model.CrawlerModel.Name">
+            <summary>
+            The name of the crawler. Relates to the CrawlerName property.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Model.CrawlerModel.Usages">
+            <summary>
+            Array of usage names that must be available in 
+            <see cref="P:FiftyOne.DeviceDetection.RobotsTxt.Model.UsageModel.Name"/> that this crawler is associated
+            with. Used to work out how to treat the User-Agent in the robots.txt
+            file.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Model.CrawlerModel.ProductTokens">
+            <summary>
+            Product tokens and how often they have been found in the User-Agents
+            associated with the crawler. The value is the count for all User-Agents
+            that contain the product token. This information is used to determine
+            which product tokens to consider are relevant.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Model.CrawlerModel.ReferenceUris">
+            <summary>
+            Reference URIs and how often they have been found in the User-Agents
+            associated with the crawler. The value is the count for all User-Agents
+            that contain the reference URI. This information is used to determine
+            which reference URI to use in the annotated robots.txt.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.DeviceDetection.RobotsTxt.Model.RobotsTxtModel">
+            <summary>
+            A model for all the data needed to work with Robots.Txt. Provided in JSON
+            format from a transformation of Daphne data.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Model.RobotsTxtModel.Crawlers">
+            <summary>
+            A list of the crawlers that are available.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Model.RobotsTxtModel.Usages">
+            <summary>
+            A list of the possible usages in the order which they should be shown
+            in UIs and reports.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.DeviceDetection.RobotsTxt.Model.UsageModel">
+            <summary>
+            Data used to describe the crawler usage for the user interface.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Model.UsageModel.Name">
+            <summary>
+            The unique name of the usage. i.e. Search, Monitoring, LLM
+            </summary>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Model.UsageModel.Description">
+            <summary>
+            The description for the usage.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Model.UsageModel.Default">
+            <summary>
+            Whether the usage should default to enabled or disabled.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Model.UsageModel.Order">
+            <summary>
+            The order that the usage category should appear in relative to others.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.Services.GeneratorService.Write(System.IO.TextWriter,System.Collections.Generic.HashSet{System.String},System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Builds a robots.txt with or without annotations for the choices
+            provided.
+            </summary>
+            <param name="writer">
+            Text writer to send the robots.txt content to.
+            </param>
+            <param name="allowed">
+            Usages that are allowed in the robots.txt. All other usages will be
+            disallowed.
+            </param>
+            <param name="annotations">
+            True if the resulting file should include annotations, otherwise false.
+            </param>
+            <param name="stopToken"></param>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.Services.GeneratorService.AddCopyright(System.IO.TextWriter)">
+            <summary>
+            Adds a simple copyright and license line at the top of the file. Needed
+            to avoid competitors taking the data and using it in their products.
+            </summary>
+            <param name="sb"></param>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.Services.GeneratorService.AddHeader(System.IO.TextWriter)">
+            <summary>
+            Adds the header for the text with annotations to explain what the
+            different entries mean.
+            </summary>
+            <param name="sb"></param>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.Services.GeneratorService.GetIsAllowed(FiftyOne.DeviceDetection.RobotsTxt.Model.CrawlerModel,System.Collections.Generic.HashSet{System.String})">
+            <summary>
+            True if the crawler supports at least one of the usages.
+            </summary>
+            <param name="crawler"></param>
+            <param name="allowed"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.Services.GeneratorService.GetNotAllowed(FiftyOne.DeviceDetection.RobotsTxt.Model.CrawlerModel,System.Collections.Generic.HashSet{System.String})">
+            <summary>
+            Returns any usages for the crawler that the allowed choices prohibit.
+            </summary>
+            <param name="crawler"></param>
+            <param name="allowed"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FiftyOne.DeviceDetection.PropertyKeyed.Data.RobotsTxtData">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.Data.RobotsTxtData.#ctor(Microsoft.Extensions.Logging.ILogger{FiftyOne.DeviceDetection.PropertyKeyed.Data.RobotsTxtData},FiftyOne.Pipeline.Core.FlowElements.IPipeline,FiftyOne.DeviceDetection.RobotsTxt.FlowElements.RobotsTxtEngine)">
+            <summary>
+            Constructs a new instance of <see cref="T:FiftyOne.DeviceDetection.PropertyKeyed.Data.RobotsTxtData"/>.
+            </summary>
+            <param name="logger">Logger instance.</param>
+            <param name="pipeline">The pipeline this data belongs to.</param>
+            <param name="engine">The engine that created this data.</param>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.PropertyKeyed.Data.RobotsTxtData.PlainText">
+            <summary>
+            See <see cref="P:FiftyOne.DeviceDetection.RobotsTxt.Messages.PlainTextDescription"/>
+            </summary>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.PropertyKeyed.Data.RobotsTxtData.AnnotatedText">
+            <summary>
+            See <see cref="P:FiftyOne.DeviceDetection.RobotsTxt.Messages.AnnotatedTextDescription"/>
+            </summary>
+        </member>
+    </members>
+</doc>

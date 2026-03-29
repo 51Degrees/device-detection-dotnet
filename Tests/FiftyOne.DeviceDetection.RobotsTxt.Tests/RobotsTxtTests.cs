@@ -23,6 +23,8 @@
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using FiftyOne.DeviceDetection.PropertyKeyed.Data;
 using FiftyOne.DeviceDetection.PropertyKeyed.FlowElements;
+using FiftyOne.DeviceDetection.RobotsTxt.Data;
+using FiftyOne.DeviceDetection.RobotsTxt.FlowElements;
 using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.Exceptions;
 using FiftyOne.Pipeline.Core.FlowElements;
@@ -35,16 +37,16 @@ using System.Linq;
 
 [assembly: Parallelize(Scope = ExecutionScope.ClassLevel)]
 
-namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
+namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
 {
     /// <summary>
-    /// Tests for <see cref="PropertyKeyedDeviceBaseEngine"/> with TAC configuration.
+    /// Tests for <see cref="RobotsEngine"/> with RobotsTxt configuration.
     /// </summary>
     [TestClass]
-    public class TacConfiguredEngineTests
+    public class RobotsTxtTests
     {
         private static ILoggerFactory _loggerFactory;
-        private static PropertyKeyedDeviceBaseEngine _engine;
+        private static RobotsTxtEngine _engine;
         private static IPipeline _pipeline;
         private IFlowData _data;
 
@@ -73,11 +75,8 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
                 .SetDataFileSystemWatcher(false)
                 .Build(ddFile, false);
 
-            // Build PropertyKeyedDeviceEngine configured for TAC
-            _engine = new TacEngineBuilder(
-                    _loggerFactory,
-                    new Mock<IDataUpdateService>().Object)
-                .Build();
+            // Build PropertyKeyedDeviceEngine configured for RobotsTxt
+            _engine = new RobotsTxtEngineBuilder(_loggerFactory).Build();
 
             _pipeline = new PipelineBuilder(_loggerFactory)
                 .AddFlowElement(hashEngine)
@@ -85,6 +84,9 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
                 .SetSuppressProcessExceptions(true)
                 .SetAutoDisposeElements(true)
                 .Build();
+
+            // Must be called for RobotsTxt explicitly.
+            _engine.AddPipeline(_pipeline);
         }
 
         [TestInitialize]
@@ -99,90 +101,86 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
             _data?.Dispose();
         }
 
-        /// <summary>
-        /// A valid 8-digit TAC should return at least one profile.
-        /// </summary>
         [TestMethod]
-        public void ValidTac_ReturnsProfiles()
+        [DataRow("query.robotstxt.search", "true")]
+        [DataRow("query.robotstxt.search", "on")]
+        [DataRow("query.robotstxt.search", "allow")]
+        [DataRow("query.robotstxt.search", "yes")]
+        [DataRow("query.robotstxt.search", "enabled")]
+        public void AllowTest(string key, string value)
         {
-            _data.AddEvidence("query.tac", "35925406");
+            // Arrange
+            _data.AddEvidence(key, value);
+
+            // Act
             _data.Process();
-            Assert.IsNull(_data.Errors,
-                _data.Errors == null ? "" :
-                    string.Join("; ", _data.Errors.Select(
-                        e => e.ExceptionData.Message)));
-            var mdd = _data.Get<IMultiDeviceData>();
-            Assert.IsNotNull(mdd);
-            Assert.AreNotEqual(0, mdd.Profiles.Count,
-                "Expected at least one profile for a valid TAC.");
+
+            // Assert
+            var result = _data.Get<IRobotsTxtData>();
+            Assert.IsNotNull(result.AnnotatedText);
+            Assert.IsNotNull(result.PlainText);
+            Assert.IsTrue(result.AnnotatedText.HasValue);
+            Assert.IsTrue(result.PlainText.HasValue);
+            Assert.Contains("Allow: /", 
+                result.PlainText.Value, 
+                "Expect some crawlers to be allowed for search");
+            Assert.MatchesRegex("# U: Search", 
+                result.AnnotatedText.Value, 
+                "Expect annotations to include search");
         }
 
         /// <summary>
-        /// An invalid TAC (not 8 digits) should add an error.
+        /// Checks that when disallow is set for at least one usage that the
+        /// robots.txt is returned without any allowed usages.
         /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
         [TestMethod]
-        [DataRow("1234")]
-        [DataRow("ABCDEFGH")]
-        [DataRow("123456789")]
-        public void InvalidTac_AddsError(string tac)
+        [DataRow("query.robotstxt.search", "false")]
+        [DataRow("query.robotstxt.search", "off")]
+        [DataRow("query.robotstxt.search", "disallow")]
+        [DataRow("query.robotstxt.search", "no")]
+        [DataRow("query.robotstxt.search", "disabled")]
+        public void DisallowTest(string key, string value)
         {
-            _data.AddEvidence("query.tac", tac);
+            // Arrange
+            _data.AddEvidence(key, value);
+
+            // Act
             _data.Process();
-            Assert.IsNotNull(_data.Errors,
-                "Expected an error for invalid TAC.");
+
+            // Assert
+            var result = _data.Get<IRobotsTxtData>();
+            Assert.IsNotNull(result.AnnotatedText);
+            Assert.IsNotNull(result.PlainText);
+            Assert.IsTrue(result.AnnotatedText.HasValue);
+            Assert.IsTrue(result.PlainText.HasValue);
+            Assert.Contains(
+                "Disallow: /",
+                result.PlainText.Value,
+                "Expect no crawlers to be allowed");
+            Assert.DoesNotContain(
+                "Allow: /",
+                result.PlainText.Value);
+            Assert.MatchesRegex(
+                "# U: Search",
+                result.AnnotatedText.Value,
+                "Expect annotations to include search");
         }
 
         /// <summary>
-        /// No evidence — engine is not processed.
+        /// Checks that if no evidence is provided the engine doesn't add the
+        /// aspect data.
         /// </summary>
         [TestMethod]
-        public void NoEvidence_NoProcessing()
+        public void Empty()
         {
+            // Act
             _data.Process();
-            Assert.IsNull(_data.Errors);
-            Assert.ThrowsExactly<PipelineDataException>(() =>
-                _data.Get<IMultiDeviceData>());
-        }
 
-        /// <summary>
-        /// An unlikely TAC should still be processable without crash.
-        /// </summary>
-        [TestMethod]
-        public void MissingTacValue_NoCrash()
-        {
-            _data.AddEvidence("query.tac", "00000000");
-            _data.Process();
-            var mdd = _data.Get<IMultiDeviceData>();
-            Assert.IsNotNull(mdd);
-        }
-
-        /// <summary>
-        /// RefreshData should throw.
-        /// </summary>
-        [TestMethod]
-        public void RefreshData_Throws()
-        {
-            Assert.ThrowsExactly<Exception>(() =>
-                _engine.RefreshData(""));
-        }
-
-        /// <summary>
-        /// Engine should expose at least one property.
-        /// </summary>
-        [TestMethod]
-        public void Properties_NotEmpty()
-        {
-            Assert.AreNotEqual(0, _engine.Properties.Count,
-                "Engine should have at least one property.");
-        }
-
-        /// <summary>
-        /// ElementDataKey should be unique for TAC configuration.
-        /// </summary>
-        [TestMethod]
-        public void ElementDataKey_IsUnique()
-        {
-            Assert.AreEqual("tac-profiles", _engine.ElementDataKey);
+            // Assert
+            Assert.ThrowsExactly<PipelineDataException>(
+                () => _data.Get<IRobotsTxtData>());
         }
     }
 }
