@@ -93,34 +93,6 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
             return this;
         }
 
-        /// <summary>
-        /// Configures the builder for TAC (Type Allocation Code) lookups.
-        /// Sets keyProperty to "TAC" and adds 8-digit validation.
-        /// </summary>
-        /// <returns>This builder.</returns>
-        public PropertyKeyedDeviceEngineBuilder ConfigureForTac()
-        {
-            _keyProperty = "TAC";
-            _elementDataKey = "tac-profiles";
-            _validator = ValidateTac;
-            SetProperty("TAC");
-            return this;
-        }
-
-        /// <summary>
-        /// Configures the builder for NativeModel lookups.
-        /// Sets keyProperty to "NativeModel" with no validation.
-        /// </summary>
-        /// <returns>This builder.</returns>
-        public PropertyKeyedDeviceEngineBuilder ConfigureForNativeModel()
-        {
-            _keyProperty = "NativeModel";
-            _elementDataKey = "native-profiles";
-            _validator = null;
-            SetProperty("NativeModel");
-            return this;
-        }
-
         /// <inheritdoc/>
         public override PropertyKeyedDeviceEngineBuilder SetPerformanceProfile(
             Pipeline.Engines.PerformanceProfiles profile)
@@ -148,7 +120,8 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
             {
                 throw new PipelineConfigurationException(
                     "KeyProperty must be set before building. " +
-                    "Call SetKeyProperty(), ConfigureForTac(), or ConfigureForNativeModel().");
+                    "Call SetKeyProperty() or use a specialized builder " +
+                    "such as TacEngineBuilder or NativeModelEngineBuilder.");
             }
 
             var elementDataKey = _elementDataKey ?? 
@@ -174,22 +147,5 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
             return BuildEngine();
         }
 
-        /// <summary>
-        /// Validates TAC format: must be exactly 8 numeric digits.
-        /// </summary>
-        private static bool ValidateTac(string value, IFlowData data)
-        {
-            if (value.Length == 8 && int.TryParse(value, out _))
-            {
-                return true;
-            }
-
-            data.AddError(
-                new ArgumentException(string.Format(
-                    Messages.IncorrectTacEvidence,
-                    value)),
-                data.Pipeline.GetElement<PropertyKeyedDeviceEngine>());
-            return false;
-        }
     }
 }

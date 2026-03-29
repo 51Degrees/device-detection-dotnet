@@ -217,31 +217,29 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         }
 
         /// <summary>
-        /// ConfigureForTac should set appropriate defaults.
+        /// TacEngineBuilder should set appropriate defaults.
         /// </summary>
         [TestMethod]
-        public void ConfigureForTac_SetsDefaults()
+        public void TacEngineBuilder_SetsDefaults()
         {
-            var builder = new PropertyKeyedDeviceEngineBuilder(
+            var engine = new TacEngineBuilder(
                 _loggerFactory,
-                new Mock<IDataUpdateService>().Object);
-
-            var engine = builder.ConfigureForTac().Build();
+                new Mock<IDataUpdateService>().Object)
+                .Build();
 
             Assert.AreEqual("tac-profiles", engine.ElementDataKey);
         }
 
         /// <summary>
-        /// ConfigureForNativeModel should set appropriate defaults.
+        /// NativeModelEngineBuilder should set appropriate defaults.
         /// </summary>
         [TestMethod]
-        public void ConfigureForNativeModel_SetsDefaults()
+        public void NativeModelEngineBuilder_SetsDefaults()
         {
-            var builder = new PropertyKeyedDeviceEngineBuilder(
+            var engine = new NativeModelEngineBuilder(
                 _loggerFactory,
-                new Mock<IDataUpdateService>().Object);
-
-            var engine = builder.ConfigureForNativeModel().Build();
+                new Mock<IDataUpdateService>().Object)
+                .Build();
 
             Assert.AreEqual("native-profiles", engine.ElementDataKey);
         }

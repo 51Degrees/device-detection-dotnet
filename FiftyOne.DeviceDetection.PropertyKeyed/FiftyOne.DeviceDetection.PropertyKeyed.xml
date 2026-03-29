@@ -208,6 +208,34 @@
         <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.Data.MultiDeviceData.Dispose">
             <inheritdoc/>
         </member>
+        <member name="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.NativeModelEngineBuilder">
+            <summary>
+            Builder for creating a <see cref="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngine"/>
+            configured for NativeModel lookups.
+            No validation is applied to NativeModel values.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.NativeModelEngineBuilder.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,FiftyOne.Pipeline.Engines.Services.IDataUpdateService)">
+            <summary>
+            Constructs a new instance of <see cref="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.NativeModelEngineBuilder"/>.
+            </summary>
+            <param name="loggerFactory">The factory used to create loggers.</param>
+            <param name="dataUpdateService">The data update service, if any.</param>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.NativeModelEngineBuilder.SetPerformanceProfile(FiftyOne.Pipeline.Engines.PerformanceProfiles)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.NativeModelEngineBuilder.CreateEngine(System.Collections.Generic.List{System.String})">
+            <inheritdoc/>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.NativeModelEngineBuilder.Build">
+            <summary>
+            Build the engine without a data file.
+            The engine resolves its data from DeviceDetectionHashEngine
+            via AddPipeline at runtime.
+            </summary>
+            <returns>The built engine.</returns>
+        </member>
         <member name="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngine">
             <summary>
             A generic device detection engine that uses property-keyed 
@@ -317,20 +345,6 @@
             <param name="validator">The validation function.</param>
             <returns>This builder.</returns>
         </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngineBuilder.ConfigureForTac">
-            <summary>
-            Configures the builder for TAC (Type Allocation Code) lookups.
-            Sets keyProperty to "TAC" and adds 8-digit validation.
-            </summary>
-            <returns>This builder.</returns>
-        </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngineBuilder.ConfigureForNativeModel">
-            <summary>
-            Configures the builder for NativeModel lookups.
-            Sets keyProperty to "NativeModel" with no validation.
-            </summary>
-            <returns>This builder.</returns>
-        </member>
         <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngineBuilder.SetPerformanceProfile(FiftyOne.Pipeline.Engines.PerformanceProfiles)">
             <inheritdoc/>
         </member>
@@ -353,7 +367,35 @@
             </summary>
             <returns>The built engine.</returns>
         </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngineBuilder.ValidateTac(System.String,FiftyOne.Pipeline.Core.Data.IFlowData)">
+        <member name="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacEngineBuilder">
+            <summary>
+            Builder for creating a <see cref="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngine"/>
+            configured for TAC (Type Allocation Code) lookups.
+            TAC values must be exactly 8 numeric digits.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacEngineBuilder.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,FiftyOne.Pipeline.Engines.Services.IDataUpdateService)">
+            <summary>
+            Constructs a new instance of <see cref="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacEngineBuilder"/>.
+            </summary>
+            <param name="loggerFactory">The factory used to create loggers.</param>
+            <param name="dataUpdateService">The data update service, if any.</param>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacEngineBuilder.SetPerformanceProfile(FiftyOne.Pipeline.Engines.PerformanceProfiles)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacEngineBuilder.CreateEngine(System.Collections.Generic.List{System.String})">
+            <inheritdoc/>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacEngineBuilder.Build">
+            <summary>
+            Build the engine without a data file.
+            The engine resolves its data from DeviceDetectionHashEngine
+            via AddPipeline at runtime.
+            </summary>
+            <returns>The built engine.</returns>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.TacEngineBuilder.ValidateTac(System.String,FiftyOne.Pipeline.Core.Data.IFlowData)">
             <summary>
             Validates TAC format: must be exactly 8 numeric digits.
             </summary>
