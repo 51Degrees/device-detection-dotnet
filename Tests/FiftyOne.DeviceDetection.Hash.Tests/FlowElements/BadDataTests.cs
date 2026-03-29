@@ -36,9 +36,12 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
         private int[] badVersion = new int[] { 1, 2, 3, 4 };
         private int[] goodVersion = new int[] { 4, 1, 0, 0 };
 
-        private string BadVersionDataFile = Environment.CurrentDirectory + "/BadVersionDataFile.hash";
-        private string BadHeaderDataFile = Environment.CurrentDirectory + "/BadHeaderDataFile.hash";
-        private string SmallDataFile = Environment.CurrentDirectory + "/SmallDataFile.hash";
+        private string TestFolder = Path.Combine(
+            Path.GetTempPath(), 
+            Guid.NewGuid().ToString());
+        private string BadVersionDataFile => TestFolder + "/BadVersionDataFile.hash";
+        private string BadHeaderDataFile => TestFolder + "/BadHeaderDataFile.hash";
+        private string SmallDataFile => TestFolder + "/SmallDataFile.hash";
 
         private const int sizeOfHeader = 200;
 
@@ -50,6 +53,8 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
             {
                 nullHeader[i] = 12;
             }
+            
+            Directory.CreateDirectory(TestFolder);
 
             using (var file = File.Create(BadVersionDataFile))
             using (var writer = new BinaryWriter(file))
@@ -84,6 +89,7 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
             File.Delete(BadVersionDataFile);
             File.Delete(BadHeaderDataFile);
             File.Delete(SmallDataFile);
+            Directory.Delete(TestFolder);
         }
 
         [TestMethod]
