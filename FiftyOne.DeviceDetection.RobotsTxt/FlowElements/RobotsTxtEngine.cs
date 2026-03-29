@@ -342,11 +342,8 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
                 {
                     Name = crawler.Data.CrawlerName.Value,
                     ProductTokens = crawler.Data.CrawlerProductTokens.Value
-                        .Select(i => new KeyValuePair<string, long>(i, 0L))
                         .ToArray(),
-                    ReferenceUris = [new KeyValuePair<Uri,long>(
-                        new Uri(crawler.Data.CrawlerUrl.Value),
-                        0L)],
+                    ReferenceUris = [new Uri(crawler.Data.CrawlerUrl.Value)],
                     Usages = crawler.Data.CrawlerUsage.Value.ToArray()
                 };
             }

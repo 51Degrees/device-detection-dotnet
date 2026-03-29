@@ -45,18 +45,12 @@ public class CrawlerModel
     public string[] Usages { get; set; }
 
     /// <summary>
-    /// Product tokens and how often they have been found in the User-Agents
-    /// associated with the crawler. The value is the count for all User-Agents
-    /// that contain the product token. This information is used to determine
-    /// which product tokens to consider are relevant.
+    /// Product tokens.
     /// </summary>
-    public KeyValuePair<string, long>[] ProductTokens { get; set; }
+    public string[] ProductTokens { get; set; }
 
     /// <summary>
-    /// Reference URIs and how often they have been found in the User-Agents
-    /// associated with the crawler. The value is the count for all User-Agents
-    /// that contain the reference URI. This information is used to determine
-    /// which reference URI to use in the annotated robots.txt.
+    /// Reference URIs.
     /// </summary>
-    public KeyValuePair<Uri, long>[] ReferenceUris { get; set; }
+    public Uri[] ReferenceUris { get; set; }
 }

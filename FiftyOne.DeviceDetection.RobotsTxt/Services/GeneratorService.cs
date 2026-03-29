@@ -138,7 +138,7 @@ public class GeneratorService(RobotsTxtModel _dataSet)
         // Add all the product tokens available.
         foreach (var token in crawler.ProductTokens)
         {
-            sb.AppendLine("User-Agent: " + token.Key);
+            sb.AppendLine("User-Agent: " + token);
             sb.Append(allowed ? "Allow" : "Disallow").AppendLine(": /");
         }
 
@@ -191,16 +191,11 @@ public class GeneratorService(RobotsTxtModel _dataSet)
     {
         sb.Append("# N: ").AppendLine(crawler.Name);
         sb.Append("# U: ").AppendLine(String.Join(", ", crawler.Usages));
-        // Being phase out as not supported in data structure.
-        //if (crawler.FirstSeen != null)
-        //{
-        //    sb.Append("# D: ").AppendLine(crawler.FirstSeen.Value.Date.ToString("yyyy-MM-dd"));
-        //}
         if (crawler.ReferenceUris != null)
         {
-            foreach (var uri in crawler.ReferenceUris.OrderByDescending(i => i.Value))
+            foreach (var uri in crawler.ReferenceUris)
             {
-                sb.Append("# A: ").AppendLine(uri.Key.ToString());
+                sb.Append("# A: ").AppendLine(uri.ToString());
                 break;
             }
         }
