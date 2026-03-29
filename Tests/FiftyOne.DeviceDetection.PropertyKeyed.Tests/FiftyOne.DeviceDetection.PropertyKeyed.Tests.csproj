@@ -3,15 +3,14 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <IsPackable>false</IsPackable>
-    <Platforms>x86;x64;ARM64</Platforms>
+    <Platforms>x86;x64;ARM64;AnyCPU</Platforms>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.3.0" />
     <PackageReference Include="Moq" Version="4.20.72" />
     <PackageReference Include="MSTest.TestAdapter" Version="4.0.2" />
-    <PackageReference Include="MSTest.TestFramework" Version="4.0.2" />
   </ItemGroup>
 
   <ItemGroup>

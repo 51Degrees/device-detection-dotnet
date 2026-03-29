@@ -20,11 +20,11 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
+using FiftyOne.Common.TestHelpers;
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using FiftyOne.DeviceDetection.TestHelpers;
 using FiftyOne.Pipeline.Engines.FiftyOne.FlowElements;
 using FiftyOne.Pipeline.Engines.Services;
-using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Linq;
@@ -65,8 +65,11 @@ namespace FiftyOne.DeviceDetection.Tests.Framework
             var updateService = new Mock<IDataUpdateService>();
 
             // Configure the pipeline.
+            var loggerFactory = new TestLoggerFactory();
             var pipeline = new DeviceDetectionPipelineBuilder(
-                new NullLoggerFactory(), null, updateService.Object)
+                loggerFactory, 
+                null, 
+                updateService.Object)
                 .UseOnPremise(datafile.FullName, licenseKey, false)
                 .SetAutoUpdate(autoUpdate)
                 .SetShareUsage(shareUsage)

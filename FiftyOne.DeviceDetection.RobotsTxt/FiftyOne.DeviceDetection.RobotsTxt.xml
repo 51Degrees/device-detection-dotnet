@@ -304,18 +304,12 @@
         </member>
         <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Model.CrawlerModel.ProductTokens">
             <summary>
-            Product tokens and how often they have been found in the User-Agents
-            associated with the crawler. The value is the count for all User-Agents
-            that contain the product token. This information is used to determine
-            which product tokens to consider are relevant.
+            Product tokens.
             </summary>
         </member>
         <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Model.CrawlerModel.ReferenceUris">
             <summary>
-            Reference URIs and how often they have been found in the User-Agents
-            associated with the crawler. The value is the count for all User-Agents
-            that contain the reference URI. This information is used to determine
-            which reference URI to use in the annotated robots.txt.
+            Reference URIs.
             </summary>
         </member>
         <member name="T:FiftyOne.DeviceDetection.RobotsTxt.Model.RobotsTxtModel">

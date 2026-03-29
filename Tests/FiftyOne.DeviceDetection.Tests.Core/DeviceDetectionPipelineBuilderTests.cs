@@ -118,8 +118,7 @@ namespace FiftyOne.DeviceDetection.Tests.Core
             shareUsage
             ? (pd => {
                 Assert.HasCount(2, pd.Pipeline.FlowElements);
-                Assert.IsTrue(pd.Pipeline.FlowElements.Any(
-                    e => e.GetType() == typeof(ShareUsageElement)));
+                Assert.Contains(e => e.GetType() == typeof(ShareUsageElement), pd.Pipeline.FlowElements);
             }) 
             : (pd => Assert.HasCount(1, pd.Pipeline.FlowElements)));
 
@@ -375,8 +374,7 @@ namespace FiftyOne.DeviceDetection.Tests.Core
 
             Console.WriteLine("Building finished!");
 
-            Assert.IsTrue(pipeline.FlowElements.Any(
-                e => e.GetType() == typeof(DeviceDetectionHashEngine)));
+            Assert.Contains(e => e.GetType() == typeof(DeviceDetectionHashEngine), pipeline.FlowElements);
 
             // Get the device detection engine element and check that it has
             // been configured as specified.
