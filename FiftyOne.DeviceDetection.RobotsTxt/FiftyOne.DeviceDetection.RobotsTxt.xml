@@ -178,6 +178,28 @@
             robots.txt.
             </summary>
         </member>
+        <member name="T:FiftyOne.DeviceDetection.RobotsTxt.Data.RobotsTxtData">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:FiftyOne.DeviceDetection.RobotsTxt.Data.RobotsTxtData.#ctor(Microsoft.Extensions.Logging.ILogger{FiftyOne.DeviceDetection.RobotsTxt.Data.RobotsTxtData},FiftyOne.Pipeline.Core.FlowElements.IPipeline,FiftyOne.DeviceDetection.RobotsTxt.FlowElements.RobotsTxtEngine)">
+            <summary>
+            Constructs a new instance of <see cref="T:FiftyOne.DeviceDetection.RobotsTxt.Data.RobotsTxtData"/>.
+            </summary>
+            <param name="logger">Logger instance.</param>
+            <param name="pipeline">The pipeline this data belongs to.</param>
+            <param name="engine">The engine that created this data.</param>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Data.RobotsTxtData.PlainText">
+            <summary>
+            See <see cref="P:FiftyOne.DeviceDetection.RobotsTxt.Messages.PlainTextDescription"/>
+            </summary>
+        </member>
+        <member name="P:FiftyOne.DeviceDetection.RobotsTxt.Data.RobotsTxtData.AnnotatedText">
+            <summary>
+            See <see cref="P:FiftyOne.DeviceDetection.RobotsTxt.Messages.AnnotatedTextDescription"/>
+            </summary>
+        </member>
         <member name="T:FiftyOne.DeviceDetection.RobotsTxt.FlowElements.RobotsTxtEngineBuilder">
             <summary>
             Builder for <see cref="T:FiftyOne.DeviceDetection.RobotsTxt.FlowElements.RobotsTxtEngine"/>.
@@ -400,28 +422,6 @@
             <param name="crawler"></param>
             <param name="allowed"></param>
             <returns></returns>
-        </member>
-        <member name="T:FiftyOne.DeviceDetection.PropertyKeyed.Data.RobotsTxtData">
-            <summary>
-            </summary>
-        </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.Data.RobotsTxtData.#ctor(Microsoft.Extensions.Logging.ILogger{FiftyOne.DeviceDetection.PropertyKeyed.Data.RobotsTxtData},FiftyOne.Pipeline.Core.FlowElements.IPipeline,FiftyOne.DeviceDetection.RobotsTxt.FlowElements.RobotsTxtEngine)">
-            <summary>
-            Constructs a new instance of <see cref="T:FiftyOne.DeviceDetection.PropertyKeyed.Data.RobotsTxtData"/>.
-            </summary>
-            <param name="logger">Logger instance.</param>
-            <param name="pipeline">The pipeline this data belongs to.</param>
-            <param name="engine">The engine that created this data.</param>
-        </member>
-        <member name="P:FiftyOne.DeviceDetection.PropertyKeyed.Data.RobotsTxtData.PlainText">
-            <summary>
-            See <see cref="P:FiftyOne.DeviceDetection.RobotsTxt.Messages.PlainTextDescription"/>
-            </summary>
-        </member>
-        <member name="P:FiftyOne.DeviceDetection.PropertyKeyed.Data.RobotsTxtData.AnnotatedText">
-            <summary>
-            See <see cref="P:FiftyOne.DeviceDetection.RobotsTxt.Messages.AnnotatedTextDescription"/>
-            </summary>
         </member>
     </members>
 </doc>

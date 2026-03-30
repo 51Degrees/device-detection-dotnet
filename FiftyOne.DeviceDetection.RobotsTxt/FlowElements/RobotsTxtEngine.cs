@@ -22,7 +22,6 @@
 
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using FiftyOne.DeviceDetection.PropertyKeyed;
-using FiftyOne.DeviceDetection.PropertyKeyed.Data;
 using FiftyOne.DeviceDetection.PropertyKeyed.Services;
 using FiftyOne.DeviceDetection.RobotsTxt.Data;
 using FiftyOne.DeviceDetection.RobotsTxt.Model;

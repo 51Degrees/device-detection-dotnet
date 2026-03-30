@@ -159,7 +159,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Services
         {
             if (value.Value is IEnumerable<string> list)
             {
-                foreach(var item in value.Value as IEnumerable<string>)
+                foreach(var item in list)
                 {
                     yield return item;
                 }

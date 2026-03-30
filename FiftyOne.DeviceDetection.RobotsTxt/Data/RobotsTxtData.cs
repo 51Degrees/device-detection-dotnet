@@ -20,13 +20,12 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-using FiftyOne.DeviceDetection.RobotsTxt.Data;
 using FiftyOne.DeviceDetection.RobotsTxt.FlowElements;
 using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.Data;
 using Microsoft.Extensions.Logging;
 
-namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
+namespace FiftyOne.DeviceDetection.RobotsTxt.Data
 {
     /// <summary>
     /// </summary>

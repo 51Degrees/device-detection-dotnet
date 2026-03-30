@@ -301,6 +301,8 @@
         </member>
         <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngineBaseBuilder`2.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,FiftyOne.Pipeline.Engines.Services.IDataUpdateService)">
             <summary>
+            Constructs a new instance of
+            <see cref="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngineBaseBuilder`2"/>.
             </summary>
             <param name="loggerFactory">
             The factory used to create loggers.

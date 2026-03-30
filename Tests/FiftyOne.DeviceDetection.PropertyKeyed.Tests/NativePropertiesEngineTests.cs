@@ -217,10 +217,10 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         }
 
         /// <summary>
-        /// ConfigureForTac should set appropriate defaults.
+        /// TacEngineBuilder should set appropriate defaults.
         /// </summary>
         [TestMethod]
-        public void ConfigureForTac_SetsDefaults()
+        public void TacEngineBuilder_SetsDefaults()
         {
             var builder = new TacEngineBuilder(
                 _loggerFactory,
@@ -232,10 +232,10 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         }
 
         /// <summary>
-        /// ConfigureForNativeModel should set appropriate defaults.
+        /// NativeEngineBuilder should set appropriate defaults.
         /// </summary>
         [TestMethod]
-        public void ConfigureForNativeModel_SetsDefaults()
+        public void NativeEngineBuilder_SetsDefaults()
         {
             var builder = new NativeEngineBuilder(
                 _loggerFactory,

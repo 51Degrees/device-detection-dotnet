@@ -45,6 +45,8 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         protected string _elementDataKey;
 
         /// <summary>
+        /// Constructs a new instance of
+        /// <see cref="PropertyKeyedDeviceEngineBaseBuilder{TBuilder, TEngine}"/>.
         /// </summary>
         /// <param name="loggerFactory">
         /// The factory used to create loggers.
