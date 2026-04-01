@@ -14,7 +14,11 @@
     <_FiftyOneNativeAssetPath Condition="'$(_FiftyOneNativeRuntime)' != ''">$(MSBuildThisFileDirectory)..\runtimes\$(_FiftyOneNativeRuntime)\native\$(_FiftyOneNativeAssetName)</_FiftyOneNativeAssetPath>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(_FiftyOneNativeAssetPath)' != '' and Exists('$(_FiftyOneNativeAssetPath)')">
+  <!-- SDK-style projects (.NET Core / .NET 5+) resolve native assets automatically via the
+       runtimes/ folder in the NuGet package — no manual copy needed, and attempting one
+       would overwrite the correctly-resolved platform binary with a wrong one.
+       Only activate this copy for legacy .NET Framework consumers. -->
+  <ItemGroup Condition="'$(_FiftyOneNativeAssetPath)' != '' and Exists('$(_FiftyOneNativeAssetPath)') and '$(UsingMicrosoftNETSdk)' != 'true'">
     <None Include="$(_FiftyOneNativeAssetPath)">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>$(_FiftyOneNativeAssetName)</Link>
