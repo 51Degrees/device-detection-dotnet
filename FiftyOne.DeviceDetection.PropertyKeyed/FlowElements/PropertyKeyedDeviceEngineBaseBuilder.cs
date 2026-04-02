@@ -20,20 +20,16 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-using FiftyOne.Pipeline.Core.Data;
-using FiftyOne.Pipeline.Core.Exceptions;
 using FiftyOne.Pipeline.Engines.FiftyOne.FlowElements;
 using FiftyOne.Pipeline.Engines.FlowElements;
 using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 
 namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
 {
     /// <summary>
     /// Builder for <see cref="PropertyKeyedDeviceBaseEngine"/>.
-    /// Supports configuring the key property, and, element data key.
+    /// Supports configuring the key property and element data key.
     /// </summary>
     public abstract class 
         PropertyKeyedDeviceEngineBaseBuilder<TBuilder, TEngine> :
@@ -62,9 +58,17 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         }
 
         /// <summary>
-        /// Sets the property name to use for lookups.
-        /// This is required before building the engine.
+        /// Sets the property name to use for lookups. This is required before
+        /// building the engine.
         /// </summary>
+        /// <remarks>
+        /// This is not the same as the returned properties for the engine
+        /// which are set with 
+        /// <see cref="AspectEngineBuilderBase{TBuilder, TEngine}.SetProperties"/>
+        /// or 
+        /// <see cref="AspectEngineBuilderBase{TBuilder, TEngine}.SetProperty"/>
+        /// methods.
+        /// </remarks>
         /// <param name="keyProperty">
         /// The property name (e.g. "TAC", "NativeModel").
         /// </param>
@@ -111,7 +115,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         /// Build the engine without a data file.
         /// PropertyKeyedDeviceEngine does not use a DataFile directly — 
         /// it resolves its data from DeviceDetectionHashEngine via 
-        /// AddPipeline at runtime.
+        /// <see cref="PropertyKeyedDeviceBaseEngine.AddPipeline"/> at runtime.
         /// </summary>
         /// <returns>The built engine.</returns>
         public new TEngine Build()

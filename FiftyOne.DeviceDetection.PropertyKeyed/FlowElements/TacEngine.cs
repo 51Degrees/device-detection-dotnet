@@ -58,7 +58,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
                 new ArgumentException(string.Format(
                     Messages.IncorrectTacEvidence,
                     keyPropertyValue)),
-                data.Pipeline.GetElement<PropertyKeyedDeviceBaseEngine>());
+                data.Pipeline.GetElement<TacEngine>());
             return false;
         }
     }

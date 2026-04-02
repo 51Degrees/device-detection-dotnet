@@ -46,13 +46,13 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Data
         }
 
         /// <summary>
-        /// See <see cref="RobotsTxt.Messages.PlainTextDescription"/>
+        /// See <see cref="Messages.PlainTextDescription"/>
         /// </summary>
         public IAspectPropertyValue<string> PlainText => 
             GetAs<IAspectPropertyValue<string>>(nameof(PlainText));
 
         /// <summary>
-        /// See <see cref="RobotsTxt.Messages.AnnotatedTextDescription"/>
+        /// See <see cref="Messages.AnnotatedTextDescription"/>
         /// </summary>
         public IAspectPropertyValue<string> AnnotatedText => 
             GetAs<IAspectPropertyValue<string>>(nameof(AnnotatedText));

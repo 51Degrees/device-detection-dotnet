@@ -23,8 +23,6 @@
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.FiftyOne.FlowElements;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace FiftyOne.DeviceDetection.PropertyKeyed.Services
 {

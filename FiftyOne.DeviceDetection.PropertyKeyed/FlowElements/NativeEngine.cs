@@ -58,7 +58,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
                 new ArgumentException(string.Format(
                     Messages.IncorrectNativeEvidence,
                     keyPropertyValue)),
-                data.Pipeline.GetElement<PropertyKeyedDeviceBaseEngine>());
+                data.Pipeline.GetElement<NativeEngine>());
             return false;
         }
     }

@@ -21,18 +21,13 @@
  * ********************************************************************* */
 
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
-using FiftyOne.DeviceDetection.PropertyKeyed.Data;
-using FiftyOne.DeviceDetection.PropertyKeyed.FlowElements;
 using FiftyOne.DeviceDetection.RobotsTxt.Data;
 using FiftyOne.DeviceDetection.RobotsTxt.FlowElements;
 using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.Exceptions;
 using FiftyOne.Pipeline.Core.FlowElements;
-using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
 using System.Linq;
 
 [assembly: Parallelize(Scope = ExecutionScope.ClassLevel)]
@@ -78,6 +73,7 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
             // Build PropertyKeyedDeviceEngine configured for RobotsTxt
             _engine = new RobotsTxtEngineBuilder(_loggerFactory).Build();
 
+            // Create a pipeline containing both engines.
             _pipeline = new PipelineBuilder(_loggerFactory)
                 .AddFlowElement(hashEngine)
                 .AddFlowElement(_engine)
@@ -85,7 +81,8 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
                 .SetAutoDisposeElements(true)
                 .Build();
 
-            // Must be called for RobotsTxt explicitly.
+            // AddPipeline must be called for RobotsTxt explicitly so that the
+            // robots.txt engine can get the data it needs from the HashEngine.
             _engine.AddPipeline(_pipeline);
         }
 

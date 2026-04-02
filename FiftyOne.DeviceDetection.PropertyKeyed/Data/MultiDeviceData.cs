@@ -23,13 +23,12 @@
 using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.Data;
 using FiftyOne.Pipeline.Engines.FlowElements;
-using FiftyOne.Pipeline.Engines.FiftyOne.Data;
 using FiftyOne.Pipeline.Engines.FiftyOne.FlowElements;
 using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using FiftyOne.Pipeline.Core.Data;
 
 namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
 {
@@ -49,8 +48,8 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
         private readonly List<uint> _profileIds = new List<uint>();
         private readonly PropertyKeyedDataSet _dataSet;
         private List<IDeviceData> _cachedProfiles;
-        private readonly List<Pipeline.Core.Data.IFlowData> _ownedFlowDatas = 
-            new List<Pipeline.Core.Data.IFlowData>();
+        private readonly List<IFlowData> _ownedFlowDatas =
+            new List<IFlowData>();
         private readonly object _lock = new object();
         private bool _disposed;
 
@@ -79,8 +78,12 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
         /// <param name="logger">Logger instance.</param>
         /// <param name="pipeline">The pipeline this data belongs to.</param>
         /// <param name="engine">The engine that created this data.</param>
-        /// <param name="missingPropertyService">Service for handling missing properties.</param>
-        /// <param name="dataSet">The data set containing pipeline reference for profile resolution.</param>
+        /// <param name="missingPropertyService">
+        /// Service for handling missing properties.
+        /// </param>
+        /// <param name="dataSet">
+        /// The data set containing pipeline reference for profile resolution.
+        /// </param>
         public MultiDeviceData(
             ILogger<MultiDeviceData> logger,
             IPipeline pipeline,
@@ -89,7 +92,8 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
             PropertyKeyedDataSet dataSet)
             : base(logger, pipeline, engine, missingPropertyService)
         {
-            _dataSet = dataSet ?? throw new ArgumentNullException(nameof(dataSet));
+            _dataSet = dataSet ?? 
+                throw new ArgumentNullException(nameof(dataSet));
             this[ProfilesKey] = new List<IDeviceData>();
         }
 
@@ -125,7 +129,11 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
 
             foreach (var profileId in _profileIds)
             {
+                // Using is not used as the disposal of flow data is managed by
+                // this class to ensure it remains available when values are
+                // retrieved.
                 var flowData = _dataSet.Pipeline.CreateFlowData();
+
                 flowData.AddEvidence(
                     Shared.Constants.EVIDENCE_PROFILE_IDS_KEY,
                     profileId.ToString());
@@ -135,6 +143,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
                 if (deviceData != null)
                 {
                     result.Add(deviceData);
+
                     // Track for disposal
                     _ownedFlowDatas.Add(flowData);
                 }

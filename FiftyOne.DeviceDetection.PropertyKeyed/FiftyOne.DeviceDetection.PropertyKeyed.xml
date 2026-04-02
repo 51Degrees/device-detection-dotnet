@@ -182,8 +182,12 @@
             <param name="logger">Logger instance.</param>
             <param name="pipeline">The pipeline this data belongs to.</param>
             <param name="engine">The engine that created this data.</param>
-            <param name="missingPropertyService">Service for handling missing properties.</param>
-            <param name="dataSet">The data set containing pipeline reference for profile resolution.</param>
+            <param name="missingPropertyService">
+            Service for handling missing properties.
+            </param>
+            <param name="dataSet">
+            The data set containing pipeline reference for profile resolution.
+            </param>
         </member>
         <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.Data.MultiDeviceData.AddProfileId(System.UInt32)">
             <inheritdoc/>
@@ -296,7 +300,7 @@
         <member name="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngineBaseBuilder`2">
             <summary>
             Builder for <see cref="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceBaseEngine"/>.
-            Supports configuring the key property, and, element data key.
+            Supports configuring the key property and element data key.
             </summary>
         </member>
         <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngineBaseBuilder`2.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,FiftyOne.Pipeline.Engines.Services.IDataUpdateService)">
@@ -313,9 +317,17 @@
         </member>
         <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngineBaseBuilder`2.SetKeyProperty(System.String)">
             <summary>
-            Sets the property name to use for lookups.
-            This is required before building the engine.
+            Sets the property name to use for lookups. This is required before
+            building the engine.
             </summary>
+            <remarks>
+            This is not the same as the returned properties for the engine
+            which are set with 
+            <see cref="M:FiftyOne.Pipeline.Engines.FlowElements.AspectEngineBuilderBase`2.SetProperties(System.Collections.Generic.List{System.String})"/>
+            or 
+            <see cref="M:FiftyOne.Pipeline.Engines.FlowElements.AspectEngineBuilderBase`2.SetProperty(System.String)"/>
+            methods.
+            </remarks>
             <param name="keyProperty">
             The property name (e.g. "TAC", "NativeModel").
             </param>
@@ -344,7 +356,7 @@
             Build the engine without a data file.
             PropertyKeyedDeviceEngine does not use a DataFile directly — 
             it resolves its data from DeviceDetectionHashEngine via 
-            AddPipeline at runtime.
+            <see cref="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceBaseEngine.AddPipeline(FiftyOne.Pipeline.Core.FlowElements.IPipeline)"/> at runtime.
             </summary>
             <returns>The built engine.</returns>
         </member>

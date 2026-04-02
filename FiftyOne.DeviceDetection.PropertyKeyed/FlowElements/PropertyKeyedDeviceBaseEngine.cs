@@ -25,15 +25,11 @@ using FiftyOne.DeviceDetection.PropertyKeyed.Data;
 using FiftyOne.DeviceDetection.PropertyKeyed.Services;
 using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.FlowElements;
-using FiftyOne.Pipeline.Engines.FiftyOne.Data;
 using FiftyOne.Pipeline.Engines.FiftyOne.FlowElements;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Xml.Linq;
 
 namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
 {
@@ -50,7 +46,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         private readonly string _keyProperty;
         private readonly string _elementDataKeyValue;
         private readonly object _dataSetLock = new object();
-        private bool _isDataSetInitialized;
+        private volatile bool _isDataSetInitialized;
 
         /// <inheritdoc/>
         public override string ElementDataKey => _elementDataKeyValue;

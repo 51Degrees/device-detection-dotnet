@@ -20,17 +20,11 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-using FiftyOne.Common.TestHelpers;
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data;
-using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
-using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines;
-using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop;
 using FiftyOne.Pipeline.Core.Data;

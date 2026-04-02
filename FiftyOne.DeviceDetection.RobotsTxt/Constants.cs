@@ -32,14 +32,25 @@ public class Constants
     /// The plain text of the license. Used for the web page and embedding the
     /// license into the robots.txt file annotations.
     /// </summary>
-    public static string License { get; } = new StreamReader(
-        typeof(Constants).Assembly.GetManifestResourceStream(
-        typeof(Constants).Assembly.GetManifestResourceNames().Single(i => 
-        i.Contains("license")))).ReadToEnd();
+    public static string License { get; } = GetLicense();
 
     /// <summary>
     /// The Url of the license for the robots.txt file.
     /// </summary>
     public static Uri LicenseUrl { get; } = new Uri(
         "https://51degrees.com/terms/robots-txt");
+
+    /// <summary>
+    /// Returns the license text from the embedded resource ensuring the reader
+    /// is explicitly disposed of.
+    /// </summary>
+    /// <returns></returns>
+    private static string GetLicense()
+    {
+        using var reader = new StreamReader(
+        typeof(Constants).Assembly.GetManifestResourceStream(
+        typeof(Constants).Assembly.GetManifestResourceNames().Single(i =>
+        i.Contains("license"))));
+        return reader.ReadToEnd();
+    }
 }

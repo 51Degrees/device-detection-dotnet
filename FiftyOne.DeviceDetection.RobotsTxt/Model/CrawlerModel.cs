@@ -21,7 +21,6 @@
  * ********************************************************************* */
 
 using System;
-using System.Collections.Generic;
 
 namespace FiftyOne.DeviceDetection.RobotsTxt.Model;
 

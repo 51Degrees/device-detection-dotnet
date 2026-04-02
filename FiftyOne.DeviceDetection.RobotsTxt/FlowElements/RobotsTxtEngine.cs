@@ -27,6 +27,7 @@ using FiftyOne.DeviceDetection.RobotsTxt.Data;
 using FiftyOne.DeviceDetection.RobotsTxt.Model;
 using FiftyOne.DeviceDetection.RobotsTxt.Services;
 using FiftyOne.Pipeline.Core.Data;
+using FiftyOne.Pipeline.Core.Exceptions;
 using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.Data;
 using FiftyOne.Pipeline.Engines.FiftyOne.Data;
@@ -137,6 +138,11 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
         /// <param name="data"></param>
         public override void Process(IFlowData data)
         {
+            if (_evidenceKeys == null)
+            {
+                throw new PipelineConfigurationException(
+                    "AddPipeline must be called before processing data");
+            }
             if (_evidenceKeys.Any(i => data.TryGetEvidence<string>(
                 i.Key, 
                 out var _)))
