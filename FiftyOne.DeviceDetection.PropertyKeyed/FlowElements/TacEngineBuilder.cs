@@ -36,9 +36,6 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         {
             _elementDataKey = "tac-profiles";
             SetKeyProperty("TAC");
-
-            // TODO: Work around for - https://github.com/51Degrees/pipeline-dotnet/issues/274
-            SetProperty("TAC");
         }
 
         /// <inheritdoc/>

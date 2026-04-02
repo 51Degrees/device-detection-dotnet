@@ -41,11 +41,7 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
             ILoggerFactory loggerFactory,
             IDataUpdateService dataUpdateService = null) :
             base(loggerFactory, dataUpdateService)
-        { 
-            // TODO: Work around for - https://github.com/51Degrees/pipeline-dotnet/issues/274
-            SetProperty(nameof(IRobotsTxtData.AnnotatedText));
-            SetProperty(nameof(IRobotsTxtData.PlainText));
-        }
+        { }
 
         public override RobotsTxtEngineBuilder SetPerformanceProfile(
             PerformanceProfiles profile)
