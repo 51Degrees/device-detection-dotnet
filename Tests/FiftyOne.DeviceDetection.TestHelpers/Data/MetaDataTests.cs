@@ -257,29 +257,33 @@ namespace FiftyOne.DeviceDetection.TestHelpers.Data
             PerformanceProfiles profile)
         {
             List<RefreshResult> result = new List<RefreshResult>();
-            while (cancellationToken.IsCancellationRequested == false &&
-                result.Count < RefreshLimit())
+            Func<bool> shouldLoop = () =>
+                !cancellationToken.IsCancellationRequested &&
+                result.Count < RefreshLimit();
+
+            await Task.Yield();
+
+            while (shouldLoop())
             {
-                int tasksNow = 0;
-                if ((tasksNow = _hashTasksActive) == 0)
+                LogWithTimestamp($"Refresh will wait for next hash task to start (active tasks: {_hashTasksActive})");
+                while (!_hashTaskStarted.WaitOne(10))
                 {
-                    // No hash tasks active so just wait and 
-                    // then try again.
-                    await Task.Delay(10);
-                }
-                else
-                {
-                    DateTime start = DateTime.UtcNow;
-                    LogWithTimestamp($"Refresh started (active tasks: {tasksNow} / {_hashTasksActive})");
-                    wrapper.GetEngine().RefreshData(null);
-                    LogWithTimestamp("Refresh completed");
-                    result.Add(new RefreshResult()
+                    if (!shouldLoop())
                     {
-                        StartTime = start,
-                        FinishTime = DateTime.UtcNow
-                    });
-                    await Task.Delay(ReloadDelay(profile, false));
+                        return result;
+                    }
                 }
+
+                DateTime start = DateTime.UtcNow;
+                LogWithTimestamp($"Refresh started (active tasks: {_hashTasksActive})");
+                wrapper.GetEngine().RefreshData(null);
+                LogWithTimestamp("Refresh completed");
+                result.Add(new RefreshResult()
+                {
+                    StartTime = start,
+                    FinishTime = DateTime.UtcNow
+                });
+                await Task.Delay(ReloadDelay(profile, false));
             }
 
             return result;

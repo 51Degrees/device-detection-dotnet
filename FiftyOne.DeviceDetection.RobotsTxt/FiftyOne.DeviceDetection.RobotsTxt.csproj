@@ -1,0 +1,77 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0</TargetFrameworks>
+    <Platforms>AnyCPU;x64;x86;ARM64</Platforms>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <DocumentationFile>FiftyOne.DeviceDetection.RobotsTxt.xml</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <NoWarn>$(NoWarn);CA1056;CA1721</NoWarn>
+
+	  <!-- NuGet package properties -->
+	  <PackageId>FiftyOne.DeviceDetection.RobotsTxt</PackageId>
+	  <Title>51Degrees Device Detection – Robots.txt Engines</Title>
+	  <Description>51Degrees Device Detection engine that generates the contents of robots.txt files based on allowed preferences.</Description>
+	  <Authors>51Degrees Engineering</Authors>
+    <PackageLicenseExpression>EUPL-1.2</PackageLicenseExpression>
+	  <Copyright>51Degrees Mobile Experts Limited</Copyright>
+	  <PackageTags>51degrees;pipeline;data;device;detection;robots.txt</PackageTags>
+	  <RepositoryUrl>https://github.com/51Degrees/device-detection-dotnet</RepositoryUrl>
+	  <PackageProjectUrl>https://51degrees.com</PackageProjectUrl>
+	  <RepositoryType>git</RepositoryType>
+	  <PackageIcon>51d-logo.png</PackageIcon>
+	  <NeutralLanguage>en</NeutralLanguage>
+	  <Configurations>Debug;Release</Configurations>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="license-robots.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="license-robots.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\Images\51d-logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Messages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Messages.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Messages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FiftyOne.Pipeline.Engines.FiftyOne" Version="4.5.29" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FiftyOne.DeviceDetection.PropertyKeyed\FiftyOne.DeviceDetection.PropertyKeyed.csproj" />
+  </ItemGroup>
+
+</Project>

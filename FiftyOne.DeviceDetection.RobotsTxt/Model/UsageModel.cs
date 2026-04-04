@@ -20,22 +20,30 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-using System.Reflection;
-using System.Runtime.InteropServices;
+namespace FiftyOne.DeviceDetection.RobotsTxt.Model;
 
-[assembly: AssemblyTitle("FiftyOne.DeviceDetection.Tests.Framework")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("FiftyOne.DeviceDetection.Tests.Framework")]
-[assembly: AssemblyCopyright("Copyright ©  2023")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+/// <summary>
+/// Data used to describe the crawler usage for the user interface.
+/// </summary>
+public class UsageModel
+{
+    /// <summary>
+    /// The unique name of the usage. i.e. Search, Monitoring, LLM
+    /// </summary>
+    public string Name { get; set; }
 
-[assembly: ComVisible(false)]
+    /// <summary>
+    /// The description for the usage.
+    /// </summary>
+    public string Description { get; set; }
 
-[assembly: Guid("36f702ae-7ec4-4709-9db4-4b7325034055")]
+    /// <summary>
+    /// Whether the usage should default to enabled or disabled.
+    /// </summary>
+    public bool Default { get; set; }
 
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+    /// <summary>
+    /// The order that the usage category should appear in relative to others.
+    /// </summary>
+    public int Order { get; set; }
+}

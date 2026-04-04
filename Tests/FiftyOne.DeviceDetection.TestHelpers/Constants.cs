@@ -20,8 +20,6 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-using System.Collections.Generic;
-
 namespace FiftyOne.DeviceDetection.TestHelpers
 {
     public static class Constants

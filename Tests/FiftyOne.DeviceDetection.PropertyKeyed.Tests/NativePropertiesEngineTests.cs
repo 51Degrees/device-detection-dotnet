@@ -36,7 +36,7 @@ using System.Linq;
 namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
 {
     /// <summary>
-    /// Tests for <see cref="PropertyKeyedDeviceEngine"/> with custom
+    /// Tests for <see cref="PropertyKeyedDeviceBaseEngine"/> with custom
     /// property configuration.
     /// Uses IsMobile and PlatformName as indexed properties with the
     /// Lite data file to verify the base engine behaviour without 
@@ -46,7 +46,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
     public class CustomPropertyEngineTests
     {
         private static ILoggerFactory _loggerFactory;
-        private static PropertyKeyedDeviceEngine _engine;
+        private static PropertyKeyedDeviceBaseEngine _engine;
         private static IPipeline _pipeline;
         private IFlowData _data;
 
@@ -217,31 +217,31 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         }
 
         /// <summary>
-        /// ConfigureForTac should set appropriate defaults.
+        /// TacEngineBuilder should set appropriate defaults.
         /// </summary>
         [TestMethod]
-        public void ConfigureForTac_SetsDefaults()
+        public void TacEngineBuilder_SetsDefaults()
         {
-            var builder = new PropertyKeyedDeviceEngineBuilder(
+            var builder = new TacEngineBuilder(
                 _loggerFactory,
                 new Mock<IDataUpdateService>().Object);
 
-            var engine = builder.ConfigureForTac().Build();
+            var engine = builder.Build();
 
             Assert.AreEqual("tac-profiles", engine.ElementDataKey);
         }
 
         /// <summary>
-        /// ConfigureForNativeModel should set appropriate defaults.
+        /// NativeEngineBuilder should set appropriate defaults.
         /// </summary>
         [TestMethod]
-        public void ConfigureForNativeModel_SetsDefaults()
+        public void NativeEngineBuilder_SetsDefaults()
         {
-            var builder = new PropertyKeyedDeviceEngineBuilder(
+            var builder = new NativeEngineBuilder(
                 _loggerFactory,
                 new Mock<IDataUpdateService>().Object);
 
-            var engine = builder.ConfigureForNativeModel().Build();
+            var engine = builder.Build();
 
             Assert.AreEqual("native-profiles", engine.ElementDataKey);
         }
