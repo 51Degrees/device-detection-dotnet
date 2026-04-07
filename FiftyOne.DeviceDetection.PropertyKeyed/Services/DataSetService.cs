@@ -101,6 +101,17 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Services
                 ProcessProfile(item, indexes);
             }
 
+            // Collect all engine properties to expose as sub-properties
+            // of "Profiles". Each is wrapped with DevicePropertyMetaData
+            // that re-associates the property with the outer
+            // property-keyed engine instead of the inner
+            // DeviceDetectionHashEngine.
+            var profileProperties = engine.Properties
+                .Select(p => (IFiftyOneAspectPropertyMetaData)
+                    new DevicePropertyMetaData(element, p))
+                .ToList()
+                .AsReadOnly();
+
             // Build and return the data set.
             return new PropertyKeyedDataSet(
                 contextPipeline,
@@ -108,7 +119,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Services
                 engine.DataSourceTier,
                 element,
                 indexes,
-                BuildProperties);
+                (_, elem) => BuildProperties(profileProperties, elem));
         }
 
         /// <summary>
@@ -118,12 +129,12 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Services
         /// <param name="item"></param>
         /// <param name="indexes"></param>
         private void ProcessProfile(
-            (IProfileMetaData Profile, IDeviceData Data) item, 
+            (IProfileMetaData Profile, IDeviceData Data) item,
             List<PropertyKeyedIndex> indexes)
         {
             foreach (var index in indexes)
             {
-                var value = item.Data[index.MetaData.Name] 
+                var value = item.Data[index.MetaData.Name]
                     as IAspectPropertyValue;
                 if (value != null && value.HasValue)
                 {
@@ -153,7 +164,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Services
         {
             if (value.Value is IEnumerable<string> list)
             {
-                foreach(var item in list)
+                foreach (var item in list)
                 {
                     yield return item;
                 }
@@ -165,22 +176,17 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Services
         }
 
         private static List<IFiftyOneAspectPropertyMetaData> BuildProperties(
-            IList<IFiftyOneAspectPropertyMetaData> itemProperties,
+            IReadOnlyList<IFiftyOneAspectPropertyMetaData> profileProperties,
             IFlowElement element)
         {
             return new List<IFiftyOneAspectPropertyMetaData>
-                {
-                    new DevicePropertyMetaData(
-                        element,
-                        PropertyKeyedDataSet.PROPERTY_PREFIX_NAME,
-                        itemProperties.SelectMany(i =>
-                            (i.ItemProperties ??
-                            Enumerable.Empty<IElementPropertyMetaData>())
-                            .OfType<IFiftyOneAspectPropertyMetaData>())
-                            .ToList()
-                            .AsReadOnly(),
-                        typeof(IReadOnlyList<IDeviceData>))
-                };
+            {
+                new DevicePropertyMetaData(
+                    element,
+                    PropertyKeyedDataSet.PROPERTY_PREFIX_NAME,
+                    profileProperties,
+                    typeof(IReadOnlyList<IDeviceData>))
+            };
         }
     }
 }
