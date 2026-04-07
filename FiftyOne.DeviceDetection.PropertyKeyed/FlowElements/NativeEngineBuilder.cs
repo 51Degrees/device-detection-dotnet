@@ -34,7 +34,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
             IDataUpdateService dataUpdateService = null) : 
             base(loggerFactory, dataUpdateService)
         {
-            _elementDataKey = "native-profiles";
+            _elementDataKey = "hardware";
             SetKeyProperty("NativeModel");
         }
 
