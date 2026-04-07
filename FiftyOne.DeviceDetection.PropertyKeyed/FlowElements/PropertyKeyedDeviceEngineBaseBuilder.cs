@@ -118,7 +118,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         /// <see cref="PropertyKeyedDeviceBaseEngine.AddPipeline"/> at runtime.
         /// </summary>
         /// <returns>The built engine.</returns>
-        public new TEngine Build()
+        protected override TEngine Build()
         {
             return BuildEngine();
         }

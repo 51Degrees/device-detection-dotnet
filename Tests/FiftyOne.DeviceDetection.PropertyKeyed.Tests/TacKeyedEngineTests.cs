@@ -73,11 +73,9 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
                 .SetDataFileSystemWatcher(false)
                 .Build(ddFile, false);
 
-            // Build PropertyKeyedDeviceEngine configured for TAC
-            _engine = new TacEngineBuilder(
-                    _loggerFactory,
-                    new Mock<IDataUpdateService>().Object)
-                .Build();
+            // Construct TacEngine directly (the builder's Build() is
+            // protected to avoid reflection ambiguity in PipelineBuilder).
+            _engine = new TacEngine(_loggerFactory, null, "TAC", "tac-profiles");
 
             _pipeline = new PipelineBuilder(_loggerFactory)
                 .AddFlowElement(hashEngine)

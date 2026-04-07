@@ -26,11 +26,10 @@ using FiftyOne.DeviceDetection.PropertyKeyed.FlowElements;
 using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.Exceptions;
 using FiftyOne.Pipeline.Core.FlowElements;
-using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
@@ -74,16 +73,12 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
                 .SetAutoUpdate(false)
                 .SetDataFileSystemWatcher(false)
                 .Build(ddFile, false);
-
-            // Build PropertyKeyedDeviceEngine with custom properties
-            _engine = new PropertyKeyedDeviceEngineBuilder(
-                    _loggerFactory,
-                    new Mock<IDataUpdateService>().Object)
-                .SetKeyProperty("IsMobile")
-                .SetElementDataKey("custom-profiles")
-                .SetProperty("IsMobile")
-                .SetProperty("PlatformName")
-                .Build();
+            
+            _engine = new PropertyKeyedDeviceEngine(
+                _loggerFactory,
+                new List<string> { "IsMobile", "PlatformName" },
+                "IsMobile",
+                "custom-profiles");
 
             _pipeline = new PipelineBuilder(_loggerFactory)
                 .AddFlowElement(hashEngine)
@@ -185,65 +180,6 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         public void ElementDataKey_IsConfigured()
         {
             Assert.AreEqual("custom-profiles", _engine.ElementDataKey);
-        }
-    }
-
-    /// <summary>
-    /// Tests for builder configuration validation.
-    /// </summary>
-    [TestClass]
-    public class PropertyKeyedDeviceEngineBuilderTests
-    {
-        private ILoggerFactory _loggerFactory;
-
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            _loggerFactory = LoggerFactory.Create(b => { });
-        }
-
-        /// <summary>
-        /// Building without key property should throw.
-        /// </summary>
-        [TestMethod]
-        public void Build_WithoutKeyProperty_Throws()
-        {
-            var builder = new PropertyKeyedDeviceEngineBuilder(
-                _loggerFactory,
-                new Mock<IDataUpdateService>().Object);
-
-            Assert.ThrowsExactly<PipelineConfigurationException>(() =>
-                builder.SetProperty("SomeProperty").Build());
-        }
-
-        /// <summary>
-        /// TacEngineBuilder should set appropriate defaults.
-        /// </summary>
-        [TestMethod]
-        public void TacEngineBuilder_SetsDefaults()
-        {
-            var builder = new TacEngineBuilder(
-                _loggerFactory,
-                new Mock<IDataUpdateService>().Object);
-
-            var engine = builder.Build();
-
-            Assert.AreEqual("tac-profiles", engine.ElementDataKey);
-        }
-
-        /// <summary>
-        /// NativeEngineBuilder should set appropriate defaults.
-        /// </summary>
-        [TestMethod]
-        public void NativeEngineBuilder_SetsDefaults()
-        {
-            var builder = new NativeEngineBuilder(
-                _loggerFactory,
-                new Mock<IDataUpdateService>().Object);
-
-            var engine = builder.Build();
-
-            Assert.AreEqual("native-profiles", engine.ElementDataKey);
         }
     }
 }

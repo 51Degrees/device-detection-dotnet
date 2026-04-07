@@ -51,12 +51,12 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
 
         /// <summary>
         /// Build the engine without a data file.
-        /// PropertyKeyedDeviceEngine does not use a DataFile directly — 
-        /// it resolves its data from DeviceDetectionHashEngine via 
+        /// PropertyKeyedDeviceEngine does not use a DataFile directly —
+        /// it resolves its data from DeviceDetectionHashEngine via
         /// AddPipeline at runtime.
         /// </summary>
         /// <returns>The built engine.</returns>
-        public new RobotsTxtEngine Build()
+        protected override RobotsTxtEngine Build()
         {
             return BuildEngine();
         }
