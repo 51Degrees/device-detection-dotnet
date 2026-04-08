@@ -20,16 +20,10 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using FiftyOne.DeviceDetection.PropertyKeyed.Data;
 using FiftyOne.DeviceDetection.PropertyKeyed.FlowElements;
-using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.Exceptions;
-using FiftyOne.Pipeline.Core.FlowElements;
-using FiftyOne.Pipeline.Engines.Services;
-using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using System;
 using System.Linq;
 
@@ -38,63 +32,29 @@ using System.Linq;
 namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
 {
     /// <summary>
-    /// Tests for <see cref="PropertyKeyedDeviceBaseEngine"/> with TAC configuration.
+    /// Tests for <see cref="TacEngine"/> with TAC configuration.
     /// </summary>
     [TestClass]
-    public class TacConfiguredEngineTests
+    public class TacConfiguredEngineTests : BaseEngineTests<TacEngine>
     {
-        private static ILoggerFactory _loggerFactory;
-        private static PropertyKeyedDeviceBaseEngine _engine;
-        private static IPipeline _pipeline;
-        private IFlowData _data;
-
-        [ClassCleanup]
-        public static void ClassCleanup()
-        {
-            _pipeline?.Dispose();
-        }
-
         [ClassInitialize]
-        public static void ClassInitialize(TestContext context)
-        {
-            var ddFile = Helper.GetDeviceDetectionFiles().FirstOrDefault();
-            if (ddFile == null)
-            {
-                Assert.Inconclusive(
-                    "No .hash data file found in device-detection-data.");
-                return;
-            }
-
-            _loggerFactory = LoggerFactory.Create(b => { });
-
-            // Build DeviceDetectionHashEngine first
-            var hashEngine = new DeviceDetectionHashEngineBuilder(_loggerFactory)
-                .SetAutoUpdate(false)
-                .SetDataFileSystemWatcher(false)
-                .Build(ddFile, false);
-
-            // Construct TacEngine directly (the builder's Build() is
-            // protected to avoid reflection ambiguity in PipelineBuilder).
-            _engine = new TacEngine(_loggerFactory, null, "TAC", "tac-profiles");
-
-            _pipeline = new PipelineBuilder(_loggerFactory)
-                .AddFlowElement(hashEngine)
-                .AddFlowElement(_engine)
-                .SetSuppressProcessExceptions(true)
-                .SetAutoDisposeElements(true)
-                .Build();
-        }
+        public static void ClassInitialize(TestContext context) =>
+            ClassInitializeInternal(
+                context,
+                // TODO: Fails. Not sure why a builder/engine is being created
+                // from base classes that contain unneeded functionality.
+                () => new TacEngineBuilder(_loggerFactory).Build("", false));
 
         [TestInitialize]
-        public void TestInitialize()
+        public override void TestInitialize()
         {
-            _data = _pipeline.CreateFlowData();
+            base.TestInitialize();
         }
 
         [TestCleanup]
-        public void TestCleanup()
+        public override void TestCleanup()
         {
-            _data?.Dispose();
+            base.TestCleanup();
         }
 
         /// <summary>

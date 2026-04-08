@@ -20,13 +20,9 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using FiftyOne.DeviceDetection.PropertyKeyed.Data;
 using FiftyOne.DeviceDetection.PropertyKeyed.FlowElements;
-using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.Exceptions;
-using FiftyOne.Pipeline.Core.FlowElements;
-using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -38,66 +34,36 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
     /// Tests for <see cref="PropertyKeyedDeviceBaseEngine"/> with custom
     /// property configuration.
     /// Uses IsMobile and PlatformName as indexed properties with the
-    /// Lite data file to verify the base engine behaviour without 
+    /// Lite data file to verify the base engine behavior without 
     /// TAC-specific validation.
     /// </summary>
     [TestClass]
-    public class CustomPropertyEngineTests
+    public class CustomPropertyEngineTests : 
+        BaseEngineTests<PropertyKeyedDeviceEngine>
     {
-        private static ILoggerFactory _loggerFactory;
-        private static PropertyKeyedDeviceBaseEngine _engine;
-        private static IPipeline _pipeline;
-        private IFlowData _data;
-
         [ClassCleanup]
-        public static void ClassCleanup()
-        {
-            _pipeline?.Dispose();
-        }
+        public static void ClassCleanup() => ClassCleanupInternal();
 
         [ClassInitialize]
-        public static void ClassInitialize(TestContext context)
-        {
-            var ddFile = Helper.GetDeviceDetectionFiles().FirstOrDefault();
-            if (ddFile == null)
-            {
-                Assert.Inconclusive(
-                    "No .hash data file found in device-detection-data.");
-                return;
-            }
-
-            _loggerFactory = LoggerFactory.Create(b => { });
-
-            // Build DeviceDetectionHashEngine first
-            var hashEngine = new DeviceDetectionHashEngineBuilder(_loggerFactory)
-                .SetAutoUpdate(false)
-                .SetDataFileSystemWatcher(false)
-                .Build(ddFile, false);
-            
-            _engine = new PropertyKeyedDeviceEngine(
-                _loggerFactory,
-                new List<string> { "IsMobile", "PlatformName" },
-                "IsMobile",
-                "custom-profiles");
-
-            _pipeline = new PipelineBuilder(_loggerFactory)
-                .AddFlowElement(hashEngine)
-                .AddFlowElement(_engine)
-                .SetSuppressProcessExceptions(true)
-                .SetAutoDisposeElements(true)
-                .Build();
-        }
+        public static void ClassInitialize(TestContext context) => 
+            ClassInitializeInternal(
+                context, 
+                () => new PropertyKeyedDeviceEngine(
+                    _loggerFactory,
+                    new List<string> { "IsMobile", "PlatformName" },
+                    "IsMobile",
+                    "custom-profiles"));
 
         [TestInitialize]
-        public void TestInitialize()
+        public override void TestInitialize()
         {
-            _data = _pipeline.CreateFlowData();
+            base.TestInitialize();
         }
 
         [TestCleanup]
-        public void TestCleanup()
+        public override void TestCleanup()
         {
-            _data?.Dispose();
+            base.TestCleanup();
         }
 
         /// <summary>
