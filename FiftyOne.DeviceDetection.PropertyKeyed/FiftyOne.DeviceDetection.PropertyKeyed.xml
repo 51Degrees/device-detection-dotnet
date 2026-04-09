@@ -291,28 +291,19 @@
         <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceBaseEngine.ProcessProfileMatch(FiftyOne.Pipeline.Core.Data.IFlowData,FiftyOne.DeviceDetection.PropertyKeyed.Data.IMultiDeviceData,System.UInt32)">
             <inheritdoc/>
         </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceBaseEngine.BuildDataSet(System.String)">
-            <inheritdoc/>
-        </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceBaseEngine.BuildDataSet(System.IO.Stream)">
-            <inheritdoc/>
-        </member>
         <member name="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngineBaseBuilder`2">
             <summary>
             Builder for <see cref="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceBaseEngine"/>.
             Supports configuring the key property and element data key.
             </summary>
         </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngineBaseBuilder`2.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,FiftyOne.Pipeline.Engines.Services.IDataUpdateService)">
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngineBaseBuilder`2.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
             <summary>
             Constructs a new instance of
             <see cref="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngineBaseBuilder`2"/>.
             </summary>
             <param name="loggerFactory">
             The factory used to create loggers.
-            </param>
-            <param name="dataUpdateService">
-            The data update service, if any.
             </param>
         </member>
         <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngineBaseBuilder`2.SetKeyProperty(System.String)">
@@ -351,32 +342,20 @@
             <param name="concurrency">The concurrency value (ignored).</param>
             <returns>This builder.</returns>
         </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngineBaseBuilder`2.Build">
-            <summary>
-            Build the engine without a data file.
-            PropertyKeyedDeviceEngine does not use a DataFile directly — 
-            it resolves its data from DeviceDetectionHashEngine via 
-            <see cref="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceBaseEngine.AddPipeline(FiftyOne.Pipeline.Core.FlowElements.IPipeline)"/> at runtime.
-            </summary>
-            <returns>The built engine.</returns>
-        </member>
         <member name="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngineBuilder">
             <summary>
             Builder for <see cref="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceBaseEngine"/>.
-            Supports configuring the key property, validation, and element data 
+            Supports configuring the key property, validation, and element data
             key.
             </summary>
         </member>
-        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngineBuilder.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,FiftyOne.Pipeline.Engines.Services.IDataUpdateService)">
+        <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngineBuilder.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
             <summary>
             Constructs a new instance of
             <see cref="T:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngineBuilder"/>.
             </summary>
             <param name="loggerFactory">
             The factory used to create loggers.
-            </param>
-            <param name="dataUpdateService">
-            The data update service, if any.
             </param>
         </member>
         <member name="M:FiftyOne.DeviceDetection.PropertyKeyed.FlowElements.PropertyKeyedDeviceEngineBuilder.CreateEngine(System.Collections.Generic.List{System.String})">

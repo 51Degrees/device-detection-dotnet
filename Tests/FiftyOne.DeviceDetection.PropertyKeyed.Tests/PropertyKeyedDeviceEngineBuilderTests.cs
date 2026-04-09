@@ -24,10 +24,8 @@ using System.Linq;
 using System.Reflection;
 using FiftyOne.DeviceDetection.PropertyKeyed.FlowElements;
 using FiftyOne.Pipeline.Core.Exceptions;
-using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 
 namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests;
 
@@ -68,9 +66,7 @@ public class PropertyKeyedDeviceEngineBuilderTests
     [TestMethod]
     public void Build_WithoutKeyProperty_Throws()
     {
-        var builder = new PropertyKeyedDeviceEngineBuilder(
-            _loggerFactory,
-            new Mock<IDataUpdateService>().Object);
+        var builder = new PropertyKeyedDeviceEngineBuilder(_loggerFactory);
 
         builder.SetProperty("SomeProperty");
         Assert.ThrowsExactly<PipelineConfigurationException>(() =>
@@ -83,13 +79,11 @@ public class PropertyKeyedDeviceEngineBuilderTests
     [TestMethod]
     public void TacEngineBuilder_SetsDefaults()
     {
-        var builder = new TacEngineBuilder(
-            _loggerFactory,
-            new Mock<IDataUpdateService>().Object);
+        var builder = new TacEngineBuilder(_loggerFactory);
 
         var engine = InvokeBuild<TacEngine>(builder);
 
-        Assert.AreEqual("tac-profiles", engine.ElementDataKey);
+        Assert.AreEqual("hardware", engine.ElementDataKey);
     }
 
     /// <summary>
@@ -98,12 +92,10 @@ public class PropertyKeyedDeviceEngineBuilderTests
     [TestMethod]
     public void NativeEngineBuilder_SetsDefaults()
     {
-        var builder = new NativeEngineBuilder(
-            _loggerFactory,
-            new Mock<IDataUpdateService>().Object);
+        var builder = new NativeEngineBuilder(_loggerFactory);
 
         var engine = InvokeBuild<NativeEngine>(builder);
 
-        Assert.AreEqual("native-profiles", engine.ElementDataKey);
+        Assert.AreEqual("hardware", engine.ElementDataKey);
     }
 }

@@ -23,7 +23,6 @@
 using FiftyOne.DeviceDetection.RobotsTxt.Data;
 using FiftyOne.Pipeline.Engines;
 using FiftyOne.Pipeline.Engines.FiftyOne.FlowElements;
-using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -37,30 +36,17 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
         RobotsTxtEngineBuilder,
         RobotsTxtEngine>
     {
-        public RobotsTxtEngineBuilder(
-            ILoggerFactory loggerFactory,
-            IDataUpdateService dataUpdateService = null) :
-            base(loggerFactory, dataUpdateService)
+        public RobotsTxtEngineBuilder(ILoggerFactory loggerFactory)
+            : base(loggerFactory)
         { }
 
-        public override RobotsTxtEngineBuilder SetPerformanceProfile(
+        public RobotsTxtEngineBuilder SetPerformanceProfile(
             PerformanceProfiles profile)
         {
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Build the engine without a data file.
-        /// PropertyKeyedDeviceEngine does not use a DataFile directly —
-        /// it resolves its data from DeviceDetectionHashEngine via
-        /// AddPipeline at runtime.
-        /// </summary>
-        /// <returns>The built engine.</returns>
-        protected override RobotsTxtEngine Build()
-        {
-            return BuildEngine();
-        }
-
+        /// <inheritdoc/>
         protected override RobotsTxtEngine CreateEngine(
             List<string> properties)
         {

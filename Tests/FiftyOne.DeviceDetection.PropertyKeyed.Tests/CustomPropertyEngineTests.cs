@@ -24,7 +24,6 @@ using FiftyOne.DeviceDetection.PropertyKeyed.Data;
 using FiftyOne.DeviceDetection.PropertyKeyed.FlowElements;
 using FiftyOne.Pipeline.Core.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -127,16 +126,6 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         public void Properties_NotEmpty()
         {
             Assert.AreNotEqual(0, _engine.Properties.Count);
-        }
-
-        /// <summary>
-        /// Refreshing data should fail.
-        /// </summary>
-        [TestMethod]
-        public void RefreshData_Throws()
-        {
-            Assert.ThrowsExactly<Exception>(() =>
-                _engine.RefreshData(""));
         }
 
         /// <summary>

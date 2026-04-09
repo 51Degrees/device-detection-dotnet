@@ -67,17 +67,8 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
                 .SetDataFileSystemWatcher(false)
                 .Build(ddFile, false);
 
-            _tacEngine = new TacEngine(
-                _loggerFactory,
-                new List<string> { "TAC" },
-                "TAC",
-                "hardware");
-
-            _nativeEngine = new NativeEngine(
-                _loggerFactory,
-                new List<string> { "NativeModel" },
-                "NativeModel",
-                "hardware");
+            _tacEngine = new TacEngineBuilder(_loggerFactory).Build();
+            _nativeEngine = new NativeEngineBuilder(_loggerFactory).Build();
 
             _pipeline = new PipelineBuilder(_loggerFactory)
                 .AddFlowElement(hashEngine)

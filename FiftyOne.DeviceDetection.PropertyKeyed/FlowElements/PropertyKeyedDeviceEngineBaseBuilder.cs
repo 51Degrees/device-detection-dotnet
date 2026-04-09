@@ -22,7 +22,6 @@
 
 using FiftyOne.Pipeline.Engines.FiftyOne.FlowElements;
 using FiftyOne.Pipeline.Engines.FlowElements;
-using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
 
 namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
@@ -31,11 +30,11 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
     /// Builder for <see cref="PropertyKeyedDeviceBaseEngine"/>.
     /// Supports configuring the key property and element data key.
     /// </summary>
-    public abstract class 
+    public abstract class
         PropertyKeyedDeviceEngineBaseBuilder<TBuilder, TEngine> :
         PropertyKeyedEngineBuilderBase<TBuilder, TEngine>
-        where TBuilder : PropertyKeyedDeviceEngineBaseBuilder<TBuilder, TEngine> 
-        where TEngine : IOnPremiseAspectEngine
+        where TBuilder : PropertyKeyedDeviceEngineBaseBuilder<TBuilder, TEngine>
+        where TEngine : IAspectEngine
     {
         protected string _keyProperty;
         protected string _elementDataKey;
@@ -47,13 +46,9 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         /// <param name="loggerFactory">
         /// The factory used to create loggers.
         /// </param>
-        /// <param name="dataUpdateService">
-        /// The data update service, if any.
-        /// </param>
         protected PropertyKeyedDeviceEngineBaseBuilder(
-            ILoggerFactory loggerFactory,
-            IDataUpdateService dataUpdateService = null)
-            : base(loggerFactory, dataUpdateService)
+            ILoggerFactory loggerFactory)
+            : base(loggerFactory)
         {
         }
 
@@ -92,7 +87,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         }
 
         /// <inheritdoc/>
-        public override TBuilder SetPerformanceProfile(
+        public TBuilder SetPerformanceProfile(
             Pipeline.Engines.PerformanceProfiles profile)
         {
             _logger.LogWarning(Messages.PerformanceProfileNotSupported);
@@ -104,23 +99,10 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         /// </summary>
         /// <param name="concurrency">The concurrency value (ignored).</param>
         /// <returns>This builder.</returns>
-        public PropertyKeyedDeviceEngineBaseBuilder<TBuilder, TEngine> 
-            SetConcurrency(ushort concurrency)
+        public TBuilder SetConcurrency(ushort concurrency)
         {
             _logger.LogWarning(Messages.ConcurrencyNotSupported);
-            return this;
-        }
-
-        /// <summary>
-        /// Build the engine without a data file.
-        /// PropertyKeyedDeviceEngine does not use a DataFile directly — 
-        /// it resolves its data from DeviceDetectionHashEngine via 
-        /// <see cref="PropertyKeyedDeviceBaseEngine.AddPipeline"/> at runtime.
-        /// </summary>
-        /// <returns>The built engine.</returns>
-        protected override TEngine Build()
-        {
-            return BuildEngine();
+            return (TBuilder)this;
         }
     }
 }

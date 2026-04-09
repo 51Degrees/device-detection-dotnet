@@ -24,7 +24,6 @@ using FiftyOne.DeviceDetection.PropertyKeyed.Data;
 using FiftyOne.DeviceDetection.PropertyKeyed.FlowElements;
 using FiftyOne.Pipeline.Core.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Linq;
 
 [assembly: Parallelize(Scope = ExecutionScope.ClassLevel)]
@@ -41,9 +40,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         public static void ClassInitialize(TestContext context) =>
             ClassInitializeInternal(
                 context,
-                // TODO: Fails. Not sure why a builder/engine is being created
-                // from base classes that contain unneeded functionality.
-                () => new TacEngineBuilder(_loggerFactory).Build("", false));
+                () => new TacEngineBuilder(_loggerFactory).Build());
 
         [TestInitialize]
         public override void TestInitialize()
@@ -115,16 +112,6 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         }
 
         /// <summary>
-        /// RefreshData should throw.
-        /// </summary>
-        [TestMethod]
-        public void RefreshData_Throws()
-        {
-            Assert.ThrowsExactly<Exception>(() =>
-                _engine.RefreshData(""));
-        }
-
-        /// <summary>
         /// Engine should expose at least one property.
         /// </summary>
         [TestMethod]
@@ -138,9 +125,9 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         /// ElementDataKey should be unique for TAC configuration.
         /// </summary>
         [TestMethod]
-        public void ElementDataKey_IsUnique()
+        public void ElementDataKey_IsHardware()
         {
-            Assert.AreEqual("tac-profiles", _engine.ElementDataKey);
+            Assert.AreEqual("hardware", _engine.ElementDataKey);
         }
     }
 }
