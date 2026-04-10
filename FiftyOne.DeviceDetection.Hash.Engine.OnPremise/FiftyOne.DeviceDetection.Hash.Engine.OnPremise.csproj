@@ -47,6 +47,16 @@
     <BuildType>Release</BuildType>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <_DirectPackRuntimePlatform Condition="'$(Platform)' == 'x64'">x64</_DirectPackRuntimePlatform>
+    <_DirectPackRuntimePlatform Condition="'$(Platform)' == 'x86'">x86</_DirectPackRuntimePlatform>
+    <_DirectPackRuntimePlatform Condition="'$(Platform)' == 'ARM64'">arm64</_DirectPackRuntimePlatform>
+
+    <_DirectPackRuntimeIdentifier Condition="$([MSBuild]::IsOsPlatform('Windows')) AND '$(_DirectPackRuntimePlatform)' != ''">win-$(_DirectPackRuntimePlatform)</_DirectPackRuntimeIdentifier>
+    <_DirectPackRuntimeIdentifier Condition="$([MSBuild]::IsOsPlatform('Linux')) AND '$(_DirectPackRuntimePlatform)' != ''">linux-$(_DirectPackRuntimePlatform)</_DirectPackRuntimeIdentifier>
+    <_DirectPackRuntimeIdentifier Condition="$([MSBuild]::IsOsPlatform('OSX')) AND '$(_DirectPackRuntimePlatform)' != ''">osx-$(_DirectPackRuntimePlatform)</_DirectPackRuntimeIdentifier>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="build\**" />
     <Compile Remove="device-detection-cxx\**" />
@@ -132,20 +142,29 @@
     </_PackageFiles>
 
     <!-- Direct pack -->
-    <!-- Copy the Windows x86/x64 native DLL -->
-    <_PackageFiles Include="$(OutputPath)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="$([MSBuild]::IsOsPlatform('Windows')) AND !$(BuiltOnCI)">
+    <_PackageFiles Include="..\windows\x64\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="!$(BuiltOnCI) and Exists('..\windows\x64\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll')">
       <BuildAction>None</BuildAction>
-      <PackagePath>runtimes\win-x$(Platform)\native</PackagePath>
+      <PackagePath>runtimes\win-x64\native</PackagePath>
     </_PackageFiles>
-    <!-- Copy the Linux x86/x64 native DLL -->
-    <_PackageFiles Include="$(OutputPath)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="$([MSBuild]::IsOsPlatform('Linux')) AND !$(BuiltOnCI)">
+    <_PackageFiles Include="..\windows\x86\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="!$(BuiltOnCI) and Exists('..\windows\x86\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll')">
       <BuildAction>None</BuildAction>
-      <PackagePath>runtimes\linux-$(Platform)\native</PackagePath>
+      <PackagePath>runtimes\win-x86\native</PackagePath>
     </_PackageFiles>
-    <!-- Copy the Mac x64/arm64 native DLL -->
-    <_PackageFiles Include="$(OutputPath)\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="$([MSBuild]::IsOsPlatform('OSX')) AND !$(BuiltOnCI)">
+    <_PackageFiles Include="..\linux\x64\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="!$(BuiltOnCI) and Exists('..\linux\x64\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll')">
       <BuildAction>None</BuildAction>
-      <PackagePath>runtimes\osx-$(Platform)\native</PackagePath>
+      <PackagePath>runtimes\linux-x64\native</PackagePath>
+    </_PackageFiles>
+    <_PackageFiles Include="..\linux\arm64\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="!$(BuiltOnCI) and Exists('..\linux\arm64\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll')">
+      <BuildAction>None</BuildAction>
+      <PackagePath>runtimes\linux-arm64\native</PackagePath>
+    </_PackageFiles>
+    <_PackageFiles Include="..\macos\x64\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="!$(BuiltOnCI) and Exists('..\macos\x64\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll')">
+      <BuildAction>None</BuildAction>
+      <PackagePath>runtimes\osx-x64\native</PackagePath>
+    </_PackageFiles>
+    <_PackageFiles Include="..\macos\arm64\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="!$(BuiltOnCI) and Exists('..\macos\arm64\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll')">
+      <BuildAction>None</BuildAction>
+      <PackagePath>runtimes\osx-arm64\native</PackagePath>
     </_PackageFiles>
   </ItemGroup>
   <ItemGroup>
