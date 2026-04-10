@@ -1,6 +1,3 @@
-param(
-    [Parameter(Mandatory)][string]$RepoName,
-    [string]$Name
-)
+param([Parameter(Mandatory)][string]$RepoName)
 
-./dotnet/run-update-dependencies.ps1 -RepoName $RepoName -Name $Name
+./dotnet/outdated.ps1 -RepoName:$RepoName
