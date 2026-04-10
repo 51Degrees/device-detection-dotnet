@@ -341,3 +341,6 @@ Makefile
 
 # tests
 test-results/
+
+# XML generated files
+*.xml

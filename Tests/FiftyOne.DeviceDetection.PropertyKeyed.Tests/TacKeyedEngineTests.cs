@@ -20,17 +20,10 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using FiftyOne.DeviceDetection.PropertyKeyed.Data;
 using FiftyOne.DeviceDetection.PropertyKeyed.FlowElements;
-using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.Exceptions;
-using FiftyOne.Pipeline.Core.FlowElements;
-using FiftyOne.Pipeline.Engines.Services;
-using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
 using System.Linq;
 
 [assembly: Parallelize(Scope = ExecutionScope.ClassLevel)]
@@ -38,65 +31,27 @@ using System.Linq;
 namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
 {
     /// <summary>
-    /// Tests for <see cref="PropertyKeyedDeviceBaseEngine"/> with TAC configuration.
+    /// Tests for <see cref="TacEngine"/> with TAC configuration.
     /// </summary>
     [TestClass]
-    public class TacConfiguredEngineTests
+    public class TacConfiguredEngineTests : BaseEngineTests<TacEngine>
     {
-        private static ILoggerFactory _loggerFactory;
-        private static PropertyKeyedDeviceBaseEngine _engine;
-        private static IPipeline _pipeline;
-        private IFlowData _data;
-
-        [ClassCleanup]
-        public static void ClassCleanup()
-        {
-            _pipeline?.Dispose();
-        }
-
         [ClassInitialize]
-        public static void ClassInitialize(TestContext context)
-        {
-            var ddFile = Helper.GetDeviceDetectionFiles().FirstOrDefault();
-            if (ddFile == null)
-            {
-                Assert.Inconclusive(
-                    "No .hash data file found in device-detection-data.");
-                return;
-            }
-
-            _loggerFactory = LoggerFactory.Create(b => { });
-
-            // Build DeviceDetectionHashEngine first
-            var hashEngine = new DeviceDetectionHashEngineBuilder(_loggerFactory)
-                .SetAutoUpdate(false)
-                .SetDataFileSystemWatcher(false)
-                .Build(ddFile, false);
-
-            // Build PropertyKeyedDeviceEngine configured for TAC
-            _engine = new TacEngineBuilder(
-                    _loggerFactory,
-                    new Mock<IDataUpdateService>().Object)
-                .Build();
-
-            _pipeline = new PipelineBuilder(_loggerFactory)
-                .AddFlowElement(hashEngine)
-                .AddFlowElement(_engine)
-                .SetSuppressProcessExceptions(true)
-                .SetAutoDisposeElements(true)
-                .Build();
-        }
+        public static void ClassInitialize(TestContext context) =>
+            ClassInitializeInternal(
+                context,
+                () => new TacEngineBuilder(_loggerFactory).Build());
 
         [TestInitialize]
-        public void TestInitialize()
+        public override void TestInitialize()
         {
-            _data = _pipeline.CreateFlowData();
+            base.TestInitialize();
         }
 
         [TestCleanup]
-        public void TestCleanup()
+        public override void TestCleanup()
         {
-            _data?.Dispose();
+            base.TestCleanup();
         }
 
         /// <summary>
@@ -157,16 +112,6 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         }
 
         /// <summary>
-        /// RefreshData should throw.
-        /// </summary>
-        [TestMethod]
-        public void RefreshData_Throws()
-        {
-            Assert.ThrowsExactly<Exception>(() =>
-                _engine.RefreshData(""));
-        }
-
-        /// <summary>
         /// Engine should expose at least one property.
         /// </summary>
         [TestMethod]
@@ -180,9 +125,9 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         /// ElementDataKey should be unique for TAC configuration.
         /// </summary>
         [TestMethod]
-        public void ElementDataKey_IsUnique()
+        public void ElementDataKey_IsHardware()
         {
-            Assert.AreEqual("tac-profiles", _engine.ElementDataKey);
+            Assert.AreEqual("hardware", _engine.ElementDataKey);
         }
     }
 }

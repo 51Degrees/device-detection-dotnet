@@ -24,6 +24,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Concurrent;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -136,6 +138,37 @@ namespace FiftyOne.DeviceDetection.TestHelpers
             catch { result = null; }
 
             return result;
+        }
+        
+        
+        /// <summary>
+        /// Asserts that the given builder type exposes exactly one parameterless
+        /// <c>Build()</c> method when inspected via
+        /// <see cref="RuntimeReflectionExtensions.GetRuntimeMethods"/>.
+        /// <para>
+        /// <see cref="FiftyOne.Pipeline.Core.FlowElements.PipelineBuilder"/>
+        /// uses <c>GetRuntimeMethods()</c> to locate the <c>Build()</c> method
+        /// when constructing a pipeline from configuration. If a builder declares
+        /// <c>public new Build()</c> to hide the inherited
+        /// <c>protected virtual Build()</c> from
+        /// <c>SingleFileAspectEngineBuilderBase</c>, both methods are visible via
+        /// reflection and the pipeline builder throws a
+        /// "multiple matching Build methods" error at startup.
+        /// Using <c>protected override</c> instead ensures only one is visible.
+        /// </para>
+        /// </summary>
+        /// <param name="builderType">The builder type to inspect.</param>
+        public static void AssertSingleParameterlessBuild(Type builderType)
+        {
+            var methods = builderType
+                .GetRuntimeMethods()
+                .Where(m => m.Name == "Build" && m.GetParameters().Length == 0)
+                .ToList();
+
+            Assert.HasCount(1, methods,
+                $"PipelineBuilder uses reflection to find Build() — there must " +
+                $"be exactly one parameterless Build() method in the hierarchy. " +
+                $"Found {methods.Count}: {string.Join(", ", methods.Select(m => $"{m.DeclaringType?.Name}.{m.Name}()"))}");
         }
     }
 }

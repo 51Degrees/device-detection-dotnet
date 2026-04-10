@@ -70,8 +70,7 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
                 .SetDataFileSystemWatcher(false)
                 .Build(ddFile, false);
 
-            // Build PropertyKeyedDeviceEngine configured for RobotsTxt
-            _engine = new RobotsTxtEngineBuilder(_loggerFactory).Build();
+            _engine = new RobotsTxtEngine(null, _loggerFactory);
 
             // Create a pipeline containing both engines.
             _pipeline = new PipelineBuilder(_loggerFactory)

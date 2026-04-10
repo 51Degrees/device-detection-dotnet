@@ -21,7 +21,6 @@
  * ********************************************************************* */
 
 using FiftyOne.Pipeline.Core.Exceptions;
-using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 
@@ -29,7 +28,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
 {
     /// <summary>
     /// Builder for <see cref="PropertyKeyedDeviceBaseEngine"/>.
-    /// Supports configuring the key property, validation, and element data 
+    /// Supports configuring the key property, validation, and element data
     /// key.
     /// </summary>
     public class PropertyKeyedDeviceEngineBuilder :
@@ -44,13 +43,8 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         /// <param name="loggerFactory">
         /// The factory used to create loggers.
         /// </param>
-        /// <param name="dataUpdateService">
-        /// The data update service, if any.
-        /// </param>
-        public PropertyKeyedDeviceEngineBuilder(
-            ILoggerFactory loggerFactory,
-            IDataUpdateService dataUpdateService = null)
-            : base(loggerFactory, dataUpdateService)
+        public PropertyKeyedDeviceEngineBuilder(ILoggerFactory loggerFactory)
+            : base(loggerFactory)
         {
         }
 
@@ -64,12 +58,12 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
                     "KeyProperty must be set before building");
             }
 
-            var elementDataKey = _elementDataKey ?? 
+            var elementDataKey = _elementDataKey ??
                 $"profiles-{_keyProperty.ToLowerInvariant()}";
-
+            
             return new PropertyKeyedDeviceEngine(
                 _loggerFactory,
-                properties,
+                new List<string> { _keyProperty },
                 _keyProperty,
                 elementDataKey);
         }

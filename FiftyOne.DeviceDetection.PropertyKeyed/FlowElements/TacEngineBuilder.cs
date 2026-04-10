@@ -20,7 +20,6 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 
@@ -29,12 +28,10 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
     public class TacEngineBuilder :
         PropertyKeyedDeviceEngineBaseBuilder<TacEngineBuilder, TacEngine>
     {
-        public TacEngineBuilder(
-            ILoggerFactory loggerFactory,
-            IDataUpdateService dataUpdateService = null) : 
-            base(loggerFactory, dataUpdateService)
+        public TacEngineBuilder(ILoggerFactory loggerFactory)
+            : base(loggerFactory)
         {
-            _elementDataKey = "tac-profiles";
+            _elementDataKey = "hardware";
             SetKeyProperty("TAC");
         }
 
@@ -43,7 +40,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         {
             return new TacEngine(
                 _loggerFactory,
-                properties,
+                new List<string> { _keyProperty },
                 _keyProperty,
                 _elementDataKey);
         }

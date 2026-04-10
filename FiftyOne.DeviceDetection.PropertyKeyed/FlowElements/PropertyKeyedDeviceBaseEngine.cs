@@ -29,7 +29,6 @@ using FiftyOne.Pipeline.Engines.FiftyOne.FlowElements;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
 {
@@ -163,30 +162,6 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
             uint profileId)
         {
             aspectData.AddProfileId(profileId);
-        }
-
-        /// <inheritdoc/>
-        protected override PropertyKeyedDataSet BuildDataSet(
-            string dataFilePath)
-        {
-            throw new NotSupportedException(
-                $"{GetType().Name} does not support direct data file " +
-                $"loading. It resolves data from " +
-                $"{nameof(DeviceDetectionHashEngine)} in the pipeline. " +
-                $"Ensure {nameof(DeviceDetectionHashEngine)} is added to " +
-                $"the pipeline before this engine.");
-        }
-
-        /// <inheritdoc/>
-        protected override PropertyKeyedDataSet BuildDataSet(
-            Stream data)
-        {
-            throw new NotSupportedException(
-                $"{GetType().Name} does not support direct data stream " +
-                $"loading. It resolves data from " +
-                $"{nameof(DeviceDetectionHashEngine)} in the pipeline. " +
-                $"Ensure {nameof(DeviceDetectionHashEngine)} is added to " +
-                $"the pipeline before this engine.");
         }
     }
 }

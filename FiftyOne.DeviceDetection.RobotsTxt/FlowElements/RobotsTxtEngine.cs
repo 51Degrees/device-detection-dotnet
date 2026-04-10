@@ -46,9 +46,7 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
     public class RobotsTxtEngine :
         AspectEngineBase<
             IRobotsTxtData,
-            IAspectPropertyMetaData>, 
-        IOnPremiseAspectEngine,
-        IDisposable
+            IAspectPropertyMetaData>
     {
         /// <summary>
         /// Evidence key values that indicate the crawler usage is allowed.
@@ -100,10 +98,6 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
         /// </summary>
         public override IList<IAspectPropertyMetaData> Properties => 
             _requiredProperties;
-
-        public IReadOnlyList<IAspectEngineDataFile> DataFiles => throw new NotImplementedException();
-
-        public string TempDataDirPath => throw new NotImplementedException();
 
         private IList<IAspectPropertyMetaData> _requiredProperties;
 
@@ -383,26 +377,6 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
         protected override void UnmanagedResourcesCleanup()
         {
             // Do nothing.
-        }
-
-        public void RefreshData(string dataFileIdentifier)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RefreshData(string dataFileIdentifier, Stream data)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IAspectEngineDataFile GetDataFileMetaData(string dataFileIdentifier = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AddDataFile(IAspectEngineDataFile dataFile)
-        {
-            throw new NotImplementedException();
         }
     }
 }

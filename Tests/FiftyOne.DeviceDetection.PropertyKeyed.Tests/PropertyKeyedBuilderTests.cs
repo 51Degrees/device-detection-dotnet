@@ -20,37 +20,40 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-using FiftyOne.DeviceDetection.RobotsTxt.Data;
-using FiftyOne.Pipeline.Engines;
-using FiftyOne.Pipeline.Engines.FiftyOne.FlowElements;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
+using FiftyOne.DeviceDetection.PropertyKeyed.FlowElements;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Reflection;
+using static FiftyOne.DeviceDetection.TestHelpers.Utils;
 
-namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
+namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
 {
     /// <summary>
-    /// Builder for <see cref="RobotsTxtEngine"/>.
+    /// Verifies structural properties of property-keyed engine builders
+    /// that do not require a data file.
     /// </summary>
-    public class RobotsTxtEngineBuilder : PropertyKeyedEngineBuilderBase<
-        RobotsTxtEngineBuilder,
-        RobotsTxtEngine>
+    [TestClass]
+    public class PropertyKeyedBuilderTests
     {
-        public RobotsTxtEngineBuilder(ILoggerFactory loggerFactory)
-            : base(loggerFactory)
-        { }
-
-        public RobotsTxtEngineBuilder SetPerformanceProfile(
-            PerformanceProfiles profile)
+        /// <summary>
+        /// Verifies that <see cref="TacEngineBuilder"/> exposes exactly one
+        /// parameterless Build() method when inspected via
+        /// <see cref="RuntimeReflectionExtensions.GetRuntimeMethods"/>.
+        /// </summary>
+        [TestMethod]
+        public void TacEngineBuilder_SingleParameterlessBuildMethod()
         {
-            throw new NotImplementedException();
+            AssertSingleParameterlessBuild(typeof(TacEngineBuilder));
         }
 
-        /// <inheritdoc/>
-        protected override RobotsTxtEngine CreateEngine(
-            List<string> properties)
+        /// <summary>
+        /// Verifies that <see cref="NativeEngineBuilder"/> exposes exactly one
+        /// parameterless Build() method when inspected via
+        /// <see cref="RuntimeReflectionExtensions.GetRuntimeMethods"/>.
+        /// </summary>
+        [TestMethod]
+        public void NativeEngineBuilder_SingleParameterlessBuildMethod()
         {
-            return new RobotsTxtEngine(properties, _loggerFactory);
+            AssertSingleParameterlessBuild(typeof(NativeEngineBuilder));
         }
     }
 }

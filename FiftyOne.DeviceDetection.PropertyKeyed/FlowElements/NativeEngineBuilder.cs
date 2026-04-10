@@ -20,7 +20,6 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 
@@ -29,12 +28,10 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
     public class NativeEngineBuilder :
         PropertyKeyedDeviceEngineBaseBuilder<NativeEngineBuilder, NativeEngine>
     {
-        public NativeEngineBuilder(
-            ILoggerFactory loggerFactory,
-            IDataUpdateService dataUpdateService = null) : 
-            base(loggerFactory, dataUpdateService)
+        public NativeEngineBuilder(ILoggerFactory loggerFactory)
+            : base(loggerFactory)
         {
-            _elementDataKey = "native-profiles";
+            _elementDataKey = "hardware";
             SetKeyProperty("NativeModel");
         }
 
@@ -43,7 +40,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
         {
             return new NativeEngine(
                 _loggerFactory,
-                properties,
+                new List<string> { _keyProperty },
                 _keyProperty,
                 _elementDataKey);
         }
