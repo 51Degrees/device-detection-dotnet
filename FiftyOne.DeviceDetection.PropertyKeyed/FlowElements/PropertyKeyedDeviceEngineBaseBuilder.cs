@@ -85,24 +85,5 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
             _elementDataKey = elementDataKey;
             return (TBuilder)this;
         }
-
-        /// <inheritdoc/>
-        public TBuilder SetPerformanceProfile(
-            Pipeline.Engines.PerformanceProfiles profile)
-        {
-            _logger.LogWarning(Messages.PerformanceProfileNotSupported);
-            return (TBuilder)this;
-        }
-
-        /// <summary>
-        /// Sets the concurrency. Not supported for property keyed engines.
-        /// </summary>
-        /// <param name="concurrency">The concurrency value (ignored).</param>
-        /// <returns>This builder.</returns>
-        public TBuilder SetConcurrency(ushort concurrency)
-        {
-            _logger.LogWarning(Messages.ConcurrencyNotSupported);
-            return (TBuilder)this;
-        }
     }
 }

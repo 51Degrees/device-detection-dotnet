@@ -46,9 +46,7 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
     public class RobotsTxtEngine :
         AspectEngineBase<
             IRobotsTxtData,
-            IAspectPropertyMetaData>, 
-        IOnPremiseAspectEngine,
-        IDisposable
+            IAspectPropertyMetaData>
     {
         /// <summary>
         /// Evidence key values that indicate the crawler usage is allowed.
@@ -100,14 +98,6 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
         /// </summary>
         public override IList<IAspectPropertyMetaData> Properties => 
             _requiredProperties;
-
-        public IReadOnlyList<IAspectEngineDataFile> DataFiles => [];
-
-        /// <summary>
-        /// Returns <see langword="null"/>. <see cref="RobotsTxtEngine"/> has no
-        /// data files of its own so there is no temp directory to configure.
-        /// </summary>
-        public string TempDataDirPath => null;
 
         private IList<IAspectPropertyMetaData> _requiredProperties;
 
@@ -387,40 +377,6 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
         protected override void UnmanagedResourcesCleanup()
         {
             // Do nothing.
-        }
-
-        /// <summary>
-        /// No-op. <see cref="RobotsTxtEngine"/> has no data files of its own —
-        /// it derives its data from <see cref="DeviceDetectionHashEngine"/> via
-        /// <see cref="AddPipeline"/> and has nothing to reload from disk.
-        /// </summary>
-        public void RefreshData(string dataFileIdentifier) { }
-
-        /// <summary>
-        /// No-op. <see cref="RobotsTxtEngine"/> has no data files of its own —
-        /// it derives its data from <see cref="DeviceDetectionHashEngine"/> via
-        /// <see cref="AddPipeline"/> and has nothing to reload from a stream.
-        /// </summary>
-        public void RefreshData(string dataFileIdentifier, Stream data) { }
-
-        /// <summary>
-        /// Returns <see langword="null"/>. <see cref="RobotsTxtEngine"/> has no
-        /// data files, so there is no metadata to return for any identifier.
-        /// </summary>
-        public IAspectEngineDataFile GetDataFileMetaData(
-            string dataFileIdentifier = null) => null;
-
-        /// <summary>
-        /// Not supported. <see cref="RobotsTxtEngine"/> derives its data from
-        /// <see cref="DeviceDetectionHashEngine"/> via <see cref="AddPipeline"/>;
-        /// it does not accept independently managed data files.
-        /// </summary>
-        public void AddDataFile(IAspectEngineDataFile dataFile)
-        {
-            throw new NotSupportedException(
-                $"{nameof(RobotsTxtEngine)} does not support data files. " +
-                $"Data is sourced from {nameof(DeviceDetectionHashEngine)} " +
-                $"via AddPipeline.");
         }
     }
 }

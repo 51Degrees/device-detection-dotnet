@@ -57,30 +57,5 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
         {
             AssertSingleParameterlessBuild(typeof(RobotsTxtEngineBuilder));
         }
-
-        /// <summary>
-        /// Verifies that <see cref="RobotsTxtEngine.DataFiles"/> returns
-        /// an empty list rather than throwing
-        /// <see cref="System.NotImplementedException"/>.
-        /// <para>
-        /// The cloud pipeline casts flow elements to
-        /// <see cref="FiftyOne.Pipeline.Engines.FlowElements.IOnPremiseAspectEngine"/>
-        /// and reads DataFiles to compute update schedules. An engine with
-        /// no data files must return an empty list, not throw.
-        /// </para>
-        /// </summary>
-        [TestMethod]
-        public void RobotsTxtEngine_DataFiles_ReturnsEmptyList()
-        {
-            var loggerFactory = LoggerFactory.Create(_ => { });
-            var engine = new RobotsTxtEngine(null, loggerFactory);
-
-            var dataFiles = engine.DataFiles;
-
-            Assert.IsNotNull(dataFiles,
-                "DataFiles must not be null.");
-            Assert.IsEmpty(dataFiles,
-                "RobotsTxtEngine has no data files of its own — DataFiles must be empty.");
-        }
     }
 }

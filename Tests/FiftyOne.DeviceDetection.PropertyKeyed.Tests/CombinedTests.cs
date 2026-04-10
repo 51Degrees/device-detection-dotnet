@@ -29,6 +29,7 @@ using FiftyOne.Pipeline.Engines.Data;
 using FiftyOne.DeviceDetection.TestHelpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using SharedConstants = FiftyOne.DeviceDetection.Shared.Constants;
@@ -44,13 +45,12 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
     [TestClass]
     public class CombinedTests
     {
-        private const string ValidTac = "35925406";
-        private const string ValidNativeModel = "iPhone11,8";
-
         private static ILoggerFactory _loggerFactory;
         private static TacEngine _tacEngine;
         private static NativeEngine _nativeEngine;
         private static IPipeline _pipeline;
+        private static string _validTac;
+        private static string _validNativeModel;
         private IFlowData _data;
 
         [ClassInitialize]
@@ -77,6 +77,15 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
                 .SetSuppressProcessExceptions(true)
                 .SetAutoDisposeElements(true)
                 .Build();
+
+            _validTac = _tacEngine.DataSet.PropertyIndexes
+                .FirstOrDefault(i => i.MetaData.Name.Equals(
+                    "TAC", StringComparison.OrdinalIgnoreCase))
+                ?.ValueData.Keys.FirstOrDefault();
+            _validNativeModel = _nativeEngine.DataSet.PropertyIndexes
+                .FirstOrDefault(i => i.MetaData.Name.Equals(
+                    "NativeModel", StringComparison.OrdinalIgnoreCase))
+                ?.ValueData.Keys.FirstOrDefault();
         }
 
         [ClassCleanup]
@@ -107,19 +116,26 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         [TestMethod]
         public void BothEvidence_AggregatesProfilesUnderHardware()
         {
+            if (_validTac == null || _validNativeModel == null)
+            {
+                Assert.Inconclusive(
+                    "No valid TAC or NativeModel values found in data file.");
+            }
+
             var tacOnly = ExecuteLookup(
                 new KeyValuePair<string, string>(
                     SharedConstants.EVIDENCE_QUERY_TAC_KEY,
-                    ValidTac));
+                    _validTac));
             var nativeOnly = ExecuteLookup(
                 new KeyValuePair<string, string>(
                     SharedConstants.EVIDENCE_QUERY_NATIVE_MODEL_KEY,
-                    ValidNativeModel));
+                    _validNativeModel));
 
-            _data.AddEvidence(SharedConstants.EVIDENCE_QUERY_TAC_KEY, ValidTac);
+            _data.AddEvidence(
+                SharedConstants.EVIDENCE_QUERY_TAC_KEY, _validTac);
             _data.AddEvidence(
                 SharedConstants.EVIDENCE_QUERY_NATIVE_MODEL_KEY,
-                ValidNativeModel);
+                _validNativeModel);
             _data.Process();
 
             AssertNoErrors(_data);
@@ -233,3 +249,4 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         }
     }
 }
+

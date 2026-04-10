@@ -85,12 +85,6 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
                     "elementDataKey is required and cannot be null or empty.",
                     nameof(elementDataKey));
             }
-            if (indexedProperties == null || indexedProperties.Count == 0)
-            {
-                throw new ArgumentException(
-                    "At least one indexed property is required.",
-                    nameof(indexedProperties));
-            }
 
             _loggerMultiDd = loggerFactory.CreateLogger<MultiDeviceData>();
             _keyProperty = keyProperty;
