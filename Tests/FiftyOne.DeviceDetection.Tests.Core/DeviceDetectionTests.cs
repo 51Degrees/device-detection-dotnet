@@ -162,7 +162,7 @@ namespace FiftyOne.DeviceDetection.Tests.Core
                 .SetDataFileSystemWatcher(false);
             if (useLazyLoading)
             {
-                builder.UseLazyLoading();
+                builder.UseLazyLoading(TimeSpan.FromSeconds(20));
             }
 
             CancellationTokenSource cancellationSource = new CancellationTokenSource();
