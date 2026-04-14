@@ -174,6 +174,13 @@ namespace FiftyOne.DeviceDetection.TestHelpers.Data
                     hashes[i + 1].HashValue,
                     "Hashes were not equal");
             }
+            if (refreshResults.Count == 0)
+            {
+                Assert.Inconclusive(
+                    "No refreshes completed. At least 1 refresh needs to occur " +
+                    "while hash tasks are active in order for this test to be valid. " +
+                    "Check the ReloadDelay and HashTaskDelay settings.");
+            }
             var avgHashTime = hashes
                 .Average(h => (h.FinishTime - h.StartTime).TotalMilliseconds);
             var avgRefreshTime = refreshResults
