@@ -14,11 +14,13 @@
     <_FiftyOneNativeAssetPath Condition="'$(_FiftyOneNativeRuntime)' != ''">$(MSBuildThisFileDirectory)..\runtimes\$(_FiftyOneNativeRuntime)\native\$(_FiftyOneNativeAssetName)</_FiftyOneNativeAssetPath>
   </PropertyGroup>
 
-  <!-- SDK-style projects (.NET Core / .NET 5+) resolve native assets automatically via the
-       runtimes/ folder in the NuGet package — no manual copy needed, and attempting one
-       would overwrite the correctly-resolved platform binary with a wrong one.
-       Only activate this copy for legacy .NET Framework consumers. -->
-  <ItemGroup Condition="'$(_FiftyOneNativeAssetPath)' != '' and Exists('$(_FiftyOneNativeAssetPath)') and '$(UsingMicrosoftNETSdk)' != 'true'">
+  <!-- .NET Core / .NET 5+ consumers resolve native assets automatically from the
+       runtimes/{rid}/native/ folder in the NuGet package — a manual copy would
+       overwrite the correct platform binary with a wrong one during cross-platform
+       publish. Gate on the target framework identifier rather than the project style,
+       so SDK-style projects that multi-target .NET Framework still get the copy for
+       their .NETFramework TFM leg. -->
+  <ItemGroup Condition="'$(_FiftyOneNativeAssetPath)' != '' and Exists('$(_FiftyOneNativeAssetPath)') and ('$(UsingMicrosoftNETSdk)' != 'true' or '$(TargetFrameworkIdentifier)' == '.NETFramework')">
     <None Include="$(_FiftyOneNativeAssetPath)">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>$(_FiftyOneNativeAssetName)</Link>
