@@ -21,6 +21,7 @@
  * ********************************************************************* */
 
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
+using FiftyOne.DeviceDetection.RobotsTxt;
 using FiftyOne.DeviceDetection.RobotsTxt.Data;
 using FiftyOne.DeviceDetection.RobotsTxt.FlowElements;
 using FiftyOne.Pipeline.Core.Data;
@@ -28,6 +29,7 @@ using FiftyOne.Pipeline.Core.Exceptions;
 using FiftyOne.Pipeline.Core.FlowElements;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Linq;
 
 [assembly: Parallelize(Scope = ExecutionScope.ClassLevel)]
@@ -177,6 +179,135 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
             // Assert
             Assert.ThrowsExactly<PipelineDataException>(
                 () => _data.Get<IRobotsTxtData>());
+        }
+
+        /// <summary>
+        /// Checks that a single TDL URI is emitted as a TDL line in an
+        /// Allow-all catch-all block that replaces the default Disallow-all
+        /// footer.
+        /// </summary>
+        [TestMethod]
+        public void TdlSingle()
+        {
+            // Arrange
+            const string tdl = "https://example.com/terms-v1";
+            _data.AddEvidence(Constants.TdlEvidenceKey, tdl);
+
+            // Act
+            _data.Process();
+
+            // Assert
+            var result = _data.Get<IRobotsTxtData>();
+            Assert.IsTrue(result.PlainText.HasValue);
+            Assert.Contains($"TDL: {tdl}", result.PlainText.Value);
+            Assert.Contains("Allow: /", result.PlainText.Value);
+            Assert.DoesNotContain(
+                "User-Agent: *\nDisallow: /",
+                result.PlainText.Value.Replace("\r\n", "\n"));
+        }
+
+        /// <summary>
+        /// Checks that multiple TDL URIs joined with ',' or '|' are split
+        /// into one TDL line each, preserving input order.
+        /// </summary>
+        [DataRow(",")]
+        [DataRow("|")]
+        [TestMethod]
+        public void TdlMultiple(string separator)
+        {
+            // Arrange
+            const string url1 = "https://example.com/terms-v1";
+            const string url2 = "https://example.com/terms-v2";
+            _data.AddEvidence(
+                Constants.TdlEvidenceKey,
+                $"{url1}{separator}{url2}");
+
+            // Act
+            _data.Process();
+
+            // Assert
+            var result = _data.Get<IRobotsTxtData>();
+            Assert.IsTrue(result.PlainText.HasValue);
+            var plain = result.PlainText.Value;
+            Assert.Contains($"TDL: {url1}", plain);
+            Assert.Contains($"TDL: {url2}", plain);
+            Assert.IsLessThan(
+                plain.IndexOf($"TDL: {url2}", StringComparison.Ordinal),
+                plain.IndexOf($"TDL: {url1}", StringComparison.Ordinal),
+                "TDL entries should preserve input order");
+        }
+
+        /// <summary>
+        /// Checks that entries that are not absolute URIs are silently
+        /// dropped, per IETF-Robots TDL specification: "Any value that does
+        /// not conform to URI will be rejected and the operation will
+        /// proceed as if the tdl attribute had not been provided."
+        /// </summary>
+        [TestMethod]
+        public void TdlInvalidEntriesIgnored()
+        {
+            // Arrange
+            const string valid = "https://example.com/terms";
+            _data.AddEvidence(
+                Constants.TdlEvidenceKey,
+                $"not a uri,{valid},also broken||");
+
+            // Act
+            _data.Process();
+
+            // Assert
+            var result = _data.Get<IRobotsTxtData>();
+            Assert.IsTrue(result.PlainText.HasValue);
+            var plain = result.PlainText.Value;
+            Assert.Contains($"TDL: {valid}", plain);
+            Assert.DoesNotContain("TDL: not a uri", plain);
+            Assert.DoesNotContain("TDL: also broken", plain);
+        }
+
+        /// <summary>
+        /// Checks that when only TDL evidence is provided (no allow/disallow
+        /// usages), the engine still produces aspect data.
+        /// </summary>
+        [TestMethod]
+        public void TdlAloneTriggersProcessing()
+        {
+            // Arrange
+            _data.AddEvidence(
+                Constants.TdlEvidenceKey,
+                "https://example.com/terms");
+
+            // Act
+            _data.Process();
+
+            // Assert
+            var result = _data.Get<IRobotsTxtData>();
+            Assert.IsTrue(result.PlainText.HasValue);
+            Assert.Contains("TDL: https://example.com/terms",
+                result.PlainText.Value);
+        }
+
+        /// <summary>
+        /// Checks that if TDL evidence is present but contains only invalid
+        /// entries, the output falls back to the default Disallow-all
+        /// catch-all block (no TDL lines, no Allow-all).
+        /// </summary>
+        [TestMethod]
+        public void TdlAllInvalidFallsBackToDisallow()
+        {
+            // Arrange
+            _data.AddEvidence(Constants.TdlEvidenceKey, "not-a-uri,also-bad");
+            _data.AddEvidence("query.robotstxt.search", "allow");
+
+            // Act
+            _data.Process();
+
+            // Assert
+            var result = _data.Get<IRobotsTxtData>();
+            Assert.IsTrue(result.PlainText.HasValue);
+            var plain = result.PlainText.Value;
+            Assert.DoesNotContain("TDL:", plain);
+            Assert.Contains("User-Agent: *", plain);
+            Assert.Contains("Disallow: /", plain);
         }
     }
 }

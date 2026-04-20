@@ -41,6 +41,12 @@ public class Constants
         "https://51degrees.com/terms/robots-txt");
 
     /// <summary>
+    /// Evidence key used to supply one or more Terms Document Locator URIs.
+    /// Multiple URIs may be comma- or pipe-separated (e.g. "url1,url2").
+    /// </summary>
+    public const string TdlEvidenceKey = "query.robotstxt.tdl";
+
+    /// <summary>
     /// Returns the license text from the embedded resource ensuring the reader
     /// is explicitly disposed of.
     /// </summary>

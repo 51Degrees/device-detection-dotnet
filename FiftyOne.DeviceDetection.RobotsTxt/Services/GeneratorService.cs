@@ -43,14 +43,20 @@ public class GeneratorService(RobotsTxtModel _dataSet)
     /// Usages that are allowed in the robots.txt. All other usages will be
     /// disallowed.
     /// </param>
+    /// <param name="tdls">
+    /// Terms Document Locator URIs. When non-empty, the trailing catch-all
+    /// block is emitted as Allow-all with one TDL line per URI. When empty
+    /// or null, the default Disallow-all catch-all is emitted.
+    /// </param>
     /// <param name="annotations">
     /// True if the resulting file should include annotations, otherwise false.
     /// </param>
     /// <param name="stopToken"></param>
     public void Write(
         TextWriter writer,
-        HashSet<string> allowed, 
-        bool annotations, 
+        HashSet<string> allowed,
+        IReadOnlyList<Uri> tdls,
+        bool annotations,
         CancellationToken stopToken)
     {
         var disallowEntries = new Queue<string>();
@@ -117,8 +123,28 @@ public class GeneratorService(RobotsTxtModel _dataSet)
             writer.WriteLine();
         }
 
-        // Write out the catch all disallow all.
-        AddFooter(writer);
+        // Write out the catch all block. If TDL URIs were provided, emit an
+        // Allow-all block with each TDL URI on its own line (IETF-Robots);
+        // otherwise fall back to the default Disallow-all block.
+        if (tdls != null && tdls.Count > 0)
+        {
+            AddTdlFooter(writer, tdls);
+        }
+        else
+        {
+            AddFooter(writer);
+        }
+    }
+
+    private static void AddTdlFooter(TextWriter sb, IReadOnlyList<Uri> tdls)
+    {
+        sb.WriteLine("User-Agent: *");
+        foreach (var tdl in tdls)
+        {
+            sb.Write("TDL: ");
+            sb.WriteLine(tdl.ToString());
+        }
+        sb.WriteLine("Allow: /");
     }
 
     private void Add(
@@ -177,6 +203,7 @@ public class GeneratorService(RobotsTxtModel _dataSet)
         sb.WriteLine("# N: Name of the crawler");
         sb.WriteLine("# U: Usages that the crawler makes of obtained content");
         sb.WriteLine("# A: Address of any reference URLs available for more information");
+        sb.WriteLine("# TDL: Terms Document Locator (immutable terms URL applied to the Allow block)");
         sb.WriteLine("# See https://51degrees.com/robots-txt for further details");
         sb.WriteLine();
     }
