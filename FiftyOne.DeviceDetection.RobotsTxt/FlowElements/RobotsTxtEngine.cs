@@ -342,7 +342,8 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
                     Name = crawler.Data.CrawlerName.Value,
                     ProductTokens = crawler.Data.CrawlerProductTokens.Value
                         .ToArray(),
-                    ReferenceUris = [new Uri(crawler.Data.CrawlerUrl.Value)],
+                    ReferenceUris = BuildReferenceUris(
+                        crawler.Data.CrawlerUrl),
                     Usages = crawler.Data.CrawlerUsage.Value.ToArray()
                 };
             }
@@ -355,6 +356,20 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
                     crawler.Profile);
             }
             return model;
+        }
+
+        private static Uri[] BuildReferenceUris(
+            IAspectPropertyValue<string> url)
+        {
+            if (url == null
+                || url.HasValue == false
+                || string.IsNullOrWhiteSpace(url.Value))
+            {
+                return null;
+            }
+            return Uri.TryCreate(url.Value, UriKind.Absolute, out var uri)
+                ? [uri]
+                : null;
         }
 
         /// <summary>
