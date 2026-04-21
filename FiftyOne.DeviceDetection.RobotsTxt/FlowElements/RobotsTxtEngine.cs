@@ -43,6 +43,25 @@ using System.Threading;
 
 namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
 {
+    /// <summary>
+    /// Aspect engine that generates robots.txt content based on crawler
+    /// usage evidence supplied via the pipeline.
+    /// <para>
+    /// Each evidence key follows the pattern
+    /// <c>query.robotstxt.{usage}</c> with a value of <c>allow</c> or
+    /// <c>disallow</c>. The engine maps these to the known crawlers in the
+    /// data file and emits per-crawler User-Agent / Allow / Disallow
+    /// blocks, followed by a catch-all block.
+    /// </para>
+    /// <para>
+    /// When Terms Document Locator (TDL) evidence is provided via the
+    /// <see cref="Constants.TdlEvidenceKey"/> key, the catch-all footer
+    /// is emitted as an Allow-all block with one <c>TDL:</c> line per
+    /// valid absolute URI. Invalid entries are silently dropped per the
+    /// IETF-Robots TDL specification. If no valid TDL URIs remain, the
+    /// engine falls back to the default Disallow-all catch-all.
+    /// </para>
+    /// </summary>
     public class RobotsTxtEngine :
         AspectEngineBase<
             IRobotsTxtData,

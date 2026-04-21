@@ -136,15 +136,15 @@ public class GeneratorService(RobotsTxtModel _dataSet)
         }
     }
 
-    private static void AddTdlFooter(TextWriter sb, IReadOnlyList<Uri> tdls)
+    private static void AddTdlFooter(TextWriter writer, IReadOnlyList<Uri> tdls)
     {
-        sb.WriteLine("User-Agent: *");
+        writer.WriteLine("User-Agent: *");
         foreach (var tdl in tdls)
         {
-            sb.Write("TDL: ");
-            sb.WriteLine(tdl.ToString());
+            writer.Write("TDL: ");
+            writer.WriteLine(tdl.ToString());
         }
-        sb.WriteLine("Allow: /");
+        writer.WriteLine("Allow: /");
     }
 
     private void Add(
