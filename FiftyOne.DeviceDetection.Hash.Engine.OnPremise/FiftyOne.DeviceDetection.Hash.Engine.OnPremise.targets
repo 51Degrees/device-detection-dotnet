@@ -4,10 +4,12 @@
   <PropertyGroup>
     <_FiftyOneNativeAssetName>FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll</_FiftyOneNativeAssetName>
 
-    <!-- Prefer the runtime identifier when one is available. -->
-    <_FiftyOneNativeRuntime Condition="'$(RuntimeIdentifier)' != ''">$(RuntimeIdentifier)</_FiftyOneNativeRuntime>
+    <!-- For .NET Framework the SDK may auto-infer a RuntimeIdentifier (e.g.
+         win-x86) that does not match the actual process architecture. Use the
+         explicit RuntimeIdentifier only for .NET Core / .NET 5+ targets. -->
+    <_FiftyOneNativeRuntime Condition="'$(RuntimeIdentifier)' != '' and '$(TargetFrameworkIdentifier)' != '.NETFramework'">$(RuntimeIdentifier)</_FiftyOneNativeRuntime>
 
-    <!-- Fall back to the legacy Windows platform mapping when no RID is set. -->
+    <!-- Windows platform mapping for .NET Framework or when no RID is set. -->
     <_FiftyOneNativeRuntime Condition="'$(_FiftyOneNativeRuntime)' == '' and '$(Platform)' == 'x86'">win-x86</_FiftyOneNativeRuntime>
     <_FiftyOneNativeRuntime Condition="'$(_FiftyOneNativeRuntime)' == '' and ('$(Platform)' == 'x64' or '$(Platform)' == 'AnyCPU' or '$(Platform)' == '')">win-x64</_FiftyOneNativeRuntime>
 
