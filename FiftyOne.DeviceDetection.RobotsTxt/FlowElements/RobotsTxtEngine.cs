@@ -43,6 +43,25 @@ using System.Threading;
 
 namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
 {
+    /// <summary>
+    /// Aspect engine that generates robots.txt content based on crawler
+    /// usage evidence supplied via the pipeline.
+    /// <para>
+    /// Each evidence key follows the pattern
+    /// <c>query.robotstxt.{usage}</c> with a value of <c>allow</c> or
+    /// <c>disallow</c>. The engine maps these to the known crawlers in the
+    /// data file and emits per-crawler User-Agent / Allow / Disallow
+    /// blocks, followed by a catch-all block.
+    /// </para>
+    /// <para>
+    /// When Terms Document Locator (TDL) evidence is provided via the
+    /// <see cref="Constants.TdlEvidenceKey"/> key, the catch-all footer
+    /// is emitted as an Allow-all block with one <c>TDL:</c> line per
+    /// valid absolute URI. Invalid entries are silently dropped per the
+    /// IETF-Robots TDL specification. If no valid TDL URIs remain, the
+    /// engine falls back to the default Disallow-all catch-all.
+    /// </para>
+    /// </summary>
     public class RobotsTxtEngine :
         AspectEngineBase<
             IRobotsTxtData,
@@ -138,8 +157,11 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
                     "AddPipeline must be called before processing data");
             }
             if (_evidenceKeys.Any(i => data.TryGetEvidence<string>(
-                i.Key, 
-                out var _)))
+                    i.Key,
+                    out var _))
+                || data.TryGetEvidence<string>(
+                    Constants.TdlEvidenceKey,
+                    out var _))
             {
                 base.Process(data);
             }
@@ -151,11 +173,12 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
         /// <param name="data"></param>
         /// <param name="aspectData"></param>
         protected override void ProcessEngine(
-            IFlowData data, 
+            IFlowData data,
             IRobotsTxtData aspectData)
         {
-            var allowed = GetAllowedSet(data);   
-            aspectData.PopulateFrom(GetValues(allowed));
+            var allowed = GetAllowedSet(data);
+            var tdls = GetTdls(data);
+            aspectData.PopulateFrom(GetValues(allowed, tdls));
         }
 
         /// <summary>
@@ -186,9 +209,14 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
             });
 
             // Get the valid evidence keys and set the evidence key filter.
+            // TDL is a standalone evidence channel, not a usage, so include
+            // it in the whitelist directly instead of mixing it into the
+            // usage-keyed dictionary.
             _evidenceKeys = GetEvidenceKeys(usages).ToFrozenDictionary();
             _evidenceKeyFilter = new EvidenceKeyFilterWhitelist(
-                _evidenceKeys.Keys.ToList());
+                _evidenceKeys.Keys
+                    .Append(Constants.TdlEvidenceKey)
+                    .ToList());
 
             // Set the properties.
             AspectPropertyMetaData[] allProperties = [
@@ -257,20 +285,48 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
             return allowed;
         }
 
+        private static readonly char[] TdlSeparators = [',', '|'];
+
+        /// <summary>
+        /// Parses TDL URIs from evidence. Accepts a single value or a list
+        /// of values joined with ',' or '|'. Non-URI values are silently
+        /// dropped per the IETF-Robots TDL specification.
+        /// </summary>
+        private static IReadOnlyList<Uri> GetTdls(IFlowData data)
+        {
+            if (data.TryGetEvidence<string>(
+                    Constants.TdlEvidenceKey,
+                    out var raw) == false
+                || string.IsNullOrWhiteSpace(raw))
+            {
+                return [];
+            }
+            return raw
+                .Split(
+                    TdlSeparators,
+                    StringSplitOptions.RemoveEmptyEntries
+                        | StringSplitOptions.TrimEntries)
+                .Select(s => Uri.TryCreate(s, UriKind.Absolute, out var u)
+                    ? u
+                    : null)
+                .Where(u => u != null)
+                .ToArray();
+        }
+
         private IEnumerable<KeyValuePair<string, object>>
-            GetValues(HashSet<string> allowed)
+            GetValues(HashSet<string> allowed, IReadOnlyList<Uri> tdls)
         {
             if (IsRequired(nameof(RobotsTxtData.PlainText)))
             {
                 yield return new(
                     nameof(RobotsTxtData.PlainText),
-                    GetValue(allowed, false));
+                    GetValue(allowed, tdls, false));
             }
             if (IsRequired(nameof(RobotsTxtData.AnnotatedText)))
             {
                 yield return new(
                     nameof(RobotsTxtData.AnnotatedText),
-                    GetValue(allowed, true));
+                    GetValue(allowed, tdls, true));
             }
         }
 
@@ -283,6 +339,7 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
 
         private IAspectPropertyValue<string> GetValue(
             HashSet<string> allowed,
+            IReadOnlyList<Uri> tdls,
             bool annotations)
         {
             var sb = new StringBuilder();
@@ -291,6 +348,7 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
                 _generatorService.Write(
                     writer,
                     allowed,
+                    tdls,
                     annotations,
                     CancellationToken.None);
             }
