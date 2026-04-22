@@ -90,17 +90,23 @@ if ($IsWindows) {
         -o "$Fixture/publish-net48" `
         "/p:PackageConsumptionVersion=$Version"
 
-    Write-Host "=== net48 publish output ==="
-    Get-ChildItem "$Fixture/publish-net48" -Filter "*Native*" -Recurse | ForEach-Object { Write-Host $_.FullName }
-    Get-ChildItem "$Fixture/publish-net48" -Filter "*.targets" -Recurse | ForEach-Object { Write-Host $_.FullName }
+    Write-Host "=== ALL files in net48 publish output ==="
+    Get-ChildItem "$Fixture/publish-net48" -Recurse | ForEach-Object { Write-Host $_.FullName }
     $PkgDir = "$HOME/.nuget/packages/fiftyone.devicedetection.hash.engine.onpremise/$Version"
-    Write-Host "=== NuGet package contents ==="
-    if (Test-Path $PkgDir) {
-        Get-ChildItem $PkgDir -Recurse -Filter "*Native*" | ForEach-Object { Write-Host $_.FullName }
-        if (Test-Path "$PkgDir/build") { Get-ChildItem "$PkgDir/build" | ForEach-Object { Write-Host $_.FullName } }
-    } else {
-        Write-Host "Package dir not found: $PkgDir"
-    }
+    Write-Host "=== .targets file content ==="
+    $TargetsFile = "$PkgDir/build/FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets"
+    if (Test-Path $TargetsFile) { Get-Content $TargetsFile | Write-Host } else { Write-Host "targets file not found" }
+    Write-Host "=== MSBuild evaluation ==="
+    dotnet msbuild "$Fixture/PackageConsumption.csproj" `
+        --getProperty:_FiftyOneNativeAssetPath `
+        --getProperty:_FiftyOneNativeRuntime `
+        --getProperty:TargetFrameworkIdentifier `
+        --getProperty:UsingMicrosoftNETSdk `
+        --getProperty:Platform `
+        --getProperty:RuntimeIdentifier `
+        --getProperty:PublishDir `
+        /p:TargetFramework=net48 `
+        "/p:PackageConsumptionVersion=$Version"
     Write-Host "=== end diagnostics ==="
 
     & "$Fixture/publish-net48/PackageConsumption" $DataFile
