@@ -9,13 +9,13 @@
     <IsPackable>false</IsPackable>
     <LangVersion>latest</LangVersion>
     <Platforms>x86;x64;ARM64;AnyCPU</Platforms>
-    <!-- CI passes /p:PackageConsumptionVersion=<Version> to pin to the just-packed nupkg.
+    <!-- CI passes /p:DeviceDetectionVersion=<Version> to pin to the just-packed nupkg.
          Leave as floating wildcard for local ad-hoc runs. -->
-    <PackageConsumptionVersion Condition="'$(PackageConsumptionVersion)' == ''">*</PackageConsumptionVersion>
+    <DeviceDetectionVersion Condition="'$(DeviceDetectionVersion)' == ''">*</DeviceDetectionVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.DeviceDetection.Hash.Engine.OnPremise" Version="$(PackageConsumptionVersion)" />
+    <PackageReference Include="FiftyOne.DeviceDetection.Hash.Engine.OnPremise" Version="$(DeviceDetectionVersion)" />
   </ItemGroup>
 
 </Project>

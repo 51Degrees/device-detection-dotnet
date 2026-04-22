@@ -76,7 +76,7 @@ dotnet publish "$Fixture/PackageConsumption.csproj" `
     --configuration Release `
     --self-contained false `
     -o "$Fixture/publish-modern" `
-    "/p:PackageConsumptionVersion=$Version"
+    "/p:DeviceDetectionVersion=$Version"
 & "$Fixture/publish-modern/PackageConsumption" $DataFile
 
 # net48 leg guards the .NETFramework copy path — Framework doesn't use
@@ -88,7 +88,7 @@ if ($IsWindows) {
         --configuration Release `
         --self-contained false `
         -o "$Fixture/publish-net48" `
-        "/p:PackageConsumptionVersion=$Version"
+        "/p:DeviceDetectionVersion=$Version"
 
     Write-Host "=== ALL files in net48 publish output ==="
     Get-ChildItem "$Fixture/publish-net48" -Recurse | ForEach-Object { Write-Host $_.FullName }
@@ -106,7 +106,7 @@ if ($IsWindows) {
         --getProperty:RuntimeIdentifier `
         --getProperty:PublishDir `
         /p:TargetFramework=net48 `
-        "/p:PackageConsumptionVersion=$Version"
+        "/p:DeviceDetectionVersion=$Version"
     Write-Host "=== end diagnostics ==="
 
     & "$Fixture/publish-net48/PackageConsumption" $DataFile
