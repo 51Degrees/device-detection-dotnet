@@ -110,11 +110,11 @@
       <BuildAction>None</BuildAction>
       <PackagePath>runtimes\win-x64\native</PackagePath>
     </_PackageFiles>
-    <!-- Copy the Windows x86 native DLL (temporarily disabled) -->
-    <!-- <_PackageFiles Include="..\windows\x86\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="$(BuiltOnCI)">
+    <!-- Copy the Windows x86 native DLL -->
+    <_PackageFiles Include="..\windows\x86\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="$(BuiltOnCI)">
       <BuildAction>None</BuildAction>
       <PackagePath>runtimes\win-x86\native</PackagePath>
-    </_PackageFiles> -->
+    </_PackageFiles>
     <!-- Copy the Linux x64 native DLL -->
     <_PackageFiles Include="..\linux\x64\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll" Condition="$(BuiltOnCI)">
       <BuildAction>None</BuildAction>

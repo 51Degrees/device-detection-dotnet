@@ -13,7 +13,8 @@
         "Name": "Windows_x86_Release",
         "Configuration": "Release",
         "Arch": "x86",
-        "BuildMethod": "msbuild"
+        "BuildMethod": "msbuild",
+        "PackageRequirement" : true
     },
     {
         "Image": "windows-latest",
