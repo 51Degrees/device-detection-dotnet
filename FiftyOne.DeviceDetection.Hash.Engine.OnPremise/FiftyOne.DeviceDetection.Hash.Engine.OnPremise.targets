@@ -23,8 +23,19 @@
   <ItemGroup Condition="'$(_FiftyOneNativeAssetPath)' != '' and Exists('$(_FiftyOneNativeAssetPath)') and ('$(UsingMicrosoftNETSdk)' != 'true' or '$(TargetFrameworkIdentifier)' == '.NETFramework')">
     <None Include="$(_FiftyOneNativeAssetPath)">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <Link>$(_FiftyOneNativeAssetName)</Link>
     </None>
   </ItemGroup>
+
+  <!-- Explicit copy target for dotnet publish — the <None CopyToOutputDirectory>
+       item above is not honoured by dotnet publish for .NET Framework targets.
+       Using a Copy task in AfterTargets="Publish" ensures the native DLL lands
+       in the publish output directory. -->
+  <Target Name="_FiftyOneCopyNativeToPublish"
+          AfterTargets="Publish"
+          Condition="'$(_FiftyOneNativeAssetPath)' != '' and Exists('$(_FiftyOneNativeAssetPath)') and ('$(UsingMicrosoftNETSdk)' != 'true' or '$(TargetFrameworkIdentifier)' == '.NETFramework')">
+    <Copy SourceFiles="$(_FiftyOneNativeAssetPath)"
+          DestinationFolder="$(PublishDir)"
+          SkipUnchangedFiles="true" />
+  </Target>
 </Project>
