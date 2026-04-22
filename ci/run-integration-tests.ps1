@@ -65,39 +65,24 @@ Write-Host "Running package consumption validation..."
 $Fixture  = "$PWD/$RepoName/Tests/PackageConsumption"
 $DataFile = (Resolve-Path "$PWD/$RepoName/FiftyOne.DeviceDetection.Hash.Engine.OnPremise/device-detection-cxx/device-detection-data/51Degrees-LiteV4.1.hash").Path
 
-# Native RID for the current host. We pass --runtime on the modern-TFM leg
-# so publish flattens runtimes/<rid>/native/ into the output root — that's
-# the layout in which .targets-file regressions actually manifest at load
-# time. Without --runtime, portable publish preserves the runtimes/ subtree
-# and .NET's native resolver bypasses a wrongly-copied DLL in the root.
-if ($IsWindows) {
-    if     ($Arch -eq 'x86')   { $HostRid = 'win-x86' }
-    elseif ($Arch -eq 'ARM64') { $HostRid = 'win-arm64' }
-    else                        { $HostRid = 'win-x64' }
-} elseif ($IsLinux) {
-    $HostRid = if ($Arch -eq 'ARM64') { 'linux-arm64' } else { 'linux-x64' }
-} elseif ($IsMacOS) {
-    $HostRid = if ($Arch -eq 'ARM64') { 'osx-arm64' } else { 'osx-x64' }
-} else {
-    throw "Unsupported host OS for package consumption validation"
-}
-
-Write-Host "::group::Publish + run fixture (net8.0 / $HostRid)"
+# --use-current-runtime triggers the same flatten behaviour as an explicit
+# --runtime <rid> (collapses runtimes/<rid>/native/ into the output root),
+# which is the layout in which .targets-file regressions actually manifest
+# at load time. Portable publish preserves the runtimes/ subtree and .NET's
+# native resolver bypasses a wrongly-copied DLL in the root, hiding bugs.
 dotnet publish "$Fixture/PackageConsumption.csproj" `
     --framework net8.0 `
-    --runtime $HostRid `
+    --use-current-runtime `
     --configuration Release `
     --self-contained false `
     -o "$Fixture/publish-modern" `
     "/p:PackageConsumptionVersion=$Version"
 & "$Fixture/publish-modern/PackageConsumption" $DataFile
-Write-Host "::endgroup::"
 
 # net48 leg guards the .NETFramework copy path — Framework doesn't use
 # runtimes/<rid>/native resolution, so a missing or wrong DLL in the output
 # root surfaces immediately at engine construction.
 if ($IsWindows) {
-    Write-Host "::group::Publish + run fixture (net48)"
     dotnet publish "$Fixture/PackageConsumption.csproj" `
         --framework net48 `
         --configuration Release `
@@ -105,7 +90,6 @@ if ($IsWindows) {
         -o "$Fixture/publish-net48" `
         "/p:PackageConsumptionVersion=$Version"
     & "$Fixture/publish-net48/PackageConsumption" $DataFile
-    Write-Host "::endgroup::"
 }
 
 Write-Host "Package consumption validation passed"
