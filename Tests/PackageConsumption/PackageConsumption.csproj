@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">net48;net8.0</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">net8.0</TargetFrameworks>
+    <RootNamespace>FiftyOne.DeviceDetection.PackageConsumption</RootNamespace>
+    <AssemblyName>PackageConsumption</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <LangVersion>latest</LangVersion>
+    <Platforms>x86;x64;ARM64;AnyCPU</Platforms>
+    <!-- CI passes /p:PackageConsumptionVersion=<Version> to pin to the just-packed nupkg.
+         Leave as floating wildcard for local ad-hoc runs. -->
+    <PackageConsumptionVersion Condition="'$(PackageConsumptionVersion)' == ''">*</PackageConsumptionVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FiftyOne.DeviceDetection.Hash.Engine.OnPremise" Version="$(PackageConsumptionVersion)" />
+  </ItemGroup>
+
+</Project>
