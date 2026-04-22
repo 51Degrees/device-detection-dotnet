@@ -23,6 +23,7 @@
   <ItemGroup Condition="'$(_FiftyOneNativeAssetPath)' != '' and Exists('$(_FiftyOneNativeAssetPath)') and ('$(UsingMicrosoftNETSdk)' != 'true' or '$(TargetFrameworkIdentifier)' == '.NETFramework')">
     <None Include="$(_FiftyOneNativeAssetPath)">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <Link>$(_FiftyOneNativeAssetName)</Link>
     </None>
   </ItemGroup>
