@@ -56,64 +56,56 @@ Copy-Item $ExamplesRepo/test-results $RepoName -Recurse
 
 # Package consumption validation. Guards against regressions in the package
 # .targets file where the native DLL ends up missing or wrong-platform in
-# the publish output. Publishes a small fixture (Tests/PackageConsumption)
+# publish output. Publishes a small fixture (Tests/PackageConsumption)
 # against the just-packed .nupkg and executes the resulting binary; if the
 # native DLL is missing or incompatible, the process crashes at engine
-# construction and the step fails.
+# construction and the step fails via $PSNativeCommandUseErrorActionPreference.
 Write-Host "Running package consumption validation..."
 
 $Fixture  = "$PWD/$RepoName/Tests/PackageConsumption"
 $DataFile = (Resolve-Path "$PWD/$RepoName/FiftyOne.DeviceDetection.Hash.Engine.OnPremise/device-detection-cxx/device-detection-data/51Degrees-LiteV4.1.hash").Path
 
-# Native RID for the current host + matrix entry. We publish for the native
-# RID only — cross-publish output can't be executed on this runner anyway.
+# Native RID for the current host. We pass --runtime on the modern-TFM leg
+# so publish flattens runtimes/<rid>/native/ into the output root — that's
+# the layout in which .targets-file regressions actually manifest at load
+# time. Without --runtime, portable publish preserves the runtimes/ subtree
+# and .NET's native resolver bypasses a wrongly-copied DLL in the root.
 if ($IsWindows) {
     if     ($Arch -eq 'x86')   { $HostRid = 'win-x86' }
     elseif ($Arch -eq 'ARM64') { $HostRid = 'win-arm64' }
     else                        { $HostRid = 'win-x64' }
-    # net48 leg guards against the SDK-style multi-target regression.
-    $Tfms = @('net48', 'net8.0')
 } elseif ($IsLinux) {
     $HostRid = if ($Arch -eq 'ARM64') { 'linux-arm64' } else { 'linux-x64' }
-    $Tfms = @('net8.0')
 } elseif ($IsMacOS) {
     $HostRid = if ($Arch -eq 'ARM64') { 'osx-arm64' } else { 'osx-x64' }
-    $Tfms = @('net8.0')
 } else {
     throw "Unsupported host OS for package consumption validation"
 }
 
-foreach ($tfm in $Tfms) {
-    Write-Host "::group::Publish + run fixture ($tfm / $HostRid)"
+Write-Host "::group::Publish + run fixture (net8.0 / $HostRid)"
+dotnet publish "$Fixture/PackageConsumption.csproj" `
+    --framework net8.0 `
+    --runtime $HostRid `
+    --configuration Release `
+    --self-contained false `
+    -o "$Fixture/publish-modern" `
+    "/p:PackageConsumptionVersion=$Version"
+& "$Fixture/publish-modern/PackageConsumption" $DataFile
+Write-Host "::endgroup::"
 
-    # net48 doesn't take --runtime (Framework is host-native); all others do.
-    $publishArgs = @(
-        "$Fixture/PackageConsumption.csproj",
-        '--framework',    $tfm,
-        '--configuration', 'Release',
-        '--self-contained', 'false',
+# net48 leg guards the .NETFramework copy path — Framework doesn't use
+# runtimes/<rid>/native resolution, so a missing or wrong DLL in the output
+# root surfaces immediately at engine construction.
+if ($IsWindows) {
+    Write-Host "::group::Publish + run fixture (net48)"
+    dotnet publish "$Fixture/PackageConsumption.csproj" `
+        --framework net48 `
+        --configuration Release `
+        --self-contained false `
+        -o "$Fixture/publish-net48" `
         "/p:PackageConsumptionVersion=$Version"
-    )
-    if ($tfm -ne 'net48') {
-        $publishArgs += @('--runtime', $HostRid)
-        $publishDir = "$Fixture/bin/Release/$tfm/$HostRid/publish"
-    } else {
-        $publishDir = "$Fixture/bin/Release/$tfm/publish"
-    }
-
-    dotnet publish @publishArgs
-
-    $exeName = if ($IsWindows) { 'PackageConsumption.exe' } else { 'PackageConsumption' }
-    $exe = Join-Path $publishDir $exeName
-    if (-not (Test-Path $exe)) {
-        throw "Published executable not found at '$exe'"
-    }
-
-    & $exe $DataFile
-    if ($LASTEXITCODE -ne 0) {
-        throw "Package consumption fixture failed: tfm=$tfm rid=$HostRid exit=$LASTEXITCODE"
-    }
+    & "$Fixture/publish-net48/PackageConsumption" $DataFile
     Write-Host "::endgroup::"
 }
 
-Write-Host "Package consumption validation passed: $($Tfms.Count) TFM(s) on $HostRid"
+Write-Host "Package consumption validation passed"
