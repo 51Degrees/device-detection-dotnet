@@ -77,7 +77,7 @@ dotnet publish "$Fixture/PackageConsumption.csproj" `
     --self-contained false `
     -o "$Fixture/publish-modern" `
     "/p:DeviceDetectionVersion=$Version"
-& "$Fixture/publish-modern/PackageConsumption" $DataFile
+dotnet "$Fixture/publish-modern/PackageConsumption.dll" $DataFile
 
 # net48 leg guards the .NETFramework copy path — Framework doesn't use
 # runtimes/<rid>/native resolution, so a missing or wrong DLL in the output
@@ -109,7 +109,7 @@ if ($IsWindows) {
         "/p:DeviceDetectionVersion=$Version"
     Write-Host "=== end diagnostics ==="
 
-    & "$Fixture/publish-net48/PackageConsumption" $DataFile
+    & "$Fixture/publish-net48/PackageConsumption.exe" $DataFile
 }
 
 Write-Host "Package consumption validation passed"
