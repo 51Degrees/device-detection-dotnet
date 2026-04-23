@@ -4,24 +4,40 @@
   <PropertyGroup>
     <_FiftyOneNativeAssetName>FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll</_FiftyOneNativeAssetName>
 
-    <!-- Prefer the runtime identifier when one is available. -->
-    <_FiftyOneNativeRuntime Condition="'$(RuntimeIdentifier)' != ''">$(RuntimeIdentifier)</_FiftyOneNativeRuntime>
+    <!-- For .NET Framework the SDK may auto-infer a RuntimeIdentifier (e.g.
+         win-x86) that does not match the actual process architecture. Use the
+         explicit RuntimeIdentifier only for .NET Core / .NET 5+ targets. -->
+    <_FiftyOneNativeRuntime Condition="'$(RuntimeIdentifier)' != '' and '$(TargetFrameworkIdentifier)' != '.NETFramework'">$(RuntimeIdentifier)</_FiftyOneNativeRuntime>
 
-    <!-- Fall back to the legacy Windows platform mapping when no RID is set. -->
+    <!-- Windows platform mapping for .NET Framework or when no RID is set. -->
     <_FiftyOneNativeRuntime Condition="'$(_FiftyOneNativeRuntime)' == '' and '$(Platform)' == 'x86'">win-x86</_FiftyOneNativeRuntime>
     <_FiftyOneNativeRuntime Condition="'$(_FiftyOneNativeRuntime)' == '' and ('$(Platform)' == 'x64' or '$(Platform)' == 'AnyCPU' or '$(Platform)' == '')">win-x64</_FiftyOneNativeRuntime>
 
     <_FiftyOneNativeAssetPath Condition="'$(_FiftyOneNativeRuntime)' != ''">$(MSBuildThisFileDirectory)..\runtimes\$(_FiftyOneNativeRuntime)\native\$(_FiftyOneNativeAssetName)</_FiftyOneNativeAssetPath>
   </PropertyGroup>
 
-  <!-- SDK-style projects (.NET Core / .NET 5+) resolve native assets automatically via the
-       runtimes/ folder in the NuGet package — no manual copy needed, and attempting one
-       would overwrite the correctly-resolved platform binary with a wrong one.
-       Only activate this copy for legacy .NET Framework consumers. -->
-  <ItemGroup Condition="'$(_FiftyOneNativeAssetPath)' != '' and Exists('$(_FiftyOneNativeAssetPath)') and '$(UsingMicrosoftNETSdk)' != 'true'">
+  <!-- .NET Core / .NET 5+ consumers resolve native assets automatically from the
+       runtimes/{rid}/native/ folder in the NuGet package — a manual copy would
+       overwrite the correct platform binary with a wrong one during cross-platform
+       publish. Gate on the target framework identifier rather than the project style,
+       so SDK-style projects that multi-target .NET Framework still get the copy for
+       their .NETFramework TFM leg. -->
+  <ItemGroup Condition="'$(_FiftyOneNativeAssetPath)' != '' and Exists('$(_FiftyOneNativeAssetPath)') and ('$(UsingMicrosoftNETSdk)' != 'true' or '$(TargetFrameworkIdentifier)' == '.NETFramework')">
     <None Include="$(_FiftyOneNativeAssetPath)">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>$(_FiftyOneNativeAssetName)</Link>
     </None>
   </ItemGroup>
+
+  <!-- Explicit copy target for dotnet publish — the <None CopyToOutputDirectory>
+       item above is not honoured by dotnet publish for .NET Framework targets.
+       Using a Copy task in AfterTargets="Publish" ensures the native DLL lands
+       in the publish output directory. -->
+  <Target Name="_FiftyOneCopyNativeToPublish"
+          AfterTargets="Publish"
+          Condition="'$(_FiftyOneNativeAssetPath)' != '' and Exists('$(_FiftyOneNativeAssetPath)') and ('$(UsingMicrosoftNETSdk)' != 'true' or '$(TargetFrameworkIdentifier)' == '.NETFramework')">
+    <Copy SourceFiles="$(_FiftyOneNativeAssetPath)"
+          DestinationFolder="$(PublishDir)"
+          SkipUnchangedFiles="true" />
+  </Target>
 </Project>

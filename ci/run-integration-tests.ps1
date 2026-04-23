@@ -53,3 +53,63 @@ Write-Host "Testing Examples Project..."
 ./dotnet/run-integration-tests.ps1 -RepoName $ExamplesRepo -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod -DirNameFormatForDotnet "*" -DirNameFormatForNotDotnet "*" -Filter ".*\.sln"
 
 Copy-Item $ExamplesRepo/test-results $RepoName -Recurse
+
+# Package consumption validation. Guards against regressions in the package
+# .targets file where the native DLL ends up missing or wrong-platform in
+# publish output. Publishes a small fixture (Tests/PackageConsumption)
+# against the just-packed .nupkg and executes the resulting binary; if the
+# native DLL is missing or incompatible, the process crashes at engine
+# construction and the step fails via $PSNativeCommandUseErrorActionPreference.
+Write-Host "Running package consumption validation..."
+
+$Fixture  = "$PWD/$RepoName/Tests/PackageConsumption"
+$DataFile = (Resolve-Path "$PWD/$RepoName/FiftyOne.DeviceDetection.Hash.Engine.OnPremise/device-detection-cxx/device-detection-data/51Degrees-LiteV4.1.hash").Path
+
+# --use-current-runtime triggers the same flatten behaviour as an explicit
+# --runtime <rid> (collapses runtimes/<rid>/native/ into the output root),
+# which is the layout in which .targets-file regressions actually manifest
+# at load time. Portable publish preserves the runtimes/ subtree and .NET's
+# native resolver bypasses a wrongly-copied DLL in the root, hiding bugs.
+dotnet publish "$Fixture/PackageConsumption.csproj" `
+    --framework net8.0 `
+    --use-current-runtime `
+    --configuration Release `
+    --self-contained false `
+    -o "$Fixture/publish-modern" `
+    "/p:DeviceDetectionVersion=$Version"
+& "$Fixture/publish-modern/PackageConsumption" $DataFile
+
+# net48 leg guards the .NETFramework copy path — Framework doesn't use
+# runtimes/<rid>/native resolution, so a missing or wrong DLL in the output
+# root surfaces immediately at engine construction.
+if ($IsWindows) {
+    dotnet publish "$Fixture/PackageConsumption.csproj" `
+        --framework net48 `
+        --configuration Release `
+        --self-contained false `
+        -o "$Fixture/publish-net48" `
+        "/p:DeviceDetectionVersion=$Version"
+
+    Write-Host "=== ALL files in net48 publish output ==="
+    Get-ChildItem "$Fixture/publish-net48" -Recurse | ForEach-Object { Write-Host $_.FullName }
+    $PkgDir = "$HOME/.nuget/packages/fiftyone.devicedetection.hash.engine.onpremise/$Version"
+    Write-Host "=== .targets file content ==="
+    $TargetsFile = "$PkgDir/build/FiftyOne.DeviceDetection.Hash.Engine.OnPremise.targets"
+    if (Test-Path $TargetsFile) { Get-Content $TargetsFile | Write-Host } else { Write-Host "targets file not found" }
+    Write-Host "=== MSBuild evaluation ==="
+    dotnet msbuild "$Fixture/PackageConsumption.csproj" `
+        --getProperty:_FiftyOneNativeAssetPath `
+        --getProperty:_FiftyOneNativeRuntime `
+        --getProperty:TargetFrameworkIdentifier `
+        --getProperty:UsingMicrosoftNETSdk `
+        --getProperty:Platform `
+        --getProperty:RuntimeIdentifier `
+        --getProperty:PublishDir `
+        /p:TargetFramework=net48 `
+        "/p:DeviceDetectionVersion=$Version"
+    Write-Host "=== end diagnostics ==="
+
+    & "$Fixture/publish-net48/PackageConsumption" $DataFile
+}
+
+Write-Host "Package consumption validation passed"
