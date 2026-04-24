@@ -44,6 +44,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
         private readonly Type _type;
         private readonly IReadOnlyList<IElementPropertyMetaData> 
             _itemProperties;
+        private readonly bool _isLeaf;
 
         /// <inheritdoc/>
         public IFlowElement Element { get; }
@@ -66,9 +67,11 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
         public IReadOnlyList<IElementPropertyMetaData> ItemProperties =>
             _inner != null
                 ? _inner.ItemProperties
-                : (_itemProperties ?? 
-                    (IReadOnlyList<IElementPropertyMetaData>)
-                    Array.Empty<IElementPropertyMetaData>());
+                : _isLeaf
+                    ? null
+                    : (_itemProperties ??
+                        (IReadOnlyList<IElementPropertyMetaData>)
+                        Array.Empty<IElementPropertyMetaData>());
 
         /// <inheritdoc/>
         public IReadOnlyDictionary<string, IElementPropertyMetaData> 
@@ -171,6 +174,34 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
             _itemProperties = itemProperties
                 .Cast<IElementPropertyMetaData>().ToList();
             _type = type;
+        }
+
+        /// <summary>
+        /// Creates a synthetic leaf property with the given name and
+        /// type. <see cref="ItemProperties"/> returns null for leaves,
+        /// which lets callers tell them apart from container properties
+        /// such as "Profiles".
+        /// </summary>
+        /// <param name="element">
+        /// The engine to associate with this property.
+        /// </param>
+        /// <param name="name">
+        /// The property name (e.g. "ProfileId").
+        /// </param>
+        /// <param name="type">
+        /// The CLR type of this property.
+        /// </param>
+        public DevicePropertyMetaData(
+            IFlowElement element,
+            string name,
+            Type type)
+        {
+            Element = element;
+            _inner = null;
+            _name = name;
+            _itemProperties = null;
+            _type = type;
+            _isLeaf = true;
         }
 
         // --- IFiftyOneAspectPropertyMetaData methods ---

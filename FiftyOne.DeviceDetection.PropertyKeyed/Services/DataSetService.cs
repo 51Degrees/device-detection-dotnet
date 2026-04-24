@@ -179,14 +179,31 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Services
             IReadOnlyList<IFiftyOneAspectPropertyMetaData> profileProperties,
             IFlowElement element)
         {
+            // Every profile has a ProfileId (IProfileMetaData.ProfileId),
+            // but the hash engine doesn't list it in Properties. Add it
+            // as a leaf so it shows up next to the rest of the profile
+            // fields in AccessibleProperties and the JSON output.
+            var allProperties =
+                new List<IFiftyOneAspectPropertyMetaData>(
+                    profileProperties.Count + 1)
+                {
+                    new DevicePropertyMetaData(
+                        element,
+                        PROFILE_ID_PROPERTY_NAME,
+                        typeof(string)),
+                };
+            allProperties.AddRange(profileProperties);
+
             return new List<IFiftyOneAspectPropertyMetaData>
             {
                 new DevicePropertyMetaData(
                     element,
                     PropertyKeyedDataSet.PROPERTY_PREFIX_NAME,
-                    profileProperties,
+                    allProperties.AsReadOnly(),
                     typeof(IReadOnlyList<IDeviceData>))
             };
         }
+
+        internal const string PROFILE_ID_PROPERTY_NAME = "ProfileId";
     }
 }
