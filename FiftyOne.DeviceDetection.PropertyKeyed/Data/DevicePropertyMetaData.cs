@@ -31,9 +31,9 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
 {
     /// <summary>
     /// A wrapper around <see cref="IFiftyOneAspectPropertyMetaData"/>
-    /// that re-associates the property with the correct outer engine 
+    /// that re-associates the property with the correct outer engine
     /// rather than the internal DeviceDetectionHashEngine. Can also
-    /// create a synthetic property with explicit name, type, and 
+    /// create a synthetic property with explicit name, type, and
     /// item properties.
     /// </summary>
     public class DevicePropertyMetaData : IFiftyOneAspectPropertyMetaData
@@ -42,9 +42,8 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
 
         private readonly string _name;
         private readonly Type _type;
-        private readonly IReadOnlyList<IElementPropertyMetaData> 
+        private readonly IReadOnlyList<IElementPropertyMetaData>
             _itemProperties;
-        private readonly bool _isLeaf;
 
         /// <inheritdoc/>
         public IFlowElement Element { get; }
@@ -65,13 +64,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
 
         /// <inheritdoc/>
         public IReadOnlyList<IElementPropertyMetaData> ItemProperties =>
-            _inner != null
-                ? _inner.ItemProperties
-                : _isLeaf
-                    ? null
-                    : (_itemProperties ??
-                        (IReadOnlyList<IElementPropertyMetaData>)
-                        Array.Empty<IElementPropertyMetaData>());
+            _inner != null ? _inner.ItemProperties : _itemProperties;
 
         /// <inheritdoc/>
         public IReadOnlyDictionary<string, IElementPropertyMetaData> 
@@ -179,7 +172,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
         /// <summary>
         /// Creates a synthetic leaf property with the given name and
         /// type. <see cref="ItemProperties"/> returns null for leaves,
-        /// which lets callers tell them apart from container properties
+        /// so callers can tell them apart from container properties
         /// such as "Profiles".
         /// </summary>
         /// <param name="element">
@@ -201,7 +194,6 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
             _name = name;
             _itemProperties = null;
             _type = type;
-            _isLeaf = true;
         }
 
         // --- IFiftyOneAspectPropertyMetaData methods ---

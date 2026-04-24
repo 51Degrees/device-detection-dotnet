@@ -175,14 +175,14 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Services
             }
         }
 
-        private static List<IFiftyOneAspectPropertyMetaData> BuildProperties(
+        internal static List<IFiftyOneAspectPropertyMetaData> BuildProperties(
             IReadOnlyList<IFiftyOneAspectPropertyMetaData> profileProperties,
             IFlowElement element)
         {
-            // Every profile has a ProfileId (IProfileMetaData.ProfileId),
-            // but the hash engine doesn't list it in Properties. Add it
-            // as a leaf so it shows up next to the rest of the profile
-            // fields in AccessibleProperties and the JSON output.
+            // Every profile has a ProfileId via IProfileMetaData.ProfileId,
+            // but the hash engine doesn't include it in Properties. Add
+            // it as a leaf so the engine's property surface lists it
+            // alongside the rest of the profile fields.
             var allProperties =
                 new List<IFiftyOneAspectPropertyMetaData>(
                     profileProperties.Count + 1)
