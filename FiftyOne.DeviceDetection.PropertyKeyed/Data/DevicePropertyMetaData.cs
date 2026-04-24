@@ -31,9 +31,9 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
 {
     /// <summary>
     /// A wrapper around <see cref="IFiftyOneAspectPropertyMetaData"/>
-    /// that re-associates the property with the correct outer engine 
+    /// that re-associates the property with the correct outer engine
     /// rather than the internal DeviceDetectionHashEngine. Can also
-    /// create a synthetic property with explicit name, type, and 
+    /// create a synthetic property with explicit name, type, and
     /// item properties.
     /// </summary>
     public class DevicePropertyMetaData : IFiftyOneAspectPropertyMetaData
@@ -42,7 +42,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
 
         private readonly string _name;
         private readonly Type _type;
-        private readonly IReadOnlyList<IElementPropertyMetaData> 
+        private readonly IReadOnlyList<IElementPropertyMetaData>
             _itemProperties;
 
         /// <inheritdoc/>
@@ -64,11 +64,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
 
         /// <inheritdoc/>
         public IReadOnlyList<IElementPropertyMetaData> ItemProperties =>
-            _inner != null
-                ? _inner.ItemProperties
-                : (_itemProperties ?? 
-                    (IReadOnlyList<IElementPropertyMetaData>)
-                    Array.Empty<IElementPropertyMetaData>());
+            _inner != null ? _inner.ItemProperties : _itemProperties;
 
         /// <inheritdoc/>
         public IReadOnlyDictionary<string, IElementPropertyMetaData> 
@@ -170,6 +166,33 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
             _name = name;
             _itemProperties = itemProperties
                 .Cast<IElementPropertyMetaData>().ToList();
+            _type = type;
+        }
+
+        /// <summary>
+        /// Creates a synthetic leaf property with the given name and
+        /// type. <see cref="ItemProperties"/> returns null for leaves,
+        /// so callers can tell them apart from container properties
+        /// such as "Profiles".
+        /// </summary>
+        /// <param name="element">
+        /// The engine to associate with this property.
+        /// </param>
+        /// <param name="name">
+        /// The property name (e.g. "ProfileId").
+        /// </param>
+        /// <param name="type">
+        /// The CLR type of this property.
+        /// </param>
+        public DevicePropertyMetaData(
+            IFlowElement element,
+            string name,
+            Type type)
+        {
+            Element = element;
+            _inner = null;
+            _name = name;
+            _itemProperties = null;
             _type = type;
         }
 

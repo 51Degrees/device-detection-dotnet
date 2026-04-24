@@ -175,18 +175,35 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Services
             }
         }
 
-        private static List<IFiftyOneAspectPropertyMetaData> BuildProperties(
+        internal static List<IFiftyOneAspectPropertyMetaData> BuildProperties(
             IReadOnlyList<IFiftyOneAspectPropertyMetaData> profileProperties,
             IFlowElement element)
         {
+            // Every profile has a ProfileId via IProfileMetaData.ProfileId,
+            // but the hash engine doesn't include it in Properties. Add
+            // it as a leaf so the engine's property surface lists it
+            // alongside the rest of the profile fields.
+            var allProperties =
+                new List<IFiftyOneAspectPropertyMetaData>(
+                    profileProperties.Count + 1)
+                {
+                    new DevicePropertyMetaData(
+                        element,
+                        PROFILE_ID_PROPERTY_NAME,
+                        typeof(string)),
+                };
+            allProperties.AddRange(profileProperties);
+
             return new List<IFiftyOneAspectPropertyMetaData>
             {
                 new DevicePropertyMetaData(
                     element,
                     PropertyKeyedDataSet.PROPERTY_PREFIX_NAME,
-                    profileProperties,
+                    allProperties.AsReadOnly(),
                     typeof(IReadOnlyList<IDeviceData>))
             };
         }
+
+        internal const string PROFILE_ID_PROPERTY_NAME = "ProfileId";
     }
 }
