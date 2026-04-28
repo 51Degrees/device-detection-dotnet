@@ -102,6 +102,8 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
 
         private readonly ILogger<RobotsTxtData> _loggerData;
 
+        private readonly ITdlSourceResolver _tdlResolver;
+
         public override string DataSourceTier => _dataSourceTier;
         private string _dataSourceTier;
 
@@ -121,9 +123,10 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
         private IList<IAspectPropertyMetaData> _requiredProperties;
 
         public RobotsTxtEngine(
-            List<string> properties, 
-            ILoggerFactory loggerFactory) : base(
-                loggerFactory.CreateLogger<RobotsTxtEngine>(), 
+            List<string> properties,
+            ILoggerFactory loggerFactory,
+            ITdlSourceResolver tdlResolver = null) : base(
+                loggerFactory.CreateLogger<RobotsTxtEngine>(),
                 CreateAspectData)
         {
             _properties = properties;
@@ -132,6 +135,7 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
             _queryService = new PropertyValueQueryService(
                 ["CrawlerUsage"],
                 loggerFactory);
+            _tdlResolver = tdlResolver;
         }
 
         private static IRobotsTxtData CreateAspectData(
@@ -289,10 +293,13 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
 
         /// <summary>
         /// Parses TDL URIs from evidence. Accepts a single value or a list
-        /// of values joined with ',' or '|'. Non-URI values are silently
-        /// dropped per the IETF-Robots TDL specification.
+        /// of values joined with ',' or '|'. Each entry is treated as an
+        /// absolute URI first; if that fails and an
+        /// <see cref="ITdlSourceResolver"/> is registered, it gets a chance
+        /// to resolve known short ids to URLs. Anything that ends up
+        /// non-URI is silently dropped per the IETF-Robots TDL specification.
         /// </summary>
-        private static IReadOnlyList<Uri> GetTdls(IFlowData data)
+        private IReadOnlyList<Uri> GetTdls(IFlowData data)
         {
             if (data.TryGetEvidence<string>(
                     Constants.TdlEvidenceKey,
@@ -306,11 +313,22 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
                     TdlSeparators,
                     StringSplitOptions.RemoveEmptyEntries
                         | StringSplitOptions.TrimEntries)
-                .Select(s => Uri.TryCreate(s, UriKind.Absolute, out var u)
-                    ? u
-                    : null)
+                .Select(ResolveTdlEntry)
                 .Where(u => u != null)
                 .ToArray();
+        }
+
+        private Uri ResolveTdlEntry(string entry)
+        {
+            if (Uri.TryCreate(entry, UriKind.Absolute, out var u))
+            {
+                return u;
+            }
+            if (_tdlResolver?.IsKnown(entry) == true)
+            {
+                return _tdlResolver.Resolve(entry);
+            }
+            return null;
         }
 
         private IEnumerable<KeyValuePair<string, object>>

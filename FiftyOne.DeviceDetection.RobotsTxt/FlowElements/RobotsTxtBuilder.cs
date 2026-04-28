@@ -21,6 +21,7 @@
  * ********************************************************************* */
 
 using FiftyOne.DeviceDetection.RobotsTxt.Data;
+using FiftyOne.DeviceDetection.RobotsTxt.Services;
 using FiftyOne.Pipeline.Engines;
 using FiftyOne.Pipeline.Engines.FiftyOne.FlowElements;
 using Microsoft.Extensions.Logging;
@@ -36,6 +37,8 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
         RobotsTxtEngineBuilder,
         RobotsTxtEngine>
     {
+        private ITdlSourceResolver _tdlResolver;
+
         public RobotsTxtEngineBuilder(ILoggerFactory loggerFactory)
             : base(loggerFactory)
         { }
@@ -46,11 +49,28 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Optional. Plugs in a resolver that maps short TDL ids in
+        /// the <c>query.robotstxt.tdl</c> evidence to URLs. If not
+        /// set, only values that are already absolute URIs reach the
+        /// generated robots.txt; everything else is dropped per the
+        /// IETF-Robots TDL specification.
+        /// </summary>
+        public RobotsTxtEngineBuilder SetTdlSourceResolver(
+            ITdlSourceResolver resolver)
+        {
+            _tdlResolver = resolver;
+            return this;
+        }
+
         /// <inheritdoc/>
         protected override RobotsTxtEngine CreateEngine(
             List<string> properties)
         {
-            return new RobotsTxtEngine(properties, _loggerFactory);
+            return new RobotsTxtEngine(
+                properties,
+                _loggerFactory,
+                _tdlResolver);
         }
     }
 }
