@@ -141,8 +141,11 @@ public class GeneratorService(RobotsTxtModel _dataSet)
         writer.WriteLine("User-Agent: *");
         foreach (var tdl in tdls)
         {
+            var url = tdl.ToString();
+            writer.Write("# Terms ");
+            writer.WriteLine(url);
             writer.Write("TDL: ");
-            writer.WriteLine(tdl.ToString());
+            writer.WriteLine(url);
         }
         writer.WriteLine("Allow: /");
     }

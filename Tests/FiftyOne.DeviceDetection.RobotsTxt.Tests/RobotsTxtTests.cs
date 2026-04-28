@@ -309,5 +309,30 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
             Assert.Contains("User-Agent: *", plain);
             Assert.Contains("Disallow: /", plain);
         }
+
+        /// <summary>
+        /// Checks that each TDL URI is preceded by a human-readable
+        /// "# Terms &lt;url&gt;" comment line so readers of the
+        /// generated robots.txt can see what the TDL points at without
+        /// having to know the spec.
+        /// </summary>
+        [TestMethod]
+        public void TdlEachUriPrecededByTermsComment()
+        {
+            // Arrange
+            const string url1 = "https://example.com/terms-v1";
+            const string url2 = "https://custom.terms/terms.txt";
+            _data.AddEvidence(Constants.TdlEvidenceKey, $"{url1},{url2}");
+
+            // Act
+            _data.Process();
+
+            // Assert
+            var result = _data.Get<IRobotsTxtData>();
+            Assert.IsTrue(result.PlainText.HasValue);
+            var plain = result.PlainText.Value.Replace("\r\n", "\n");
+            Assert.Contains($"# Terms {url1}\nTDL: {url1}", plain);
+            Assert.Contains($"# Terms {url2}\nTDL: {url2}", plain);
+        }
     }
 }
