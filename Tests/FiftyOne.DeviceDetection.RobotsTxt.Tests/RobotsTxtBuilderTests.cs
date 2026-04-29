@@ -21,7 +21,9 @@
  * ********************************************************************* */
 
 using FiftyOne.DeviceDetection.RobotsTxt.FlowElements;
+using FiftyOne.DeviceDetection.RobotsTxt.Services;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reflection;
 using static FiftyOne.DeviceDetection.TestHelpers.Utils;
@@ -57,5 +59,79 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
         {
             AssertSingleParameterlessBuild(typeof(RobotsTxtEngineBuilder));
         }
+
+        /// <summary>
+        /// Out of the box the builder ships with a GitHub-backed
+        /// resolver attached, so a consumer that lists
+        /// "RobotsTxtEngineBuilder" in pipeline config gets short-id
+        /// resolution without any extra wiring.
+        /// </summary>
+        [TestMethod]
+        public void Constructor_AttachesDefaultResolverThatKnowsMowSocw()
+        {
+            var builder = new RobotsTxtEngineBuilder(
+                NullLoggerFactory.Instance);
+
+            var field = typeof(RobotsTxtEngineBuilder).GetField(
+                "_tdlResolver",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+            Assert.IsNotNull(field);
+            var resolver = field.GetValue(builder) as ITdlSourceResolver;
+            Assert.IsNotNull(resolver,
+                "constructor should attach a default resolver");
+            Assert.IsTrue(resolver.IsKnown("MOW-SOCW"));
+        }
+
+        /// <summary>
+        /// Passing null to SetTdlSourceResolver disables short-id
+        /// resolution — the documented opt-out for air-gapped
+        /// deployments that cannot reach GitHub.
+        /// </summary>
+        [TestMethod]
+        public void SetTdlSourceResolver_Null_DisablesResolver()
+        {
+            var builder = new RobotsTxtEngineBuilder(
+                    NullLoggerFactory.Instance)
+                .SetTdlSourceResolver(null);
+
+            var field = typeof(RobotsTxtEngineBuilder).GetField(
+                "_tdlResolver",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+            Assert.IsNull(field.GetValue(builder));
+        }
+
+        /// <summary>
+        /// SetUserAgent is the BuildParameters-friendly entry point
+        /// for the same logic; pipeline configuration drives it via
+        /// "BuildParameters": { "UserAgent": "..." } in appsettings.json.
+        /// </summary>
+        [TestMethod]
+        public void SetUserAgent_AttachesResolverWithGivenUserAgent()
+        {
+            var builder = new RobotsTxtEngineBuilder(NullLoggerFactory.Instance)
+                .SetUserAgent("TestApp/1.0");
+
+            var field = typeof(RobotsTxtEngineBuilder).GetField(
+                "_tdlResolver",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+            var resolver = field.GetValue(builder) as ITdlSourceResolver;
+            Assert.IsNotNull(resolver);
+            Assert.IsTrue(resolver.IsKnown("MOW-SOCW"));
+        }
+
+        /// <summary>
+        /// UseDefaultTdlSourceResolver is fluent — it returns the same
+        /// builder instance so callers can chain further configuration.
+        /// </summary>
+        [TestMethod]
+        public void UseDefaultTdlSourceResolver_ReturnsSameBuilderForChaining()
+        {
+            var builder = new RobotsTxtEngineBuilder(NullLoggerFactory.Instance);
+
+            var returned = builder.UseDefaultTdlSourceResolver("TestApp/1.0");
+
+            Assert.AreSame(builder, returned);
+        }
+
     }
 }

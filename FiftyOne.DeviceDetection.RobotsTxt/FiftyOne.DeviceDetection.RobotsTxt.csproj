@@ -34,10 +34,12 @@
 
   <ItemGroup>
     <None Remove="license-robots.txt" />
+    <None Remove="tdlSources.json" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="license-robots.txt" />
+    <EmbeddedResource Include="tdlSources.json" />
   </ItemGroup>
 
   <ItemGroup>
