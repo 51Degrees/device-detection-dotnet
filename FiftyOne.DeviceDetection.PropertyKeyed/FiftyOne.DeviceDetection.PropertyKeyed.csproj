@@ -60,7 +60,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FiftyOne.DeviceDetection.Hash.Engine.OnPremise\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.csproj" />
-    <PackageReference Include="FiftyOne.Pipeline.Engines.FiftyOne" Version="4.5.33" />
+    <PackageReference Include="FiftyOne.Pipeline.Engines.FiftyOne" Version="4.5.34" />
   </ItemGroup>
 
 </Project>
