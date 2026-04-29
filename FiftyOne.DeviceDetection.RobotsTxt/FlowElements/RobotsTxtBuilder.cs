@@ -31,17 +31,29 @@ using System.Collections.Generic;
 namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
 {
     /// <summary>
-    /// Builder for <see cref="RobotsTxtEngine"/>.
+    /// Builder for <see cref="RobotsTxtEngine"/>. The constructor
+    /// attaches a <see cref="GitHubTdlSourceResolver"/> by default so
+    /// short TDL ids in <c>query.robotstxt.tdl</c> evidence are
+    /// resolved against the embedded sources out of the box. Pass a
+    /// different resolver via <see cref="SetTdlSourceResolver"/>, or
+    /// <c>null</c> to disable id resolution entirely (e.g. air-gapped
+    /// deployments).
     /// </summary>
     public class RobotsTxtEngineBuilder : PropertyKeyedEngineBuilderBase<
         RobotsTxtEngineBuilder,
         RobotsTxtEngine>
     {
+        private const string DefaultUserAgent =
+            "FiftyOne.DeviceDetection.RobotsTxt";
+
         private ITdlSourceResolver _tdlResolver;
 
         public RobotsTxtEngineBuilder(ILoggerFactory loggerFactory)
             : base(loggerFactory)
-        { }
+        {
+            _tdlResolver = GitHubTdlSourceResolver.CreateDefault(
+                DefaultUserAgent, loggerFactory);
+        }
 
         public RobotsTxtEngineBuilder SetPerformanceProfile(
             PerformanceProfiles profile)
@@ -50,17 +62,51 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
         }
 
         /// <summary>
-        /// Optional. Plugs in a resolver that maps short TDL ids in
-        /// the <c>query.robotstxt.tdl</c> evidence to URLs. If not
-        /// set, only values that are already absolute URIs reach the
-        /// generated robots.txt; everything else is dropped per the
-        /// IETF-Robots TDL specification.
+        /// Replaces the resolver attached by the constructor. Pass
+        /// your own <see cref="ITdlSourceResolver"/> implementation
+        /// to use a different source list, a static map, or a
+        /// non-GitHub backend; pass <c>null</c> to disable id
+        /// resolution and accept only absolute URIs as before.
         /// </summary>
         public RobotsTxtEngineBuilder SetTdlSourceResolver(
             ITdlSourceResolver resolver)
         {
             _tdlResolver = resolver;
             return this;
+        }
+
+        /// <summary>
+        /// Replaces the constructor's default resolver with another
+        /// <see cref="GitHubTdlSourceResolver"/> that uses the given
+        /// User-Agent. Use this when you want the same default
+        /// behaviour but with an identifying UA (recommended) instead
+        /// of the engine's generic one.
+        /// </summary>
+        /// <param name="userAgent">
+        /// Identifying string for the HTTP User-Agent header. GitHub
+        /// rejects requests without one.
+        /// </param>
+        public RobotsTxtEngineBuilder UseDefaultTdlSourceResolver(
+            string userAgent)
+        {
+            return SetTdlSourceResolver(
+                GitHubTdlSourceResolver.CreateDefault(
+                    userAgent, _loggerFactory));
+        }
+
+        /// <summary>
+        /// Sets the User-Agent used by the default GitHub-backed
+        /// resolver. Equivalent to
+        /// <see cref="UseDefaultTdlSourceResolver"/> — exposed under
+        /// this name so pipeline configuration can drive it from
+        /// <c>"BuildParameters": { "UserAgent": "..." }</c> in
+        /// appsettings.json. Has no effect if you have already
+        /// installed a non-GitHub resolver via
+        /// <see cref="SetTdlSourceResolver"/>.
+        /// </summary>
+        public RobotsTxtEngineBuilder SetUserAgent(string userAgent)
+        {
+            return UseDefaultTdlSourceResolver(userAgent);
         }
 
         /// <inheritdoc/>

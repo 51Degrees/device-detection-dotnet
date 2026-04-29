@@ -49,6 +49,51 @@ public sealed class GitHubTdlSourceResolver : ITdlSourceResolver, IDisposable
     /// </summary>
     public static readonly TimeSpan DefaultCacheTtl = TimeSpan.FromHours(12);
 
+    /// <summary>
+    /// Builds a resolver wired up to api.github.com with the engine's
+    /// embedded default sources (see <see cref="TdlSourcesLoader.LoadDefault"/>).
+    /// Use this when you want short-id resolution out of the box and
+    /// don't need a custom HttpClient or source list. If you do, build
+    /// the resolver via the public constructor instead.
+    /// </summary>
+    /// <param name="userAgent">
+    /// Identifying string for the HTTP User-Agent header. GitHub
+    /// rejects requests without a User-Agent, and asks that the
+    /// value be descriptive enough to identify the caller.
+    /// </param>
+    /// <param name="loggerFactory">
+    /// Logger factory used to build the resolver's logger.
+    /// </param>
+    /// <exception cref="ArgumentException"><paramref name="userAgent"/> is empty.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="loggerFactory"/> is null.</exception>
+    public static GitHubTdlSourceResolver CreateDefault(
+        string userAgent, ILoggerFactory loggerFactory)
+    {
+        if (string.IsNullOrWhiteSpace(userAgent))
+        {
+            throw new ArgumentException(
+                "User-Agent must be supplied.", nameof(userAgent));
+        }
+        if (loggerFactory == null)
+        {
+            throw new ArgumentNullException(nameof(loggerFactory));
+        }
+
+        var http = new HttpClient
+        {
+            BaseAddress = new Uri("https://api.github.com/"),
+            Timeout = TimeSpan.FromSeconds(10),
+        };
+        http.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent);
+        http.DefaultRequestHeaders.Accept.ParseAdd("application/vnd.github+json");
+        http.DefaultRequestHeaders.Add("X-GitHub-Api-Version", "2022-11-28");
+
+        return new GitHubTdlSourceResolver(
+            http,
+            TdlSourcesLoader.LoadDefault(),
+            loggerFactory.CreateLogger<GitHubTdlSourceResolver>());
+    }
+
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         PropertyNameCaseInsensitive = true,

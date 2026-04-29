@@ -1,0 +1,9 @@
+[
+  {
+    "Id": "MOW-SOCW",
+    "Repository": "movementforanopenweb/terms-documents",
+    "Directory": "socw",
+    "FilePattern": "^(?<n>\\d+)\\.txt$",
+    "UrlTemplate": "https://m4ow.uk/socw/{name}"
+  }
+]

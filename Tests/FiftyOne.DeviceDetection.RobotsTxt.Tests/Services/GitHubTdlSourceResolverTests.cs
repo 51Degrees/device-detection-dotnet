@@ -61,6 +61,43 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests.Services
         };
 
         /// <summary>
+        /// CreateDefault should produce a resolver that already knows
+        /// the canonical MOW-SOCW source from the embedded default
+        /// config — no extra wiring needed.
+        /// </summary>
+        [TestMethod]
+        public void CreateDefault_ReturnsResolverThatKnowsMowSocw()
+        {
+            using var resolver = GitHubTdlSourceResolver.CreateDefault(
+                "TestApp/1.0", NullLoggerFactory.Instance);
+
+            Assert.IsTrue(resolver.IsKnown("MOW-SOCW"));
+        }
+
+        /// <summary>
+        /// Empty User-Agent is rejected — GitHub itself rejects
+        /// requests without a meaningful UA, so we fail fast here.
+        /// </summary>
+        [TestMethod]
+        public void CreateDefault_EmptyUserAgent_Throws()
+        {
+            Assert.ThrowsExactly<ArgumentException>(() =>
+                GitHubTdlSourceResolver.CreateDefault(
+                    "", NullLoggerFactory.Instance));
+        }
+
+        /// <summary>
+        /// Null logger factory is a programmer error.
+        /// </summary>
+        [TestMethod]
+        public void CreateDefault_NullLoggerFactory_Throws()
+        {
+            Assert.ThrowsExactly<ArgumentNullException>(() =>
+                GitHubTdlSourceResolver.CreateDefault(
+                    "TestApp/1.0", null));
+        }
+
+        /// <summary>
         /// IsKnown is a thin wrapper around the configured dictionary;
         /// matched ids report true regardless of casing.
         /// </summary>
