@@ -33,7 +33,8 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests.Services
 {
     /// <summary>
     /// Live network smoke test that calls the real GitHub API.
-    /// Tagged so CI can skip it via <c>--filter TestCategory!=LiveNetwork</c>.
+    /// Skipped by default — run manually when verifying the resolver
+    /// against a real GitHub endpoint.
     /// </summary>
     [TestClass]
     public class GitHubTdlSourceResolverLiveTests
@@ -45,6 +46,7 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests.Services
         /// </summary>
         [TestMethod]
         [TestCategory("LiveNetwork")]
+        [Ignore("Live network test — hits api.github.com unauthenticated and shares the 60/hr pool with other CI runners on the same egress IP, so it flakes (esp. on macOS arm64 runners). Run manually to verify against a real GitHub endpoint.")]
         public void Resolve_AgainstRealGitHub_ReturnsMowSocwUrl()
         {
             using var http = new HttpClient
