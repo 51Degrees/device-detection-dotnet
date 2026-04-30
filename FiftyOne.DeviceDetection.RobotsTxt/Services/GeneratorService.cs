@@ -40,13 +40,16 @@ public class GeneratorService(RobotsTxtModel _dataSet)
     /// Text writer to send the robots.txt content to.
     /// </param>
     /// <param name="allowed">
-    /// Usages that are allowed in the robots.txt. All other usages will be
-    /// disallowed.
+    /// Usages that are allowed in the robots.txt. Crawlers that perform any
+    /// of these usages are not given their own group and instead fall through
+    /// to the wildcard Allow block (so TDL annotations on that block apply
+    /// to them).
     /// </param>
     /// <param name="tdls">
-    /// Terms Document Locator URIs. When non-empty, the trailing catch-all
-    /// block is emitted as Allow-all with one TDL line per URI. When empty
-    /// or null, the default Disallow-all catch-all is emitted.
+    /// Terms Document Locator URIs. When non-empty, each URI is emitted as a
+    /// TDL line (with a "# Terms ..." comment) inside the wildcard Allow
+    /// block. When empty or null, the wildcard Allow block is emitted with
+    /// no TDL lines.
     /// </param>
     /// <param name="annotations">
     /// True if the resulting file should include annotations, otherwise false.
@@ -60,44 +63,13 @@ public class GeneratorService(RobotsTxtModel _dataSet)
         CancellationToken stopToken)
     {
         var disallowEntries = new Queue<string>();
-        var allowedEntries = new Queue<string>();
         foreach (var crawler in _dataSet.Crawlers.OrderBy(i => i.Name))
         {
             if (GetIsAllowed(crawler, allowed) == false)
             {
-                // Nothing is allowed for this crawler so disallow it.
-                Add(disallowEntries, crawler, false, annotations ?
-                    sb => AddAnnotations(crawler, sb) : 
+                Add(disallowEntries, crawler, annotations ?
+                    sb => AddAnnotations(crawler, sb) :
                     null);
-            }
-            else
-            {
-                // Get the crawler usages that are not allowed.
-                var notAllowed = GetNotAllowed(crawler, allowed).ToArray();
-
-                // If there are none then there is no problem. Add the crawler
-                // as a normal entry.
-                if (notAllowed.Length == 0)
-                {
-                    Add(allowedEntries, crawler, true, annotations ?
-                        sb => AddAnnotations(crawler, sb) :
-                        null);
-                }
-
-                // The crawler will perform some usages that are disallowed.
-                // Add a warning to make it clear it's not possible in
-                // robots.txt to prohibit some usages and not others.
-                else
-                {
-                    Add(allowedEntries, crawler, true, annotations ?
-                        sb => 
-                        {
-                            sb.Append("# WARNING - no restriction for - ");
-                            sb.AppendLine(String.Join(", ", notAllowed));
-                            AddAnnotations(crawler, sb);
-                        } :
-                        null);
-                }
             }
         }
 
@@ -111,21 +83,15 @@ public class GeneratorService(RobotsTxtModel _dataSet)
             AddCopyright(writer);
         }
 
-        // Write out the entries with allowed first, and then disallow.
-        while (allowedEntries.Count > 0)
-        {
-            writer.Write(allowedEntries.Dequeue());
-            writer.WriteLine();
-        }
+        // Disallow blocks first, then the wildcard catch-all.
         while (disallowEntries.Count > 0)
         {
             writer.Write(disallowEntries.Dequeue());
             writer.WriteLine();
         }
 
-        // Write out the catch all block. If TDL URIs were provided, emit an
-        // Allow-all block with each TDL URI on its own line (IETF-Robots);
-        // otherwise fall back to the default Disallow-all block.
+        // Wildcard catch-all is always Allow. When TDL URIs are provided each
+        // is emitted as a TDL line preceded by a "# Terms ..." comment.
         if (tdls != null && tdls.Count > 0)
         {
             AddTdlFooter(writer, tdls);
@@ -153,7 +119,6 @@ public class GeneratorService(RobotsTxtModel _dataSet)
     private void Add(
         Queue<string> entries,
         CrawlerModel crawler,
-        bool allowed,
         Action<StringBuilder> addAnnotations)
     {
         var sb = new StringBuilder();
@@ -168,7 +133,7 @@ public class GeneratorService(RobotsTxtModel _dataSet)
         foreach (var token in crawler.ProductTokens)
         {
             sb.AppendLine("User-Agent: " + token);
-            sb.Append(allowed ? "Allow" : "Disallow").AppendLine(": /");
+            sb.AppendLine("Disallow: /");
         }
 
         entries.Enqueue(sb.ToString());
@@ -214,7 +179,7 @@ public class GeneratorService(RobotsTxtModel _dataSet)
     private static void AddFooter(TextWriter sb)
     {
         sb.WriteLine("User-Agent: *");
-        sb.WriteLine("Disallow: /");
+        sb.WriteLine("Allow: /");
     }
 
     private static void AddAnnotations(CrawlerModel crawler, StringBuilder sb)
@@ -240,18 +205,5 @@ public class GeneratorService(RobotsTxtModel _dataSet)
     private bool GetIsAllowed(CrawlerModel crawler, HashSet<string> allowed)
     {
         return crawler.Usages.Any(i => allowed.Contains(i));
-    }
-
-    /// <summary>
-    /// Returns any usages for the crawler that the allowed choices prohibit.
-    /// </summary>
-    /// <param name="crawler"></param>
-    /// <param name="allowed"></param>
-    /// <returns></returns>
-    private IEnumerable<string> GetNotAllowed(
-        CrawlerModel crawler,
-        HashSet<string> allowed)
-    {
-        return crawler.Usages.Where(i => allowed.Contains(i) == false);
     }
 }

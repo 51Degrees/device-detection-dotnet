@@ -119,17 +119,17 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
             Assert.IsNotNull(result.PlainText);
             Assert.IsTrue(result.AnnotatedText.HasValue);
             Assert.IsTrue(result.PlainText.HasValue);
-            Assert.Contains("Allow: /", 
-                result.PlainText.Value, 
-                "Expect some crawlers to be allowed for search");
-            Assert.MatchesRegex("# U: Search", 
-                result.AnnotatedText.Value, 
-                "Expect annotations to include search");
+            var plain = result.PlainText.Value.Replace("\r\n", "\n");
+            Assert.Contains(
+                "User-Agent: *\nAllow: /",
+                plain,
+                "Wildcard catch-all should be Allow: / so search-allowed crawlers fall through to it");
         }
 
         /// <summary>
-        /// Checks that when disallow is set for at least one usage that the
-        /// robots.txt is returned without any allowed usages.
+        /// Checks that when disallow is set for every usage every known
+        /// crawler is emitted as its own Disallow block, and the wildcard
+        /// catch-all stays at Allow: / so unknown crawlers fall through.
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
@@ -153,13 +153,15 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
             Assert.IsNotNull(result.PlainText);
             Assert.IsTrue(result.AnnotatedText.HasValue);
             Assert.IsTrue(result.PlainText.HasValue);
+            var plain = result.PlainText.Value.Replace("\r\n", "\n");
             Assert.Contains(
                 "Disallow: /",
-                result.PlainText.Value,
-                "Expect no crawlers to be allowed");
-            Assert.DoesNotContain(
-                "Allow: /",
-                result.PlainText.Value);
+                plain,
+                "Expect per-crawler Disallow blocks");
+            Assert.Contains(
+                "User-Agent: *\nAllow: /",
+                plain,
+                "Wildcard catch-all should always be Allow: /");
             Assert.MatchesRegex(
                 "# U: Search",
                 result.AnnotatedText.Value,
@@ -288,11 +290,11 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
 
         /// <summary>
         /// Checks that if TDL evidence is present but contains only invalid
-        /// entries, the output falls back to the default Disallow-all
-        /// catch-all block (no TDL lines, no Allow-all).
+        /// entries, the output drops the TDL lines but still emits the
+        /// wildcard Allow catch-all (no fallback to a Disallow-all wildcard).
         /// </summary>
         [TestMethod]
-        public void TdlAllInvalidFallsBackToDisallow()
+        public void TdlAllInvalidEmitsWildcardAllowWithoutTdl()
         {
             // Arrange
             _data.AddEvidence(Constants.TdlEvidenceKey, "not-a-uri,also-bad");
@@ -304,10 +306,9 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
             // Assert
             var result = _data.Get<IRobotsTxtData>();
             Assert.IsTrue(result.PlainText.HasValue);
-            var plain = result.PlainText.Value;
+            var plain = result.PlainText.Value.Replace("\r\n", "\n");
             Assert.DoesNotContain("TDL:", plain);
-            Assert.Contains("User-Agent: *", plain);
-            Assert.Contains("Disallow: /", plain);
+            Assert.Contains("User-Agent: *\nAllow: /", plain);
         }
 
         /// <summary>
