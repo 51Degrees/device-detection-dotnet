@@ -30,7 +30,7 @@ using System.Threading;
 
 namespace FiftyOne.DeviceDetection.RobotsTxt.Services;
 
-public class GeneratorService(RobotsTxtModel _dataSet)
+public class GeneratorService(CrawlerUsageModel _dataSet)
 {
     /// <summary>
     /// Builds a robots.txt with or without annotations for the choices

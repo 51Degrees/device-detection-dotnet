@@ -20,36 +20,17 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
-using System;
-
 namespace FiftyOne.DeviceDetection.RobotsTxt.Model;
 
 /// <summary>
-/// Details associated with each crawler. Used both for extraction and then 
-/// refinement.
+/// A model for all the data needed to work with Robots.Txt. Provided in JSON
+/// format from a transformation of Daphne data.
 /// </summary>
-public class CrawlerModel
+public class CrawlerUsageModel
 {
     /// <summary>
-    /// The name of the crawler. Relates to the CrawlerName property.
+    /// A list of the possible usages in the order which they should be shown
+    /// in UIs and reports.
     /// </summary>
-    public string Name {  get; set; }
-
-    /// <summary>
-    /// Array of usage names that must be available in 
-    /// <see cref="UsageModel.Name"/> that this crawler is associated
-    /// with. Used to work out how to treat the User-Agent in the robots.txt
-    /// file.
-    /// </summary>
-    public string[] Usages { get; set; }
-
-    /// <summary>
-    /// Product tokens.
-    /// </summary>
-    public string[] ProductTokens { get; set; }
-
-    /// <summary>
-    /// Reference URIs.
-    /// </summary>
-    public Uri[] ReferenceUris { get; set; }
+    public UsageModel[] Usages { get; set; }
 }

@@ -23,19 +23,18 @@
 namespace FiftyOne.DeviceDetection.RobotsTxt.Model;
 
 /// <summary>
-/// A model for all the data needed to work with Robots.Txt. Provided in JSON
-/// format from a transformation of Daphne data.
+/// A model for Robots.Txt. Provided in JSON
+/// format.
 /// </summary>
 public class RobotsTxtModel
 {
     /// <summary>
-    /// A list of the crawlers that are available.
+    /// See <see cref="Messages.PlainTextDescription"/>
     /// </summary>
-    public CrawlerModel[] Crawlers { get; set; }
+    public string PlainText { get; set; }
 
     /// <summary>
-    /// A list of the possible usages in the order which they should be shown
-    /// in UIs and reports.
+    /// See <see cref="Messages.AnnotatedTextDescription"/>
     /// </summary>
-    public UsageModel[] Usages { get; set; }
+    public string AnnotatedText { get; set; }
 }

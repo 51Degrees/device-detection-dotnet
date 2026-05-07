@@ -206,7 +206,7 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.FlowElements
             var usages = GetUsages(engine).ToArray();
             var crawlers = GetCrawlers(
                 _queryService.Query(contextPipeline)).ToArray();
-            _generatorService = new GeneratorService(new RobotsTxtModel()
+            _generatorService = new GeneratorService(new CrawlerUsageModel()
             {
                 Crawlers = crawlers,
                 Usages = usages
