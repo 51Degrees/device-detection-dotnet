@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 18
-VisualStudioVersion = 18.3.11520.95
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36705.20 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FiftyOne.DeviceDetection.Hash.Engine.OnPremise", "FiftyOne.DeviceDetection.Hash.Engine.OnPremise\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.csproj", "{7B1D2221-1D2B-449B-9D97-BD35A3197CA9}"
 EndProject
@@ -42,6 +42,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiftyOne.DeviceDetection.RobotsTxt.Tests", "Tests\FiftyOne.DeviceDetection.RobotsTxt.Tests\FiftyOne.DeviceDetection.RobotsTxt.Tests.csproj", "{AE8AFD09-B280-ED7B-1095-0E7C37BFA138}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiftyOne.DeviceDetection.PropertyKeyed.Tests", "Tests\FiftyOne.DeviceDetection.PropertyKeyed.Tests\FiftyOne.DeviceDetection.PropertyKeyed.Tests.csproj", "{74692CE9-4364-2685-9A58-DF937E0E0DA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiftyOne.DeviceDetection.RobotsTxt.Cloud.Tests", "Tests\FiftyOne.DeviceDetection.RobotsTxt.Cloud.Tests\FiftyOne.DeviceDetection.RobotsTxt.Cloud.Tests.csproj", "{E119B43A-FE0F-DFC6-9840-166E92F71158}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiftyOne.DeviceDetection.RobotsTxt.Cloud", "FiftyOne.DeviceDetection.RobotsTxt.Cloud\FiftyOne.DeviceDetection.RobotsTxt.Cloud.csproj", "{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -293,6 +297,38 @@ Global
 		{74692CE9-4364-2685-9A58-DF937E0E0DA1}.Release|x64.Build.0 = Release|x64
 		{74692CE9-4364-2685-9A58-DF937E0E0DA1}.Release|x86.ActiveCfg = Release|x86
 		{74692CE9-4364-2685-9A58-DF937E0E0DA1}.Release|x86.Build.0 = Release|x86
+		{E119B43A-FE0F-DFC6-9840-166E92F71158}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E119B43A-FE0F-DFC6-9840-166E92F71158}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E119B43A-FE0F-DFC6-9840-166E92F71158}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{E119B43A-FE0F-DFC6-9840-166E92F71158}.Debug|ARM64.Build.0 = Debug|ARM64
+		{E119B43A-FE0F-DFC6-9840-166E92F71158}.Debug|x64.ActiveCfg = Debug|x64
+		{E119B43A-FE0F-DFC6-9840-166E92F71158}.Debug|x64.Build.0 = Debug|x64
+		{E119B43A-FE0F-DFC6-9840-166E92F71158}.Debug|x86.ActiveCfg = Debug|x86
+		{E119B43A-FE0F-DFC6-9840-166E92F71158}.Debug|x86.Build.0 = Debug|x86
+		{E119B43A-FE0F-DFC6-9840-166E92F71158}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E119B43A-FE0F-DFC6-9840-166E92F71158}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E119B43A-FE0F-DFC6-9840-166E92F71158}.Release|ARM64.ActiveCfg = Release|ARM64
+		{E119B43A-FE0F-DFC6-9840-166E92F71158}.Release|ARM64.Build.0 = Release|ARM64
+		{E119B43A-FE0F-DFC6-9840-166E92F71158}.Release|x64.ActiveCfg = Release|x64
+		{E119B43A-FE0F-DFC6-9840-166E92F71158}.Release|x64.Build.0 = Release|x64
+		{E119B43A-FE0F-DFC6-9840-166E92F71158}.Release|x86.ActiveCfg = Release|x86
+		{E119B43A-FE0F-DFC6-9840-166E92F71158}.Release|x86.Build.0 = Release|x86
+		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Debug|x64.Build.0 = Debug|Any CPU
+		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Debug|x86.Build.0 = Debug|Any CPU
+		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Release|ARM64.Build.0 = Release|Any CPU
+		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Release|x64.ActiveCfg = Release|Any CPU
+		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Release|x64.Build.0 = Release|Any CPU
+		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Release|x86.ActiveCfg = Release|Any CPU
+		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -307,6 +343,7 @@ Global
 		{5FAA952B-DE6C-4900-898F-29FB09582183} = {847A249D-9446-49EC-AC4A-FC04310D6179}
 		{AE8AFD09-B280-ED7B-1095-0E7C37BFA138} = {847A249D-9446-49EC-AC4A-FC04310D6179}
 		{74692CE9-4364-2685-9A58-DF937E0E0DA1} = {847A249D-9446-49EC-AC4A-FC04310D6179}
+		{E119B43A-FE0F-DFC6-9840-166E92F71158} = {847A249D-9446-49EC-AC4A-FC04310D6179}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4AFC134C-E3FD-4BAB-84F6-4324070A413D}
