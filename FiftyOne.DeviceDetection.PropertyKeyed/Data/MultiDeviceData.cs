@@ -20,6 +20,7 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
+using FiftyOne.DeviceDetection.PropertyKeyed.Services;
 using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.Data;
 using FiftyOne.Pipeline.Engines.FlowElements;
@@ -142,6 +143,20 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Data
                 var deviceData = flowData.Get<IDeviceData>();
                 if (deviceData != null)
                 {
+                    // The profile is identified by its ProfileId — that's
+                    // the detection result. The hash engine populates only
+                    // value-surface properties (IsMobile, ScreenPixels…)
+                    // declared in engine.Properties; the id lives on the
+                    // identity surface (IProfileMetaData.ProfileId) and
+                    // never gets written into the per-profile data dict.
+                    // Stamp it here so consumers can correlate the profile
+                    // entry with the rest of the value collection it owns.
+                    deviceData[DataSetService.PROFILE_ID_PROPERTY_NAME] =
+                        new AspectPropertyValue<string>(
+                            profileId.ToString(
+                                System.Globalization.CultureInfo
+                                    .InvariantCulture));
+
                     result.Add(deviceData);
 
                     // Track for disposal

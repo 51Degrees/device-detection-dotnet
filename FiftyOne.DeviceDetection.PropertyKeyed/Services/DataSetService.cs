@@ -101,12 +101,27 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Services
                 ProcessProfile(item, indexes);
             }
 
-            // Collect all engine properties to expose as sub-properties
-            // of "Profiles". Each is wrapped with DevicePropertyMetaData
-            // that re-associates the property with the outer
-            // property-keyed engine instead of the inner
-            // DeviceDetectionHashEngine.
+            // Collect engine properties to expose as sub-properties of
+            // "Profiles". Each is wrapped with DevicePropertyMetaData that
+            // re-associates the property with the outer property-keyed
+            // engine instead of the inner DeviceDetectionHashEngine.
+            //
+            // Scope by the components of the indexed key properties so the
+            // surface includes only properties that actually live on the
+            // matched profiles — TAC's component is HardwarePlatform, so
+            // a TacEngine exposes hardware-classification properties and
+            // not browser/platform/JS ones. Mirrors the same component
+            // filter PropertyValueQueryService.Query already uses to pick
+            // which profiles to populate.
+            var relevantComponents = _queryService.IndexedProperties
+                .Select(name => propertyLookup.TryGetValue(name, out var m)
+                    ? m.Component
+                    : null)
+                .Where(c => c != null)
+                .ToHashSet();
+
             var profileProperties = engine.Properties
+                .Where(p => relevantComponents.Contains(p.Component))
                 .Select(p => (IFiftyOneAspectPropertyMetaData)
                     new DevicePropertyMetaData(element, p))
                 .ToList()
