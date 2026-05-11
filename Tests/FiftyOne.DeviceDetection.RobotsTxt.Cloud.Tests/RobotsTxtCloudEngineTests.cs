@@ -35,6 +35,7 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Cloud.Tests
     public class RobotsTxtCloudEngineTests
     {
         private ILoggerFactory _lf;
+        private const string _resource_key_env_variable = "RESOURCE_KEY_CLOUD_V5_BESPOKE";
 
         [TestInitialize]
         public void Init()
@@ -43,17 +44,29 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Cloud.Tests
         }
 
         /// <summary>
-        /// Check that a cloud response with robots included is validly 
-        /// unpacked into <see cref="IRobotsTxtData"/>
+        /// Check that a cloud response with robots included is validly
+        /// unpacked into <see cref="IRobotsTxtData"/>.
+        /// This is an integration test that uses the live cloud service
+        /// so any problems with that service could affect the result
+        /// of this test.
         /// </summary>
         [TestMethod]
         public void ValidResponseUnpackedFromCloud()
         {
+            var resourceKey = System.Environment.GetEnvironmentVariable(
+                _resource_key_env_variable);
+
+            if (string.IsNullOrEmpty(resourceKey))
+            {
+                Assert.Inconclusive($"No resource key supplied in " +
+                    $"environment variable '{_resource_key_env_variable}'");
+                return;
+            }
+
             var cloudEngine = new CloudRequestEngineBuilder(
                 _lf,
                 new System.Net.Http.HttpClient())
-                .SetResourceKey("AQRVdgJ-qPrUPv-s3kg")
-                .SetCloudRequestOrigin("test.com")
+                .SetResourceKey(resourceKey)
                 .Build();
             var robotsEngine = new RobotsTxtCloudEngineBuilder(_lf).Build();
             var pipeline = new PipelineBuilder(_lf)
