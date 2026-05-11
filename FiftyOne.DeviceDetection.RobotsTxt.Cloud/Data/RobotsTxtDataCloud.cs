@@ -21,6 +21,7 @@
  * ********************************************************************* */
 
 using FiftyOne.DeviceDetection.RobotsTxt.Data;
+using FiftyOne.DeviceDetection.RobotsTxt.FlowElements;
 using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.Data;
 using FiftyOne.Pipeline.Engines.FlowElements;
@@ -87,13 +88,15 @@ public class RobotsTxtDataCloud : AspectDataBase, IRobotsTxtData
     }
 
     /// <summary>
-    /// See <see cref="Messages.PlainTextDescription"/>
+    /// A simple version of the robots.txt lines with minimal comments..
     /// </summary>
     public IAspectPropertyValue<string> PlainText =>
         GetAs<IAspectPropertyValue<string>>(nameof(PlainText));
 
     /// <summary>
-    /// See <see cref="Messages.AnnotatedTextDescription"/>
+    /// A version of the robots.txt not intended for production use that 
+    /// contains comments explaining how each crawler is being treated and 
+    /// URLs to find out more information..
     /// </summary>
     public IAspectPropertyValue<string> AnnotatedText =>
         GetAs<IAspectPropertyValue<string>>(nameof(AnnotatedText));
