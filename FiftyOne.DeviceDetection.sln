@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36705.20 d17.14
+VisualStudioVersion = 17.14.36705.20
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FiftyOne.DeviceDetection.Hash.Engine.OnPremise", "FiftyOne.DeviceDetection.Hash.Engine.OnPremise\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.csproj", "{7B1D2221-1D2B-449B-9D97-BD35A3197CA9}"
 EndProject
@@ -323,12 +323,12 @@ Global
 		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Debug|x86.Build.0 = Debug|Any CPU
 		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Release|ARM64.ActiveCfg = Release|Any CPU
-		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Release|ARM64.Build.0 = Release|Any CPU
-		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Release|x64.ActiveCfg = Release|Any CPU
-		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Release|x64.Build.0 = Release|Any CPU
-		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Release|x86.ActiveCfg = Release|Any CPU
-		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Release|x86.Build.0 = Release|Any CPU
+		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Release|ARM64.ActiveCfg = Release|ARM64
+		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Release|ARM64.Build.0 = Release|ARM64
+		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Release|x64.ActiveCfg = Release|x64
+		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Release|x64.Build.0 = Release|x64
+		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Release|x86.ActiveCfg = Release|x86
+		{7BF38B45-0D66-DDC6-DCAD-B732B29DDF8F}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

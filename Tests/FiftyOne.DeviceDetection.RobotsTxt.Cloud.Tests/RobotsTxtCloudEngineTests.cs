@@ -20,6 +20,7 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
+using FiftyOne.DeviceDetection.RobotsTxt.Cloud.FlowElements;
 using FiftyOne.DeviceDetection.RobotsTxt.Data;
 using FiftyOne.DeviceDetection.RobotsTxt.FlowElements;
 using FiftyOne.Pipeline.CloudRequestEngine.FlowElements;
