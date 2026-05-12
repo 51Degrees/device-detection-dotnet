@@ -89,22 +89,23 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         }
 
         /// <summary>
-        /// A property value not found in the index should produce an error.
+        /// A property value not found in the index should produce no error
+        /// and an empty profile list.
         /// </summary>
         [TestMethod]
         [DataRow("IsMobile", "Missing")]
         [DataRow("IsMobile", "")]
-        public void MissingValue_AddsError(string property, string value)
+        public void MissingValue_NoError_EmptyProfiles(string property, string value)
         {
             _data.AddEvidence("query." + property, value);
             _data.Process();
-            Assert.IsNotNull(_data.Errors);
-            var message = _data.Errors.First().ExceptionData.Message;
-            StringAssert.Contains(
-                message, property,
-                $"Error message should contain property '{property}'.");
+            Assert.IsNull(_data.Errors,
+                _data.Errors == null ? "" :
+                    string.Join("; ", _data.Errors.Select(
+                        e => e.ExceptionData.Message)));
             var mdd = _data.Get<IMultiDeviceData>();
             Assert.IsNotNull(mdd);
+            Assert.IsEmpty(mdd.Profiles);
         }
 
         /// <summary>
