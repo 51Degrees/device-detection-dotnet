@@ -23,11 +23,23 @@
 using FiftyOne.DeviceDetection.RobotsTxt.Cloud.FlowElements;
 using FiftyOne.DeviceDetection.RobotsTxt.Data;
 using FiftyOne.DeviceDetection.RobotsTxt.FlowElements;
+using FiftyOne.Pipeline.CloudRequestEngine.Data;
 using FiftyOne.Pipeline.CloudRequestEngine.FlowElements;
+using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.FlowElements;
+using FiftyOne.Pipeline.Engines.Data;
+using FiftyOne.Pipeline.Engines.FlowElements;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using Moq.Protected;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace FiftyOne.DeviceDetection.RobotsTxt.Cloud.Tests
 {
@@ -46,44 +58,88 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Cloud.Tests
         /// <summary>
         /// Check that a cloud response with robots included is validly
         /// unpacked into <see cref="IRobotsTxtData"/>.
-        /// This is an integration test that uses the live cloud service
-        /// so any problems with that service could affect the result
-        /// of this test.
+        /// This is an integration test that mocks the response from
+        /// the cloud service.
         /// </summary>
         [TestMethod]
         public void ValidResponseUnpackedFromCloud()
         {
-            var resourceKey = System.Environment.GetEnvironmentVariable(
-                _resource_key_env_variable);
+            var handlerMock = new Mock<HttpMessageHandler>();
 
-            if (string.IsNullOrEmpty(resourceKey))
-            {
-                Assert.Inconclusive($"No resource key supplied in " +
-                    $"environment variable '{_resource_key_env_variable}'");
-                return;
-            }
+            // Mock the properties endpoint
+            handlerMock
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.Is<HttpRequestMessage>(req =>
+                        req.RequestUri.ToString().Contains("accessibleproperties")),
+                    ItExpr.IsAny<CancellationToken>()
+                )
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent("""
+                    {
+                        "Products": {
+                            "robotstxt": {
+                                "DataTier": "CloudV4TAC",
+                                "Properties": [
+                                    { "Name": "PlainText", "Type": "String", "Category": "RobotsTxt" },
+                                    { "Name": "AnnotatedText", "Type": "String", "Category": "RobotsTxt" }
+                                ]
+                            }
+                        }
+                    }
+                    """)
+                });
 
-            var cloudEngine = new CloudRequestEngineBuilder(
-                _lf,
-                new System.Net.Http.HttpClient())
-                .SetResourceKey(resourceKey)
+            // Mock the data endpoint
+            handlerMock
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.Is<HttpRequestMessage>(
+                        i => !i.RequestUri.ToString()
+                            .Contains("accessibleproperties")),
+                    ItExpr.IsAny<CancellationToken>()
+                )
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent("""
+                    {
+                        "robotstxt": {
+                            "plaintext": "# robots.txt copyright 51Degrees\nUser-agent: *\nAllow: /",
+                            "annotatedtext": "# This Original Work is copyright of 51 Degrees\nUser-agent: *\nAllow: /"
+                        }
+                    }
+                    """)
+                });
+
+            var httpClient = new HttpClient(handlerMock.Object);
+
+            // Build the cloud engine with the mocked HttpClient
+            var cloudEngine = new CloudRequestEngineBuilder(_lf, httpClient)
+                .SetResourceKey("fake-resource-key")
                 .Build();
+
             var robotsEngine = new RobotsTxtCloudEngineBuilder(_lf).Build();
+
             var pipeline = new PipelineBuilder(_lf)
                 .AddFlowElement(cloudEngine)
                 .AddFlowElement(robotsEngine)
                 .Build();
 
+            // Act
             var fd = pipeline.CreateFlowData();
             fd.AddEvidence("query.robotstxt.analytics", "allow");
             fd.Process();
 
+            // Assert
             var data = fd.Get<IRobotsTxtData>();
-
             Assert.IsNotNull(data);
-            Assert.IsTrue(data.AnnotatedText.HasValue);
             Assert.IsTrue(data.PlainText.HasValue);
-
+            Assert.IsTrue(data.AnnotatedText.HasValue);
             Assert.Contains("# robots.txt copyright 51Degrees", data.PlainText.Value);
             Assert.Contains("# This Original Work is copyright of 51 Degrees", data.AnnotatedText.Value);
         }
