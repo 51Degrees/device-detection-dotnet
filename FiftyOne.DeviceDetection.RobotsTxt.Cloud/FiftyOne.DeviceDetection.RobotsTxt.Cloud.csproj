@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Platforms>AnyCPU;x64;x86;ARM64</Platforms>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <DocumentationFile>FiftyOne.DeviceDetection.RobotsTxt.Cloud.xml</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+
+    <!-- NuGet package properties -->
+    <PackageId>FiftyOne.DeviceDetection.RobotsTxt.Cloud</PackageId>
+    <Title>51Degrees Device Detection – Robots.txt Cloud Engines</Title>
+    <Description>51Degrees engine that unpacks the contents of a 51Degrees cloud response for robots.txt data.</Description>
+    <Authors>51Degrees Engineering</Authors>
+    <PackageLicenseExpression>EUPL-1.2</PackageLicenseExpression>
+    <Copyright>51Degrees Mobile Experts Limited</Copyright>
+    <PackageTags>51degrees;pipeline;data;device;detection;robots.txt;cloud</PackageTags>
+    <RepositoryUrl>https://github.com/51Degrees/device-detection-dotnet</RepositoryUrl>
+    <PackageProjectUrl>https://51degrees.com</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageIcon>51d-logo.png</PackageIcon>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Configurations>Debug;Release</Configurations>
+    <!-- GitHub CI -->
+    <BuiltOnCI>false</BuiltOnCI>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FiftyOne.Pipeline.CloudRequestEngine" Version="4.5.35" />
+    <ProjectReference Include="..\FiftyOne.DeviceDetection.RobotsTxt\FiftyOne.DeviceDetection.RobotsTxt.csproj" />
+  </ItemGroup>
+
+</Project>

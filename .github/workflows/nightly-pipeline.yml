@@ -57,6 +57,7 @@ jobs:
       DeviceDetection: ${{ secrets.DEVICE_DETECTION_KEY }}
       DeviceDetectionUrl: ${{ secrets.DEVICE_DETECTION_URL }}
       TestResourceKey: ${{ secrets.SUPER_RESOURCE_KEY}}
+      ResourceKeyCloudV5Bespoke: ${{ secrets.RESOURCE_KEY_CLOUD_V5_BESPOKE }}
       AcceptCHBrowserKey: ${{ secrets.ACCEPTCH_BROWSER_KEY}}
       AcceptCHHardwareKey: ${{ secrets.ACCEPTCH_HARDWARE_KEY}}
       AcceptCHPlatformKey: ${{ secrets.ACCEPTCH_PLATFORM_KEY}}
@@ -84,6 +85,7 @@ jobs:
       DeviceDetection: ${{ secrets.DEVICE_DETECTION_KEY }}
       DeviceDetectionUrl: ${{ secrets.DEVICE_DETECTION_URL }}
       TestResourceKey: ${{ secrets.SUPER_RESOURCE_KEY}}
+      ResourceKeyCloudV5Bespoke: ${{ secrets.RESOURCE_KEY_CLOUD_V5_BESPOKE }}
       AcceptCHBrowserKey: ${{ secrets.ACCEPTCH_BROWSER_KEY}}
       AcceptCHHardwareKey: ${{ secrets.ACCEPTCH_HARDWARE_KEY}}
       AcceptCHPlatformKey: ${{ secrets.ACCEPTCH_PLATFORM_KEY}}

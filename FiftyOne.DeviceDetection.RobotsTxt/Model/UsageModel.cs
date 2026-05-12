@@ -40,10 +40,10 @@ public class UsageModel
     /// <summary>
     /// Whether the usage should default to enabled or disabled.
     /// </summary>
-    public bool Default { get; set; }
+    public bool? Default { get; set; }
 
     /// <summary>
     /// The order that the usage category should appear in relative to others.
     /// </summary>
-    public int Order { get; set; }
+    public int? Order { get; set; }
 }
