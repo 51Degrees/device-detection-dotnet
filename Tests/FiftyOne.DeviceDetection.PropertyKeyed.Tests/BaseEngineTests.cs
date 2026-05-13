@@ -21,12 +21,12 @@
  * ********************************************************************* */
 
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
+using FiftyOne.DeviceDetection.TestHelpers;
 using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.FlowElements;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Linq;
 
 namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
 {
@@ -48,13 +48,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
             TestContext context, 
             Func<T> create)
         {
-            var ddFile = Helper.GetDeviceDetectionFiles().FirstOrDefault();
-            if (ddFile == null)
-            {
-                Assert.Inconclusive(
-                    "No .hash data file found in device-detection-data.");
-                return;
-            }
+            var ddFile = Utils.GetFilePath(Constants.TAC_HASH_DATA_FILE_NAME).FullName;
 
             _loggerFactory = LoggerFactory.Create(b => { });
 

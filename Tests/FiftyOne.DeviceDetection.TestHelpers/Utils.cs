@@ -61,7 +61,7 @@ namespace FiftyOne.DeviceDetection.TestHelpers
                 });
             if (fullPath == null || fullPath.Exists == false)
             {
-                Assert.Inconclusive($"Expected data file " +
+                Assert.Fail($"Expected data file " +
                     $"'{filename}' was missing. Test not run.");
             }
             return fullPath;
