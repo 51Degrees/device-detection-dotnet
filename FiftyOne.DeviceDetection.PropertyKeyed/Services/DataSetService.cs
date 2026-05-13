@@ -23,6 +23,7 @@
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements;
 using FiftyOne.DeviceDetection.PropertyKeyed.Data;
 using FiftyOne.Pipeline.Core.Data;
+using FiftyOne.Pipeline.Core.Data.Types;
 using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.Data;
 using FiftyOne.Pipeline.Engines.FiftyOne.Data;
@@ -113,6 +114,12 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Services
             // not browser/platform/JS ones. Mirrors the same component
             // filter PropertyValueQueryService.Query already uses to pick
             // which profiles to populate.
+            //
+            // Also exclude JavaScript-typed leaves: those are client-side
+            // snippets with no server-side value, so emitting them under
+            // each profile leaves the cloud with a null value and no
+            // appropriate nullreason — which trips downstream consumers
+            // that expect a populated nullreason string.
             var relevantComponents = _queryService.IndexedProperties
                 .Select(name => propertyLookup.TryGetValue(name, out var m)
                     ? m.Component
@@ -122,6 +129,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Services
 
             var profileProperties = engine.Properties
                 .Where(p => relevantComponents.Contains(p.Component))
+                .Where(p => p.Type != typeof(JavaScript))
                 .Select(p => (IFiftyOneAspectPropertyMetaData)
                     new DevicePropertyMetaData(element, p))
                 .ToList()
