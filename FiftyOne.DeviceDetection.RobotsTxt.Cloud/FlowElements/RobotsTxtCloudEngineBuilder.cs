@@ -24,6 +24,7 @@ using FiftyOne.DeviceDetection.RobotsTxt.Cloud.Data;
 using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.Data;
 using FiftyOne.Pipeline.Engines.FlowElements;
+using FiftyOne.Pipeline.CloudRequestEngine.Services;
 using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -87,6 +88,6 @@ public class RobotsTxtCloudEngineBuilder : AspectEngineBuilderBase<RobotsTxtClou
             _dataLogger,
             pipeline,
             (IAspectEngine)engine,
-            MissingPropertyService.Instance);
+            MissingPropertyServiceCloud.Instance);
     }
 }

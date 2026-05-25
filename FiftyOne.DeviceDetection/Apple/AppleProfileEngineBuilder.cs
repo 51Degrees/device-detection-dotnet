@@ -88,11 +88,16 @@ namespace FiftyOne.DeviceDetection.Apple
         private IAppleProfileData CreateAspectData(IPipeline pipeline,
             FlowElementBase<IAppleProfileData, IFiftyOneAspectPropertyMetaData> engine)
         {
+// On-premise engines legitimately use the base MissingPropertyService singleton.
+// It's marked obsolete to make the split between MissingPropertyService and
+// MissingPropertyServiceCloud a conscious, compiler-caught decision.
+#pragma warning disable CS0618
             return new AppleProfileData(
                 _dataLogger,
                 pipeline,
                 engine as AppleProfileEngine,
                 MissingPropertyService.Instance);
+#pragma warning restore CS0618
         }
 
         public override AppleProfileEngineBuilder SetPerformanceProfile(PerformanceProfiles profile)

@@ -58,6 +58,11 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
                 It.IsAny<string>(),
                 It.IsAny<IReadOnlyList<IAspectEngine>>()))
                 .Returns(reason);
+            _missingPropertyService.Setup(s => s.GetMissingPropertyReason(
+                It.IsAny<string>(),
+                It.IsAny<IReadOnlyList<IAspectEngine>>(),
+                It.IsAny<IAspectData>()))
+                .Returns(reason);
         }
 
         [TestCleanup]

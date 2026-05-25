@@ -460,14 +460,19 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// <param name="pipeline"></param>
         /// <param name="engine"></param>
         /// <returns></returns>
-        private IDeviceDataHash CreateAspectData(IPipeline pipeline, 
+        private IDeviceDataHash CreateAspectData(IPipeline pipeline,
             FlowElementBase<IDeviceDataHash, IFiftyOneAspectPropertyMetaData> engine)
         {
+// On-premise engines legitimately use the base MissingPropertyService singleton.
+// It's marked obsolete to make the split between MissingPropertyService and
+// MissingPropertyServiceCloud a conscious, compiler-caught decision.
+#pragma warning disable CS0618
             return new DeviceDataHash(
                 _dataLogger,
                 pipeline,
                 engine as DeviceDetectionHashEngine,
                 MissingPropertyService.Instance);
+#pragma warning restore CS0618
         }
     }
 }

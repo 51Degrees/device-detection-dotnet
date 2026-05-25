@@ -24,6 +24,7 @@ using FiftyOne.DeviceDetection.Cloud.Data;
 using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.Data;
 using FiftyOne.Pipeline.Engines.FlowElements;
+using FiftyOne.Pipeline.CloudRequestEngine.Services;
 using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -90,7 +91,7 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
                 _dataLogger,
                 pipeline,
                 (IAspectEngine)engine,
-                MissingPropertyService.Instance);
+                MissingPropertyServiceCloud.Instance);
         }
 
     }

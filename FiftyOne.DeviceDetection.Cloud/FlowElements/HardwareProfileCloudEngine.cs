@@ -26,6 +26,7 @@ using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.Exceptions;
 using FiftyOne.Pipeline.Core.FlowElements;
 using FiftyOne.Pipeline.Engines.Data;
+using FiftyOne.Pipeline.CloudRequestEngine.Services;
 using FiftyOne.Pipeline.Engines.Services;
 using Microsoft.Extensions.Logging;
 using System;
@@ -82,7 +83,7 @@ namespace FiftyOne.DeviceDetection.Cloud.FlowElements
 
             return new DeviceDataCloud(null, 
                 Pipelines[0], this, 
-                MissingPropertyService.Instance);
+                MissingPropertyServiceCloud.Instance);
         }
 
         protected override Type GetPropertyType(PropertyMetaData propertyMetaData, Type parentObjectType)
