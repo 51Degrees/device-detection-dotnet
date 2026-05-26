@@ -66,7 +66,7 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// name of the type.
 		/// </summary>
 		protected static readonly IReadOnlyDictionary<string, Type> PropertyTypes =
-			new Dictionary<string, Type>()
+			new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase)
 			{
 				{ "AjaxRequestType", typeof(IAspectPropertyValue<string>) },
 				{ "AnimationTiming", typeof(IAspectPropertyValue<bool>) },
