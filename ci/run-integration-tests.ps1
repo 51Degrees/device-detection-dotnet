@@ -6,7 +6,7 @@ param(
     [string]$Configuration = "Release",
     [string]$Arch = "x64",
     [string]$ExamplesRepo = "device-detection-dotnet-examples",
-    [string]$ExamplesBranch = "version/4.5",
+    [string]$ExamplesBranch = "main",
     [string]$Version
 )
 $ErrorActionPreference = "Stop"
