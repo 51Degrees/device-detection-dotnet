@@ -26,3 +26,4 @@ jobs:
       AcceptCHHardwareKey: ${{ secrets.ACCEPTCH_HARDWARE_KEY}}
       AcceptCHPlatformKey: ${{ secrets.ACCEPTCH_PLATFORM_KEY}}
       AcceptCHNoneKey: ${{ secrets.ACCEPTCH_NONE_KEY}}
+      StrongNameKeyBase64: ${{ secrets.STRONG_NAME_KEY_BASE64 }}
