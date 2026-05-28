@@ -1,0 +1,12 @@
+<Project>
+  <PropertyGroup>
+    <AssemblyVersion>4.5.0.0</AssemblyVersion>      <!-- PIN to major.minor.0.0; matches current 4.5.x shipping line (last published 4.5.98) -->
+                                                     <!-- Version is supplied by CI via /p:Version= (gitversion) -->
+
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)51Degrees.publickey</AssemblyOriginatorKeyFile>
+    <PublicSign Condition="'$(BuiltOnCI)' != 'true'">true</PublicSign>
+    <PublicSign Condition="'$(BuiltOnCI)' == 'true'">false</PublicSign>
+    <AssemblyOriginatorKeyFile Condition="'$(BuiltOnCI)' == 'true'">$(StrongNameKeyPath)</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+</Project>
