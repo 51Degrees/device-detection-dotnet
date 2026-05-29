@@ -4,9 +4,9 @@
                                                      <!-- Version is supplied by CI via /p:Version= (gitversion) -->
 
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)51Degrees.publickey</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile Condition="'$(BuiltOnCI)' != 'true'">$(MSBuildThisFileDirectory)51Degrees.publickey</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile Condition="'$(BuiltOnCI)' == 'true'">$(MSBuildThisFileDirectory)51Degrees.snk</AssemblyOriginatorKeyFile>
     <PublicSign Condition="'$(BuiltOnCI)' != 'true'">true</PublicSign>
     <PublicSign Condition="'$(BuiltOnCI)' == 'true'">false</PublicSign>
-    <AssemblyOriginatorKeyFile Condition="'$(BuiltOnCI)' == 'true'">$(StrongNameKeyPath)</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 </Project>
