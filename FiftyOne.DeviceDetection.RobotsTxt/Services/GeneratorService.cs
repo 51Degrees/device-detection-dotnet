@@ -63,6 +63,7 @@ public class GeneratorService(RobotsTxtModel _dataSet)
         CancellationToken stopToken)
     {
         var disallowEntries = new Queue<string>();
+        var allowedCrawlers = new List<CrawlerModel>();
         foreach (var crawler in _dataSet.Crawlers.OrderBy(i => i.Name))
         {
             if (GetIsAllowed(crawler, allowed) == false)
@@ -70,6 +71,10 @@ public class GeneratorService(RobotsTxtModel _dataSet)
                 Add(disallowEntries, crawler, annotations ?
                     sb => AddAnnotations(crawler, sb) :
                     null);
+            }
+            else
+            {
+                allowedCrawlers.Add(crawler);
             }
         }
 
@@ -90,29 +95,44 @@ public class GeneratorService(RobotsTxtModel _dataSet)
             writer.WriteLine();
         }
 
-        // Wildcard catch-all is always Allow. When TDL URIs are provided each
-        // is emitted as a TDL line preceded by a "# Terms ..." comment.
-        if (tdls != null && tdls.Count > 0)
-        {
-            AddTdlFooter(writer, tdls);
-        }
-        else
-        {
-            AddFooter(writer);
-        }
+        WriteWildcardBlock(writer, allowedCrawlers, tdls, annotations);
     }
 
-    private static void AddTdlFooter(TextWriter writer, IReadOnlyList<Uri> tdls)
+    // Writes the wildcard catch-all that closes the file. It is always an Allow
+    // block. In annotated output the crawlers that fall through to it (the
+    // allowed crawlers) are listed as one comment group before the Allow record,
+    // followed by any TDL lines. PlainText omits the crawler comments so it stays
+    // a clean directive file.
+    private void WriteWildcardBlock(
+        TextWriter writer,
+        IReadOnlyList<CrawlerModel> allowedCrawlers,
+        IReadOnlyList<Uri> tdls,
+        bool annotations)
     {
         writer.WriteLine("User-Agent: *");
-        foreach (var tdl in tdls)
+
+        if (annotations)
         {
-            var url = tdl.ToString();
-            writer.Write("# Terms ");
-            writer.WriteLine(url);
-            writer.Write("TDL: ");
-            writer.WriteLine(url);
+            var sb = new StringBuilder();
+            foreach (var crawler in allowedCrawlers)
+            {
+                AddAnnotations(crawler, sb);
+            }
+            writer.Write(sb.ToString());
         }
+
+        if (tdls != null && tdls.Count > 0)
+        {
+            foreach (var tdl in tdls)
+            {
+                var url = tdl.ToString();
+                writer.Write("# Terms ");
+                writer.WriteLine(url);
+                writer.Write("TDL: ");
+                writer.WriteLine(url);
+            }
+        }
+
         writer.WriteLine("Allow: /");
     }
 
@@ -174,12 +194,6 @@ public class GeneratorService(RobotsTxtModel _dataSet)
         sb.WriteLine("# TDL: Terms Document Locator (immutable terms URL applied to the Allow block)");
         sb.WriteLine("# See https://51degrees.com/robots-txt for further details");
         sb.WriteLine();
-    }
-
-    private static void AddFooter(TextWriter sb)
-    {
-        sb.WriteLine("User-Agent: *");
-        sb.WriteLine("Allow: /");
     }
 
     private static void AddAnnotations(CrawlerModel crawler, StringBuilder sb)
