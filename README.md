@@ -164,9 +164,11 @@ related CI scripts:
 
 #### Strong naming
 
-We currently do not [strong name](https://learn.microsoft.com/en-us/dotnet/standard/library-guidance/strong-naming#create-strong-named-net-libraries) assemblies due to downsides for developers. The main of which is that .NET Framework on Windows enables strict loading of assemblies once an assembly is strong named. A strong-named assembly reference must exactly match the version of the loaded assembly, forcing developers to configure binding redirects when using the assembly.
+All NuGet packages published from this repository are [strong-name](https://learn.microsoft.com/en-us/dotnet/standard/library-guidance/strong-naming) signed so they can be referenced by strong-named consumer applications.
 
-If it is absolutely critical for your use case to integrate a strong-named assembly - please create a feature request [issue](https://github.com/51Degrees/device-detection-dotnet/issues/new).
+Local developer builds use the [PublicSign](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/security#publicsign) pattern with the committed `51Degrees.publickey` (no secrets required). Production builds run in CI and use the matching private key from a GitHub organization secret to produce a real cryptographic signature.
+
+See the [Strong naming section in the pipeline-dotnet README](https://github.com/51Degrees/pipeline-dotnet#strong-naming) for the full mechanics — the same setup is applied across every 51Degrees .NET shipping repo so the dependency chain remains consistent under strong-name identity checks.
 
 ## Examples
 

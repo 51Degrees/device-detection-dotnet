@@ -6,6 +6,7 @@ param(
     [string]$Arch = "x64",
     [string]$Configuration = "Release",
     [string]$BuildMethod,
+    [string]$StrongNameKeyBase64,
     [hashtable]$Keys
 )
 $RepoPath = [IO.Path]::Combine($pwd, $RepoName)
@@ -32,3 +33,5 @@ $env:ACCEPTCH_BROWSER_KEY = $Keys.AcceptCHBrowserKey
 $env:ACCEPTCH_HARDWARE_KEY = $Keys.AcceptCHHardwareKey
 $env:ACCEPTCH_PLATFORM_KEY = $Keys.AcceptCHPlatformKey
 $env:ACCEPTCH_NONE_KEY = $Keys.AcceptCHNoneKey
+
+[IO.File]::WriteAllBytes("$PSScriptRoot/../51Degrees.snk", [Convert]::FromBase64String($StrongNameKeyBase64))
