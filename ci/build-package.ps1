@@ -10,6 +10,11 @@ param(
     [Hashtable]$Keys
 )
 
+# Write the strong-name key so CI (PublicSign=false) can full-sign the assemblies.
+# The test/PR build path does this in setup-environment.ps1; the publish path runs
+# this script instead, so it must write the key too (see CS7027 on Nightly Publish).
+[IO.File]::WriteAllBytes("$PSScriptRoot/../51Degrees.snk", [Convert]::FromBase64String($Keys.StrongNameKeyBase64))
+
 # Path to this repository
 $BinaryFilesFolder = [IO.Path]::Combine($pwd, $RepoName)
 
