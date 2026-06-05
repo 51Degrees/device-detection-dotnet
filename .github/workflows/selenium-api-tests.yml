@@ -42,8 +42,18 @@ jobs:
 
       - name: Point the example at the dev library
         run: |
+          # Use the dev device-detection projects instead of the published package.
           sed -i 's#<PackageReference Include="FiftyOne.DeviceDetection" Version="[^"]*" />#<ProjectReference Include="../../../FiftyOne.DeviceDetection/FiftyOne.DeviceDetection.csproj" />#' \
             device-detection-dotnet-examples/Examples/ExampleBase/FiftyOne.DeviceDetection.Examples.csproj
+          # Align the example's FiftyOne.Pipeline.Web with the version the dev library uses,
+          # so the build has a single FiftyOne.Pipeline.Core.
+          pipever=$(grep -oE 'FiftyOne\.Pipeline\.CloudRequestEngine" Version="[0-9.]+"' \
+            FiftyOne.DeviceDetection.Cloud/FiftyOne.DeviceDetection.Cloud.csproj \
+            | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+          pipever="${pipever:-4.5.46}"
+          echo "Aligning example FiftyOne.Pipeline.Web to $pipever"
+          sed -i "s#Include=\"FiftyOne.Pipeline.Web\" Version=\"[^\"]*\"#Include=\"FiftyOne.Pipeline.Web\" Version=\"$pipever\"#" \
+            device-detection-dotnet-examples/Examples/Cloud/GettingStarted-Web/GettingStarted-Web.csproj
 
       - name: Launch the example and run the contract
         env:
@@ -53,9 +63,10 @@ jobs:
           EXAMPLE_URL: http://localhost:8095
           EXAMPLE_LANG: dotnet
         run: |
-          # Start the cloud example built against the dev library (uses .NET 8 via global.json).
+          # Build first so a build error fails the step clearly (uses .NET 8 via global.json).
           pushd device-detection-dotnet-examples/Examples/Cloud/GettingStarted-Web
-          dotnet run -c Release --no-launch-profile &
+          dotnet build -c Release
+          dotnet run -c Release --no-build --no-launch-profile &
           example_pid=$!
           popd
           for i in $(seq 1 30); do
