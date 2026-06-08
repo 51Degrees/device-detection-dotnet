@@ -73,12 +73,11 @@ jobs:
             curl -sf -o /dev/null "http://localhost:8095/" && break || sleep 2
           done
           # Run the shared contract against the live cloud (.NET 10, outside global.json).
-          printf '{ "cloud_root_url": "https://cloud.51degrees.com/", "paid_resource_key": "%s" }\n' \
-            "$SUPER_RESOURCE_KEY" > "$RUNNER_TEMP/testConfig.json"
           pushd ../selenium-api-tests
-          TEST_CONFIG_FILE="$RUNNER_TEMP/testConfig.json" \
+          CLOUD_ROOT_URL="https://cloud.51degrees.com/" \
+          PAID_RESOURCE_KEY="$SUPER_RESOURCE_KEY" \
             dotnet test SeleniumApiTests.csproj -c Release --no-build \
-              --filter 'FullyQualifiedName~ExampleClientSideOverride|FullyQualifiedName~ExampleRenderTests'
+              --filter TestCategory=Contract
           status=$?
           popd
           kill "$example_pid" 2>/dev/null || true
