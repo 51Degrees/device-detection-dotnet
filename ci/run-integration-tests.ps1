@@ -1,6 +1,7 @@
 param(
     [Parameter(Mandatory)][string]$RepoName,
     [Parameter(Mandatory)][string]$OrgName,
+    [Parameter(Mandatory=$true)][string]$TestResourceKey,
     [string]$BuildMethod = "dotnet",
     [string]$Name = "Release_x64",
     [string]$Configuration = "Release",
@@ -12,6 +13,63 @@ param(
 $ErrorActionPreference = "Stop"
 $PSNativeCommandUseErrorActionPreference = $true
 Set-StrictMode -Version 1.0
+
+if ($TestResourceKey) {
+    Write-Host 'Running Selenium tests...'
+    $seleniumExamples = "dd-examples-selenium"
+    if (-not (Test-Path $seleniumExamples)) {
+        ./steps/clone-repo.ps1 -RepoName $ExamplesRepo -OrgName $OrgName -Branch $ExamplesBranch
+        Rename-Item $ExamplesRepo $seleniumExamples
+    }
+
+    # Use the local dev library in the example.
+    $exampleBase = "$seleniumExamples/Examples/ExampleBase/FiftyOne.DeviceDetection.Examples.csproj"
+    (Get-Content $exampleBase) -replace `
+        '<PackageReference Include="FiftyOne.DeviceDetection" Version="[^"]*" />', `
+        "<ProjectReference Include=`"../../../$RepoName/FiftyOne.DeviceDetection/FiftyOne.DeviceDetection.csproj`" />" |
+        Set-Content $exampleBase
+
+    # Match the example's Pipeline.Web version to the library.
+    $cloudCsproj = "$RepoName/FiftyOne.DeviceDetection.Cloud/FiftyOne.DeviceDetection.Cloud.csproj"
+    $pipeMatch = Select-String -Path $cloudCsproj -Pattern 'FiftyOne\.Pipeline\.CloudRequestEngine" Version="([0-9.]+)"'
+    $pipever = if ($pipeMatch) { $pipeMatch.Matches[0].Groups[1].Value } else { "4.5.46" }
+    $webCsproj = "$seleniumExamples/Examples/Cloud/GettingStarted-Web/GettingStarted-Web.csproj"
+    (Get-Content $webCsproj) -replace `
+        'Include="FiftyOne.Pipeline.Web" Version="[^"]*"', `
+        "Include=`"FiftyOne.Pipeline.Web`" Version=`"$pipever`"" |
+        Set-Content $webCsproj
+
+    try {
+        # Start the cloud example, pointed at the live cloud.
+        Push-Location "$seleniumExamples/Examples/Cloud/GettingStarted-Web"
+        try {
+            $env:PORT = 8095
+            $env:ASPNETCORE_URLS = "http://localhost:$env:PORT"
+            $env:FIFTYONE_CLOUD_ENDPOINT = "https://cloud.51degrees.com/api/v4/"
+            $example = dotnet run -c Release --no-launch-profile 2>&1 &
+        } finally { Pop-Location }
+
+        # Get the shared contract tests.
+        if (-not (Test-Path selenium-api-tests)) {
+            git clone --depth 1 https://github.com/51Degrees/selenium-api-tests.git
+        }
+        # Wait for the example to come up.
+        curl -sS -o /dev/null --retry 5 --retry-connrefused "http://localhost:$env:PORT"
+
+        $env:CLOUD_ROOT_URL = "https://cloud.51degrees.com/"
+        $env:PAID_RESOURCE_KEY = $TestResourceKey
+        $env:EXAMPLE_URL = "http://localhost:$env:PORT"
+        $env:EXAMPLE_LANG = 'dotnet'
+        dotnet test selenium-api-tests -c Release --filter TestCategory=Contract
+    } catch {
+        if ($example) { Write-Host '>>> example app output >>>'; Receive-Job $example | Out-Host; Write-Host '<<< app output <<<' }
+        throw
+    } finally {
+        if ($example) { Remove-Job -Force $example }
+    }
+} else {
+    Write-Host "::warning title=No Resource Key::No resource key; skipping the Selenium contract."
+}
 
 # If Version is not provided, the script is running in a workflow that doesn't
 # build packages and the integration tests will be skipped
