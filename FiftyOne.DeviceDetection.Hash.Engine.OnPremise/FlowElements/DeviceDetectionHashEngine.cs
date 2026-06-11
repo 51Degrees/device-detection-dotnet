@@ -114,11 +114,11 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
 
         /// <summary>
         /// Construct a new instance of <see cref="DeviceDetectionHashEngine"/>
-        /// from <see cref="DeviceDetectionHashEngineBuilderBase{T}"/> builder.
+        /// from <see cref="DeviceDetectionHashEngineBuilderBase{TBuilder, TEngine}"/> builder.
         /// </summary>
         /// <remarks>
         /// The constructor is intended to only be called from 
-        /// <see cref="DeviceDetectionHashEngineBuilderBase{T}.CreateEngine(ILoggerFactory, Func{IPipeline, FlowElementBase{IDeviceDataHash, IFiftyOneAspectPropertyMetaData}, IDeviceDataHash}, string)"/>
+        /// <see cref="DeviceDetectionHashEngineBuilderBase{TBuilder, TEngine}.CreateEngine(ILoggerFactory, Func{IPipeline, FlowElementBase{IDeviceDataHash, IFiftyOneAspectPropertyMetaData}, IDeviceDataHash}, string)"/>
         /// and should not be called directly.
         /// </remarks>
         /// <param name="loggerFactory">Logger to use</param>

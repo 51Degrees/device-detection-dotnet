@@ -34,7 +34,9 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
     /// <see cref="DeviceDetectionHashEngine"/> engines.
     /// </summary>
     public class DeviceDetectionHashEngineBuilder :
-        DeviceDetectionHashEngineBuilderBase<DeviceDetectionHashEngine>
+        DeviceDetectionHashEngineBuilderBase<
+            DeviceDetectionHashEngineBuilder,
+            DeviceDetectionHashEngine>
     {
         /// <summary>
         /// Constructor 

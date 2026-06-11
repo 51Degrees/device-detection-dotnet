@@ -44,10 +44,19 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
     /// for the engine should be set here.
     /// See the <see href="https://github.com/51Degrees/specifications/blob/main/device-detection-specification/pipeline-elements/device-detection-on-premise.md">Specification</see>
     /// </summary>
-    public abstract class DeviceDetectionHashEngineBuilderBase<TEngine>
-       : OnPremiseDeviceDetectionEngineBuilderBase<
-           DeviceDetectionHashEngineBuilderBase<TEngine>, 
-           TEngine>
+    /// <typeparam name="TBuilder">
+    /// The specific builder type to use as the return type from the fluent
+    /// builder methods. This must be the concrete (or further derived) builder
+    /// type so that, following the self-referential generic pattern used
+    /// throughout the builder hierarchy, the fluent setters return the most
+    /// derived builder type rather than this base type.
+    /// </typeparam>
+    /// <typeparam name="TEngine">
+    /// The type of engine that this builder will build.
+    /// </typeparam>
+    public abstract class DeviceDetectionHashEngineBuilderBase<TBuilder, TEngine>
+       : OnPremiseDeviceDetectionEngineBuilderBase<TBuilder, TEngine>
+        where TBuilder : DeviceDetectionHashEngineBuilderBase<TBuilder, TEngine>
         where TEngine : DeviceDetectionHashEngine
     {
         #region Constants
@@ -96,7 +105,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
 
         /// <summary>
         /// Construct a new instance of 
-        /// <see cref="DeviceDetectionHashEngineBuilderBase{TEngine}"/>
+        /// <see cref="DeviceDetectionHashEngineBuilderBase{TBuilder, TEngine}"/>
         /// </summary>
         /// <param name="loggerFactory">
         /// Factory used to create loggers for the engine
@@ -109,7 +118,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
 
         /// <summary>
         /// Construct a new instance of 
-        /// <see cref="DeviceDetectionHashEngineBuilderBase{TEngine}"/>
+        /// <see cref="DeviceDetectionHashEngineBuilderBase{TBuilder, TEngine}"/>
         /// </summary>
         /// <param name="loggerFactory">
         /// Factory used to create loggers for the engine
@@ -137,11 +146,11 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// <param name="difference">Difference to allow</param>
         /// <returns>This builder</returns>
         [DefaultValue("0 - " + NATIVE_DEFAULTS)]
-        public override DeviceDetectionHashEngineBuilderBase<TEngine> 
+        public override TBuilder
             SetDifference(int difference)
         {
             SwigConfig.setDifference(difference);
-            return this;
+            return this as TBuilder;
         }
 
         /// <summary>
@@ -151,11 +160,11 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// <param name="drift">Drift to allow</param>
         /// <returns>This builder</returns>
         [DefaultValue("0 - " + NATIVE_DEFAULTS)]
-        public DeviceDetectionHashEngineBuilderBase<TEngine> 
+        public TBuilder
             SetDrift(int drift)
         {
             SwigConfig.setDrift(drift);
-            return this;
+            return this as TBuilder;
         }
 
         /// <summary>
@@ -172,11 +181,11 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// </param>
         /// <returns>This builder</returns>
         [DefaultValue("false - " + NATIVE_DEFAULTS)]
-        public override DeviceDetectionHashEngineBuilderBase<TEngine> 
+        public override TBuilder
             SetAllowUnmatched(bool allow)
         {
             SwigConfig.setAllowUnmatched(allow);
-            return this;
+            return this as TBuilder;
         }
 
         /// <summary>
@@ -186,11 +195,11 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// <param name="reuse">True if an existing file should be used</param>
         /// <returns>This builder</returns>
         [DefaultValue("false - " + NATIVE_DEFAULTS)]
-        public DeviceDetectionHashEngineBuilderBase<TEngine> 
+        public TBuilder
             SetReuseTempFile(bool reuse)
         {
             SwigConfig.setReuseTempFile(reuse);
-            return this;
+            return this as TBuilder;
         }
 
         /// <summary>
@@ -202,11 +211,11 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// </param>
         /// <returns>This builder</returns>
         [DefaultValue("true - " + NATIVE_DEFAULTS)]
-        public DeviceDetectionHashEngineBuilderBase<TEngine> 
+        public TBuilder
             SetUpdateMatchedUserAgent(bool update)
         {
             SwigConfig.setUpdateMatchedUserAgent(update);
-            return this;
+            return this as TBuilder;
         }
 
         /// <summary>
@@ -228,11 +237,11 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// This builder.
         /// </returns>
         [DefaultValue("false - " + NATIVE_DEFAULTS)]
-        public override DeviceDetectionHashEngineBuilderBase<TEngine> 
+        public override TBuilder
             SetUsePerformanceGraph(bool use)
         {
             SwigConfig.setUsePerformanceGraph(use);
-            return this;
+            return this as TBuilder;
         }
 
         /// <summary>
@@ -254,11 +263,11 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// This builder.
         /// </returns>
         [DefaultValue("true - " + NATIVE_DEFAULTS)]
-        public override DeviceDetectionHashEngineBuilderBase<TEngine> 
+        public override TBuilder
             SetUsePredictiveGraph(bool use)
         {
             SwigConfig.setUsePredictiveGraph(use);
-            return this;
+            return this as TBuilder;
         }
 
         /// <summary>
@@ -268,7 +277,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// <returns>This builder</returns>
         [DefaultValue("Balanced - Performance profiles are defined in the native C code. " +
             "See https://github.com/51Degrees/device-detection-cxx/blob/master/src/hash/hash.c#L175")]
-        public DeviceDetectionHashEngineBuilderBase<TEngine> SetPerformanceProfile(
+        public TBuilder SetPerformanceProfile(
             string profileName)
         {
             PerformanceProfiles profile;
@@ -294,7 +303,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// <param name="profile">Profile to use</param>
         /// <returns>This builder</returns>
         [CodeConfigOnly]
-        public override DeviceDetectionHashEngineBuilderBase<TEngine> 
+        public override TBuilder
             SetPerformanceProfile(PerformanceProfiles profile)
         {
             switch (profile)
@@ -320,7 +329,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
                         $"for a DeviceDetectionHashEngine.",
                         nameof(profile));
             }
-            return this;
+            return this as TBuilder;
         }
 
         /// <summary>
@@ -331,11 +340,11 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// <param name="concurrency">Expected concurrent accesses</param>
         /// <returns>This builder</returns>
         [DefaultValue("Environment.ProcessorCount")]
-        public override DeviceDetectionHashEngineBuilderBase<TEngine> SetConcurrency(
+        public override TBuilder SetConcurrency(
             ushort concurrency)
-        {            
+        {
             SwigConfig.setConcurrency(concurrency);
-            return this;
+            return this as TBuilder;
         }
 
         /// <summary>
@@ -344,7 +353,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// </summary>
         /// <exception cref="NotSupportedException"></exception>
         [CodeConfigOnly]
-        public override DeviceDetectionHashEngineBuilderBase<TEngine> SetCache(CacheConfiguration cacheConfig)
+        public override TBuilder SetCache(CacheConfiguration cacheConfig)
         {
             throw new NotSupportedException(Messages.ExceptionSetCache);
         }
@@ -356,7 +365,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// <param name="cacheSize"></param>
         /// <exception cref="NotSupportedException"></exception>
         [DefaultValue("Not supported")]
-        public override DeviceDetectionHashEngineBuilderBase<TEngine> SetCacheSize(int cacheSize)
+        public override TBuilder SetCacheSize(int cacheSize)
         {
             throw new NotSupportedException(Messages.ExceptionSetCache);
         }
