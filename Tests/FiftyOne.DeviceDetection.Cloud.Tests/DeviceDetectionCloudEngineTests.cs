@@ -31,7 +31,19 @@ namespace FiftyOne.DeviceDetection.Cloud.Tests
     public class DeviceDetectionCloudEngineTests
     {
         private IPipeline _pipeline;
-        private const string _resource_key_env_variable = "SUPER_RESOURCE_KEY";
+
+        /// <summary>
+        /// The aligned environment variable name used to supply the resource
+        /// key. This is checked before the legacy name.
+        /// </summary>
+        private const string _resource_key_env_variable = "51DEGREES_RESOURCE_KEY";
+
+        /// <summary>
+        /// The legacy environment variable name used to supply the resource
+        /// key. Retained for backwards compatibility and checked when
+        /// <see cref="_resource_key_env_variable"/> is not set.
+        /// </summary>
+        private const string _legacy_resource_key_env_variable = "SUPER_RESOURCE_KEY";
 
         [TestInitialize] 
         public void Init()
@@ -52,6 +64,11 @@ namespace FiftyOne.DeviceDetection.Cloud.Tests
         {
             var resourceKey = System.Environment.GetEnvironmentVariable(
                 _resource_key_env_variable);
+            if (string.IsNullOrWhiteSpace(resourceKey))
+            {
+                resourceKey = System.Environment.GetEnvironmentVariable(
+                    _legacy_resource_key_env_variable);
+            }
 
             if (resourceKey != null)
             {
@@ -76,7 +93,8 @@ namespace FiftyOne.DeviceDetection.Cloud.Tests
             else
             {
                 Assert.Inconclusive($"No resource key supplied in " +
-                    $"environment variable '{_resource_key_env_variable}'");
+                    $"environment variable '{_resource_key_env_variable}' " +
+                    $"(or the legacy '{_legacy_resource_key_env_variable}')");
             }
         }
 
