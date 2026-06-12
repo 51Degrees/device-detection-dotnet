@@ -27,6 +27,10 @@ if ($IsLinux) {
 
 $env:DEVICEDETECTIONDATAFILE = [IO.Path]::Combine($RepoPath, "FiftyOne.DeviceDetection.Hash.Engine.OnPremise", "device-detection-cxx", "device-detection-data", "TAC-HashV41.hash")
 $env:SUPER_RESOURCE_KEY = $Keys.TestResourceKey
+# Aligned environment variable names. These are checked first by the tests
+# and examples. The legacy names above are retained for backwards compatibility.
+${env:51DEGREES_DD_PATH} = [IO.Path]::Combine($RepoPath, "FiftyOne.DeviceDetection.Hash.Engine.OnPremise", "device-detection-cxx", "device-detection-data", "TAC-HashV41.hash")
+${env:51DEGREES_RESOURCE_KEY} = $Keys.TestResourceKey
 $env:RESOURCE_KEY_CLOUD_V5_BESPOKE = $Keys.ResourceKeyCloudV5Bespoke
 $env:DEVICEDETECTIONLICENSEKEY_DOTNET = $Keys.DeviceDetection
 $env:ACCEPTCH_BROWSER_KEY = $Keys.AcceptCHBrowserKey
