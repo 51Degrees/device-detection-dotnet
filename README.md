@@ -46,6 +46,14 @@ Cloud API. You can create resource keys using our
 [documentation](https://51degrees.com/documentation/_concepts__configurator.html)
 on how to use this.
 
+The cloud property tiers changed in May 2026, so the examples and
+documentation now reflect what is free and what needs a paid subscription. A
+free resource key created at https://configure.51degrees.com/Wkqxf3Bs selects
+the free tier properties, whilst a key created at
+https://configure.51degrees.com/hYzn3TV3 also includes the paid properties
+used by the examples. See https://51degrees.com/pricing to get a paid
+subscription with more properties.
+
 #### On-Premise
 
 In order to perform device detection on-premise, you will need to use a
