@@ -102,7 +102,7 @@ namespace FiftyOne.DeviceDetection
         /// </summary>
         /// <param name="resourceKey">
         /// The resource key to use when querying the cloud service. 
-        /// Obtain one from https://configure.51degrees.com
+        /// Obtain one from https://configure.51degrees.com?utm_source=code&amp;utm_medium=comment&amp;utm_campaign=device-detection-dotnet&amp;utm_content=fiftyone.devicedetection-devicedetectionpipelinebuilder.cs&amp;utm_term=usecloud
         /// </param>
         /// <returns>
         /// A builder that can be used to configure and build a pipeline
@@ -120,7 +120,7 @@ namespace FiftyOne.DeviceDetection
         /// </summary>
         /// <param name="resourceKey">
         /// The resource key to use when querying the cloud service. 
-        /// Obtain one from https://configure.51degrees.com
+        /// Obtain one from https://configure.51degrees.com?utm_source=code&amp;utm_medium=comment&amp;utm_campaign=device-detection-dotnet&amp;utm_content=fiftyone.devicedetection-devicedetectionpipelinebuilder.cs&amp;utm_term=usecloud-2
         /// </param>
         /// <param name="endpoint">
         /// The 51Degrees Cloud URL.
@@ -180,7 +180,7 @@ namespace FiftyOne.DeviceDetection
         /// The license key to use when checking for updates to the
         /// data file.
         /// A license key can be obtained from the 
-        /// [51Degrees website](https://51degrees.com/pricing).
+        /// [51Degrees website](https://51degrees.com/pricing?utm_source=code&amp;utm_medium=comment&amp;utm_campaign=device-detection-dotnet&amp;utm_content=fiftyone.devicedetection-devicedetectionpipelinebuilder.cs&amp;utm_term=useonpremise).
         /// If you have no license key then this parameter can be 
         /// set to null, but doing so will disable automatic updates. 
         /// </param>
@@ -248,7 +248,7 @@ namespace FiftyOne.DeviceDetection
         /// The license key to use when checking for updates to the
         /// data file.
         /// A license key can be obtained from the 
-        /// [51Degrees website](https://51degrees.com/pricing).
+        /// [51Degrees website](https://51degrees.com/pricing?utm_source=code&amp;utm_medium=comment&amp;utm_campaign=device-detection-dotnet&amp;utm_content=fiftyone.devicedetection-devicedetectionpipelinebuilder.cs&amp;utm_term=useonpremise-2).
         /// If you have no license key then this parameter can be 
         /// set to null, but doing so will disable automatic updates. 
         /// </param>
