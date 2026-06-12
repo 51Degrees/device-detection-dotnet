@@ -1,0 +1,6 @@
+{
+  "allowUntagged": [
+    "FiftyOne\\.DeviceDetection\\.RobotsTxt/Constants\\.cs$",
+    "FiftyOne\\.DeviceDetection\\.RobotsTxt/Services/GeneratorService\\.cs$"
+  ]
+}
