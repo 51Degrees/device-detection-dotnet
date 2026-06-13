@@ -45,7 +45,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FiftyOne.Pipeline.CloudRequestEngine" Version="4.5.51" />
+    <PackageReference Include="FiftyOne.Pipeline.CloudRequestEngine" Version="4.5.52" />
     <ProjectReference Include="..\FiftyOne.DeviceDetection.RobotsTxt\FiftyOne.DeviceDetection.RobotsTxt.csproj" />
   </ItemGroup>
 
