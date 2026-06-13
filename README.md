@@ -4,7 +4,7 @@
 **Pipeline API**
 
 [Developer
-Documentation](https://51degrees.com/device-detection-dotnet/index.html?utm_source=github&utm_medium=repository&utm_content=documentation&utm_campaign=dotnet-open-source)
+Documentation](https://51degrees.com/device-detection-dotnet/index.html?utm_source=github&utm_medium=readme&utm_campaign=device-detection-dotnet&utm_content=readme.md&utm_term=51degrees-device-detection-engines)
 
 ## Introduction
 
@@ -27,7 +27,7 @@ projects mostly target .NET 6.0 though in some cases, projects are available
 targeting other frameworks.
 
 For runtime dependencies, see our
-[dependencies](https://51degrees.com/documentation/_info__dependencies.html)
+[dependencies](https://51degrees.com/documentation/_info__dependencies.html?utm_source=github&utm_medium=readme&utm_campaign=device-detection-dotnet&utm_content=readme.md&utm_term=dependencies)
 page. The `ci/options.json` file lists the tested and packaged .NET versions
 and operating systems automatic tests are performed with. The solution will
 likely operate with other versions.
@@ -40,10 +40,10 @@ The API can either use our cloud service to get its data or it can use a local
 #### Cloud
 
 You will require a [resource
-key](https://51degrees.com/documentation/_info__resource_keys.html) to use the
+key](https://51degrees.com/documentation/_info__resource_keys.html?utm_source=github&utm_medium=readme&utm_campaign=device-detection-dotnet&utm_content=readme.md&utm_term=cloud) to use the
 Cloud API. You can create resource keys using our
-[configurator](https://configure.51degrees.com/), see our
-[documentation](https://51degrees.com/documentation/_concepts__configurator.html)
+[configurator](https://configure.51degrees.com/?utm_source=github&utm_medium=readme&utm_campaign=device-detection-dotnet&utm_content=readme.md&utm_term=cloud), see our
+[documentation](https://51degrees.com/documentation/_concepts__configurator.html?utm_source=github&utm_medium=readme&utm_campaign=device-detection-dotnet&utm_content=readme.md&utm_term=cloud)
 on how to use this.
 
 #### On-Premise
@@ -52,7 +52,7 @@ In order to perform device detection on-premise, you will need to use a
 51Degrees data file. This repository includes a free, 'lite' file in the
 'device-detection-data' sub-module that has a significantly reduced set of
 properties. To obtain a file with a more complete set of device properties see
-the [51Degrees website](https://51degrees.com/pricing). If you want to use the
+the [51Degrees website](https://51degrees.com/pricing?utm_source=github&utm_medium=readme&utm_campaign=device-detection-dotnet&utm_content=readme.md&utm_term=on-premise). If you want to use the
 lite file, you will need to install [GitLFS](https://git-lfs.github.com/).
 
 On Linux:
@@ -185,17 +185,17 @@ Some tests require additional resources to run. These will either fail or return
 an 'inconclusive' result if these resources are not provided.
 
 -   Some tests require an 'Enterprise' data file. This can be obtained by
-    [purchasing a license](https://51degrees.com/pricing).
+    [purchasing a license](https://51degrees.com/pricing?utm_source=github&utm_medium=readme&utm_campaign=device-detection-dotnet&utm_content=readme.md&utm_term=tests).
     -   Once available, the full path to this data file must be specified in the
         `DEVICEDETECTIONDATAFILE` environment variable.
 -   Tests using the cloud service require resource keys with specific properties
     to be provided using environment variables:
     -   The `SUPER_RESOURCE_KEY` environment variable should be populated with a
         key that includes all properties. A
-        [license](https://51degrees.com/pricing) is required in order to access
+        [license](https://51degrees.com/pricing?utm_source=github&utm_medium=readme&utm_campaign=device-detection-dotnet&utm_content=readme.md&utm_term=tests-2) is required in order to access
         some properties.
 
 ## Project documentation
 
 For complete documentation on the Pipeline API and associated engines, see the
-[51Degrees documentation site](https://51degrees.com/documentation/index.html).
+[51Degrees documentation site](https://51degrees.com/documentation/index.html?utm_source=github&utm_medium=readme&utm_campaign=device-detection-dotnet&utm_content=readme.md&utm_term=project-documentation).
