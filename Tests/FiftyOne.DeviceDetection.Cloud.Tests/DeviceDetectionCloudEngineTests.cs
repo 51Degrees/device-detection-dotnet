@@ -36,7 +36,7 @@ namespace FiftyOne.DeviceDetection.Cloud.Tests
         /// The aligned environment variable name used to supply the resource
         /// key. This is checked before the legacy name.
         /// </summary>
-        private const string _resource_key_env_variable = "51DEGREES_RESOURCE_KEY";
+        private const string _resource_key_env_variable = "_51DEGREES_RESOURCE_KEY";
 
         /// <summary>
         /// The legacy environment variable name used to supply the resource

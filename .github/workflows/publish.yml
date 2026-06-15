@@ -26,10 +26,9 @@ jobs:
       CodeSigningKeyVaultClientSecret: ${{ secrets.CODE_SIGNING_KEY_VAULT_CLIENT_SECRET }}
       CodeSigningKeyVaultCertificateName: ${{ secrets.CODE_SIGNING_KEY_VAULT_CERTIFICATE_NAME }}
       StrongNameKeyBase64: ${{ secrets.STRONG_NAME_KEY_BASE64 }}
-      DeviceDetection: ${{ secrets.DEVICE_DETECTION_KEY }}
+      DeviceDetection: ${{ secrets._51DEGREES_LICENSE_KEY_CLOUDV5PRO }}
       DeviceDetectionUrl: ${{ secrets.DEVICE_DETECTION_URL }}
-      TestResourceKey: ${{ secrets.SUPER_RESOURCE_KEY}}
-      ResourceKeyCloudV5Bespoke: ${{ secrets.RESOURCE_KEY_CLOUD_V5_BESPOKE }}
+      TestResourceKey: ${{ secrets._51DEGREES_RESOURCE_KEY_BESPOKE }}
       AcceptCHBrowserKey: ${{ secrets.ACCEPTCH_BROWSER_KEY}}
       AcceptCHHardwareKey: ${{ secrets.ACCEPTCH_HARDWARE_KEY}}
       AcceptCHPlatformKey: ${{ secrets.ACCEPTCH_PLATFORM_KEY}}

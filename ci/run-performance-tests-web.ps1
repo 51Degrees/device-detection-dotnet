@@ -8,7 +8,7 @@ $PSNativeCommandUseErrorActionPreference = $true
 
 $perfTests = "$PSScriptRoot/../performance-tests"
 
-$env:PipelineOptions__Elements__0__BuildParameters__DataFile = $env:DEVICEDETECTIONDATAFILE
+$env:PipelineOptions__Elements__0__BuildParameters__DataFile = $env:_51DEGREES_DD_PATH
 
 dotnet build $perfTests -c $Configuration /p:Platform=$Arch
 try {
