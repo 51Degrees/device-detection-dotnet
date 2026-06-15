@@ -75,11 +75,16 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Data
                                 " 'header.user-agent'.", value.NoValueMessage);
                         } else
                         {
-                            Assert.AreEqual("No matching profiles could be " +
+                            // The documentation URL may have tracking query
+                            // parameters (e.g. utm_*) appended to it by the
+                            // data file, so only check the message up to and
+                            // including the base URL rather than an exact match.
+                            Assert.StartsWith("No matching profiles could be " +
                                 "found for the supplied evidence. A 'best " +
                                 "guess' can be returned by configuring more " +
                                 "lenient matching rules. See " +
-                                "https://51degrees.com/documentation/_device_detection__features__false_positive_control.html", value.NoValueMessage);
+                                "https://51degrees.com/documentation/_device_detection__features__false_positive_control.html",
+                                value.NoValueMessage);
                         }
                     }
                 }
