@@ -80,7 +80,7 @@ The examples in the
 [device-detection-dotnet-examples](https://github.com/51Degrees/device-detection-dotnet-examples)
 repository resolve the data file in the following order:
 
-1.  The `51DEGREES_DD_PATH` environment variable, set to an explicit path to
+1.  The `_51DEGREES_DD_PATH` environment variable, set to an explicit path to
     the data file.
 2.  A search of the folder hierarchy for the expected data file name.
 3.  The free 'Lite' data file in the device-detection-data submodule.
@@ -208,7 +208,7 @@ an 'inconclusive' result if these resources are not provided.
         the expected file name.
 -   Tests using the cloud service require resource keys with specific properties
     to be provided using environment variables:
-    -   The `51DEGREES_RESOURCE_KEY` environment variable should be populated
+    -   The `_51DEGREES_RESOURCE_KEY` environment variable should be populated
         with a key that includes all properties. The legacy `SUPER_RESOURCE_KEY`
         environment variable is still supported and is checked second. A
         [license](https://51degrees.com/pricing) is required in order to access
