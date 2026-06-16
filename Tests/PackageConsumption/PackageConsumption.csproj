@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">net48;net8.0</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">net8.0</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">net48;net10.0</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">net10.0</TargetFrameworks>
     <RootNamespace>FiftyOne.DeviceDetection.PackageConsumption</RootNamespace>
     <AssemblyName>PackageConsumption</AssemblyName>
     <IsPackable>false</IsPackable>

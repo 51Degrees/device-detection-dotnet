@@ -3,8 +3,8 @@
 	<PropertyGroup>
 		<IsPackable>false</IsPackable>
 		<Platforms>x86;x64;ARM64;AnyCPU</Platforms>
-		<TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">net8.0;net462</TargetFrameworks>
-		<TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">net8.0</TargetFrameworks>
+		<TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">net10.0;net462</TargetFrameworks>
+		<TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">net10.0</TargetFrameworks>
 		<Configurations>Debug;Release</Configurations>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<BaseOutputPath>bin</BaseOutputPath>
