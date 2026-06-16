@@ -48,10 +48,10 @@ on how to use this.
 
 The cloud property tiers changed in May 2026, so the examples and
 documentation now reflect what is free and what needs a paid subscription. A
-free resource key created at https://configure.51degrees.com/Wkqxf3Bs selects
-the free tier properties, whilst a key created at
-https://configure.51degrees.com/hYzn3TV3 also includes the paid properties
-used by the examples. See https://51degrees.com/pricing to get a paid
+free resource key created [here](https://configure.51degrees.com/Wkqxf3Bs?utm_source=github&utm_medium=readme&utm_campaign=device-detection-dotnet&utm_content=readme.md&utm_term=51degrees-device-detection-engines) selects
+the free tier properties, whilst a key created
+[here](https://configure.51degrees.com/hYzn3TV3?utm_source=github&utm_medium=readme&utm_campaign=device-detection-dotnet&utm_content=readme.md&utm_term=51degrees-device-detection-engines) also includes the paid properties
+used by the examples. See [pricing](https://51degrees.com/pricing?utm_source=github&utm_medium=readme&utm_campaign=device-detection-dotnet&utm_content=readme.md&utm_term=51degrees-device-detection-engines) to get a paid
 subscription with more properties.
 
 #### On-Premise
