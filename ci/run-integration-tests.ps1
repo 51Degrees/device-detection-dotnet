@@ -71,7 +71,7 @@ $DataFile = (Resolve-Path "$PWD/$RepoName/FiftyOne.DeviceDetection.Hash.Engine.O
 # at load time. Portable publish preserves the runtimes/ subtree and .NET's
 # native resolver bypasses a wrongly-copied DLL in the root, hiding bugs.
 dotnet publish "$Fixture/PackageConsumption.csproj" `
-    --framework net8.0 `
+    --framework net10.0 `
     --use-current-runtime `
     --configuration Release `
     --self-contained false `

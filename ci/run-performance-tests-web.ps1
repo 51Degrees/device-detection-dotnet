@@ -12,7 +12,7 @@ $env:PipelineOptions__Elements__0__BuildParameters__DataFile = $env:_51DEGREES_D
 
 dotnet build $perfTests -c $Configuration /p:Platform=$Arch
 try {
-    $server = dotnet "$perfTests/bin/$Arch/$Configuration/net8.0/performance_tests.dll" &
+    $server = dotnet "$perfTests/bin/$Arch/$Configuration/net10.0/performance_tests.dll" &
     $results = ./scripts/httpbench.ps1 -HostPort '127.0.0.1:5000' -Endpoint '/process' -CalibrateEndpoint '/calibrate' -UaFile 'assets/20000 User Agents.csv'
 } finally {
     Write-Host "--- Performance tests output ---"
