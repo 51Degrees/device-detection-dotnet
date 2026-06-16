@@ -1,6 +1,5 @@
 param(
-    [Parameter(Mandatory=$true)]
-    [string]$RepoName,
+    [Parameter(Mandatory)][string]$RepoName,
     [string]$ProjectDir = ".",
     [string]$Name = "Release_x64",
     [string]$Arch = "x64",
@@ -22,16 +21,16 @@ if ($IsLinux) {
     sudo apt-get update
     # Install multilib, as this may be required.
     sudo apt-get install -y gcc-multilib g++-multilib
-
 }
 
-$env:DEVICEDETECTIONDATAFILE = [IO.Path]::Combine($RepoPath, "FiftyOne.DeviceDetection.Hash.Engine.OnPremise", "device-detection-cxx", "device-detection-data", "TAC-HashV41.hash")
-$env:SUPER_RESOURCE_KEY = $Keys.TestResourceKey
-$env:RESOURCE_KEY_CLOUD_V5_BESPOKE = $Keys.ResourceKeyCloudV5Bespoke
-$env:DEVICEDETECTIONLICENSEKEY_DOTNET = $Keys.DeviceDetection
+$env:_51DEGREES_DD_PATH = "$PWD/$RepoName/FiftyOne.DeviceDetection.Hash.Engine.OnPremise/device-detection-cxx/device-detection-data/TAC-HashV41.hash"
+$env:_51DEGREES_RESOURCE_KEY = $Keys.TestResourceKey
 $env:ACCEPTCH_BROWSER_KEY = $Keys.AcceptCHBrowserKey
 $env:ACCEPTCH_HARDWARE_KEY = $Keys.AcceptCHHardwareKey
 $env:ACCEPTCH_PLATFORM_KEY = $Keys.AcceptCHPlatformKey
 $env:ACCEPTCH_NONE_KEY = $Keys.AcceptCHNoneKey
+
+# Legacy environment variables, checked if the new ones aren't set
+$env:SUPER_RESOURCE_KEY = $env:_51DEGREES_RESOURCE_KEY
 
 [IO.File]::WriteAllBytes("$PSScriptRoot/../51Degrees.snk", [Convert]::FromBase64String($StrongNameKeyBase64))

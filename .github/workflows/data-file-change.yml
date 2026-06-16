@@ -17,5 +17,5 @@ jobs:
       dryrun: ${{ inputs.dryrun || false }}
     secrets:
       token: ${{ secrets.ACCESS_TOKEN }}
-      data-key: ${{ secrets.DEVICE_DETECTION_KEY }}
+      data-key: ${{ secrets._51DEGREES_LICENSE_KEY_CLOUDV5PRO }}
       data-url: ${{ secrets.DEVICE_DETECTION_URL }}

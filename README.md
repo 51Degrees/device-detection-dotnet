@@ -46,6 +46,14 @@ Cloud API. You can create resource keys using our
 [documentation](https://51degrees.com/documentation/_concepts__configurator.html?utm_source=github&utm_medium=readme&utm_campaign=device-detection-dotnet&utm_content=readme.md&utm_term=cloud)
 on how to use this.
 
+The cloud property tiers changed in May 2026, so the examples and
+documentation now reflect what is free and what needs a paid subscription. A
+free resource key created at https://configure.51degrees.com/Wkqxf3Bs selects
+the free tier properties, whilst a key created at
+https://configure.51degrees.com/hYzn3TV3 also includes the paid properties
+used by the examples. See https://51degrees.com/pricing to get a paid
+subscription with more properties.
+
 #### On-Premise
 
 In order to perform device detection on-premise, you will need to use a
@@ -67,6 +75,15 @@ Then, navigate to 'device-detection-cxx/device-detection-data' and execute:
 ```
 git lfs pull
 ```
+
+The examples in the
+[device-detection-dotnet-examples](https://github.com/51Degrees/device-detection-dotnet-examples)
+repository resolve the data file in the following order:
+
+1.  The `_51DEGREES_DD_PATH` environment variable, set to an explicit path to
+    the data file.
+2.  A search of the folder hierarchy for the expected data file name.
+3.  The free 'Lite' data file in the device-detection-data submodule.
 
 ## Solutions and projects
 
@@ -186,12 +203,14 @@ an 'inconclusive' result if these resources are not provided.
 
 -   Some tests require an 'Enterprise' data file. This can be obtained by
     [purchasing a license](https://51degrees.com/pricing?utm_source=github&utm_medium=readme&utm_campaign=device-detection-dotnet&utm_content=readme.md&utm_term=tests).
-    -   Once available, the full path to this data file must be specified in the
-        `DEVICEDETECTIONDATAFILE` environment variable.
+    -   Once available, place the data file within the repository folder
+        structure. The tests locate it by searching the folder hierarchy for
+        the expected file name.
 -   Tests using the cloud service require resource keys with specific properties
     to be provided using environment variables:
-    -   The `SUPER_RESOURCE_KEY` environment variable should be populated with a
-        key that includes all properties. A
+    -   The `_51DEGREES_RESOURCE_KEY` environment variable should be populated
+        with a key that includes all properties. The legacy `SUPER_RESOURCE_KEY`
+        environment variable is still supported and is checked second. A
         [license](https://51degrees.com/pricing?utm_source=github&utm_medium=readme&utm_campaign=device-detection-dotnet&utm_content=readme.md&utm_term=tests-2) is required in order to access
         some properties.
 
