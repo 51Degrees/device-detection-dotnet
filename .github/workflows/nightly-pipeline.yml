@@ -19,7 +19,7 @@ jobs:
       dryrun: ${{ inputs.dryrun || false }}
     secrets:
       token: ${{ secrets.ACCESS_TOKEN }}
-      data-key: ${{ secrets._51DEGREES_LICENSE_KEY_CLOUDV5PRO }}
+      data-key: ${{ secrets.DEVICE_DETECTION_KEY }}
       data-url: ${{ secrets.DEVICE_DETECTION_URL }}
 
   PackageUpdate:
@@ -54,7 +54,7 @@ jobs:
       cache-assets: true
     secrets:
       token: ${{ secrets.ACCESS_TOKEN }}
-      DeviceDetection: ${{ secrets._51DEGREES_LICENSE_KEY_CLOUDV5PRO }}
+      DeviceDetection: ${{ secrets.DEVICE_DETECTION_KEY }}
       DeviceDetectionUrl: ${{ secrets.DEVICE_DETECTION_URL }}
       TestResourceKey: ${{ secrets._51DEGREES_RESOURCE_KEY_BESPOKE }}
       AcceptCHBrowserKey: ${{ secrets.ACCEPTCH_BROWSER_KEY}}
@@ -83,7 +83,7 @@ jobs:
       CodeSigningKeyVaultClientSecret: ${{ secrets.CODE_SIGNING_KEY_VAULT_CLIENT_SECRET }}
       CodeSigningKeyVaultCertificateName: ${{ secrets.CODE_SIGNING_KEY_VAULT_CERTIFICATE_NAME }}
       StrongNameKeyBase64: ${{ secrets.STRONG_NAME_KEY_BASE64 }}
-      DeviceDetection: ${{ secrets._51DEGREES_LICENSE_KEY_CLOUDV5PRO }}
+      DeviceDetection: ${{ secrets.DEVICE_DETECTION_KEY }}
       DeviceDetectionUrl: ${{ secrets.DEVICE_DETECTION_URL }}
       TestResourceKey: ${{ secrets._51DEGREES_RESOURCE_KEY_BESPOKE }}
       AcceptCHBrowserKey: ${{ secrets.ACCEPTCH_BROWSER_KEY}}
