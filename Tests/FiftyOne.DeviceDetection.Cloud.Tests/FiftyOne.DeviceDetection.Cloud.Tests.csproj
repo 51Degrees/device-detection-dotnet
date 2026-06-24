@@ -15,8 +15,8 @@
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
 		<PackageReference Include="FiftyOne.Common.TestHelpers" Version="5.1.8" />
-		<PackageReference Include="FiftyOne.Pipeline.Engines.TestHelpers" Version="4.5.57" />
-		<PackageReference Include="FiftyOne.Pipeline.Web" Version="4.5.57" />
+		<PackageReference Include="FiftyOne.Pipeline.Engines.TestHelpers" Version="4.5.58" />
+		<PackageReference Include="FiftyOne.Pipeline.Web" Version="4.5.58" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
 	</ItemGroup>
 
