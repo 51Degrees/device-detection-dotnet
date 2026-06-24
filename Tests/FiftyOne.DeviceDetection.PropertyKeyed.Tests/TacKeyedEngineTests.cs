@@ -26,8 +26,6 @@ using FiftyOne.Pipeline.Core.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 
-[assembly: Parallelize(Scope = ExecutionScope.ClassLevel)]
-
 namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
 {
     /// <summary>
