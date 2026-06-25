@@ -187,6 +187,17 @@ Local developer builds use the [PublicSign](https://learn.microsoft.com/en-us/do
 
 See the [Strong naming section in the pipeline-dotnet README](https://github.com/51Degrees/pipeline-dotnet#strong-naming) for the full mechanics — the same setup is applied across every 51Degrees .NET shipping repo so the dependency chain remains consistent under strong-name identity checks.
 
+##### Upgrading from non-strong-named to strong-named packages
+
+Strong-name signing changes the assembly identity (it now carries a public key token), so when upgrading from an older unsigned version:
+
+- Recompile anything that references the 51Degrees/Pipeline assemblies directly. Binding redirects cannot bridge unsigned to signed; only a rebuild can.
+- Upgrade all 51Degrees packages to matching versions, then add binding redirects to reconcile versions across the signed assemblies (auto-generated with `PackageReference`; with `packages.config` enable `AutoGenerateBindingRedirects` or run `Add-BindingRedirect`).
+- Update any hardcoded assembly-qualified names (`Assembly.Load`, `Type.GetType`, `.config`) to include the new public key token.
+- Do a clean rebuild: clear `bin`/`obj` and remove any stale unsigned 51Degrees DLLs from output/deploy folders.
+
+For a working .NET Framework reference, see the [Cloud/Framework-Web example](https://github.com/51Degrees/device-detection-dotnet-examples/blob/main/Examples/Cloud/Framework-Web/Web.config), whose `Web.config` already contains the full `<assemblyBinding>` redirect block.
+
 ## Examples
 
 Examples can be found in
