@@ -2,20 +2,22 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+    <IsTestProject>true</IsTestProject>
     <IsPackable>false</IsPackable>
     <Platforms>x86;x64;ARM64;AnyCPU</Platforms>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.3.0" />
-    <PackageReference Include="Moq" Version="4.20.72" />
-    <PackageReference Include="MSTest.TestAdapter" Version="4.0.2" />
+    <ProjectReference Include="..\..\FiftyOne.DeviceDetection.PropertyKeyed\FiftyOne.DeviceDetection.PropertyKeyed.csproj" />
+    <ProjectReference Include="..\FiftyOne.DeviceDetection.TestHelpers\FiftyOne.DeviceDetection.TestHelpers.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\FiftyOne.DeviceDetection.PropertyKeyed\FiftyOne.DeviceDetection.PropertyKeyed.csproj" />
-    <ProjectReference Include="..\FiftyOne.DeviceDetection.TestHelpers\FiftyOne.DeviceDetection.TestHelpers.csproj" />
+    <AssemblyAttribute Include="Microsoft.VisualStudio.TestTools.UnitTesting.Parallelize">
+      <_Parameter1>Scope = Microsoft.VisualStudio.TestTools.UnitTesting.ExecutionScope.ClassLevel</_Parameter1>
+      <_Parameter1_IsLiteral>true</_Parameter1_IsLiteral>
+    </AssemblyAttribute>
   </ItemGroup>
 
 </Project>

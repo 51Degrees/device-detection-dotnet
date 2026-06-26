@@ -32,8 +32,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-[assembly: Parallelize(Scope = ExecutionScope.ClassLevel)]
-
 namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
 {
     /// <summary>
