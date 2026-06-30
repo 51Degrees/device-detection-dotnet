@@ -14,7 +14,8 @@ $ErrorActionPreference = "Stop"
 $PSNativeCommandUseErrorActionPreference = $true
 Set-StrictMode -Version 1.0
 
-if ($TestResourceKey) {
+$skipSeleniumOnArm = $IsLinux -and $Arch -eq 'arm64'
+if ($TestResourceKey -and -not $skipSeleniumOnArm) {
     Write-Host 'Running Selenium tests...'
     $seleniumExamples = "dd-examples-selenium"
     if (-not (Test-Path $seleniumExamples)) {
@@ -67,6 +68,8 @@ if ($TestResourceKey) {
     } finally {
         if ($example) { Remove-Job -Force $example }
     }
+} elseif ($skipSeleniumOnArm) {
+    Write-Host "::warning title=Selenium skipped::Selenium contract skipped on linux-arm64 (no selenium-manager aarch64 build); covered on x64 and macOS-arm."
 } else {
     Write-Host "::warning title=No Resource Key::No resource key; skipping the Selenium contract."
 }
