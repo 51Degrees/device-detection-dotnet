@@ -67,6 +67,7 @@ if ($TestResourceKey -and -not $skipSeleniumOnArm) {
         throw
     } finally {
         if ($example) { Remove-Job -Force $example }
+        Remove-Item Env:ASPNETCORE_URLS, Env:PORT -ErrorAction SilentlyContinue
     }
 } elseif ($skipSeleniumOnArm) {
     Write-Host "::warning title=Selenium skipped::Selenium contract skipped on linux-arm64 (no selenium-manager aarch64 build); covered on x64 and macOS-arm."
