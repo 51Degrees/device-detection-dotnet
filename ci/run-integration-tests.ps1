@@ -41,21 +41,22 @@ if ($TestResourceKey -and -not $skipSeleniumOnArm) {
         Set-Content $webCsproj
 
     try {
+        $example = $null
+        $exampleProject = "$seleniumExamples/Examples/Cloud/GettingStarted-Web"
+        dotnet build $exampleProject -c Release
+
         # Start the cloud example, pointed at the live cloud.
-        Push-Location "$seleniumExamples/Examples/Cloud/GettingStarted-Web"
-        try {
-            $env:PORT = 8095
-            $env:ASPNETCORE_URLS = "http://localhost:$env:PORT"
-            $env:FIFTYONE_CLOUD_ENDPOINT = "https://cloud.51degrees.com/api/v4/"
-            $example = dotnet run -c Release --no-launch-profile 2>&1 &
-        } finally { Pop-Location }
+        $env:PORT = 8095
+        $env:ASPNETCORE_URLS = "http://localhost:$env:PORT"
+        $env:FIFTYONE_CLOUD_ENDPOINT = "https://cloud.51degrees.com/api/v4/"
+        $example = dotnet run --no-build --project $exampleProject -c Release --no-launch-profile 2>&1 &
 
         # Get the shared contract tests.
         if (-not (Test-Path selenium-api-tests)) {
             git clone --depth 1 https://github.com/51Degrees/selenium-api-tests.git
         }
         # Wait for the example to come up.
-        curl -sS -o /dev/null --retry 5 --retry-connrefused "http://localhost:$env:PORT"
+        curl -sS -o $(if ($IsWindows) { 'NUL' } else { '/dev/null' }) --retry 5 --retry-connrefused "http://localhost:$env:PORT"
 
         $env:CLOUD_ROOT_URL = "https://cloud.51degrees.com/"
         $env:PAID_RESOURCE_KEY = $TestResourceKey
