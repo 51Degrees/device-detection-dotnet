@@ -1,0 +1,16 @@
+<Project>
+
+  <!-- Link to the repository root Directory.Build.props.
+       MSBuild onlyauto-imports the nearest Directory.Build.props, so the root 
+       one must be imported explicitly. -->
+  <Import Project="$(MSBuildThisFileDirectory)..\Directory.Build.props" />
+
+  <!-- Shared test-harness packages for the MSTest unit-test projects under Tests/.
+       Each unit-test project opts in with <IsTestProject>true</IsTestProject>. -->
+  <ItemGroup Condition="'$(IsTestProject)' == 'true'">
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.3.0" />
+    <PackageReference Include="Moq" Version="4.20.72" />
+    <PackageReference Include="MSTest" Version="4.0.2" />
+  </ItemGroup>
+
+</Project>

@@ -20,8 +20,7 @@ jobs:
       token: ${{ secrets.ACCESS_TOKEN }}
       DeviceDetection: ${{ secrets.DEVICE_DETECTION_KEY }}
       DeviceDetectionUrl: ${{ secrets.DEVICE_DETECTION_URL }}
-      TestResourceKey: ${{ secrets.SUPER_RESOURCE_KEY}}
-      ResourceKeyCloudV5Bespoke: ${{ secrets.RESOURCE_KEY_CLOUD_V5_BESPOKE }}
+      TestResourceKey: ${{ secrets._51DEGREES_RESOURCE_KEY_BESPOKE }}
       AcceptCHBrowserKey: ${{ secrets.ACCEPTCH_BROWSER_KEY}}
       AcceptCHHardwareKey: ${{ secrets.ACCEPTCH_HARDWARE_KEY}}
       AcceptCHPlatformKey: ${{ secrets.ACCEPTCH_PLATFORM_KEY}}

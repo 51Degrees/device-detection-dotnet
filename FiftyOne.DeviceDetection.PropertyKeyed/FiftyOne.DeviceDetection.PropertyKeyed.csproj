@@ -19,7 +19,7 @@
 	  <Copyright>51Degrees Mobile Experts Limited</Copyright>
 	  <PackageTags>51degrees;pipeline;data;device;detection;tac;nativemodel</PackageTags>
 	  <RepositoryUrl>https://github.com/51Degrees/device-detection-dotnet</RepositoryUrl>
-	  <PackageProjectUrl>https://51degrees.com</PackageProjectUrl>
+	  <PackageProjectUrl>https://51degrees.com?utm_source=nuget&amp;utm_medium=package&amp;utm_campaign=device-detection-dotnet&amp;utm_content=fiftyone.devicedetection.propertykeyed-fiftyone.devicedetection.propertykeyed.csproj&amp;utm_term=packageprojecturl</PackageProjectUrl>
 	  <RepositoryType>git</RepositoryType>
 	  <PackageIcon>51d-logo.png</PackageIcon>
 	  <NeutralLanguage>en</NeutralLanguage>
@@ -60,7 +60,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FiftyOne.DeviceDetection.Hash.Engine.OnPremise\FiftyOne.DeviceDetection.Hash.Engine.OnPremise.csproj" />
-    <PackageReference Include="FiftyOne.Pipeline.Engines.FiftyOne" Version="4.5.46" />
+    <PackageReference Include="FiftyOne.Pipeline.Engines.FiftyOne" Version="4.5.58" />
   </ItemGroup>
 
 </Project>
