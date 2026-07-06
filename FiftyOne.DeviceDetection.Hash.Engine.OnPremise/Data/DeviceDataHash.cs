@@ -43,6 +43,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
     internal class DeviceDataHash : DeviceDataBaseOnPremise<IResultsSwigWrapper>, IDeviceDataHash, IDisposable
     {
         private bool disposedValue;
+        private readonly DeviceDetectionHashEngine _engine;
         private static ThreadLocal<ResultsHashSerializer> resultsHashSerializer = new ThreadLocal<ResultsHashSerializer>(() => (
             new ResultsHashSerializer()
         ));
@@ -71,6 +72,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
             IMissingPropertyService missingPropertyService)
             : base(logger, pipeline, engine, missingPropertyService)
         {
+            _engine = engine;
         }
 
         #endregion
@@ -266,8 +268,21 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         protected override bool PropertyIsAvailable(string propertyName)
         {
             CheckState();
-            return Results.ResultsList
+            // Whether a property is present in the results is constant for the
+            // lifetime of a loaded data file, so memoise it on the engine to
+            // avoid a native containsProperty P/Invoke on every property read
+            // (issue #524 result-access hot path). The first read of each
+            // property still resolves via the native call below; subsequent
+            // reads - across all detections - are served from the cache.
+            if (_engine.PropertyAvailableCache.TryGetValue(
+                propertyName, out bool available))
+            {
+                return available;
+            }
+            available = Results.ResultsList
                 .Any(r => r.containsProperty(propertyName));
+            _engine.PropertyAvailableCache[propertyName] = available;
+            return available;
         }
 
         protected override IAspectPropertyValue<bool> GetValueAsBool(string propertyName)

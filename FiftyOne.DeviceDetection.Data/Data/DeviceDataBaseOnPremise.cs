@@ -34,6 +34,22 @@ using System.Collections.Generic;
 namespace FiftyOne.DeviceDetection.Shared.Data
 {
     /// <summary>
+    /// Resolves, once per closed generic type <typeparamref name="T"/>, the inner
+    /// value type that <typeparamref name="T"/> wraps
+    /// (e.g. <c>IAspectPropertyValue&lt;bool&gt;</c> -&gt; <c>bool</c>). The result
+    /// is stored in a per-<typeparamref name="T"/> static field, so typed property
+    /// getters avoid both a per-read dictionary lookup and the array allocation of
+    /// <see cref="Type.GenericTypeArguments"/>. A <see langword="null"/> value means
+    /// <typeparamref name="T"/> is <see cref="object"/> (untyped access) and the
+    /// inner type must instead be resolved from the property name.
+    /// </summary>
+    internal static class InnerTypeCache<T>
+    {
+        public static readonly Type Value =
+            typeof(T) == typeof(object) ? null : typeof(T).GenericTypeArguments[0];
+    }
+
+    /// <summary>
     /// Base class used for all 51Degrees on-premise device data.
     /// See the <see href="https://github.com/51Degrees/specifications/blob/main/device-detection-specification/data-model.md">Specification</see>
     /// </summary>
@@ -405,21 +421,18 @@ namespace FiftyOne.DeviceDetection.Shared.Data
         private static ConcurrentDictionary<string, Type> _innerTypes = new ConcurrentDictionary<string, Type>();
         private Type GetInnerType<T>(string propertyName)
         {
-            return _innerTypes.GetOrAdd(propertyName,
-                (string key) =>
-                {
-                    Type type = typeof(T);
-                    Type innerType;
-                    if (type == typeof(object))
-                    {
-                        innerType = GetPropertyType(key);
-                    }
-                    else
-                    {
-                        innerType = type.GenericTypeArguments[0];
-                    }
-                    return innerType;
-                });
+            // For a concrete requested type (e.g. IAspectPropertyValue<bool>) the
+            // inner value type depends only on T, so it is resolved once per closed
+            // generic T (see InnerTypeCache) - no per-read dictionary lookup and no
+            // GenericTypeArguments array allocation. Only untyped access
+            // (T == object, via the string indexer) needs the property name, and
+            // that path keeps the original name-keyed cache.
+            Type inner = InnerTypeCache<T>.Value;
+            if (inner != null)
+            {
+                return inner;
+            }
+            return _innerTypes.GetOrAdd(propertyName, key => GetPropertyType(key));
         }
 
         /// <summary>
