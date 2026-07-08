@@ -21,16 +21,90 @@
  * ********************************************************************* */
 
 using FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop;
+using System;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
 {
     internal class ResultsSwigWrapper : IResultsSwigWrapper
     {
+        // Flattened, "by value" scalar accessors (issue #524, fix #4). These call
+        // the hand-written native exports in DeviceDetectionFastValues.cpp, which
+        // return the value and its has-value flag in a single P/Invoke with no
+        // Value<T> (BoolValueSwig etc.) heap object. Used by the fast paths in
+        // DeviceDataHash; see that class for the slow-path fallback that recovers
+        // the no-value message.
+        private const string NativeLib =
+            "FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll";
+
+        [DllImport(NativeLib, EntryPoint = "fiftyone_hash_get_bool", CharSet = CharSet.Ansi)]
+        private static extern int fiftyone_hash_get_bool(IntPtr results, string name, out int hasValue);
+
+        [DllImport(NativeLib, EntryPoint = "fiftyone_hash_get_int", CharSet = CharSet.Ansi)]
+        private static extern int fiftyone_hash_get_int(IntPtr results, string name, out int hasValue);
+
+        [DllImport(NativeLib, EntryPoint = "fiftyone_hash_get_double", CharSet = CharSet.Ansi)]
+        private static extern double fiftyone_hash_get_double(IntPtr results, string name, out int hasValue);
+
+        [DllImport(NativeLib, EntryPoint = "fiftyone_hash_get_string", CharSet = CharSet.Ansi)]
+        private static extern int fiftyone_hash_get_string(IntPtr results, string name, byte[] buffer, int bufLen, out int needed);
+
+        // Reusable per-thread buffer for the string fast path, sized to cover
+        // effectively all device-detection property values; longer values fall
+        // back to the slow SWIG path.
+        [ThreadStatic]
+        private static byte[] _stringBuffer;
+
         public ResultsHashSwig Object { get; }
 
         public ResultsSwigWrapper(ResultsHashSwig instance)
         {
             Object = instance;
+        }
+
+        public bool TryGetBoolFast(string propertyName, out bool value)
+        {
+            int has = 0;
+            int v = fiftyone_hash_get_bool(ResultsHashSwig.getCPtr(Object).Handle, propertyName, out has);
+            GC.KeepAlive(Object);
+            value = v != 0;
+            return has != 0;
+        }
+
+        public bool TryGetIntFast(string propertyName, out int value)
+        {
+            int has = 0;
+            value = fiftyone_hash_get_int(ResultsHashSwig.getCPtr(Object).Handle, propertyName, out has);
+            GC.KeepAlive(Object);
+            return has != 0;
+        }
+
+        public bool TryGetDoubleFast(string propertyName, out double value)
+        {
+            int has = 0;
+            value = fiftyone_hash_get_double(ResultsHashSwig.getCPtr(Object).Handle, propertyName, out has);
+            GC.KeepAlive(Object);
+            return has != 0;
+        }
+
+        public bool TryGetStringFast(string propertyName, out string value)
+        {
+            var buffer = _stringBuffer ?? (_stringBuffer = new byte[512]);
+            int needed = 0;
+            int has = fiftyone_hash_get_string(
+                ResultsHashSwig.getCPtr(Object).Handle, propertyName, buffer, buffer.Length, out needed);
+            GC.KeepAlive(Object);
+            // has == 0 -> no value (caller falls back for the no-value message).
+            // needed >= buffer.Length -> value too long to fit; fall back so the
+            // slow path returns the full value.
+            if (has == 0 || needed >= buffer.Length)
+            {
+                value = null;
+                return false;
+            }
+            value = Encoding.UTF8.GetString(buffer, 0, needed);
+            return true;
         }
         public bool containsProperty(string propertyName)
         {
