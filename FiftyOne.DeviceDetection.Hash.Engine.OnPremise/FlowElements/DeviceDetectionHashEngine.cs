@@ -53,10 +53,24 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         private IEngineSwigWrapper _engine;
 
         /// <summary>
-        /// Evidence key filter for the engine. Set in 
+        /// Evidence key filter for the engine. Set in
         /// <see cref="InitEngineMetaData"/> after refresh.
         /// </summary>
         private IEvidenceKeyFilter _evidenceKeyFilter;
+
+        /// <summary>
+        /// Caches, per property name, whether that property is present in the
+        /// native results (i.e. the answer to <c>ResultsHash.containsProperty</c>).
+        /// This answer is constant for the lifetime of a loaded data file, so it
+        /// is memoised here to avoid a native P/Invoke on every property read.
+        /// Cleared in <see cref="InitEngineMetaData"/> whenever the data file is
+        /// refreshed. Keyed ordinally so each distinct casing keeps the exact
+        /// answer the native call would give it.
+        /// </summary>
+        internal readonly System.Collections.Concurrent.ConcurrentDictionary<string, bool>
+            PropertyAvailableCache =
+                new System.Collections.Concurrent.ConcurrentDictionary<string, bool>(
+                    StringComparer.Ordinal);
 
         /// <summary>
         /// Properties for the engine. Set in <see cref="InitEngineMetaData"/> 
@@ -392,6 +406,10 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         /// </summary>
         private void InitEngineMetaData()
         {
+            // The set of properties present in the results can change when a new
+            // data file is loaded, so drop the memoised availability answers.
+            PropertyAvailableCache.Clear();
+
             _evidenceKeyFilter = new EvidenceKeyFilterWhitelist(
                 new List<string>(_engine.getKeys()),
                 StringComparer.InvariantCultureIgnoreCase);
