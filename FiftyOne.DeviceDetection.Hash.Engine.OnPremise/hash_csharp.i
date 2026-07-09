@@ -19,7 +19,8 @@
 // translation unit (DeviceDetectionFastValues.cpp) + managed P/Invokes in
 // ResultsSwigWrapper, because the checked-in SWIG bindings are ~21 months behind
 // the device-detection-cxx submodule and regenerating would pull in a large,
-// unrelated binding refresh (see _docs/swig-marshaling-524).
+// unrelated binding refresh (see _docs/swig-marshaling-524). The regen is tracked
+// in issue #823.
 //
 // WHEN THE BINDINGS ARE NEXT REGENERATED, replace the hand-written .cpp and the
 // managed P/Invokes with the %extend below (uncomment it), so the fast paths are

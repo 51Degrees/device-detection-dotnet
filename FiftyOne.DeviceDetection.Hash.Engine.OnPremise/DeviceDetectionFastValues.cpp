@@ -35,7 +35,8 @@
  * This is deliberately a small hand-written translation unit rather than a SWIG
  * %extend + regen: the checked-in SWIG bindings are ~21 months behind the cxx
  * submodule, so regenerating would pull in a large, unrelated binding refresh.
- * The equivalent %extend is documented in hash_csharp.i for the next full regen.
+ * The equivalent %extend is documented in hash_csharp.i for the next full regen,
+ * which is tracked in issue #823 (this TU is retired once that regen lands).
  *
  * Each function calls the same C++ ResultsHash getters the SWIG path uses, so
  * behaviour (value, no-value) is identical; the managed side falls back to the
