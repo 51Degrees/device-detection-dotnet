@@ -50,11 +50,15 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
         [DllImport(NativeLib, EntryPoint = "fiftyone_hash_get_string", CharSet = CharSet.Ansi)]
         private static extern int fiftyone_hash_get_string(IntPtr results, string name, byte[] buffer, int bufferLength, out int valueLength);
 
-        // Reusable per-thread buffer for the string fast path, sized to cover
-        // effectively all device-detection property values; longer values fall
-        // back to the slow SWIG path.
+        // Reusable per-thread buffer for the string fast path. Sized (4 KB) to
+        // cover even large JavaScript-property snippets so they hit the fast path
+        // too. On a miss the value falls back to the slow SWIG path, which is
+        // slightly slower than pre-PR here (the native call has already built the
+        // full string to measure its length), so the buffer is kept generous.
         [ThreadStatic]
         private static byte[] _stringBuffer;
+
+        private const int StringBufferSize = 4096;
 
         public ResultsHashSwig Object { get; }
 
@@ -90,7 +94,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
 
         public bool TryGetStringFast(string propertyName, out string value)
         {
-            var buffer = _stringBuffer ?? (_stringBuffer = new byte[512]);
+            var buffer = _stringBuffer ?? (_stringBuffer = new byte[StringBufferSize]);
             int valueLength = 0;
             int hasValue = fiftyone_hash_get_string(
                 ResultsHashSwig.getCPtr(Object).Handle, propertyName, buffer, buffer.Length, out valueLength);
@@ -103,6 +107,10 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
                 value = null;
                 return false;
             }
+            // Decode as UTF-8, the encoding the data file stores values in. Note
+            // the SWIG slow path marshals std::string as ANSI/LPStr (system code
+            // page): for ASCII values - all current DD data - the two agree, and
+            // for any non-ASCII byte UTF-8 here is the more correct result.
             value = Encoding.UTF8.GetString(buffer, 0, valueLength);
             return true;
         }
