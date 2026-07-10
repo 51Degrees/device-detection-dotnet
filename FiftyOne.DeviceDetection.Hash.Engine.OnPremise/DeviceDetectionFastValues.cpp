@@ -41,6 +41,13 @@
  * Each function calls the same C++ ResultsHash getters the SWIG path uses, so
  * behaviour (value, no-value) is identical; the managed side falls back to the
  * SWIG path when hasValue is false, to recover the no-value message.
+ *
+ * Invariant: resultsPtr is ResultsHashSwig.getCPtr(...).Handle, i.e. the pointer
+ * SWIG stored at construction, which for the concrete proxy is the original
+ * ResultsHash* cast to void*. static_cast<ResultsHash*> is therefore exact with
+ * no base-class adjustment. This holds only while the binding stores the derived
+ * ResultsHash pointer; it would break if a future regen handed us an upcast base
+ * pointer, so the managed side must keep passing the ResultsHash proxy's handle.
  */
 
 #include "device-detection-cxx/src/hash/EngineHash.hpp"
