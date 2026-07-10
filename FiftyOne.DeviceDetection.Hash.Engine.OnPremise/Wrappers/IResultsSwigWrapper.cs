@@ -42,5 +42,14 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
         IValueSwigWrapper<int> getValueAsInteger(string propertyName);
         IValueSwigWrapper<double> getValueAsDouble(string propertyName);
 
+        // Flattened "by value" fast paths (issue #524, fix #4): return the value
+        // and its has-value flag in a single P/Invoke with no Value<T> wrapper
+        // object. Return false when there is no value (or, for strings, when the
+        // value is too long to fit the fast-path buffer); the caller then uses the
+        // matching getValueAsX slow path to recover the value / no-value message.
+        bool TryGetBoolFast(string propertyName, out bool value);
+        bool TryGetIntFast(string propertyName, out int value);
+        bool TryGetDoubleFast(string propertyName, out double value);
+        bool TryGetStringFast(string propertyName, out string value);
     }
 }

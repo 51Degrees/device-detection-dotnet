@@ -71,7 +71,8 @@ if (RebuildSwig)
 endif()
 
 add_library(fiftyone-hash-dotnet SHARED
-    ${CMAKE_CURRENT_LIST_DIR}/DeviceDetectionHashEngineSwig_csharp.cpp)
+    ${CMAKE_CURRENT_LIST_DIR}/DeviceDetectionHashEngineSwig_csharp.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/DeviceDetectionFastValues.cpp)
 
 if(UNIX)
     set_target_properties(fiftyone-hash-dotnet

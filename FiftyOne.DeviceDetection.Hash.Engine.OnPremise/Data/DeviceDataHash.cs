@@ -292,6 +292,14 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 
             if (results != null)
             {
+                // Fast flattened path (fix #4): one P/Invoke, no Value<T> object.
+                // Fall back to the SWIG value object only when there is no value,
+                // to recover the no-value message.
+                if (results.TryGetBoolFast(propertyName, out bool fast))
+                {
+                    result.Value = fast;
+                    return result;
+                }
                 using (var value = results.getValueAsBool(propertyName))
                 {
                     if (value.hasValue())
@@ -314,6 +322,11 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 
             if (results != null)
             {
+                if (results.TryGetDoubleFast(propertyName, out double fast))
+                {
+                    result.Value = fast;
+                    return result;
+                }
                 using (var value = results.getValueAsDouble(propertyName))
                 {
                     if (value.hasValue())
@@ -336,6 +349,11 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 
             if (results != null)
             {
+                if (results.TryGetIntFast(propertyName, out int fast))
+                {
+                    result.Value = fast;
+                    return result;
+                }
                 using (var value = results.getValueAsInteger(propertyName))
                 {
                     if (value.hasValue())
@@ -397,6 +415,11 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 
             if (results != null)
             {
+                if (results.TryGetStringFast(propertyName, out string fast))
+                {
+                    result.Value = fast;
+                    return result;
+                }
                 using (var value = results.getValueAsString(propertyName))
                 {
                     if (value.hasValue())
@@ -419,6 +442,12 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
 
             if (results != null)
             {
+                // JavaScript is a string value; use the same flattened fast path.
+                if (results.TryGetStringFast(propertyName, out string fast))
+                {
+                    result.Value = new JavaScript(fast);
+                    return result;
+                }
                 using (var value = results.getValueAsString(propertyName))
                 {
                     if (value.hasValue())
