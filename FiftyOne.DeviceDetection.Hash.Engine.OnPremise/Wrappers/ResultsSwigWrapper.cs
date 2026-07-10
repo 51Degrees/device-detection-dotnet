@@ -38,16 +38,19 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
         private const string NativeLib =
             "FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll";
 
-        [DllImport(NativeLib, EntryPoint = "fiftyone_hash_get_bool", CharSet = CharSet.Ansi)]
+        // Cdecl to match the plain extern "C" exports in DeviceDetectionFastValues.cpp.
+        // Unlike SWIG's own exports (which are SWIGSTDCALL), this hand-written TU is
+        // __cdecl, so on win-x86 the default Winapi/__stdcall would corrupt the stack.
+        [DllImport(NativeLib, EntryPoint = "fiftyone_hash_get_bool", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
         private static extern int fiftyone_hash_get_bool(IntPtr results, string name, out int hasValue);
 
-        [DllImport(NativeLib, EntryPoint = "fiftyone_hash_get_int", CharSet = CharSet.Ansi)]
+        [DllImport(NativeLib, EntryPoint = "fiftyone_hash_get_int", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
         private static extern int fiftyone_hash_get_int(IntPtr results, string name, out int hasValue);
 
-        [DllImport(NativeLib, EntryPoint = "fiftyone_hash_get_double", CharSet = CharSet.Ansi)]
+        [DllImport(NativeLib, EntryPoint = "fiftyone_hash_get_double", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
         private static extern double fiftyone_hash_get_double(IntPtr results, string name, out int hasValue);
 
-        [DllImport(NativeLib, EntryPoint = "fiftyone_hash_get_string", CharSet = CharSet.Ansi)]
+        [DllImport(NativeLib, EntryPoint = "fiftyone_hash_get_string", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
         private static extern int fiftyone_hash_get_string(IntPtr results, string name, byte[] buffer, int bufferLength, out int valueLength);
 
         // Reusable per-thread buffer for the string fast path. Sized (4 KB) to
