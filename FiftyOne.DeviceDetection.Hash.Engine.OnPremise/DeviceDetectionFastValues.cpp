@@ -60,6 +60,10 @@ using namespace FiftyoneDegrees::DeviceDetection::Hash;
 // Bool: returns 0/1; *hasValue set to 1 when a value is present, else 0.
 extern "C" SWIGEXPORT int fiftyone_hash_get_bool(
     void* resultsPtr, const char* name, int* hasValue) {
+    // A disposed managed proxy passes a null pointer; catch(...) would not catch
+    // the resulting access violation, so report no-value and let the managed
+    // slow-path fallback raise the usual exception.
+    if (resultsPtr == nullptr) { *hasValue = 0; return 0; }
     try {
         ResultsHash* results = static_cast<ResultsHash*>(resultsPtr);
         auto value = results->getValueAsBool(name);
@@ -77,6 +81,7 @@ extern "C" SWIGEXPORT int fiftyone_hash_get_bool(
 // Integer: returns the value; *hasValue set to 1 when present, else 0.
 extern "C" SWIGEXPORT int fiftyone_hash_get_int(
     void* resultsPtr, const char* name, int* hasValue) {
+    if (resultsPtr == nullptr) { *hasValue = 0; return 0; }
     try {
         ResultsHash* results = static_cast<ResultsHash*>(resultsPtr);
         auto value = results->getValueAsInteger(name);
@@ -94,6 +99,7 @@ extern "C" SWIGEXPORT int fiftyone_hash_get_int(
 // Double: returns the value; *hasValue set to 1 when present, else 0.
 extern "C" SWIGEXPORT double fiftyone_hash_get_double(
     void* resultsPtr, const char* name, int* hasValue) {
+    if (resultsPtr == nullptr) { *hasValue = 0; return 0.0; }
     try {
         ResultsHash* results = static_cast<ResultsHash*>(resultsPtr);
         auto value = results->getValueAsDouble(name);
@@ -114,6 +120,7 @@ extern "C" SWIGEXPORT double fiftyone_hash_get_double(
 // and the caller retries via the slow path. No SWIG wrapper object is created.
 extern "C" SWIGEXPORT int fiftyone_hash_get_string(
     void* resultsPtr, const char* name, char* buffer, int bufLen, int* needed) {
+    if (resultsPtr == nullptr) { *needed = 0; return 0; }
     try {
         ResultsHash* results = static_cast<ResultsHash*>(resultsPtr);
         auto value = results->getValueAsString(name);
