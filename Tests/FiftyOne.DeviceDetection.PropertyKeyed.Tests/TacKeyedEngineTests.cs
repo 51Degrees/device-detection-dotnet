@@ -86,6 +86,25 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         }
 
         /// <summary>
+        /// An invalid TAC is caller input, so it must be surfaced via
+        /// <see cref="FiftyOne.Pipeline.Core.Data.IFlowData.Errors"/> without
+        /// being logged at Error level - an Error log carrying the exception is
+        /// recorded as an AppInsights exception (see cloud #201).
+        /// </summary>
+        [TestMethod]
+        [DataRow("1234")]
+        [DataRow("ABCDEFGH")]
+        [DataRow("123456789")]
+        public void InvalidTac_DoesNotLogError(string tac)
+        {
+            _data.AddEvidence("query.tac", tac);
+            _data.Process();
+            Assert.IsNotNull(_data.Errors,
+                "Expected an error for invalid TAC.");
+            AssertNoErrorLevelLog();
+        }
+
+        /// <summary>
         /// No evidence — engine is not processed.
         /// </summary>
         [TestMethod]
