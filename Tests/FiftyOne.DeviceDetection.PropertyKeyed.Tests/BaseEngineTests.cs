@@ -27,12 +27,14 @@ using FiftyOne.Pipeline.Core.FlowElements;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
 
 namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
 {
     public class BaseEngineTests<T> where T : IFlowElement
     {
         protected static ILoggerFactory _loggerFactory;
+        protected static CapturingLoggerProvider _capturedLogs;
         protected static T _engine;
         protected static IPipeline _pipeline;
         protected IFlowData _data;
@@ -50,7 +52,10 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         {
             var ddFile = Utils.GetFilePath(Constants.TAC_HASH_DATA_FILE_NAME).FullName;
 
-            _loggerFactory = LoggerFactory.Create(b => { });
+            _capturedLogs = new CapturingLoggerProvider();
+            _loggerFactory = LoggerFactory.Create(b => b
+                .AddProvider(_capturedLogs)
+                .SetMinimumLevel(LogLevel.Warning));
 
             // Build DeviceDetectionHashEngine first
             var hashEngine = new DeviceDetectionHashEngineBuilder(
@@ -80,12 +85,31 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
 
         public virtual void TestInitialize()
         {
+            _capturedLogs?.Clear();
             _data = _pipeline.CreateFlowData();
         }
 
         public virtual void TestCleanup()
         {
             _data?.Dispose();
+        }
+
+        /// <summary>
+        /// Asserts that nothing was logged at Error (or Critical) level during
+        /// the current test. Client-caused validation errors must be surfaced
+        /// via <see cref="IFlowData.Errors"/> without an Error-level log, since
+        /// an Error log carrying the exception can be surfaced as exception
+        /// telemetry.
+        /// </summary>
+        protected static void AssertNoErrorLevelLog()
+        {
+            var offending = _capturedLogs.Entries
+                .Where(e => e.Level >= LogLevel.Error)
+                .ToList();
+            Assert.IsEmpty(offending,
+                "Expected no Error-level log, but found: " +
+                string.Join("; ", offending.Select(e =>
+                    $"{e.Level} {e.Category}: {e.Exception?.Message}")));
         }
     }
 }

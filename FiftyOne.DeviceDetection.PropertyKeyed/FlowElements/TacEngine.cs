@@ -54,11 +54,17 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
                 return true;
             }
 
+            // A malformed TAC is caller input, not a server fault. Register it
+            // via FlowData.Errors without logging at Error level: the 2-arg
+            // overload defaults shouldLog to true, which logs the exception and
+            // can surface it as exception telemetry - noise for a client error.
             data.AddError(
                 new ArgumentException(string.Format(
                     Messages.IncorrectTacEvidence,
                     keyPropertyValue)),
-                data.Pipeline.GetElement<TacEngine>());
+                data.Pipeline.GetElement<TacEngine>(),
+                shouldThrow: true,
+                shouldLog: false);
             return false;
         }
     }
