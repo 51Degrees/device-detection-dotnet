@@ -68,8 +68,8 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         /// <summary>
         /// An invalid NativeModel is caller input, so it must be surfaced via
         /// <see cref="FiftyOne.Pipeline.Core.Data.IFlowData.Errors"/> without
-        /// being logged at Error level - an Error log carrying the exception is
-        /// recorded as an AppInsights exception (see cloud #201).
+        /// being logged at Error level - an Error log carrying the exception
+        /// can be surfaced as exception telemetry.
         /// </summary>
         [TestMethod]
         [DataRow("X")]

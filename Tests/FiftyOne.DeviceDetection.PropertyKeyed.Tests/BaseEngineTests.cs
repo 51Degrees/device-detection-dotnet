@@ -98,8 +98,8 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         /// Asserts that nothing was logged at Error (or Critical) level during
         /// the current test. Client-caused validation errors must be surfaced
         /// via <see cref="IFlowData.Errors"/> without an Error-level log, since
-        /// an Error log carrying the exception is recorded as an AppInsights
-        /// exception (see cloud #201).
+        /// an Error log carrying the exception can be surfaced as exception
+        /// telemetry.
         /// </summary>
         protected static void AssertNoErrorLevelLog()
         {

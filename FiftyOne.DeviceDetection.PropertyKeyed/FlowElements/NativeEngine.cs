@@ -54,11 +54,11 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
                 return true;
             }
 
-            // A malformed NativeModel is caller input, not a server fault, so
-            // it must not be logged at Error level - that path records it as an
-            // AppInsights exception (see cloud #201). Surface it through
-            // FlowData.Errors only: shouldLog: false suppresses the Error log
-            // while the error still reaches the response's errors array.
+            // A malformed NativeModel is caller input, not a server fault.
+            // Register it via FlowData.Errors without logging at Error level:
+            // the 2-arg overload defaults shouldLog to true, which logs the
+            // exception and can surface it as exception telemetry - noise for
+            // a client error.
             data.AddError(
                 new ArgumentException(string.Format(
                     Messages.IncorrectNativeEvidence,

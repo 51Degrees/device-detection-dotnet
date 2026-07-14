@@ -48,7 +48,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
     /// Minimal <see cref="ILoggerProvider"/> that records every log call so a
     /// test can assert on the level and exception that were logged. Used to
     /// verify that client-caused validation errors are not logged at Error
-    /// level (which would be recorded as an AppInsights exception).
+    /// level (which could be surfaced as exception telemetry).
     /// </summary>
     public sealed class CapturingLoggerProvider : ILoggerProvider
     {
