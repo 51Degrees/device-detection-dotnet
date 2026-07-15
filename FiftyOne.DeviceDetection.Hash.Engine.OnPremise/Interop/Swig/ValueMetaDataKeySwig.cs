@@ -10,7 +10,7 @@
 
 namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop {
 
-public class ValueMetaDataKeySwig : global::System.IDisposable {
+internal class ValueMetaDataKeySwig : global::System.IDisposable {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   protected bool swigCMemOwn;
 
@@ -57,7 +57,11 @@ public class ValueMetaDataKeySwig : global::System.IDisposable {
     }
   }
 
-  public ValueMetaDataKeySwig(string propertyName, string valueName) : this(DeviceDetectionHashEngineModulePINVOKE.new_ValueMetaDataKeySwig(propertyName, valueName), true) {
+  public ValueMetaDataKeySwig(string propertyName, string valueName) : this(DeviceDetectionHashEngineModulePINVOKE.new_ValueMetaDataKeySwig__SWIG_0(propertyName, valueName), true) {
+    if (DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Pending) throw DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public ValueMetaDataKeySwig(string propertyName, byte[] data, int length) : this(DeviceDetectionHashEngineModulePINVOKE.new_ValueMetaDataKeySwig__SWIG_1(propertyName, data, length), true) {
     if (DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Pending) throw DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Retrieve();
   }
 

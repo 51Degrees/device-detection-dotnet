@@ -10,7 +10,7 @@
 
 namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop {
 
-public class ResultsDeviceDetectionSwig : ResultsBaseSwig {
+internal class ResultsDeviceDetectionSwig : ResultsBaseSwig {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
 
   internal ResultsDeviceDetectionSwig(global::System.IntPtr cPtr, bool cMemoryOwn) : base(DeviceDetectionHashEngineModulePINVOKE.ResultsDeviceDetectionSwig_SWIGUpcast(cPtr), cMemoryOwn) {
