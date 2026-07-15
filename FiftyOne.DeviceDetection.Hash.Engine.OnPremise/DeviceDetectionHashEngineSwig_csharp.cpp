@@ -365,6 +365,9 @@ template <typename T> T SwigValueInit() {
 #endif
 
 
+#include <cstring>
+
+
 #include "device-detection-cxx/src/hash/EngineHash.hpp"
 #include "device-detection-cxx/src/hash/ResultsHashSerializer.hpp"
 #include "device-detection-cxx/src/Transform.hpp"
@@ -710,6 +713,71 @@ SWIGINTERN bool std_vector_Sl_uint8_t_Sg__Remove(std::vector< uint8_t > *self,un
         }
         return false;
       }
+SWIGINTERN bool ResultsHash_tryGetBool(ResultsHash *self,char const *propertyName,bool *fastValue){
+        *fastValue = false;
+        if (self == NULL) { return false; }
+        try {
+            Value<bool> value =
+                self->getValueAsBool(propertyName);
+            if (value.hasValue()) {
+                *fastValue = value.getValue();
+                return true;
+            }
+        }
+        catch (...) {
+        }
+        return false;
+    }
+SWIGINTERN bool ResultsHash_tryGetInt(ResultsHash *self,char const *propertyName,int *fastValue){
+        *fastValue = 0;
+        if (self == NULL) { return false; }
+        try {
+            Value<int> value =
+                self->getValueAsInteger(propertyName);
+            if (value.hasValue()) {
+                *fastValue = value.getValue();
+                return true;
+            }
+        }
+        catch (...) {
+        }
+        return false;
+    }
+SWIGINTERN bool ResultsHash_tryGetDouble(ResultsHash *self,char const *propertyName,double *fastValue){
+        *fastValue = 0.0;
+        if (self == NULL) { return false; }
+        try {
+            Value<double> value =
+                self->getValueAsDouble(propertyName);
+            if (value.hasValue()) {
+                *fastValue = value.getValue();
+                return true;
+            }
+        }
+        catch (...) {
+        }
+        return false;
+    }
+SWIGINTERN bool ResultsHash_tryGetString(ResultsHash *self,char const *propertyName,unsigned char *buffer,int bufferLength,int *needed){
+        *needed = 0;
+        if (self == NULL) { return false; }
+        try {
+            Value<std::string> value =
+                self->getValueAsString(propertyName);
+            if (value.hasValue()) {
+                std::string s = value.getValue();
+                int length = (int)s.length();
+                *needed = length;
+                if (buffer != NULL && length < bufferLength) {
+                    memcpy(buffer, s.c_str(), (size_t)length);
+                }
+                return true;
+            }
+        }
+        catch (...) {
+        }
+        return false;
+    }
 
 #ifdef __cplusplus
 extern "C" {
@@ -13496,6 +13564,77 @@ SWIGEXPORT int SWIGSTDCALL CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremise
     }
   }
   jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_ResultsHashSwig_tryGetBool___(void * jarg1, char * jarg2, unsigned int * jarg3) {
+  unsigned int jresult ;
+  ResultsHash *arg1 = (ResultsHash *) 0 ;
+  char *arg2 = (char *) 0 ;
+  bool *arg3 = (bool *) 0 ;
+  bool result;
+  
+  arg1 = (ResultsHash *)jarg1; 
+  arg2 = (char *)jarg2; 
+  *jarg3 = 0; 
+  arg3 = (bool *)jarg3; 
+  result = (bool)ResultsHash_tryGetBool(arg1,(char const *)arg2,arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_ResultsHashSwig_tryGetInt___(void * jarg1, char * jarg2, int * jarg3) {
+  unsigned int jresult ;
+  ResultsHash *arg1 = (ResultsHash *) 0 ;
+  char *arg2 = (char *) 0 ;
+  int *arg3 = (int *) 0 ;
+  bool result;
+  
+  arg1 = (ResultsHash *)jarg1; 
+  arg2 = (char *)jarg2; 
+  arg3 = (int *)jarg3; 
+  result = (bool)ResultsHash_tryGetInt(arg1,(char const *)arg2,arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_ResultsHashSwig_tryGetDouble___(void * jarg1, char * jarg2, double * jarg3) {
+  unsigned int jresult ;
+  ResultsHash *arg1 = (ResultsHash *) 0 ;
+  char *arg2 = (char *) 0 ;
+  double *arg3 = (double *) 0 ;
+  bool result;
+  
+  arg1 = (ResultsHash *)jarg1; 
+  arg2 = (char *)jarg2; 
+  arg3 = (double *)jarg3; 
+  result = (bool)ResultsHash_tryGetDouble(arg1,(char const *)arg2,arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_ResultsHashSwig_tryGetString___(void * jarg1, char * jarg2, unsigned char* jarg3, int jarg4, int * jarg5) {
+  unsigned int jresult ;
+  ResultsHash *arg1 = (ResultsHash *) 0 ;
+  char *arg2 = (char *) 0 ;
+  unsigned char *arg3 = (unsigned char *) 0 ;
+  int arg4 ;
+  int *arg5 = (int *) 0 ;
+  bool result;
+  
+  arg1 = (ResultsHash *)jarg1; 
+  arg2 = (char *)jarg2; 
+  arg3 = jarg3;
+  arg4 = (int)jarg4; 
+  arg5 = (int *)jarg5; 
+  result = (bool)ResultsHash_tryGetString(arg1,(char const *)arg2,arg3,arg4,arg5);
+  jresult = result; 
+  
+  
   return jresult;
 }
 

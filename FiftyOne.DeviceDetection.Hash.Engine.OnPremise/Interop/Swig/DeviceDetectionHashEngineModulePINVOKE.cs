@@ -907,6 +907,18 @@ class DeviceDetectionHashEngineModulePINVOKE {
   [global::System.Runtime.InteropServices.DllImport("FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll", EntryPoint="CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_ResultsHashSwig_getUserAgents___")]
   public static extern int ResultsHashSwig_getUserAgents(global::System.Runtime.InteropServices.HandleRef jarg1);
 
+  [global::System.Runtime.InteropServices.DllImport("FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll", EntryPoint="CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_ResultsHashSwig_tryGetBool___")]
+  public static extern bool ResultsHashSwig_tryGetBool(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, out bool jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll", EntryPoint="CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_ResultsHashSwig_tryGetInt___")]
+  public static extern bool ResultsHashSwig_tryGetInt(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, out int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll", EntryPoint="CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_ResultsHashSwig_tryGetDouble___")]
+  public static extern bool ResultsHashSwig_tryGetDouble(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, out double jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll", EntryPoint="CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_ResultsHashSwig_tryGetString___")]
+  public static extern bool ResultsHashSwig_tryGetString(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, [global::System.Runtime.InteropServices.Out, global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPArray)]byte[] jarg3, int jarg4, out int jarg5);
+
   [global::System.Runtime.InteropServices.DllImport("FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll", EntryPoint="CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_new_CollectionConfigSwig___")]
   public static extern global::System.IntPtr new_CollectionConfigSwig();
 
