@@ -605,6 +605,14 @@ namespace FiftyOne.DeviceDetection
 		/// </summary>
 		IAspectPropertyValue<bool> IsTv { get; }
 		/// <summary>
+		/// Indicates whether the device is likely to be a genuine iPhone based on interrogation by JavaScript contained in the JavaScriptHardwareProfile property.
+		/// </summary>
+		IAspectPropertyValue<string> IsVerifiediPhone { get; }
+		/// <summary>
+		/// JavaScript which overrides the IsVerifiediPhone property to report whether an iPhone is genuine. This is only used where the device is presenting as an iPhone with the evidence provided. Requires JavascriptHardwareProfile property.
+		/// </summary>
+		IAspectPropertyValue<JavaScript> IsVerifiediPhoneJavaScript { get; }
+		/// <summary>
 		/// Indicates if the browser or app is being used to access a web page through a WebView.
 		/// </summary>
 		IAspectPropertyValue<bool> IsWebApp { get; }
