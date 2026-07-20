@@ -210,6 +210,8 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "IsSmartWatch", typeof(IAspectPropertyValue<bool>) },
 				{ "IsTablet", typeof(IAspectPropertyValue<bool>) },
 				{ "IsTv", typeof(IAspectPropertyValue<bool>) },
+				{ "IsVerifiediPhone", typeof(IAspectPropertyValue<string>) },
+				{ "IsVerifiediPhoneJavaScript", typeof(IAspectPropertyValue<JavaScript>) },
 				{ "IsWebApp", typeof(IAspectPropertyValue<bool>) },
 				{ "Iterations", typeof(IAspectPropertyValue<int>) },
 				{ "Javascript", typeof(IAspectPropertyValue<bool>) },
@@ -923,6 +925,14 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// Indicates if the device is a TV running on a smart operating system e.g. Android.
 		/// </summary>
 		public IAspectPropertyValue<bool> IsTv { get { return GetAs<IAspectPropertyValue<bool>>("IsTv"); } }
+		/// <summary>
+		/// Indicates whether the device is likely to be a genuine iPhone based on interrogation by JavaScript contained in the JavaScriptHardwareProfile property.
+		/// </summary>
+		public IAspectPropertyValue<string> IsVerifiediPhone { get { return GetAs<IAspectPropertyValue<string>>("IsVerifiediPhone"); } }
+		/// <summary>
+		/// JavaScript which overrides the IsVerifiediPhone property to report whether an iPhone is genuine. This is only used where the device is presenting as an iPhone with the evidence provided. Requires JavascriptHardwareProfile property.
+		/// </summary>
+		public IAspectPropertyValue<JavaScript> IsVerifiediPhoneJavaScript { get { return GetAs<IAspectPropertyValue<JavaScript>>("IsVerifiediPhoneJavaScript"); } }
 		/// <summary>
 		/// Indicates if the browser or app is being used to access a web page through a WebView.
 		/// </summary>
