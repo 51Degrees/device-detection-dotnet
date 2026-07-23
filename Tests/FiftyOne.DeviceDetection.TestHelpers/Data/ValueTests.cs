@@ -54,7 +54,19 @@ namespace FiftyOne.DeviceDetection.TestHelpers.Data
                         .Process();
                 var elementData = data.Get(wrapper.GetEngine().ElementDataKey);
                 IDeviceData device = (IDeviceData)elementData;
-                Assert.HasCount(1, device.UserAgents.Value);
+                // Since the detection result shape was unified in
+                // device-detection-cxx (issue #362), a single User-Agent
+                // produces one result - and so one matched User-Agent - per
+                // component the engine populates, rather than exactly one
+                // overall. The number depends on the data file, so assert the
+                // bound and validate every matched substring below.
+                Assert.IsNotEmpty(device.UserAgents.Value,
+                    "At least one matched User-Agent should be returned.");
+                Assert.IsLessThanOrEqualTo(
+                    wrapper.Components.Count(),
+                    device.UserAgents.Value.Count(),
+                    "There should be no more matched User-Agents than there " +
+                    "are components populated by the engine.");
                 foreach (var matchedUa in device.UserAgents.Value)
                 {
                     foreach (var substring in matchedUa.Split('_', '{', '}'))
