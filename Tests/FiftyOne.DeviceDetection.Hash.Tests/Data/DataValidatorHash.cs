@@ -76,14 +76,20 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Data
                         } else
                         {
                             // A User-Agent was supplied but nothing matched.
-                            // Since device-detection-cxx #362 removed the
-                            // single-User-Agent fast path, detection no longer
-                            // produces one coalesced result for this case, so
-                            // no result is selected for the property and the
-                            // reason reported is NO_RESULT_FOR_PROPERTY rather
-                            // than NO_MATCHED_NODES.
-                            Assert.AreEqual("None of the results contain a " +
-                                "value for the requested property.",
+                            // device-detection-cxx #387 restores the null-profile
+                            // no-value reason for this case (a component with only
+                            // null profiles), so the message again points the
+                            // caller at lenient matching rather than the generic
+                            // "no result for property". The documentation URL may
+                            // have tracking query parameters (e.g. utm_*) appended
+                            // to it by the data file, so only check the message up
+                            // to and including the base URL rather than an exact
+                            // match.
+                            Assert.StartsWith("No matching profiles could be " +
+                                "found for the supplied evidence. A 'best " +
+                                "guess' can be returned by configuring more " +
+                                "lenient matching rules. See " +
+                                "https://51degrees.com/documentation/_device_detection__features__false_positive_control.html",
                                 value.NoValueMessage);
                         }
                     }
