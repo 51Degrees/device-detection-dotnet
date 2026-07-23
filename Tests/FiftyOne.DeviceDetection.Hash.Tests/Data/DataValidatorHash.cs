@@ -75,15 +75,15 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Data
                                 " 'header.user-agent'.", value.NoValueMessage);
                         } else
                         {
-                            // The documentation URL may have tracking query
-                            // parameters (e.g. utm_*) appended to it by the
-                            // data file, so only check the message up to and
-                            // including the base URL rather than an exact match.
-                            Assert.StartsWith("No matching profiles could be " +
-                                "found for the supplied evidence. A 'best " +
-                                "guess' can be returned by configuring more " +
-                                "lenient matching rules. See " +
-                                "https://51degrees.com/documentation/_device_detection__features__false_positive_control.html",
+                            // A User-Agent was supplied but nothing matched.
+                            // Since device-detection-cxx #362 removed the
+                            // single-User-Agent fast path, detection no longer
+                            // produces one coalesced result for this case, so
+                            // no result is selected for the property and the
+                            // reason reported is NO_RESULT_FOR_PROPERTY rather
+                            // than NO_MATCHED_NODES.
+                            Assert.AreEqual("None of the results contain a " +
+                                "value for the requested property.",
                                 value.NoValueMessage);
                         }
                     }
@@ -95,9 +95,25 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Data
                 Assert.AreEqual("0-0-0-0", elementData.DeviceId.Value);
             }
 
-            var validKeys = data.GetEvidence().AsDictionary().Keys.Where(
-                k => _engine.EvidenceKeyFilter.Include(k)).Count();
-            Assert.HasCount(validKeys, elementData.UserAgents.Value);
+            // Since the detection result shape was unified in
+            // device-detection-cxx (issue #362), the number of results - and
+            // therefore the number of matched User-Agents - is determined by
+            // the components the engine can populate, not by how many evidence
+            // keys were supplied. Supplying redundant evidence no longer
+            // changes it. The exact number depends on which components the data
+            // file makes available, so assert the bound rather than a fixed
+            // value, and that valid evidence produces at least one result.
+            var matchedUserAgents = elementData.UserAgents.Value;
+            Assert.IsLessThanOrEqualTo(
+                _engine.Components.Count(),
+                matchedUserAgents.Count(),
+                "There should be no more matched User-Agents than there are " +
+                "components populated by the engine.");
+            if (validEvidence)
+            {
+                Assert.IsNotEmpty(matchedUserAgents,
+                    "Valid evidence should produce at least one result.");
+            }
         }
 
         public void ValidateProfileIds(IFlowData data, string[] profileIds)
