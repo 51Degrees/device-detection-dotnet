@@ -76,14 +76,21 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.Data
                         } else
                         {
                             // A User-Agent was supplied but nothing matched.
-                            // Since device-detection-cxx #362 removed the
-                            // single-User-Agent fast path, detection no longer
-                            // produces one coalesced result for this case, so
-                            // no result is selected for the property and the
-                            // reason reported is NO_RESULT_FOR_PROPERTY rather
-                            // than NO_MATCHED_NODES.
-                            Assert.AreEqual("None of the results contain a " +
-                                "value for the requested property.",
+                            // device-detection-cxx #362 unified the result
+                            // shape, and its follow-up #387 restored the
+                            // NULL_PROFILE no-value reason for a component with
+                            // no matched profile, so the informative "no
+                            // matching profiles" message (which points callers
+                            // at lenient matching) is reported again.
+                            // The documentation URL may have tracking query
+                            // parameters (e.g. utm_*) appended to it by the
+                            // data file, so only check the message up to and
+                            // including the base URL rather than an exact match.
+                            Assert.StartsWith("No matching profiles could be " +
+                                "found for the supplied evidence. A 'best " +
+                                "guess' can be returned by configuring more " +
+                                "lenient matching rules. See " +
+                                "https://51degrees.com/documentation/_device_detection__features__false_positive_control.html",
                                 value.NoValueMessage);
                         }
                     }
