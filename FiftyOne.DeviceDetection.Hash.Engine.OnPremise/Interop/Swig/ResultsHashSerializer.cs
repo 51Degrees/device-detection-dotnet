@@ -10,7 +10,7 @@
 
 namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop {
 
-public class ResultsHashSerializer : global::System.IDisposable {
+internal class ResultsHashSerializer : global::System.IDisposable {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   protected bool swigCMemOwn;
 

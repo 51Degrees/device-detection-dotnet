@@ -10,7 +10,7 @@
 
 namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop {
 
-public class Transform : global::System.IDisposable {
+internal class Transform : global::System.IDisposable {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   protected bool swigCMemOwn;
 

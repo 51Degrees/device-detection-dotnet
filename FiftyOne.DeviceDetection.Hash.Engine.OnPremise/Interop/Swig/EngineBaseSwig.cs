@@ -10,7 +10,7 @@
 
 namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop {
 
-public class EngineBaseSwig : global::System.IDisposable {
+internal class EngineBaseSwig : global::System.IDisposable {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   protected bool swigCMemOwn;
 

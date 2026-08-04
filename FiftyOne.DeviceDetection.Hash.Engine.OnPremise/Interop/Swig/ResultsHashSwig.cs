@@ -10,7 +10,7 @@
 
 namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Interop {
 
-public class ResultsHashSwig : ResultsDeviceDetectionSwig {
+internal class ResultsHashSwig : ResultsDeviceDetectionSwig {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
 
   internal ResultsHashSwig(global::System.IntPtr cPtr, bool cMemoryOwn) : base(DeviceDetectionHashEngineModulePINVOKE.ResultsHashSwig_SWIGUpcast(cPtr), cMemoryOwn) {
@@ -122,6 +122,26 @@ public class ResultsHashSwig : ResultsDeviceDetectionSwig {
   public override int getUserAgents() {
     int ret = DeviceDetectionHashEngineModulePINVOKE.ResultsHashSwig_getUserAgents(swigCPtr);
     if (DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Pending) throw DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public bool tryGetBool(string propertyName, out bool fastValue) {
+    bool ret = DeviceDetectionHashEngineModulePINVOKE.ResultsHashSwig_tryGetBool(swigCPtr, propertyName, out fastValue);
+    return ret;
+  }
+
+  public bool tryGetInt(string propertyName, out int fastValue) {
+    bool ret = DeviceDetectionHashEngineModulePINVOKE.ResultsHashSwig_tryGetInt(swigCPtr, propertyName, out fastValue);
+    return ret;
+  }
+
+  public bool tryGetDouble(string propertyName, out double fastValue) {
+    bool ret = DeviceDetectionHashEngineModulePINVOKE.ResultsHashSwig_tryGetDouble(swigCPtr, propertyName, out fastValue);
+    return ret;
+  }
+
+  public bool tryGetString(string propertyName, byte[] buffer, int bufferLength, out int needed) {
+    bool ret = DeviceDetectionHashEngineModulePINVOKE.ResultsHashSwig_tryGetString(swigCPtr, propertyName, buffer, bufferLength, out needed);
     return ret;
   }
 

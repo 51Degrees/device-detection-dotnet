@@ -4,8 +4,6 @@
 %include "arrays_csharp.i"
 %apply unsigned char INPUT[] {unsigned char data[]}
 
-%include "./device-detection-cxx/src/hash/hash.i";
-
 // -----------------------------------------------------------------------------
 // Fix #4 (issue #524): flattened "by value" scalar property accessors.
 //
@@ -14,23 +12,110 @@
 // several P/Invokes and heap allocations per property read, which dominate the
 // managed cost of a detection.
 //
-// The accessors below return the value plus its has-value flag in one call with
-// no wrapper object. They are CURRENTLY IMPLEMENTED as a small hand-written
-// translation unit (DeviceDetectionFastValues.cpp) + managed P/Invokes in
-// ResultsSwigWrapper, because the checked-in SWIG bindings are ~21 months behind
-// the device-detection-cxx submodule and regenerating would pull in a large,
-// unrelated binding refresh (see _docs/swig-marshaling-524). The regen is tracked
-// in issue #823.
+// The %extend below adds tryGet* methods to ResultsHashSwig that return the
+// value plus its has-value flag in one call with no wrapper object. They were
+// first shipped (PR #822) as a hand-written translation unit plus manual
+// P/Invokes because the checked-in bindings were then ~21 months stale and a
+// regen was out of scope. That regen has now landed (issue #823), so the fast
+// paths are SWIG-generated and regen-safe. See DeviceDataHash for the managed
+// slow-path fallback that recovers the no-value message.
 //
-// WHEN THE BINDINGS ARE NEXT REGENERATED, replace the hand-written .cpp and the
-// managed P/Invokes with the %extend below (uncomment it), so the fast paths are
-// SWIG-generated and regen-safe:
-//
-// %extend FiftyoneDegrees::DeviceDetection::Hash::ResultsHash {
-//     bool tryGetBool(const char* name, bool* OUTPUT) { /* getValueAsBool -> hasValue/value */ }
-//     bool tryGetInt(const char* name, int* OUTPUT) { /* getValueAsInteger */ }
-//     bool tryGetDouble(const char* name, double* OUTPUT) { /* getValueAsDouble */ }
-//     // string: return the value into a caller buffer, or use %csmethodmodifiers
-//     //         with an out string typemap.
-// }
+// Semantics (kept identical to the hand-written version):
+// - a disposed managed proxy passes a null pointer: report no-value and let the
+//   managed slow-path fallback raise the usual exception. catch(...) would not
+//   catch the access violation a null deref causes, hence the explicit guard.
+// - any native exception maps to no-value, the slow path then surfaces it.
+// - string: the value's byte length is always reported via needed. The bytes
+//   are copied into buffer only when they fit (needed < bufferLength).
+//   Too-long values leave buffer untouched and the caller falls back to the
+//   slow path for the full value.
 // -----------------------------------------------------------------------------
+%include "typemaps.i"
+
+%apply bool *OUTPUT { bool *fastValue };
+%apply int *OUTPUT { int *fastValue };
+%apply double *OUTPUT { double *fastValue };
+%apply int *OUTPUT { int *needed };
+%apply unsigned char OUTPUT[] { unsigned char *buffer };
+
+%{
+#include <cstring>
+%}
+
+// Note: the class is extended by its SWIG-side name (the .i files redeclare
+// ResultsHash in the global namespace); the generated C++ resolves it via the
+// using-namespace directives hash.i injects.
+%extend ResultsHash {
+
+    bool tryGetBool(const char *propertyName, bool *fastValue) {
+        *fastValue = false;
+        if (self == NULL) { return false; }
+        try {
+            Value<bool> value =
+                self->getValueAsBool(propertyName);
+            if (value.hasValue()) {
+                *fastValue = value.getValue();
+                return true;
+            }
+        }
+        catch (...) {
+        }
+        return false;
+    }
+
+    bool tryGetInt(const char *propertyName, int *fastValue) {
+        *fastValue = 0;
+        if (self == NULL) { return false; }
+        try {
+            Value<int> value =
+                self->getValueAsInteger(propertyName);
+            if (value.hasValue()) {
+                *fastValue = value.getValue();
+                return true;
+            }
+        }
+        catch (...) {
+        }
+        return false;
+    }
+
+    bool tryGetDouble(const char *propertyName, double *fastValue) {
+        *fastValue = 0.0;
+        if (self == NULL) { return false; }
+        try {
+            Value<double> value =
+                self->getValueAsDouble(propertyName);
+            if (value.hasValue()) {
+                *fastValue = value.getValue();
+                return true;
+            }
+        }
+        catch (...) {
+        }
+        return false;
+    }
+
+    bool tryGetString(const char *propertyName, unsigned char *buffer,
+        int bufferLength, int *needed) {
+        *needed = 0;
+        if (self == NULL) { return false; }
+        try {
+            Value<std::string> value =
+                self->getValueAsString(propertyName);
+            if (value.hasValue()) {
+                std::string s = value.getValue();
+                int length = (int)s.length();
+                *needed = length;
+                if (buffer != NULL && length < bufferLength) {
+                    memcpy(buffer, s.c_str(), (size_t)length);
+                }
+                return true;
+            }
+        }
+        catch (...) {
+        }
+        return false;
+    }
+}
+
+%include "./device-detection-cxx/src/hash/hash.i";
