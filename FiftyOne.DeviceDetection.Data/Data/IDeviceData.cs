@@ -43,6 +43,11 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the browser supports 'window.requestAnimationFrame()' method.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/animation-timing/">http://www.w3.org/TR/animation-timing/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> AnimationTiming { get; }
 		/// <summary>
 		/// Indicates the resolution of the device's back camera in megapixels. For a device that has a rotating camera the same value is returned for front and back megapixels properties.
@@ -59,6 +64,11 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the browser fully supports BlobBuilder, containing a BlobBuilder interface, a FileSaver interface, a FileWriter interface, and a FileWriterSync interface.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://dev.w3.org/2009/dap/file-system/file-writer.html#the-blobbuilder-interface">http://dev.w3.org/2009/dap/file-system/file-writer.html#the-blobbuilder-interface</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> BlobBuilder { get; }
 		/// <summary>
 		/// Refers to the list of audio codecs in specific formats supported for Decode by the Web Browser. This list of codecs is supported for playback on a basic browser installation.
@@ -91,6 +101,11 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates the name of the browser. Many mobile browsers, by default, come with an operating system (OS). Unless specifically named, these browsers are named after the accompanying OS and/or the layout engine. 
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://en.wikipedia.org/wiki/Web_browser">http://en.wikipedia.org/wiki/Web_browser</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<string> BrowserName { get; }
 		/// <summary>
 		/// Indicates the age in months of the browser since the BrowserPreviewYear and BrowserPreviewMonth.
@@ -135,10 +150,20 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates the name of the company which created the browser.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://reference.sitepoint.com/css/vendorspecific">http://reference.sitepoint.com/css/vendorspecific</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<string> BrowserVendor { get; }
 		/// <summary>
 		/// Indicates the version or subversion of the browser.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.webdevelopersnotes.com/how-do-i/check-browser-version.php">http://www.webdevelopersnotes.com/how-do-i/check-browser-version.php</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<string> BrowserVersion { get; }
 		/// <summary>
 		/// Refers to the list of video codecs in specific formats supported for Decode by the Web Browser. This list of codecs is supported for playback on a basic browser installation.
@@ -155,14 +180,29 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the browser supports the canvas element, useful for drawing graphics via scripting (usually JavaScript).
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html">http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> Canvas { get; }
 		/// <summary>
 		/// Stands for Composite Capability/Preference Profiles.  Refers to the list of MIME types supported by the operating system. The list does not include MIME types that are only enabled through the use of 3rd party applications.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://en.wikipedia.org/wiki/Composite_Capability/Preference_Profiles">http://en.wikipedia.org/wiki/Composite_Capability/Preference_Profiles</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<IReadOnlyList<string>> CcppAccept { get; }
 		/// <summary>
 		/// Indicates which version of the Connected Limited Device Configuration the device supports for use with Java ME.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://java.sun.com/products/cldc/">http://java.sun.com/products/cldc/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<double> CLDC { get; }
 		/// <summary>
 		/// Indicates the contrast ratio of the device.
@@ -171,6 +211,11 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the browser supports http Cookies. However, the user may have disabled Cookies in their own configuration. Where data cannot be validated, it is assumed that the browser supports cookies.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://en.wikipedia.org/wiki/HTTP_cookie">http://en.wikipedia.org/wiki/HTTP_cookie</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> CookiesCapable { get; }
 		/// <summary>
 		/// Indicates the official name of the CPU within the SoC, e.g. ARM Cortex A9 or Krait (Qualcomm).
@@ -207,30 +252,65 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the browser supports CSS3 background properties (such as background-image, background-color, etc.) that allow styling of the border and the background of an object, and create a shadow effect.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/css3-background/">http://www.w3.org/TR/css3-background/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> CssBackground { get; }
 		/// <summary>
 		/// Indicates if the browser supports border images, allowing decoration of the border around an object.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/css3-background/">http://www.w3.org/TR/css3-background/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> CssBorderImage { get; }
 		/// <summary>
 		/// Indicates if the browser can draw CSS images into a Canvas.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.webkit.org/blog/176/css-canvas-drawing/">http://www.webkit.org/blog/176/css-canvas-drawing/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> CssCanvas { get; }
 		/// <summary>
 		/// Indicates if the browser supports CSS3 Color, allowing author control of the foreground colour and opacity of an element.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/css3-color/">http://www.w3.org/TR/css3-color/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> CssColor { get; }
 		/// <summary>
 		/// Indicates if the browser supports CSS3 columns for setting column- width and column-count.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3schools.com/css3/css3_multiple_columns.asp">http://www.w3schools.com/css3/css3_multiple_columns.asp</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> CssColumn { get; }
 		/// <summary>
 		/// Indicates if the browser supports flexbox, allowing the automatic reordering of elements on the page when accessed from devices with different screen sizes.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/css3-flexbox/">http://www.w3.org/TR/css3-flexbox/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> CssFlexbox { get; }
 		/// <summary>
 		/// Indicates if the browser supports CSS3 fonts, including non-standard fonts, e.g. @font-face.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/css3-fonts/">http://www.w3.org/TR/css3-fonts/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> CssFont { get; }
 		/// <summary>
 		/// Indicates if the browser supports all CSS grid properties.
@@ -239,38 +319,83 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the browser supports CSS3 images, allowing for fall-back images, gradients and other effects.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://dev.w3.org/csswg/css3-images/">http://dev.w3.org/csswg/css3-images/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> CssImages { get; }
 		/// <summary>
 		/// Indicates if the browser supports MediaQueries for dynamic CSS that uses the @media rule.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/css3-mediaqueries/">http://www.w3.org/TR/css3-mediaqueries/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> CssMediaQueries { get; }
 		/// <summary>
 		/// Indicates if the browser supports the CSS 'min-width' and 'max-width' element.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/CSS21/visudet.html#min-max-widths">http://www.w3.org/TR/CSS21/visudet.html#min-max-widths</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> CssMinMax { get; }
 		/// <summary>
 		/// Indicates if the browser supports overflowing of clipped blocks.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/CSS2/visufx.html">http://www.w3.org/TR/CSS2/visufx.html</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> CssOverflow { get; }
 		/// <summary>
 		/// Indicates if the browser supports CSS position, allowing for different box placement algorithms, e.g. static, relative, absolute, fixed and initial.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/CSS21/visuren.html#choose-position">http://www.w3.org/TR/CSS21/visuren.html#choose-position</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> CssPosition { get; }
 		/// <summary>
 		/// Indicates if the browser supports all CSS3 text features including: text-overflow, word-wrap and word-break.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/css3-text/">http://www.w3.org/TR/css3-text/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> CssText { get; }
 		/// <summary>
 		/// Indicates if the browser supports 2D transformations in CSS3 including rotating, scaling, etc. This property includes support for both transform and transform-origin properties.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/css3-2d-transforms/">http://www.w3.org/TR/css3-2d-transforms/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> CssTransforms { get; }
 		/// <summary>
 		/// Indicates if the browser supports CSS3 transitions elements, used for animating changes to properties.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3schools.com/css3/css3_transitions.asp">http://www.w3schools.com/css3/css3_transitions.asp</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> CssTransitions { get; }
 		/// <summary>
 		/// Indicates if the browser supports CSS UI stylings, including text-overflow, css3-boxsizing and pointer properties.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/css3-ui/">http://www.w3.org/TR/css3-ui/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> CssUI { get; }
 		/// <summary>
 		/// Indicates if the browser has the ability to embed custom data attributes on all HTML elements using the 'data-' prefix.
@@ -279,6 +404,11 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the browser allows encoded data to be contained in a URL.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.ietf.org/rfc/rfc2397">http://www.ietf.org/rfc/rfc2397</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> DataUrl { get; }
 		/// <summary>
 		/// Indicates which app stores are available on the device and come pre-installed by the manufacturer.
@@ -295,6 +425,11 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the browser supports DOM events for device orientation, e.g. 'deviceorientation', 'devicemotion' and 'compassneedscalibration'.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/orientation-event/">http://www.w3.org/TR/orientation-event/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> DeviceOrientation { get; }
 		/// <summary>
 		/// Indicates the maximum volatile RAM capacity of the device in megabytes (MB). Where a device has different RAM capacity options, the largest option available is returned.
@@ -343,18 +478,38 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the browser supports file reading with events to show progress and errors.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/FileAPI/">http://www.w3.org/TR/FileAPI/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> FileReader { get; }
 		/// <summary>
 		/// Indicates if the browser allows Blobs to be saved to client machines with events to show progress and errors. The End-User may opt to decline these files.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/file-writer-api/#idl-def-FileSaver">http://www.w3.org/TR/file-writer-api/#idl-def-FileSaver</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> FileSaver { get; }
 		/// <summary>
 		/// Indicates if the browser allows files to be saved to client machines with events to show progress and errors. The End-User may opt to decline these files.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/file-writer-api/">http://www.w3.org/TR/file-writer-api/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> FileWriter { get; }
 		/// <summary>
 		/// Indicates if the browser supports the 'FormData' object. This property also refers to XMLHttpRequest. If the browser supports 'xhr2', the 'FormData' element will be also supported. 
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/XMLHttpRequest/#interface-formdata">http://www.w3.org/TR/XMLHttpRequest/#interface-formdata</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> FormData { get; }
 		/// <summary>
 		/// Indicates the list of frequency bands supported by the device.
@@ -367,10 +522,20 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the browser supports requests from a video or canvas element to be displayed in full-screen mode.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html">http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> Fullscreen { get; }
 		/// <summary>
 		/// Indicates if the browser supports a feature to acquire the geographical location. For information on which GeoLoc API the browser supports, refer to another property called JavaScriptPreferredGeoLocApi.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/geolocation-API/">http://www.w3.org/TR/geolocation-API/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> GeoLocation { get; }
 		/// <summary>
 		/// Indicates the official name of the graphical chip within the SoC.
@@ -487,26 +652,56 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the browser stores the session history for a web page that contains the URLs visited by the browser's user.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.whatwg.org/specs/web-apps/current-work/multipage/history.html">http://www.whatwg.org/specs/web-apps/current-work/multipage/history.html</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> History { get; }
 		/// <summary>
 		/// Indicates if the browser is able to use media inputs, e.g. webcam and microphone, in a script and as an input for forms, e.g. '&lt;input type="file" accept="image/*" id="capture"&gt;' would prompt image- capturing software to open.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/html-media-capture/">http://www.w3.org/TR/html-media-capture/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> HtmlMediaCapture { get; }
 		/// <summary>
 		/// Indicates if the browser supports the new markup in HTML 5 that also refers to 'New Semantic Elements' such as <![CDATA[<header>, <nav>, <section>, <aside>,<footer>]]> etc.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/html5/">http://www.w3.org/TR/html5/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> Html5 { get; }
 		/// <summary>
 		/// Lists what audio formats, if any, the browser supports using the HTML5 <![CDATA[<audio>]]> tag.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3schools.com/html5/html5_audio.asp">http://www.w3schools.com/html5/html5_audio.asp</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<IReadOnlyList<string>> Html5Audio { get; }
 		/// <summary>
 		/// Lists what video formats, if any, the browser supports using the HTLM5 <![CDATA[<video>]]> tag.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3schools.com/html5/html5_video.asp">http://www.w3schools.com/html5/html5_video.asp</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<IReadOnlyList<string>> Html5Video { get; }
 		/// <summary>
 		/// Refers to the latest version of HyperText Markup Language (HTML) supported by the browser.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3schools.com/w3c/w3c_html.asp">http://www.w3schools.com/w3c/w3c_html.asp</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<double> HtmlVersion { get; }
 		/// <summary>
 		/// Indicates if the browser supports HTTP version 2.
@@ -519,10 +714,20 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the browser supports the 'Iframe' element, used to embed another document within a current HTML document.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://dev.w3.org/html5/spec/the-iframe-element.html#the-iframe-element">http://dev.w3.org/html5/spec/the-iframe-element.html#the-iframe-element</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> Iframe { get; }
 		/// <summary>
 		/// Indicates if the browser supports an indexed local database.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/IndexedDB/">http://www.w3.org/TR/IndexedDB/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> IndexedDB { get; }
 		/// <summary>
 		/// Indicates the internal persistent storage (ROM capacity) options the device can be supplied with in gigabytes (GB), including the device's Operating System and bundled applications. This could also be referred to as "Electrically Erasable Programmable Read-Only Memory (EEPROM)" or "Non Volatile Random Access Memory (NVRAM)". If no variants are found, then the value returned will be the same as "MaxInternalStorage".
@@ -615,6 +820,11 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the browser or app is being used to access a web page through a WebView.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="https://en.wikipedia.org/wiki/WebView">https://en.wikipedia.org/wiki/WebView</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> IsWebApp { get; }
 		/// <summary>
 		/// The number of iterations carried out in order to find a match. This is the number of nodes in the graph which have been visited.
@@ -623,6 +833,11 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the browser supports JavaScript.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3schools.com/js/js_intro.asp">http://www.w3schools.com/js/js_intro.asp</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> Javascript { get; }
 		/// <summary>
 		/// JavaScript that checks for browser specific features and overrides the ProfileID.
@@ -679,18 +894,38 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Refers to the grade of the level the device has with the jQuery Mobile Framework, as posted by jQuery.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://jquerymobile.com/gbs/">http://jquerymobile.com/gbs/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<string> jQueryMobileSupport { get; }
 		/// <summary>
 		/// Indicates if the browser supports the 'JSON' object. This property may need a vendor prefix, e.g. webkit, moz, etc.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://es5.github.com/x15.12.html">http://es5.github.com/x15.12.html</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> Json { get; }
 		/// <summary>
 		/// Refers to the name of the embedded technology the browser uses to display formatted content on the screen.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://en.wikipedia.org/wiki/Web_browser_engine">http://en.wikipedia.org/wiki/Web_browser_engine</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<string> LayoutEngine { get; }
 		/// <summary>
 		/// Indicates if the browser supports the CSS-mask element that allows users to alter the visibility of an item by either partially or fully hiding the item.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.webkit.org/blog/181/css-masks/">http://www.webkit.org/blog/181/css-masks/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> Masking { get; }
 		/// <summary>
 		/// Indicates the number of hash nodes matched within the evidence.
@@ -719,6 +954,11 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the browser supports a meter element that represents a scalar measurement within a known range or fractional value. This property does not indicate whether the browser supports the progress bar indication. For this purpose, the progress property should be used.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/html-markup/meter.html">http://www.w3.org/TR/html-markup/meter.html</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> Meter { get; }
 		/// <summary>
 		/// The method used to determine the match result.
@@ -787,6 +1027,11 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates the name of the operating system the device is using.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://en.wikipedia.org/wiki/List_of_operating_systems">http://en.wikipedia.org/wiki/List_of_operating_systems</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<string> PlatformName { get; }
 		/// <summary>
 		/// Indicates the age in months of the operating system since the PlatformPreviewYear and PlatformPreviewMonth.
@@ -819,10 +1064,20 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates the name of the company that developed the operating system.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://en.wikipedia.org/wiki/Mobile_operating_system">http://en.wikipedia.org/wiki/Mobile_operating_system</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<string> PlatformVendor { get; }
 		/// <summary>
 		/// Indicates the version or subversion of the software platform. Where the PlatformVendor is Apple, the PlatformVersion returned will be the most likely version. It may be different to the value provided in the evidence.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://en.wikipedia.org/wiki/Mobile_operating_system">http://en.wikipedia.org/wiki/Mobile_operating_system</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<string> PlatformVersion { get; }
 		/// <summary>
 		/// Refers to the number of unique client IPs from which this device has been seen.
@@ -831,6 +1086,11 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the browser supports messages between different documents.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/webmessaging/">http://www.w3.org/TR/webmessaging/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> PostMessage { get; }
 		/// <summary>
 		/// Indicates if the browser can prefetch resources without executing them.
@@ -847,6 +1107,11 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the browser supports progress reports, such as with HTTP requests. The progress element can be used to display the progress of the task. This property doesn't represent a scalar measurement. If the browser supports a gauge, the meter property should be used.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/progress-events/">http://www.w3.org/TR/progress-events/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> Progress { get; }
 		/// <summary>
 		/// Indicates the level of support for the Promise object. The Promise object represents the eventual completion (or failure) of an asynchronous operation, and its resulting value.
@@ -855,6 +1120,11 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the browser supports simple dialogues (window.alert, window.confirm and window.prompt).
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/html5/timers.html#user-prompts">http://www.w3.org/TR/html5/timers.html#user-prompts</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> Prompts { get; }
 		/// <summary>
 		/// Indicates the maximum number of frames per second of the output image of the device in Hertz.
@@ -1003,18 +1273,38 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the browser supports the querySelector() method that returns the first element matching a specified CSS selector(s) in the document.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/selectors-api2/">http://www.w3.org/TR/selectors-api2/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> Selector { get; }
 		/// <summary>
 		/// Contains the Accept-CH HTTP header values to add to the HTTP response for the browser component. UACH values Sec-CH-UA, and Sec-CH-UA-Full-Version are relevant. The default value is Unknown if the browser does not fully support UACH.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="https://learnclienthints.com">https://learnclienthints.com</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<string> SetHeaderBrowserAcceptCH { get; }
 		/// <summary>
 		/// Contains the Accept-CH HTTP header values to add to the HTTP response for the hardware component. UACH values Sec-CH-UA-Model, and Sec-CH-UA-Mobile are relevant. The default value is Unknown if the browser does not fully support UACH.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="https://learnclienthints.com">https://learnclienthints.com</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<string> SetHeaderHardwareAcceptCH { get; }
 		/// <summary>
 		/// Contains the Accept-CH HTTP header values to add to the HTTP response for the platform component. UACH values Sec-CH-UA-Platform, and Sec-CH-UA-Platform-Version are relevant. The default value is Unknown if the browser does not fully support UACH.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="https://learnclienthints.com">https://learnclienthints.com</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<string> SetHeaderPlatformAcceptCH { get; }
 		/// <summary>
 		/// Indicates the primary marketing name of the System on Chip (chipset) which includes the CPU, GPU and modem. e.g. Snapdragon S4
@@ -1075,6 +1365,11 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates the list of wireless data technologies supported by the device, including Bluetooth and Wi-Fi. For example, 4G cellular network technologies includes 'LTE' (Long Term Evolution), and 5G technologies includes 'NR' (New Radio). If the device supports phone calls, the SMS value is also returned.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://en.wikipedia.org/wiki/Wireless_Application_Protocol">http://en.wikipedia.org/wiki/Wireless_Application_Protocol</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<IReadOnlyList<string>> SupportedBearers { get; }
 		/// <summary>
 		/// Indicates the highest version of Bluetooth the device supports.
@@ -1083,10 +1378,20 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates the Bluetooth profiles the device supports.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="https://en.wikipedia.org/wiki/List_of_Bluetooth_profiles">https://en.wikipedia.org/wiki/List_of_Bluetooth_profiles</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<IReadOnlyList<string>> SupportedBluetoothProfiles { get; }
 		/// <summary>
 		/// This Property is no longer being supported. Please see Properties, SupportedBluetooth and SupportedBluetoothProfiles for the relevant data.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://en.wikipedia.org/wiki/Bluetooth">http://en.wikipedia.org/wiki/Bluetooth</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<string> SupportedBluetoothVersion { get; }
 		/// <summary>
 		/// Indicates the list of features the device's camera supports.
@@ -1131,6 +1436,11 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the browser supports SVG (scalable vector graphics), useful for 2D animations and applications where all objects within the SVG can be accessed via the DOM and can have assigned event listener elements.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/SVG/">http://www.w3.org/TR/SVG/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> Svg { get; }
 		/// <summary>
 		/// Indicates the Type Allocation Code (TAC) for devices supporting GSM/3GPP networks which come from multiple sources. This property will return 'N/A' if we cannot determine the device TAC authenticy.
@@ -1147,10 +1457,20 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the browser supports the method of registering and interpreting finder (or stylus) activity on touch screens or trackpads.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/touch-events/">http://www.w3.org/TR/touch-events/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> TouchEvents { get; }
 		/// <summary>
 		/// Indicates if the browser supports a method of tracking text being played with media, e.g. subtitles and captions.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-video-element.html#the-track-element">http://www.whatwg.org/specs/web-apps/current-work/multipage/the-video-element.html#the-track-element</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> Track { get; }
 		/// <summary>
 		/// The matched User-Agents.
@@ -1159,10 +1479,20 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the browser supports the 'Video' element for playing videos on web pages without requiring a plug-in.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-video-element.html">http://www.whatwg.org/specs/web-apps/current-work/multipage/the-video-element.html</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> Video { get; }
 		/// <summary>
 		/// Indicates if the browser supports Viewport, to give control over view for different screen sizes and resolutions of devices accessing a website.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/mwabp/#bp-viewport">http://www.w3.org/TR/mwabp/#bp-viewport</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> Viewport { get; }
 		/// <summary>
 		/// Indicates if the browser supports the WebP image format.
@@ -1171,6 +1501,11 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the browser supports background workers in JavaScript.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/workers/">http://www.w3.org/TR/workers/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> WebWorkers { get; }
 		/// <summary>
 		/// Indicates the weight of the device with battery in grams.
@@ -1183,6 +1518,11 @@ namespace FiftyOne.DeviceDetection
 		/// <summary>
 		/// Indicates if the browser supports client-to-server communication with XmlHttpRequests. If the browser supports 'Xhr2' will also support 'DataForm' element. This property may need a vendor prefix, e.g. webkit, moz, etc.
 		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// See <see href="http://www.w3.org/TR/XMLHttpRequest/">http://www.w3.org/TR/XMLHttpRequest/</see> for more information.
+		/// </para>
+		/// </remarks>
 		IAspectPropertyValue<bool> Xhr2 { get; }
 	}
 }
