@@ -113,7 +113,43 @@ Get-ChildItem -Path $ExamplesRepo -Recurse -File -Filter '*.csproj' | ForEach-Ob
 Write-Host "Building Examples Project..."
 & $ExamplesRepo/ci/build-project.ps1 -RepoName $ExamplesRepo -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod
 Write-Host "Testing Examples Project..."
-./dotnet/run-integration-tests.ps1 -RepoName $ExamplesRepo -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod -DirNameFormatForDotnet "*" -DirNameFormatForNotDotnet "*" -Filter ".*\.sln"
+# Run one test assembly at a time. Passing the solution instead made VSTest
+# start a test host per project simultaneously, and the three web example test
+# projects then raced for the fixed Kestrel ports declared in the examples repo
+# (Examples/ExampleBase/Constants.cs: 5101 HTTP, 5001 and 5002 HTTPS). Whichever
+# host bound second failed with EADDRINUSE, which surfaced as a TestCleanup
+# exception on every test in that assembly. See issue #866.
+#
+# FiftyOne.DeviceDetection.Example.Tests.Web holds the shared base classes and
+# declares no tests of its own, so it is excluded - dotnet test reports "No test
+# is available" and exits non-zero for an assembly it finds nothing in.
+#
+# The default DirNameFormat values are kept so that only the build output under
+# 'bin' is considered. Overriding them to '*', as this call used to, also matched
+# the intermediate copy under 'obj' and would run every assembly twice.
+#
+# Trade-off: naming assemblies rather than the solution bypasses MSBuild, so the
+# RunSettingsFilePath that Tests.Cloud and Tests.OnPremise point at
+# (Tests/test.runsettings, MSTest TestTimeout 60s) no longer applies to them; the
+# runner's --blame-hang-timeout of 5m is the remaining guard. common-ci cannot
+# carry it either way today - dotnet/run-unit-tests.ps1 looks for test.runsettings
+# with [IO.Path]::Exists, which resolves against the process directory and not the
+# repository it has pushed into, and dotnet/run-integration-tests.ps1 does not
+# forward -BlameHangTimeout. Both belong in common-ci.
+$exampleTestAssemblies = '.*Example\.Tests\.(?!Web\.dll$).*\.dll$'
+
+# A filter that matches nothing leaves the run green with no tests executed,
+# which is how the Selenium tests went unnoticed until examples PR #920. Fail
+# loudly instead, and record what is about to run.
+$exampleTestAssemblyFiles = Get-ChildItem -Path $ExamplesRepo -Recurse -File |
+    Where-Object { $_.DirectoryName -like '*bin*' -and $_.Name -match $exampleTestAssemblies }
+if (-not $exampleTestAssemblyFiles) {
+    throw "No example test assemblies under '$ExamplesRepo' matched '$exampleTestAssemblies'."
+}
+Write-Host "Example test assemblies to run:"
+$exampleTestAssemblyFiles | ForEach-Object { Write-Host "  $($_.FullName)" }
+
+./dotnet/run-integration-tests.ps1 -RepoName $ExamplesRepo -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod -Filter $exampleTestAssemblies
 
 Copy-Item $ExamplesRepo/test-results $RepoName -Recurse
 
