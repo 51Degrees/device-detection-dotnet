@@ -149,7 +149,21 @@ if (-not $exampleTestAssemblyFiles) {
 Write-Host "Example test assemblies to run:"
 $exampleTestAssemblyFiles | ForEach-Object { Write-Host "  $($_.FullName)" }
 
-./dotnet/run-integration-tests.ps1 -RepoName $ExamplesRepo -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod -Filter $exampleTestAssemblies
+# common-ci's runner is written to keep going after a failing assembly: it records
+# the failure, carries on, and calls Write-Error once the loop is done. The
+# $PSNativeCommandUseErrorActionPreference set at the top of this script is
+# inherited into it though, so the first non-zero dotnet test / vstest.console.exe
+# throws and the remaining assemblies never run. That went unnoticed while the
+# solution was passed as a single invocation; with one invocation per assembly it
+# hides real failures - Windows_x64 stopped after three of the five assemblies in
+# run 33748849603. Turn it off for this call only. The step still fails, because
+# the runner's closing Write-Error is terminating under $ErrorActionPreference.
+$PSNativeCommandUseErrorActionPreference = $false
+try {
+    ./dotnet/run-integration-tests.ps1 -RepoName $ExamplesRepo -Name $Name -Configuration $Configuration -Arch $Arch -BuildMethod $BuildMethod -Filter $exampleTestAssemblies
+} finally {
+    $PSNativeCommandUseErrorActionPreference = $true
+}
 
 Copy-Item $ExamplesRepo/test-results $RepoName -Recurse
 
