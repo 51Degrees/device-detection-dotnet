@@ -259,6 +259,65 @@ namespace FiftyOne.DeviceDetection.Tests.Core.Data
             TestAccessingValue(_testPropertyNameJavaScript, _testValueJavaScript);
         }
 
+        /// <summary>
+        /// Check that the stored string is reachable through
+        /// <see cref="IProvidesValuesAsString"/>, and that asking for it
+        /// does not change what the typed accessor answers.
+        /// </summary>
+        /// <remarks>
+        /// This is the point of the interface. A Bool property in a data
+        /// file can store a value that is not one of that type's values,
+        /// and device detection does exactly that, storing "Unknown" for
+        /// the properties the 51Degrees JavaScript fills in until it has
+        /// run. The typed accessor has to answer in its own type, so
+        /// without this a caller cannot tell that from a stored "False".
+        /// </remarks>
+        [TestMethod]
+        public void GetStringThroughTheInterface()
+        {
+            var asString = _results as IProvidesValuesAsString;
+            Assert.IsNotNull(
+                asString,
+                "On-premise device data should offer its stored strings.");
+
+            var value = asString.GetValueAsString(_testPropertyNameString);
+            Assert.IsTrue(value.HasValue);
+            Assert.AreEqual(_testValueString, value.Value);
+
+            // The typed accessor is untouched by the interface being
+            // there, which is what keeps this change from moving any
+            // existing caller.
+            var typed = _results[_testPropertyNameBool];
+            Assert.AreEqual(
+                _testValueBool, ((IAspectPropertyValue)typed).Value);
+        }
+
+        /// <summary>
+        /// A property the data does not hold reaches the caller the same
+        /// way through the interface as through the typed accessor, being
+        /// a <see cref="PropertyMissingException"/> rather than a value
+        /// that is empty or false.
+        /// </summary>
+        /// <remarks>
+        /// The interface adds a route to a value and changes nothing
+        /// about how an absent property is reported, which matters
+        /// because a caller that read a missing property as a value would
+        /// draw a conclusion from something this data file does not
+        /// carry.
+        /// </remarks>
+        [TestMethod]
+        public void GetStringThroughTheInterface_UnknownProperty()
+        {
+            var asString = _results as IProvidesValuesAsString;
+            Assert.IsNotNull(asString);
+
+            Assert.ThrowsExactly<PropertyMissingException>(
+                () => asString.GetValueAsString("NotAPropertyName"),
+                "A property the data does not hold should be reported as "
+                + "missing, in the same way as through any other "
+                + "accessor.");
+        }
+
         private void TestAccessingValue(string propertyName, object expectedResult)
         {
             var value = _results[propertyName];

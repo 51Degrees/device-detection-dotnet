@@ -53,7 +53,8 @@ namespace FiftyOne.DeviceDetection.Shared.Data
     /// Base class used for all 51Degrees on-premise device data.
     /// See the <see href="https://github.com/51Degrees/specifications/blob/main/device-detection-specification/data-model.md">Specification</see>
     /// </summary>
-    public abstract class DeviceDataBaseOnPremise<TResult> : DeviceDataBase
+    public abstract class DeviceDataBaseOnPremise<TResult> : DeviceDataBase,
+        IProvidesValuesAsString
         where TResult : IDisposable
     {
         /// <summary>
@@ -316,6 +317,37 @@ namespace FiftyOne.DeviceDetection.Shared.Data
         /// <see cref="IAspectPropertyValue"/> instance.
         /// </returns>
         protected abstract IAspectPropertyValue<JavaScript> GetValueAsJavaScript(string propertyName);
+
+        #endregion
+
+        #region IProvidesValuesAsString
+        /// <summary>
+        /// Get the string value this instance has for the specified
+        /// property.
+        /// </summary>
+        /// <remarks>
+        /// The typed accessors have to answer in the type the property
+        /// declares, so a stored value that is not one of that type's
+        /// values has to become something. A Bool property storing
+        /// "Unknown" answers False, and the caller cannot tell that from
+        /// a stored "False". This is implemented explicitly so that the
+        /// stored string becomes reachable from outside the class whilst
+        /// <see cref="GetValueAsString(string)"/> keeps the signature and
+        /// the visibility it has always had, which means nothing that
+        /// derives from this class has to change.
+        /// </remarks>
+        /// <param name="propertyName">
+        /// The name of the property to get value for.
+        /// </param>
+        /// <returns>
+        /// A <see cref="string"/> wrapped in a
+        /// <see cref="IAspectPropertyValue"/> instance.
+        /// </returns>
+        IAspectPropertyValue<string> IProvidesValuesAsString.GetValueAsString(
+            string propertyName)
+        {
+            return GetValueAsString(propertyName);
+        }
 
         #endregion
 
