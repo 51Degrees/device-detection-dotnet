@@ -180,6 +180,8 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "HasTouchScreen", typeof(IAspectPropertyValue<bool>) },
 				{ "HasTrackPad", typeof(IAspectPropertyValue<bool>) },
 				{ "HasVirtualQwerty", typeof(IAspectPropertyValue<bool>) },
+				{ "HasWebDriver", typeof(IAspectPropertyValue<bool>) },
+				{ "HasWebDriverJavaScript", typeof(IAspectPropertyValue<JavaScript>) },
 				{ "History", typeof(IAspectPropertyValue<bool>) },
 				{ "Html-Media-Capture", typeof(IAspectPropertyValue<bool>) },
 				{ "Html5", typeof(IAspectPropertyValue<bool>) },
@@ -201,6 +203,7 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "IsEmulatingDevice", typeof(IAspectPropertyValue<bool>) },
 				{ "IsEReader", typeof(IAspectPropertyValue<bool>) },
 				{ "IsHardwareGroup", typeof(IAspectPropertyValue<bool>) },
+				{ "IsHeadless", typeof(IAspectPropertyValue<bool>) },
 				{ "IsMediaHub", typeof(IAspectPropertyValue<bool>) },
 				{ "IsMobile", typeof(IAspectPropertyValue<bool>) },
 				{ "IsPlatformVersionFrozen", typeof(IAspectPropertyValue<bool>) },
@@ -212,6 +215,8 @@ namespace FiftyOne.DeviceDetection.Shared
 				{ "IsTv", typeof(IAspectPropertyValue<bool>) },
 				{ "IsVerifiediPhone", typeof(IAspectPropertyValue<string>) },
 				{ "IsVerifiediPhoneJavaScript", typeof(IAspectPropertyValue<JavaScript>) },
+				{ "IsVisible", typeof(IAspectPropertyValue<bool>) },
+				{ "IsVisibleJavaScript", typeof(IAspectPropertyValue<JavaScript>) },
 				{ "IsWebApp", typeof(IAspectPropertyValue<bool>) },
 				{ "Iterations", typeof(IAspectPropertyValue<int>) },
 				{ "Javascript", typeof(IAspectPropertyValue<bool>) },
@@ -971,6 +976,14 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<bool> HasVirtualQwerty { get { return GetAs<IAspectPropertyValue<bool>>("HasVirtualQwerty"); } }
 		/// <summary>
+		/// Indicates whether the browser advertises a web driver, as a browser under automation is required to do. Returns True where the browser advertises a web driver, and False where it advertises none. The value reports what the browser advertises and not what an automated client may be concealing.
+		/// </summary>
+		public IAspectPropertyValue<bool> HasWebDriver { get { return GetAs<IAspectPropertyValue<bool>>("HasWebDriver"); } }
+		/// <summary>
+		/// JavaScript which overrides the HasWebDriver property to report whether the browser advertised a web driver when the 51Degrees JavaScript ran.
+		/// </summary>
+		public IAspectPropertyValue<JavaScript> HasWebDriverJavaScript { get { return GetAs<IAspectPropertyValue<JavaScript>>("HasWebDriverJavaScript"); } }
+		/// <summary>
 		/// Indicates if the browser stores the session history for a web page that contains the URLs visited by the browser's user.
 		/// </summary>
 		/// <remarks>
@@ -1095,6 +1108,10 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// </summary>
 		public IAspectPropertyValue<bool> IsHardwareGroup { get { return GetAs<IAspectPropertyValue<bool>>("IsHardwareGroup"); } }
 		/// <summary>
+		/// Indicates whether the browser identifies itself as running without a visible window, for example through the HeadlessChrome token in the User-Agent. The value reflects what the browser advertises about itself and does not indicate whether the session is automated or controlled by a web driver.
+		/// </summary>
+		public IAspectPropertyValue<bool> IsHeadless { get { return GetAs<IAspectPropertyValue<bool>>("IsHeadless"); } }
+		/// <summary>
 		/// Indicates if the device is a media hub or set top box that requires an external display(s).
 		/// </summary>
 		public IAspectPropertyValue<bool> IsMediaHub { get { return GetAs<IAspectPropertyValue<bool>>("IsMediaHub"); } }
@@ -1138,6 +1155,14 @@ namespace FiftyOne.DeviceDetection.Shared
 		/// JavaScript which overrides the IsVerifiediPhone property to report whether an iPhone is genuine. This is only used where the device is presenting as an iPhone with the evidence provided. Requires JavascriptHardwareProfile property.
 		/// </summary>
 		public IAspectPropertyValue<JavaScript> IsVerifiediPhoneJavaScript { get { return GetAs<IAspectPropertyValue<JavaScript>>("IsVerifiediPhoneJavaScript"); } }
+		/// <summary>
+		/// Indicates whether the browser window was in view when the 51Degrees JavaScript ran on the page. A false value means the page was in a background tab, in a minimised window, entirely obscured by another window, or on a device whose screen was off at that moment. The value describes that moment only and is not updated if the window later comes into view.
+		/// </summary>
+		public IAspectPropertyValue<bool> IsVisible { get { return GetAs<IAspectPropertyValue<bool>>("IsVisible"); } }
+		/// <summary>
+		/// JavaScript which overrides the IsVisible property to report whether the browser window was in view when the 51Degrees JavaScript ran on the page.
+		/// </summary>
+		public IAspectPropertyValue<JavaScript> IsVisibleJavaScript { get { return GetAs<IAspectPropertyValue<JavaScript>>("IsVisibleJavaScript"); } }
 		/// <summary>
 		/// Indicates if the browser or app is being used to access a web page through a WebView.
 		/// </summary>
