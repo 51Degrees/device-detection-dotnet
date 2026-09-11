@@ -1,3 +1,4 @@
+%typemap(csclassmodifiers) Transform "public class"; // Pearl consumes the existing transform API.
 // Needed to map the data byte array paramater in EngineHash constructor and
 // refreshData method in EngineHash.i to C#.
 // See https://www.swig.org/Doc4.0/CSharp.html#CSharp_arrays
