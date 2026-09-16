@@ -14,7 +14,9 @@ jobs:
     with:
       repo-name: ${{ github.event.repository.name }}
       org-name: ${{ github.event.repository.owner.login }}
-      dryrun: ${{ inputs.dryrun || false }}
+      dryrun: true
+      prs: '887'
+      branch: main
       cache-assets: true
     secrets:
       token: ${{ secrets.ACCESS_TOKEN }}

@@ -7,7 +7,7 @@ param(
     [string]$Configuration = "Release",
     [string]$Arch = "x64",
     [string]$ExamplesRepo = "device-detection-dotnet-examples",
-    [string]$ExamplesBranch = "main",
+    [string]$ExamplesBranch = "feature/onprem-web-contract-tests",
     [string]$Version
 )
 $ErrorActionPreference = "Stop"
