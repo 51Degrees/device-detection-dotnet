@@ -114,7 +114,7 @@ if ($TestResourceKey -and -not $skipSeleniumOnArm) {
     # copied next to it, which also means it needs the job's configuration.
     $tacFile = "$PWD/$RepoName/FiftyOne.DeviceDetection.Hash.Engine.OnPremise/device-detection-cxx/device-detection-data/TAC-HashV41.hash"
     if ($Arch -eq 'x86') {
-        Write-Host "::warning title=Selenium on-premise skipped::The native engine on this job is built for x86 only, and the example host runs as x64, so the on-premise Contract tests run on the x64 jobs."
+        Write-Host "::warning title=Selenium on-premise skipped::The native engine on this job is built for x86 only, so the example would have to run as an x86 process, which this script does not set up. The on-premise Contract tests run on the x64 and arm64 jobs."
     } elseif (-not (Test-Path $tacFile)) {
         Write-Host "::warning title=Selenium on-premise skipped::No TAC data file at '$tacFile', which needs the device detection licence, so the on-premise Contract tests were not run."
     } else {
