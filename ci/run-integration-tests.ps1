@@ -72,8 +72,11 @@ if ($TestResourceKey -and -not $skipSeleniumOnArm) {
             $env:ASPNETCORE_URLS = "http://localhost:$Port"
             $example = dotnet run --no-build --project $Project @BuildArgs --no-launch-profile 2>&1 &
 
-            # Wait for the example to come up.
-            curl -sS -o $(if ($IsWindows) { 'NUL' } else { '/dev/null' }) --retry 5 --retry-connrefused "http://localhost:$Port"
+            # Wait for the example to come up. The retries are spaced two
+            # seconds apart for up to two minutes, because on the Windows jobs
+            # 'dotnet run' can take longer than the default back-off of five
+            # retries (about 16 seconds) before the example listens.
+            curl -sS -o $(if ($IsWindows) { 'NUL' } else { '/dev/null' }) --retry 60 --retry-delay 2 --retry-connrefused "http://localhost:$Port"
 
             $env:CLOUD_ROOT_URL = "https://cloud.51degrees.com/"
             $env:PAID_RESOURCE_KEY = $TestResourceKey
