@@ -10,7 +10,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FiftyOne.Pipeline.Web" Version="4.5.107" />
+		<PackageReference Include="FiftyOne.Pipeline.Web" Version="4.5.108" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.31" />
 	</ItemGroup>
 
