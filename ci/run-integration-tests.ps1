@@ -23,52 +23,117 @@ if ($TestResourceKey -and -not $skipSeleniumOnArm) {
         Rename-Item $ExamplesRepo $seleniumExamples
     }
 
-    # Use the local dev library in the example.
+    # Use the local dev library in the examples.
     $exampleBase = "$seleniumExamples/Examples/ExampleBase/FiftyOne.DeviceDetection.Examples.csproj"
     (Get-Content $exampleBase) -replace `
         '<PackageReference Include="FiftyOne.DeviceDetection" Version="[^"]*" />', `
         "<ProjectReference Include=`"../../../$RepoName/FiftyOne.DeviceDetection/FiftyOne.DeviceDetection.csproj`" />" |
         Set-Content $exampleBase
 
-    # Match the example's Pipeline.Web version to the library.
+    # Match the examples' Pipeline.Web version to the library.
     $cloudCsproj = "$RepoName/FiftyOne.DeviceDetection.Cloud/FiftyOne.DeviceDetection.Cloud.csproj"
     $pipeMatch = Select-String -Path $cloudCsproj -Pattern 'FiftyOne\.Pipeline\.CloudRequestEngine" Version="([0-9.]+)"'
     $pipever = if ($pipeMatch) { $pipeMatch.Matches[0].Groups[1].Value } else { "4.5.46" }
-    $webCsproj = "$seleniumExamples/Examples/Cloud/GettingStarted-Web/GettingStarted-Web.csproj"
-    (Get-Content $webCsproj) -replace `
-        'Include="FiftyOne.Pipeline.Web" Version="[^"]*"', `
-        "Include=`"FiftyOne.Pipeline.Web`" Version=`"$pipever`"" |
-        Set-Content $webCsproj
+    $cloudProject = "$seleniumExamples/Examples/Cloud/GettingStarted-Web"
+    $onPremProject = "$seleniumExamples/Examples/OnPremise/GettingStarted-Web"
+    foreach ($webCsproj in "$cloudProject/GettingStarted-Web.csproj", "$onPremProject/GettingStarted-Web.csproj") {
+        (Get-Content $webCsproj) -replace `
+            'Include="FiftyOne.Pipeline.Web" Version="[^"]*"', `
+            "Include=`"FiftyOne.Pipeline.Web`" Version=`"$pipever`"" |
+            Set-Content $webCsproj
+    }
 
-    try {
+    # Get the shared contract tests.
+    if (-not (Test-Path selenium-api-tests)) {
+        git clone --depth 1 https://github.com/51Degrees/selenium-api-tests.git
+    }
+
+    # Starts one web example on the given port, runs the shared Contract
+    # tests against it, and stops it again. Variables in $ExampleEnv are set
+    # for the example and removed afterwards. A failing test throws, because
+    # $PSNativeCommandUseErrorActionPreference is set at the top of the script.
+    function Invoke-ContractTests {
+        param(
+            [Parameter(Mandatory)][string]$Label,
+            [Parameter(Mandatory)][string]$Project,
+            [Parameter(Mandatory)][int]$Port,
+            [string[]]$BuildArgs = @(),
+            [hashtable]$ExampleEnv = @{}
+        )
+        Write-Host "::group::Selenium Contract tests against the $Label example on port $Port"
         $example = $null
-        $exampleProject = "$seleniumExamples/Examples/Cloud/GettingStarted-Web"
-        dotnet build $exampleProject -c Release
+        try {
+            dotnet build $Project @BuildArgs
 
-        # Start the cloud example, pointed at the live cloud.
-        $env:PORT = 8095
-        $env:ASPNETCORE_URLS = "http://localhost:$env:PORT"
-        $env:FIFTYONE_CLOUD_ENDPOINT = "https://cloud.51degrees.com/api/v4/"
-        $example = dotnet run --no-build --project $exampleProject -c Release --no-launch-profile 2>&1 &
+            foreach ($name in $ExampleEnv.Keys) {
+                Set-Item -Path "Env:$name" -Value $ExampleEnv[$name]
+            }
+            $env:PORT = $Port
+            $env:ASPNETCORE_URLS = "http://localhost:$Port"
+            $example = dotnet run --no-build --project $Project @BuildArgs --no-launch-profile 2>&1 &
 
-        # Get the shared contract tests.
-        if (-not (Test-Path selenium-api-tests)) {
-            git clone --depth 1 https://github.com/51Degrees/selenium-api-tests.git
+            # Wait for the example to come up. The retries are spaced two
+            # seconds apart for up to two minutes, because on the Windows jobs
+            # 'dotnet run' can take longer than the default back-off of five
+            # retries (about 16 seconds) before the example listens.
+            curl -sS -o $(if ($IsWindows) { 'NUL' } else { '/dev/null' }) --retry 60 --retry-delay 2 --retry-connrefused "http://localhost:$Port"
+
+            $env:CLOUD_ROOT_URL = "https://cloud.51degrees.com/"
+            $env:PAID_RESOURCE_KEY = $TestResourceKey
+            $env:EXAMPLE_URL = "http://localhost:$Port"
+            $env:EXAMPLE_LANG = 'dotnet'
+            dotnet test selenium-api-tests -c Release --filter TestCategory=Contract
+        } catch {
+            if ($example) { Write-Host ">>> $Label example output >>>"; Receive-Job $example | Out-Host; Write-Host '<<< app output <<<' }
+            throw
+        } finally {
+            if ($example) { Remove-Job -Force $example }
+            Remove-Item Env:ASPNETCORE_URLS, Env:PORT, Env:EXAMPLE_URL -ErrorAction SilentlyContinue
+            foreach ($name in $ExampleEnv.Keys) {
+                Remove-Item -Path "Env:$name" -ErrorAction SilentlyContinue
+            }
+            Write-Host "::endgroup::"
         }
-        # Wait for the example to come up.
-        curl -sS -o $(if ($IsWindows) { 'NUL' } else { '/dev/null' }) --retry 5 --retry-connrefused "http://localhost:$env:PORT"
+    }
 
-        $env:CLOUD_ROOT_URL = "https://cloud.51degrees.com/"
-        $env:PAID_RESOURCE_KEY = $TestResourceKey
-        $env:EXAMPLE_URL = "http://localhost:$env:PORT"
-        $env:EXAMPLE_LANG = 'dotnet'
-        dotnet test selenium-api-tests -c Release --filter TestCategory=Contract
+    # Run both examples even if the first fails, then fail the step if either
+    # did, so one run reports both results.
+    $contractFailures = @()
+
+    # The cloud example, pointed at the live cloud.
+    try {
+        Invoke-ContractTests -Label 'cloud' -Project $cloudProject -Port 8095 `
+            -BuildArgs @('-c', 'Release') `
+            -ExampleEnv @{ FIFTYONE_CLOUD_ENDPOINT = "https://cloud.51degrees.com/api/v4/" }
     } catch {
-        if ($example) { Write-Host '>>> example app output >>>'; Receive-Job $example | Out-Host; Write-Host '<<< app output <<<' }
-        throw
-    } finally {
-        if ($example) { Remove-Job -Force $example }
-        Remove-Item Env:ASPNETCORE_URLS, Env:PORT -ErrorAction SilentlyContinue
+        Write-Host "::error title=Selenium contract (cloud)::$_"
+        $contractFailures += 'cloud'
+    }
+
+    # The on-premise example, using the TAC data file, which is the only data
+    # file fetched here that has DeviceType and the JavaScript screen size
+    # overrides the Contract tests need. The example is built for the job's
+    # platform so that the native engine built by build-project.ps1 is
+    # copied next to it, which also means it needs the job's configuration.
+    $tacFile = "$PWD/$RepoName/FiftyOne.DeviceDetection.Hash.Engine.OnPremise/device-detection-cxx/device-detection-data/TAC-HashV41.hash"
+    if ($Arch -eq 'x86') {
+        Write-Host "::warning title=Selenium on-premise skipped::The native engine on this job is built for x86 only, so the example would have to run as an x86 process, which this script does not set up. The on-premise Contract tests run on the x64 and arm64 jobs."
+    } elseif (-not (Test-Path $tacFile)) {
+        Write-Host "::warning title=Selenium on-premise skipped::No TAC data file at '$tacFile', which needs the device detection licence, so the on-premise Contract tests were not run."
+    } else {
+        try {
+            Invoke-ContractTests -Label 'on-premise' -Project $onPremProject -Port 8096 `
+                -BuildArgs @('-c', $Configuration, "--property:Platform=$Arch") `
+                -ExampleEnv @{ '51DEGREES_DD_PATH' = (Resolve-Path $tacFile).Path }
+        } catch {
+            Write-Host "::error title=Selenium contract (on-premise)::$_"
+            $contractFailures += 'on-premise'
+        }
+    }
+
+    Remove-Item Env:CLOUD_ROOT_URL, Env:PAID_RESOURCE_KEY, Env:EXAMPLE_LANG -ErrorAction SilentlyContinue
+    if ($contractFailures) {
+        throw "Selenium Contract tests failed for the $($contractFailures -join ' and ') example."
     }
 } elseif ($skipSeleniumOnArm) {
     Write-Host "::warning title=Selenium skipped::Selenium contract skipped on linux-arm64 (no selenium-manager aarch64 build); covered on x64 and macOS-arm."
