@@ -18,9 +18,10 @@ if ($BuildMethod -ne "dotnet") {
 }
 
 if ($IsLinux) {
-    sudo apt-get update
-    # Install multilib, as this may be required.
-    sudo apt-get install -y gcc-multilib g++-multilib
+    # Shared, because the same call in five repositories carried the same
+    # fault: these packages do not exist on arm64, so asking for them on an
+    # ARM runner fails the step. See common-ci environments/README.md.
+    ./environments/setup-multilib.ps1
 }
 
 $env:_51DEGREES_DD_PATH = "$PWD/$RepoName/FiftyOne.DeviceDetection.Hash.Engine.OnPremise/device-detection-cxx/device-detection-data/TAC-HashV41.hash"
