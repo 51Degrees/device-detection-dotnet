@@ -229,5 +229,49 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
                 WildcardBlock(text),
                 "With no allowed crawlers the wildcard block is a bare Allow");
         }
+
+        [TestMethod]
+        public void PlainText_EmptyProductToken_NotWritten()
+        {
+            // A crawler with an empty product token would otherwise produce
+            // "User-Agent: " with nothing after it. A parser that matches a
+            // token as a substring of the crawler's name applies that group to
+            // every crawler, so the Disallow beneath it refuses the whole site
+            // to everybody, search engines included.
+            var model = new RobotsTxtModel
+            {
+                Usages = new[] { new UsageModel { Name = "AI", Order = 0 } },
+                Crawlers = new[]
+                {
+                    new CrawlerModel
+                    {
+                        Name = "Example crawler",
+                        Usages = new[] { "AI" },
+                        ProductTokens = new[] { "", "ExampleBot", "   " },
+                    },
+                    new CrawlerModel
+                    {
+                        Name = "Crawler with no token",
+                        Usages = new[] { "AI" },
+                        ProductTokens = new[] { "", null },
+                    },
+                },
+            };
+            var gen = new GeneratorService(model);
+
+            var text = Generate(
+                gen,
+                new HashSet<string>(),
+                Array.Empty<Uri>(),
+                annotations: false);
+
+            Assert.AreEqual(
+                "User-Agent: ExampleBot\nDisallow: /\nUser-Agent: *\nAllow: /",
+                Records(text),
+                "Only a token with something in it may head a group");
+            Assert.IsFalse(
+                text.Split('\n').Any(line => line.Trim() == "User-Agent:"),
+                "An empty User-Agent line must never be written");
+        }
     }
 }

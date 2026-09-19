@@ -141,6 +141,18 @@ public class GeneratorService(RobotsTxtModel _dataSet)
         CrawlerModel crawler,
         Action<StringBuilder> addAnnotations)
     {
+        // Only a token with something in it can head a group. An empty
+        // "User-Agent:" line is read by a parser that matches a token as a
+        // substring of the crawler's name as applying to every crawler, and
+        // the Disallow beneath it then refuses the whole site to everybody.
+        var tokens = (crawler.ProductTokens ?? Array.Empty<string>())
+            .Where(token => string.IsNullOrWhiteSpace(token) == false)
+            .ToList();
+        if (tokens.Count == 0)
+        {
+            return;
+        }
+
         var sb = new StringBuilder();
 
         // If annotations are enabled then add these for the entry.
@@ -150,7 +162,7 @@ public class GeneratorService(RobotsTxtModel _dataSet)
         }
 
         // Add all the product tokens available.
-        foreach (var token in crawler.ProductTokens)
+        foreach (var token in tokens)
         {
             sb.AppendLine("User-Agent: " + token);
             sb.AppendLine("Disallow: /");
