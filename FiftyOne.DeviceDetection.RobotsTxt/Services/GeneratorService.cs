@@ -141,18 +141,6 @@ public class GeneratorService(RobotsTxtModel _dataSet)
         CrawlerModel crawler,
         Action<StringBuilder> addAnnotations)
     {
-        // Only a token with something in it can head a group. An empty
-        // "User-Agent:" line is read by a parser that matches a token as a
-        // substring of the crawler's name as applying to every crawler, and
-        // the Disallow beneath it then refuses the whole site to everybody.
-        var tokens = (crawler.ProductTokens ?? Array.Empty<string>())
-            .Where(token => string.IsNullOrWhiteSpace(token) == false)
-            .ToList();
-        if (tokens.Count == 0)
-        {
-            return;
-        }
-
         var sb = new StringBuilder();
 
         // If annotations are enabled then add these for the entry.
@@ -161,11 +149,34 @@ public class GeneratorService(RobotsTxtModel _dataSet)
             addAnnotations(sb);
         }
 
+        // Where the tokens start, so that a crawler which contributed none
+        // can be told apart from one that did without counting them first.
+        var lengthBeforeTokens = sb.Length;
+
         // Add all the product tokens available.
-        foreach (var token in tokens)
+        if (crawler.ProductTokens != null)
         {
-            sb.AppendLine("User-Agent: " + token);
-            sb.AppendLine("Disallow: /");
+            foreach (var token in crawler.ProductTokens)
+            {
+                // Only a token with something in it can head a group. A
+                // parser matches a token as a substring of the crawler's
+                // name, so an empty "User-Agent:" line matches every
+                // crawler and the Disallow beneath it then refuses the
+                // whole site to everybody.
+                if (string.IsNullOrWhiteSpace(token))
+                {
+                    continue;
+                }
+                sb.AppendLine("User-Agent: " + token);
+                sb.AppendLine("Disallow: /");
+            }
+        }
+
+        // Nothing usable, so this crawler heads no group at all rather than
+        // an empty one, and any annotations above go with it.
+        if (sb.Length == lengthBeforeTokens)
+        {
+            return;
         }
 
         entries.Enqueue(sb.ToString());
