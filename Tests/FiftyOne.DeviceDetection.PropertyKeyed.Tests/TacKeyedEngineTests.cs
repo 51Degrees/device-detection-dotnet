@@ -90,7 +90,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         {
             _data.AddEvidence("query.tac", tac);
             _data.Process();
-            AssertReportedAsWarning(_data);
+            AssertReportedAsWarning(_data, tac);
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
             {
                 data.AddEvidence("query.tac", tac);
                 data.Process();
-                AssertReportedAsWarning(data);
+                AssertReportedAsWarning(data, tac);
             }
         }
 

@@ -67,7 +67,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         {
             _data.AddEvidence("query.nativemodel", nativeModel);
             _data.Process();
-            AssertReportedAsWarning(_data);
+            AssertReportedAsWarning(_data, nativeModel);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
             {
                 data.AddEvidence("query.nativemodel", nativeModel);
                 data.Process();
-                AssertReportedAsWarning(data);
+                AssertReportedAsWarning(data, nativeModel);
             }
         }
 

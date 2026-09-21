@@ -37,9 +37,23 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         protected static CapturingLoggerProvider _capturedLogs;
         protected static T _engine;
         protected static IPipeline _pipeline;
-        protected static T _unsuppressedEngine;
-        protected static IPipeline _unsuppressedPipeline;
         protected IFlowData _data;
+
+        /// <summary>
+        /// Built on first use by <see cref="CreateUnsuppressedFlowData"/>,
+        /// because most test classes never need it and building it loads the
+        /// hash data file a second time.
+        /// </summary>
+        private static IPipeline _unsuppressedPipeline;
+
+        /// <summary>
+        /// The arguments <see cref="CreateUnsuppressedFlowData"/> needs to
+        /// build its pipeline, kept from class initialisation.
+        /// </summary>
+        private static string _dataFile;
+        private static Func<T> _createEngine;
+
+        private static readonly object _unsuppressedLock = new object();
 
         /// <summary>
         /// Creates the fields and structures used for the tests.
@@ -65,21 +79,16 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
 
             // Create the pipeline with the hash engine and the engine under
             // test.
-            _pipeline = BuildPipeline(ddFile, _engine, true);
+            _pipeline = BuildPipeline(
+                ddFile,
+                _engine,
+                suppressProcessExceptions: true);
 
-            // A second pipeline that does not suppress process exceptions,
-            // which is how the cloud host runs one. Suppression hides the
-            // defect the derived classes now guard against: any entry in
-            // IFlowData.Errors makes Pipeline.Process throw when exceptions
-            // are not suppressed, so validation of caller input has to stay
-            // off the errors channel entirely.
-            //
-            // It needs its own elements because a keyed engine builds its
-            // data set when it is added to a pipeline and refuses to be
-            // added to a second one.
-            _unsuppressedEngine = create();
-            _unsuppressedPipeline =
-                BuildPipeline(ddFile, _unsuppressedEngine, false);
+            // Kept so that CreateUnsuppressedFlowData can build its own
+            // pipeline if a test asks for one.
+            _dataFile = ddFile;
+            _createEngine = create;
+            _unsuppressedPipeline = null;
         }
 
         /// <summary>
@@ -117,6 +126,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         protected static void ClassCleanupInternal()
         {
             _unsuppressedPipeline?.Dispose();
+            _unsuppressedPipeline = null;
             _pipeline?.Dispose();
         }
 
@@ -132,34 +142,65 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         }
 
         /// <summary>
-        /// Creates flow data on the pipeline that does not suppress process
+        /// Creates flow data on a pipeline that does not suppress process
         /// exceptions, so that a test sees the throw a cloud host would see.
         /// </summary>
+        /// <remarks>
+        /// Suppression hides the defect these tests guard against: any entry
+        /// in IFlowData.Errors makes Pipeline.Process throw when exceptions
+        /// are not suppressed, so validation of caller input has to stay off
+        /// the errors channel entirely.
+        ///
+        /// The pipeline is built on first use and needs its own elements,
+        /// because a keyed engine builds its data set when it is added to a
+        /// pipeline and refuses to be added to a second one. Building it
+        /// loads the hash data file again, so classes that never call this
+        /// do not pay for it.
+        /// </remarks>
         protected static IFlowData CreateUnsuppressedFlowData()
         {
+            lock (_unsuppressedLock)
+            {
+                if (_unsuppressedPipeline == null)
+                {
+                    _unsuppressedPipeline = BuildPipeline(
+                        _dataFile,
+                        _createEngine(),
+                        suppressProcessExceptions: false);
+                }
+            }
             return _unsuppressedPipeline.CreateFlowData();
         }
 
         /// <summary>
-        /// Asserts that processing recorded no error and exactly the one
-        /// expected warning about a value that could not be used.
+        /// Asserts that processing recorded no error and exactly one warning,
+        /// and that the warning names the value that could not be used.
         /// </summary>
         /// <param name="data">The flow data that was processed.</param>
-        protected static void AssertReportedAsWarning(IFlowData data)
+        /// <param name="rejectedValue">
+        /// The evidence value the engine was expected to reject. The caller
+        /// is batching lookups, so the warning has to say which value failed
+        /// for them to find the offending row.
+        /// </param>
+        protected static void AssertReportedAsWarning(
+            IFlowData data,
+            string rejectedValue)
         {
-            Assert.IsNull(data.Errors,
+            var errors = data.Errors;
+            Assert.IsNull(errors,
                 "An unusable evidence value must not reach IFlowData.Errors, " +
                 "because that makes the pipeline throw and the caller then " +
                 "receives no payload at all. Found: " +
-                (data.Errors == null ? "" :
-                    string.Join("; ", data.Errors.Select(
+                (errors == null ? "" :
+                    string.Join("; ", errors.Select(
                         error => error.ExceptionData.Message))));
 
             var warnings = data.GetWarnings();
             Assert.HasCount(1, warnings,
                 "Expected one warning about the unusable value.");
-            Assert.IsNotEmpty(warnings[0].Message,
-                "The warning must carry a message for the caller.");
+            StringAssert.Contains(warnings[0].Message, rejectedValue,
+                "The warning must name the value that was rejected, so that " +
+                "a caller processing a batch can find the offending row.");
         }
 
         /// <summary>
