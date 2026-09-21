@@ -22,8 +22,10 @@
 
 using FiftyOne.DeviceDetection.PropertyKeyed.Data;
 using FiftyOne.DeviceDetection.PropertyKeyed.FlowElements;
+using FiftyOne.Pipeline.Core.Data;
 using FiftyOne.Pipeline.Core.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Linq;
 
 namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
@@ -39,6 +41,9 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
             ClassInitializeInternal(
                 context,
                 () => new TacEngineBuilder(_loggerFactory).Build());
+
+        [ClassCleanup]
+        public static void ClassCleanup() => ClassCleanupInternal();
 
         [TestInitialize]
         public override void TestInitialize()
@@ -71,37 +76,61 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         }
 
         /// <summary>
-        /// An invalid TAC (not 8 digits) should add an error.
+        /// An invalid TAC (not 8 digits) must be reported as a warning and
+        /// must not reach
+        /// <see cref="FiftyOne.Pipeline.Core.Data.IFlowData.Errors"/>, since
+        /// an error there stops the caller receiving a response at all.
         /// </summary>
         [TestMethod]
         [DataRow("1234")]
         [DataRow("ABCDEFGH")]
         [DataRow("123456789")]
-        public void InvalidTac_AddsError(string tac)
+        [DataRow("")]
+        public void InvalidTac_AddsWarning(string tac)
         {
             _data.AddEvidence("query.tac", tac);
             _data.Process();
-            Assert.IsNotNull(_data.Errors,
-                "Expected an error for invalid TAC.");
+            AssertReportedAsWarning(_data);
         }
 
         /// <summary>
-        /// An invalid TAC is caller input, so it must be surfaced via
-        /// <see cref="FiftyOne.Pipeline.Core.Data.IFlowData.Errors"/> without
-        /// being logged at Error level - an Error log carrying the exception
-        /// can be surfaced as exception telemetry.
+        /// An invalid TAC is caller input, so it must not be logged at Error
+        /// level - an Error log carrying the exception can be surfaced as
+        /// exception telemetry.
         /// </summary>
         [TestMethod]
         [DataRow("1234")]
         [DataRow("ABCDEFGH")]
         [DataRow("123456789")]
+        [DataRow("")]
         public void InvalidTac_DoesNotLogError(string tac)
         {
             _data.AddEvidence("query.tac", tac);
             _data.Process();
-            Assert.IsNotNull(_data.Errors,
-                "Expected an error for invalid TAC.");
             AssertNoErrorLevelLog();
+        }
+
+        /// <summary>
+        /// Reproduces the reported defect. The cloud runs the pipeline
+        /// without suppressing process exceptions, so recording an unusable
+        /// TAC as an error made Process throw an
+        /// <see cref="AggregateException"/>. A caller batching lookups then
+        /// lost the whole job to a single unusable row. Processing must
+        /// complete and simply return no profiles.
+        /// </summary>
+        [TestMethod]
+        [DataRow("1234")]
+        [DataRow("ABCDEFGH")]
+        [DataRow("123456789")]
+        [DataRow("")]
+        public void InvalidTac_DoesNotThrowWhenNotSuppressed(string tac)
+        {
+            using (var data = CreateUnsuppressedFlowData())
+            {
+                data.AddEvidence("query.tac", tac);
+                data.Process();
+                AssertReportedAsWarning(data);
+            }
         }
 
         /// <summary>

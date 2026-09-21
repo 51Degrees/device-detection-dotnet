@@ -37,6 +37,8 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         protected static CapturingLoggerProvider _capturedLogs;
         protected static T _engine;
         protected static IPipeline _pipeline;
+        protected static T _unsuppressedEngine;
+        protected static IPipeline _unsuppressedPipeline;
         protected IFlowData _data;
 
         /// <summary>
@@ -57,29 +59,64 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
                 .AddProvider(_capturedLogs)
                 .SetMinimumLevel(LogLevel.Warning));
 
-            // Build DeviceDetectionHashEngine first
-            var hashEngine = new DeviceDetectionHashEngineBuilder(
-                _loggerFactory)
-                .SetAutoUpdate(false)
-                .SetDataFileSystemWatcher(false)
-                .Build(ddFile, false);
-
             // Create the engine with the function provided by the derived
             // class.
             _engine = create();
 
             // Create the pipeline with the hash engine and the engine under
             // test.
-            _pipeline = new PipelineBuilder(_loggerFactory)
+            _pipeline = BuildPipeline(ddFile, _engine, true);
+
+            // A second pipeline that does not suppress process exceptions,
+            // which is how the cloud host runs one. Suppression hides the
+            // defect the derived classes now guard against: any entry in
+            // IFlowData.Errors makes Pipeline.Process throw when exceptions
+            // are not suppressed, so validation of caller input has to stay
+            // off the errors channel entirely.
+            //
+            // It needs its own elements because a keyed engine builds its
+            // data set when it is added to a pipeline and refuses to be
+            // added to a second one.
+            _unsuppressedEngine = create();
+            _unsuppressedPipeline =
+                BuildPipeline(ddFile, _unsuppressedEngine, false);
+        }
+
+        /// <summary>
+        /// Builds a pipeline containing a device detection hash engine and
+        /// the engine under test.
+        /// </summary>
+        /// <param name="dataFile">The hash data file to load.</param>
+        /// <param name="engine">The engine under test.</param>
+        /// <param name="suppressProcessExceptions">
+        /// Whether the pipeline should swallow errors recorded during
+        /// processing rather than throwing them.
+        /// </param>
+        /// <returns>The pipeline, which owns and disposes its elements.</returns>
+        private static IPipeline BuildPipeline(
+            string dataFile,
+            T engine,
+            bool suppressProcessExceptions)
+        {
+            // The hash engine has to be built before the engine under test,
+            // which reads its data set from it.
+            var hashEngine = new DeviceDetectionHashEngineBuilder(
+                _loggerFactory)
+                .SetAutoUpdate(false)
+                .SetDataFileSystemWatcher(false)
+                .Build(dataFile, false);
+
+            return new PipelineBuilder(_loggerFactory)
                 .AddFlowElement(hashEngine)
-                .AddFlowElement(_engine)
-                .SetSuppressProcessExceptions(true)
+                .AddFlowElement(engine)
+                .SetSuppressProcessExceptions(suppressProcessExceptions)
                 .SetAutoDisposeElements(true)
                 .Build();
         }
 
         protected static void ClassCleanupInternal()
         {
+            _unsuppressedPipeline?.Dispose();
             _pipeline?.Dispose();
         }
 
@@ -95,11 +132,41 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.Tests
         }
 
         /// <summary>
+        /// Creates flow data on the pipeline that does not suppress process
+        /// exceptions, so that a test sees the throw a cloud host would see.
+        /// </summary>
+        protected static IFlowData CreateUnsuppressedFlowData()
+        {
+            return _unsuppressedPipeline.CreateFlowData();
+        }
+
+        /// <summary>
+        /// Asserts that processing recorded no error and exactly the one
+        /// expected warning about a value that could not be used.
+        /// </summary>
+        /// <param name="data">The flow data that was processed.</param>
+        protected static void AssertReportedAsWarning(IFlowData data)
+        {
+            Assert.IsNull(data.Errors,
+                "An unusable evidence value must not reach IFlowData.Errors, " +
+                "because that makes the pipeline throw and the caller then " +
+                "receives no payload at all. Found: " +
+                (data.Errors == null ? "" :
+                    string.Join("; ", data.Errors.Select(
+                        error => error.ExceptionData.Message))));
+
+            var warnings = data.GetWarnings();
+            Assert.HasCount(1, warnings,
+                "Expected one warning about the unusable value.");
+            Assert.IsNotEmpty(warnings[0].Message,
+                "The warning must carry a message for the caller.");
+        }
+
+        /// <summary>
         /// Asserts that nothing was logged at Error (or Critical) level during
-        /// the current test. Client-caused validation errors must be surfaced
-        /// via <see cref="IFlowData.Errors"/> without an Error-level log, since
-        /// an Error log carrying the exception can be surfaced as exception
-        /// telemetry.
+        /// the current test. Client-caused validation problems must be
+        /// reported to the caller without an Error-level log, since an Error
+        /// log carrying an exception can be surfaced as exception telemetry.
         /// </summary>
         protected static void AssertNoErrorLevelLog()
         {
