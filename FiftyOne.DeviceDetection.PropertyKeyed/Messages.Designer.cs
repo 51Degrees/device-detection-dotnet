@@ -70,7 +70,7 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The NativeModel must be at least two or more characters..
+        ///   Looks up a localized string similar to The NativeModel value &apos;{0}&apos; is not valid. A NativeModel must be at least two characters..
         /// </summary>
         internal static string IncorrectNativeEvidence {
             get {

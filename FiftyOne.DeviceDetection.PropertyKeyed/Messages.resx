@@ -127,6 +127,6 @@
     <value>SetConcurrency is not supported for PropertyKeyedDeviceEngine. The engine uses DeviceDetectionHashEngine's configuration.</value>
   </data>
   <data name="IncorrectNativeEvidence" xml:space="preserve">
-    <value>The NativeModel must be at least two or more characters.</value>
+    <value>The NativeModel value '{0}' is not valid. A NativeModel must be at least two characters.</value>
   </data>
 </root>

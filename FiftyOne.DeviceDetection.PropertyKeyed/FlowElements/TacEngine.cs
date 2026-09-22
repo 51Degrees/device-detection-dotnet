@@ -22,7 +22,6 @@
 
 using FiftyOne.Pipeline.Core.Data;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 
 namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
@@ -54,17 +53,26 @@ namespace FiftyOne.DeviceDetection.PropertyKeyed.FlowElements
                 return true;
             }
 
-            // A malformed TAC is caller input, not a server fault. Register it
-            // via FlowData.Errors without logging at Error level: the 2-arg
-            // overload defaults shouldLog to true, which logs the exception and
-            // can surface it as exception telemetry - noise for a client error.
-            data.AddError(
-                new ArgumentException(string.Format(
+            // A TAC that cannot be used is caller input, not a server
+            // fault, so it is reported on the warnings channel and never as
+            // an error.
+            //
+            // This used to call AddError. Any entry in FlowData.Errors makes
+            // Pipeline.Process throw once processing finishes unless the host
+            // sets SuppressProcessExceptions - the shouldThrow flag on the
+            // individual error only filters which exceptions are wrapped, not
+            // whether the throw happens. The cloud does not suppress, so one
+            // unusable value returned an errors array instead of the response,
+            // client pipelines discarded the whole result, and a single bad
+            // row aborted an entire batch import.
+            //
+            // A value that matches nothing already yields no profiles rather
+            // than an error, and a malformed one has to behave the same way.
+            data.AddWarning(
+                string.Format(
                     Messages.IncorrectTacEvidence,
-                    keyPropertyValue)),
-                data.Pipeline.GetElement<TacEngine>(),
-                shouldThrow: true,
-                shouldLog: false);
+                    keyPropertyValue),
+                data.Pipeline.GetElement<TacEngine>());
             return false;
         }
     }
