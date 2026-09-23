@@ -262,7 +262,8 @@ public class GeneratorService(RobotsTxtModel _dataSet)
         // evidence key that names this case and which until now reached only
         // a crawler whose recorded usage value was itself N/A. See
         // 51Degrees/cloud issue 435.
-        if (crawler.Usages == null || crawler.Usages.Length == 0)
+        if (crawler.Usages == null
+            || crawler.Usages.Any(i => string.IsNullOrWhiteSpace(i) == false) == false)
         {
             return notApplicableAllowed;
         }

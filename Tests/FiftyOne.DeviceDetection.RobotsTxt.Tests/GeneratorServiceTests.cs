@@ -88,12 +88,24 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
                         ProductTokens = new[] { "AhrefsBot" },
                         ReferenceUris = new[] { new Uri("https://ahrefs.com/robot") },
                     },
-                    // A crawler the data knows but records no usage for.
+                    // A crawler the data knows but records no usage for. The
+                    // data carries this as one empty usage value rather than
+                    // an empty list, which is the shape the 73 refused
+                    // crawlers in 51Degrees/cloud issue 435 actually have.
                     new CrawlerModel
                     {
                         Name = "Zabbix",
-                        Usages = Array.Empty<string>(),
+                        Usages = new[] { "" },
                         ProductTokens = new[] { "Zabbix" },
+                        ReferenceUris = null,
+                    },
+                    // The same case carried as an empty list instead, so both
+                    // shapes are pinned and neither can regress on its own.
+                    new CrawlerModel
+                    {
+                        Name = "Zealbot",
+                        Usages = Array.Empty<string>(),
+                        ProductTokens = new[] { "Zealbot" },
                         ReferenceUris = null,
                     },
                     // A crawler whose recorded usage value is N/A. Distinct
@@ -183,6 +195,7 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
             var text = Generate(gen, allowed, tdls: null, annotations: false);
 
             Assert.Contains("User-Agent: Zabbix\nDisallow: /", text);
+            Assert.Contains("User-Agent: Zealbot\nDisallow: /", text);
             Assert.Contains("User-Agent: GPTBot\nDisallow: /", text);
             Assert.DoesNotContain("User-Agent: Googlebot\nDisallow: /", text);
         }
@@ -203,6 +216,7 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
                 text,
                 "Allowing N/A must free a crawler with no recorded usage " +
                 "even where other usages are refused");
+            Assert.DoesNotContain("User-Agent: Zealbot", text);
             Assert.DoesNotContain("User-Agent: unattributed", text);
             Assert.Contains("User-Agent: GPTBot\nDisallow: /", text);
         }
