@@ -39,7 +39,10 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
     [TestClass]
     public class GeneratorServiceTests
     {
-        private static GeneratorService BuildGenerator()
+        private static GeneratorService BuildGenerator() =>
+            new GeneratorService(BuildModel());
+
+        private static RobotsTxtModel BuildModel()
         {
             var model = new RobotsTxtModel
             {
@@ -48,6 +51,9 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
                     new UsageModel { Name = "Search", Order = 0 },
                     new UsageModel { Name = "AI", Order = 1 },
                     new UsageModel { Name = "Monitoring", Order = 2 },
+                    // The data carries N/A as a usage value in its own right,
+                    // alongside the crawlers it records no usage for at all.
+                    new UsageModel { Name = "N/A", Order = 3 },
                 },
                 Crawlers = new[]
                 {
@@ -90,9 +96,19 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
                         ProductTokens = new[] { "Zabbix" },
                         ReferenceUris = null,
                     },
+                    // A crawler whose recorded usage value is N/A. Distinct
+                    // from Zabbix above, and the only kind the N/A evidence
+                    // key reached before 51Degrees/cloud issue 435.
+                    new CrawlerModel
+                    {
+                        Name = "Unattributed",
+                        Usages = new[] { "N/A" },
+                        ProductTokens = new[] { "unattributed" },
+                        ReferenceUris = null,
+                    },
                 },
             };
-            return new GeneratorService(model);
+            return model;
         }
 
         private static string Generate(
@@ -125,13 +141,18 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
                     .Select(line => line.Trim())
                     .Where(line => line.Length > 0 && line.StartsWith("#") == false));
 
+        // Every usage the fixture data carries, which is what a caller asking
+        // for an allow-all file sends. Built from the model rather than typed
+        // out so that adding a usage to the fixture cannot quietly narrow it.
+        private static HashSet<string> EveryUsage() =>
+            new HashSet<string>(BuildModel().Usages.Select(i => i.Name));
+
         [TestMethod]
         public void PlainText_EveryUsageAllowed_NothingIsRefused()
         {
             var gen = BuildGenerator();
-            var allowed = new HashSet<string> { "Search", "AI", "Monitoring" };
 
-            var text = Generate(gen, allowed, tdls: null, annotations: false);
+            var text = Generate(gen, EveryUsage(), tdls: null, annotations: false);
 
             Assert.DoesNotContain(
                 "Disallow:",
@@ -145,9 +166,8 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
         public void AnnotatedText_EveryUsageAllowed_UnusedCrawlerLumpedInWildcardBlock()
         {
             var gen = BuildGenerator();
-            var allowed = new HashSet<string> { "Search", "AI", "Monitoring" };
 
-            var text = Generate(gen, allowed, tdls: null, annotations: true);
+            var text = Generate(gen, EveryUsage(), tdls: null, annotations: true);
             var wildcard = WildcardBlock(text);
 
             Assert.Contains("# N: Zabbix", wildcard);
@@ -165,6 +185,56 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
             Assert.Contains("User-Agent: Zabbix\nDisallow: /", text);
             Assert.Contains("User-Agent: GPTBot\nDisallow: /", text);
             Assert.DoesNotContain("User-Agent: Googlebot\nDisallow: /", text);
+        }
+
+        [TestMethod]
+        public void PlainText_NotApplicableAllowedWithPartialSet_UnusedCrawlerIsAllowed()
+        {
+            // The case the cloud service was asked for at DMEXCO: block the
+            // AI usage, allow the rest. A crawler the data records no usage
+            // for is not an AI crawler and must not be refused with them.
+            var gen = BuildGenerator();
+            var allowed = new HashSet<string> { "Search", "Monitoring", "N/A" };
+
+            var text = Generate(gen, allowed, tdls: null, annotations: false);
+
+            Assert.DoesNotContain(
+                "User-Agent: Zabbix",
+                text,
+                "Allowing N/A must free a crawler with no recorded usage " +
+                "even where other usages are refused");
+            Assert.DoesNotContain("User-Agent: unattributed", text);
+            Assert.Contains("User-Agent: GPTBot\nDisallow: /", text);
+        }
+
+        [TestMethod]
+        public void PlainText_NotApplicableRefused_UnusedCrawlerStaysRefused()
+        {
+            // N/A is the switch, so refusing it refuses both the crawler with
+            // no recorded usage and the one whose recorded usage is N/A, and
+            // leaves every other crawler alone.
+            var gen = BuildGenerator();
+            var allowed = new HashSet<string> { "Search", "AI", "Monitoring" };
+
+            var text = Generate(gen, allowed, tdls: null, annotations: false);
+
+            Assert.Contains("User-Agent: Zabbix\nDisallow: /", text);
+            Assert.Contains("User-Agent: unattributed\nDisallow: /", text);
+            Assert.DoesNotContain("User-Agent: Googlebot", text);
+            Assert.DoesNotContain("User-Agent: GPTBot", text);
+        }
+
+        [TestMethod]
+        public void PlainText_NotApplicableAllowedInAnyCase_UnusedCrawlerIsAllowed()
+        {
+            // The caller only ever sees the lower cased name, in the evidence
+            // key built from it, so it cannot be held to the data's case.
+            var gen = BuildGenerator();
+            var allowed = new HashSet<string> { "n/a" };
+
+            var text = Generate(gen, allowed, tdls: null, annotations: false);
+
+            Assert.DoesNotContain("User-Agent: Zabbix", text);
         }
 
         [TestMethod]

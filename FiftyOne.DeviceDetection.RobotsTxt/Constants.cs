@@ -41,6 +41,14 @@ public class Constants
         "https://51degrees.com/terms/robots-txt");
 
     /// <summary>
+    /// The usage a crawler is governed by when the data records no usage
+    /// for it. The name is matched without regard to case because it comes
+    /// from the data file, and only its lower cased form is ever visible in
+    /// the evidence key built from it.
+    /// </summary>
+    public const string NotApplicableUsage = "N/A";
+
+    /// <summary>
     /// Evidence key used to supply one or more Terms Document Locator URIs.
     /// Multiple URIs may be comma- or pipe-separated (e.g. "url1,url2").
     /// </summary>
