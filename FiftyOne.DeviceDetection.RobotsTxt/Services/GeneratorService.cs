@@ -260,8 +260,7 @@ public class GeneratorService(RobotsTxtModel _dataSet)
         // Datadog and Zabbix, in a file the caller had asked to allow
         // everything. It is governed instead by the N/A usage, the one
         // evidence key that names this case and which until now reached only
-        // a crawler whose recorded usage value was itself N/A. See
-        // 51Degrees/cloud issue 435.
+        // a crawler whose recorded usage value was itself N/A.
         if (crawler.Usages == null
             || crawler.Usages.Any(i => string.IsNullOrWhiteSpace(i) == false) == false)
         {

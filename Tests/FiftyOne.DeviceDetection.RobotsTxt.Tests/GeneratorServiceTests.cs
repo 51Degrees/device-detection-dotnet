@@ -90,8 +90,8 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
                     },
                     // A crawler the data knows but records no usage for. The
                     // data carries this as one empty usage value rather than
-                    // an empty list, which is the shape the 73 refused
-                    // crawlers in 51Degrees/cloud issue 435 actually have.
+                    // an empty list, which is the shape the refused crawlers
+                    // that prompted this rule actually have.
                     new CrawlerModel
                     {
                         Name = "Zabbix",
@@ -110,7 +110,7 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
                     },
                     // A crawler whose recorded usage value is N/A. Distinct
                     // from Zabbix above, and the only kind the N/A evidence
-                    // key reached before 51Degrees/cloud issue 435.
+                    // key reached before this rule.
                     new CrawlerModel
                     {
                         Name = "Unattributed",

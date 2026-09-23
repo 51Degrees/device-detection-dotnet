@@ -120,12 +120,10 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
         }
 
         /// <summary>
-        /// Checks that when disallow is set for every usage every known
-        /// crawler is emitted as its own Disallow block, and the wildcard
-        /// catch-all stays at Allow: / so unknown crawlers fall through.
+        /// Checks that allowing every usage the engine offers refuses no
+        /// crawler at all, including one the data records no usage for, so
+        /// the file is the wildcard Allow block and nothing else.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
         [TestMethod]
         public void EveryUsageAllowed_NothingIsRefused()
         {
@@ -159,6 +157,13 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
                 "The file should be the wildcard Allow block and nothing else");
         }
 
+        /// <summary>
+        /// Checks that when disallow is set for every usage every known
+        /// crawler is emitted as its own Disallow block, and the wildcard
+        /// catch-all stays at Allow: / so unknown crawlers fall through.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
         [TestMethod]
         [DataRow("query.robotstxt.search", "false")]
         [DataRow("query.robotstxt.search", "off")]
