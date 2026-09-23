@@ -82,6 +82,14 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
                         ProductTokens = new[] { "AhrefsBot" },
                         ReferenceUris = new[] { new Uri("https://ahrefs.com/robot") },
                     },
+                    // A crawler the data knows but records no usage for.
+                    new CrawlerModel
+                    {
+                        Name = "Zabbix",
+                        Usages = Array.Empty<string>(),
+                        ProductTokens = new[] { "Zabbix" },
+                        ReferenceUris = null,
+                    },
                 },
             };
             return new GeneratorService(model);
@@ -116,6 +124,48 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
                 text.Split('\n')
                     .Select(line => line.Trim())
                     .Where(line => line.Length > 0 && line.StartsWith("#") == false));
+
+        [TestMethod]
+        public void PlainText_EveryUsageAllowed_NothingIsRefused()
+        {
+            var gen = BuildGenerator();
+            var allowed = new HashSet<string> { "Search", "AI", "Monitoring" };
+
+            var text = Generate(gen, allowed, tdls: null, annotations: false);
+
+            Assert.DoesNotContain(
+                "Disallow:",
+                text,
+                "Allowing every usage must leave nothing refused, " +
+                "including a crawler with no recorded usage");
+            Assert.AreEqual("User-Agent: *\nAllow: /", Records(text));
+        }
+
+        [TestMethod]
+        public void AnnotatedText_EveryUsageAllowed_UnusedCrawlerLumpedInWildcardBlock()
+        {
+            var gen = BuildGenerator();
+            var allowed = new HashSet<string> { "Search", "AI", "Monitoring" };
+
+            var text = Generate(gen, allowed, tdls: null, annotations: true);
+            var wildcard = WildcardBlock(text);
+
+            Assert.Contains("# N: Zabbix", wildcard);
+            Assert.DoesNotContain("User-Agent: Zabbix", text);
+        }
+
+        [TestMethod]
+        public void PlainText_SomeUsagesAllowed_UnusedCrawlerStaysRefused()
+        {
+            var gen = BuildGenerator();
+            var allowed = new HashSet<string> { "Search" };
+
+            var text = Generate(gen, allowed, tdls: null, annotations: false);
+
+            Assert.Contains("User-Agent: Zabbix\nDisallow: /", text);
+            Assert.Contains("User-Agent: GPTBot\nDisallow: /", text);
+            Assert.DoesNotContain("User-Agent: Googlebot\nDisallow: /", text);
+        }
 
         [TestMethod]
         public void AnnotatedText_AllowedCrawlers_LumpedInWildcardBlock()

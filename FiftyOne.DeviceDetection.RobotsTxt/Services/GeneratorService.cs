@@ -241,6 +241,26 @@ public class GeneratorService(RobotsTxtModel _dataSet)
     /// <returns></returns>
     private bool GetIsAllowed(CrawlerModel crawler, HashSet<string> allowed)
     {
+        // A crawler that declares no usage cannot be judged by usage. When
+        // the caller allows every usage the data carries, nothing is meant
+        // to be refused, so such a crawler falls through to the wildcard
+        // block like every other. With a partial allow set it stays refused,
+        // which is the answer this method always gave for it.
+        if (crawler.Usages == null || crawler.Usages.Length == 0)
+        {
+            return AllowsEveryUsage(allowed);
+        }
         return crawler.Usages.Any(i => allowed.Contains(i));
+    }
+
+    // True when every usage the data set carries is in the allowed set, so
+    // the request as a whole means allow everything.
+    private bool AllowsEveryUsage(HashSet<string> allowed)
+    {
+        return _dataSet.Usages != null
+            && _dataSet.Usages.Length > 0
+            && _dataSet.Usages
+                .Where(i => string.IsNullOrEmpty(i.Name) == false)
+                .All(i => allowed.Contains(i.Name));
     }
 }
