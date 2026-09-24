@@ -31,6 +31,7 @@ using FiftyOne.Pipeline.Core.FlowElements;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
 
 namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
 {
@@ -116,6 +117,44 @@ namespace FiftyOne.DeviceDetection.RobotsTxt.Tests
                 "User-Agent: *\nAllow: /",
                 plain,
                 "Wildcard catch-all should be Allow: / so search-allowed crawlers fall through to it");
+        }
+
+        /// <summary>
+        /// Checks that allowing every usage the engine offers refuses no
+        /// crawler at all, including one the data records no usage for, so
+        /// the file is the wildcard Allow block and nothing else.
+        /// </summary>
+        [TestMethod]
+        public void EveryUsageAllowed_NothingIsRefused()
+        {
+            // Arrange: every usage key the engine built from the data set,
+            // allowed. The keys come from the engine rather than a list here,
+            // so a usage value that arrives in the data is covered too.
+            var filter = (EvidenceKeyFilterWhitelist)_engine.EvidenceKeyFilter;
+            var usageKeys = filter.Whitelist.Keys
+                .Where(k => k != Constants.TdlEvidenceKey)
+                .ToArray();
+            Assert.IsGreaterThan(0, usageKeys.Length, "The engine should expose a usage key per usage in the data");
+            foreach (var key in usageKeys)
+            {
+                _data.AddEvidence(key, "allow");
+            }
+
+            // Act
+            _data.Process();
+
+            // Assert
+            var result = _data.Get<IRobotsTxtData>();
+            Assert.IsTrue(result.PlainText.HasValue);
+            var plain = result.PlainText.Value.Replace("\r\n", "\n");
+            Assert.DoesNotContain(
+                "Disallow:",
+                plain,
+                "Allowing every usage must refuse no crawler, including one with no recorded usage");
+            Assert.Contains(
+                "User-Agent: *\nAllow: /",
+                plain,
+                "The file should be the wildcard Allow block and nothing else");
         }
 
         /// <summary>

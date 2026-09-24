@@ -43,7 +43,8 @@ public class GeneratorService(RobotsTxtModel _dataSet)
     /// Usages that are allowed in the robots.txt. Crawlers that perform any
     /// of these usages are not given their own group and instead fall through
     /// to the wildcard Allow block (so TDL annotations on that block apply
-    /// to them).
+    /// to them). A crawler the data records no usage for falls through when
+    /// <see cref="Constants.NotApplicableUsage"/> is among them.
     /// </param>
     /// <param name="tdls">
     /// Terms Document Locator URIs. When non-empty, each URI is emitted as a
@@ -64,9 +65,10 @@ public class GeneratorService(RobotsTxtModel _dataSet)
     {
         var disallowEntries = new Queue<string>();
         var allowedCrawlers = new List<CrawlerModel>();
+        var notApplicableAllowed = GetIsNotApplicableAllowed(allowed);
         foreach (var crawler in _dataSet.Crawlers.OrderBy(i => i.Name))
         {
-            if (GetIsAllowed(crawler, allowed) == false)
+            if (GetIsAllowed(crawler, allowed, notApplicableAllowed) == false)
             {
                 Add(disallowEntries, crawler, annotations ?
                     sb => AddAnnotations(crawler, sb) :
@@ -222,7 +224,9 @@ public class GeneratorService(RobotsTxtModel _dataSet)
     private static void AddAnnotations(CrawlerModel crawler, StringBuilder sb)
     {
         sb.Append("# N: ").AppendLine(crawler.Name);
-        sb.Append("# U: ").AppendLine(String.Join(", ", crawler.Usages));
+        sb.Append("# U: ").AppendLine(crawler.Usages == null ?
+            String.Empty :
+            String.Join(", ", crawler.Usages));
         if (crawler.ReferenceUris != null)
         {
             foreach (var uri in crawler.ReferenceUris)
@@ -234,13 +238,52 @@ public class GeneratorService(RobotsTxtModel _dataSet)
     }
 
     /// <summary>
-    /// True if the crawler supports at least one of the usages.
+    /// True if the crawler supports at least one of the allowed usages, or,
+    /// where the data records no usage for it, if the N/A usage is allowed.
     /// </summary>
     /// <param name="crawler"></param>
     /// <param name="allowed"></param>
+    /// <param name="notApplicableAllowed">
+    /// True if the caller allows <see cref="Constants.NotApplicableUsage"/>,
+    /// worked out once for the whole file by
+    /// <see cref="GetIsNotApplicableAllowed(HashSet{string})"/>.
+    /// </param>
     /// <returns></returns>
-    private bool GetIsAllowed(CrawlerModel crawler, HashSet<string> allowed)
+    private bool GetIsAllowed(
+        CrawlerModel crawler,
+        HashSet<string> allowed,
+        bool notApplicableAllowed)
     {
+        // A crawler the data records no usage for cannot be judged by usage,
+        // and was refused however much the caller allowed. That refused 73
+        // crawlers by name, among them Google AdExchange, Amazon CloudFront,
+        // Datadog and Zabbix, in a file the caller had asked to allow
+        // everything. It is governed instead by the N/A usage, the one
+        // evidence key that names this case and which until now reached only
+        // a crawler whose recorded usage value was itself N/A.
+        if (crawler.Usages == null
+            || crawler.Usages.Any(i => string.IsNullOrWhiteSpace(i) == false) == false)
+        {
+            return notApplicableAllowed;
+        }
         return crawler.Usages.Any(i => allowed.Contains(i));
+    }
+
+    /// <summary>
+    /// True if the caller allows the N/A usage. Worked out once per file
+    /// rather than per crawler, because it depends only on the allowed set.
+    /// </summary>
+    /// <param name="allowed"></param>
+    /// <returns></returns>
+    private static bool GetIsNotApplicableAllowed(HashSet<string> allowed)
+    {
+        // Compared without regard to case. The allowed set is built from the
+        // usage names in the data file under the default ordinal comparer,
+        // and only the lower cased form of the name reaches the caller, in
+        // the evidence key, so the caller cannot be held to the data's case.
+        return allowed.Any(i => string.Equals(
+            i,
+            Constants.NotApplicableUsage,
+            StringComparison.OrdinalIgnoreCase));
     }
 }
