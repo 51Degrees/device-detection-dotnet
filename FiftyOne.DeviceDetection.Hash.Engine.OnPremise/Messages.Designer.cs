@@ -108,5 +108,14 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise {
                 return ResourceManager.GetString("ExceptionSetCache", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The filtered ProcessEngine overload cannot be used when a results cache has been set on the engine, because the cache is keyed on evidence alone and would return a result produced for fewer properties to a caller that needs more..
+        /// </summary>
+        internal static string ExceptionGraphFilterWithCache {
+            get {
+                return ResourceManager.GetString("ExceptionGraphFilterWithCache", resourceCulture);
+            }
+        }
     }
 }
