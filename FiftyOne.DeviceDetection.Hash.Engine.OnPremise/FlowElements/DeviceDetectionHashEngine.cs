@@ -464,7 +464,10 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
             var result = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
             using (var names = _engine.getRequiredProperties())
             {
-                for (int i = 0; i < names.Count; i++)
+                // A wrapper that supplies no list, such as a test double,
+                // leaves the map empty rather than failing engine init.
+                int count = names == null ? 0 : names.Count;
+                for (int i = 0; i < count; i++)
                 {
                     result[names[i]] = i;
                 }
