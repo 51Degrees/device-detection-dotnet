@@ -10946,6 +10946,67 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPrem
 }
 
 
+SWIGEXPORT void * SWIGSTDCALL CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_EngineBaseSwig_getRequiredProperties___(void * jarg1) {
+  void * jresult ;
+  EngineBase *arg1 = (EngineBase *) 0 ;
+  std::vector< std::string > result;
+  
+  arg1 = (EngineBase *)jarg1; 
+  {
+    try {
+      result = (arg1)->getRequiredProperties();;
+    }
+    catch(FatalException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    }
+    catch(NotImplementedException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    }
+    catch(InvalidPropertyException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    }
+    catch(EvidenceException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    }
+    catch(TooManyValuesException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    }
+    catch(NoValuesAvailableException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    }	
+    catch(StatusCodeException& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    }
+    catch(runtime_error& e) {
+      {
+        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
+      };
+    }
+    catch(invalid_argument& e) {
+      {
+        SWIG_CSharpException(SWIG_ValueError, e.what()); return 0; 
+      };
+    }
+  }
+  jresult = new std::vector< std::string >(result); 
+  return jresult;
+}
+
+
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_EngineBaseSwig_getIsThreadSafe___(void * jarg1) {
   unsigned int jresult ;
   EngineBase *arg1 = (EngineBase *) 0 ;
@@ -16424,67 +16485,6 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPrem
   jresult = (void *)result; 
   
   
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_EngineHashSwig_getRequiredProperties___(void * jarg1) {
-  void * jresult ;
-  EngineHash *arg1 = (EngineHash *) 0 ;
-  std::vector< std::string > result;
-  
-  arg1 = (EngineHash *)jarg1; 
-  {
-    try {
-      result = (arg1)->getRequiredProperties();;
-    }
-    catch(FatalException& e) {
-      {
-        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
-      };
-    }
-    catch(NotImplementedException& e) {
-      {
-        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
-      };
-    }
-    catch(InvalidPropertyException& e) {
-      {
-        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
-      };
-    }
-    catch(EvidenceException& e) {
-      {
-        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
-      };
-    }
-    catch(TooManyValuesException& e) {
-      {
-        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
-      };
-    }
-    catch(NoValuesAvailableException& e) {
-      {
-        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
-      };
-    }	
-    catch(StatusCodeException& e) {
-      {
-        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
-      };
-    }
-    catch(runtime_error& e) {
-      {
-        SWIG_CSharpException(SWIG_RuntimeError, e.what()); return 0; 
-      };
-    }
-    catch(invalid_argument& e) {
-      {
-        SWIG_CSharpException(SWIG_ValueError, e.what()); return 0; 
-      };
-    }
-  }
-  jresult = new std::vector< std::string >(result); 
   return jresult;
 }
 

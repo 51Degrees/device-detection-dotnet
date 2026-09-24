@@ -772,6 +772,9 @@ class DeviceDetectionHashEngineModulePINVOKE {
   [global::System.Runtime.InteropServices.DllImport("FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll", EntryPoint="CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_EngineBaseSwig_getKeys___")]
   public static extern global::System.IntPtr EngineBaseSwig_getKeys(global::System.Runtime.InteropServices.HandleRef jarg1);
 
+  [global::System.Runtime.InteropServices.DllImport("FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll", EntryPoint="CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_EngineBaseSwig_getRequiredProperties___")]
+  public static extern global::System.IntPtr EngineBaseSwig_getRequiredProperties(global::System.Runtime.InteropServices.HandleRef jarg1);
+
   [global::System.Runtime.InteropServices.DllImport("FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll", EntryPoint="CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_EngineBaseSwig_getIsThreadSafe___")]
   public static extern bool EngineBaseSwig_getIsThreadSafe(global::System.Runtime.InteropServices.HandleRef jarg1);
 
@@ -1056,9 +1059,6 @@ class DeviceDetectionHashEngineModulePINVOKE {
 
   [global::System.Runtime.InteropServices.DllImport("FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll", EntryPoint="CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_EngineHashSwig_process__SWIG_3___")]
   public static extern global::System.IntPtr EngineHashSwig_process__SWIG_3(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, [global::System.Runtime.InteropServices.In, global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPArray)]int[] jarg3, int jarg4);
-
-  [global::System.Runtime.InteropServices.DllImport("FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll", EntryPoint="CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_EngineHashSwig_getRequiredProperties___")]
-  public static extern global::System.IntPtr EngineHashSwig_getRequiredProperties(global::System.Runtime.InteropServices.HandleRef jarg1);
 
   [global::System.Runtime.InteropServices.DllImport("FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Native.dll", EntryPoint="CSharp_FiftyOnefDeviceDetectionfHashfEnginefOnPremisefInterop_EngineHashSwig_processBase___")]
   public static extern global::System.IntPtr EngineHashSwig_processBase(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);

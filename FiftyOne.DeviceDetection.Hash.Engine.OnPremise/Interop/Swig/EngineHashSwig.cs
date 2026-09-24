@@ -122,12 +122,6 @@ internal class EngineHashSwig : EngineDeviceDetectionSwig {
     return ret;
   }
 
-  public VectorStringSwig getRequiredProperties() {
-    VectorStringSwig ret = new VectorStringSwig(DeviceDetectionHashEngineModulePINVOKE.EngineHashSwig_getRequiredProperties(swigCPtr), true);
-    if (DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Pending) throw DeviceDetectionHashEngineModulePINVOKE.SWIGPendingException.Retrieve();
-    return ret;
-  }
-
   public override ResultsBaseSwig processBase(EvidenceBaseSwig evidence) {
     global::System.IntPtr cPtr = DeviceDetectionHashEngineModulePINVOKE.EngineHashSwig_processBase(swigCPtr, EvidenceBaseSwig.getCPtr(evidence));
     ResultsBaseSwig ret = (cPtr == global::System.IntPtr.Zero) ? null : new ResultsBaseSwig(cPtr, true);
