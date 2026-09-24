@@ -4,6 +4,11 @@
 %include "arrays_csharp.i"
 %apply unsigned char INPUT[] {unsigned char data[]}
 
+// Pass the required property indexes as a pinned int[] with a count. A null
+// array crosses as a null pointer and, with the count of -1 the wrapper
+// supplies, means every graph.
+%apply int INPUT[] {const int *requiredPropertyIndexes}
+
 // -----------------------------------------------------------------------------
 // Fix #4 (issue #524): flattened "by value" scalar property accessors.
 //
