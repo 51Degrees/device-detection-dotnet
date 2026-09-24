@@ -140,4 +140,7 @@
   <data name="ExceptionSetCache" xml:space="preserve">
     <value>A results cache cannot be configured in the Device-Detection Hash engine. The overhead of having to manage native object lifetimes when a cache is enabled outweighs the benefit of the cache.</value>
   </data>
+  <data name="ExceptionGraphFilterWithCache" xml:space="preserve">
+    <value>The filtered ProcessEngine overload cannot be used when a results cache has been set on the engine, because the cache is keyed on evidence alone and would return a result produced for fewer properties to a caller that needs more.</value>
+  </data>
 </root>

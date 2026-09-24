@@ -41,6 +41,20 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Wrappers
 
         ResultsHashSwig process(EvidenceDeviceDetectionSwig evidence);
 
+        /// <summary>
+        /// Process the evidence walking only the graphs needed by the
+        /// required property indexes. Null walks every graph, an empty
+        /// array walks none.
+        /// </summary>
+        ResultsHashSwig process(
+            EvidenceDeviceDetectionSwig evidence,
+            int[] requiredPropertyIndexes);
+
+        /// <summary>
+        /// Required property names in required property index order.
+        /// </summary>
+        VectorStringSwig getRequiredProperties();
+
         VectorStringSwig getKeys();
 
         IDateSwigWrapper getPublishedTime();
