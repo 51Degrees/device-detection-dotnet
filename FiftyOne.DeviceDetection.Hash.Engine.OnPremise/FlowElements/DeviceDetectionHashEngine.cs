@@ -86,23 +86,11 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         private IList<IComponentMetaData> _components;
 
         /// <summary>
-        /// Property name to required property index, rebuilt in
-        /// <see cref="InitEngineMetaData"/> from the native engine each time
-        /// data is loaded, because the indexes come from the data file.
-        /// Compared ignoring case, which matches the pipeline's property
-        /// dictionaries and the native name lookup.
+        /// Required property index for each property name, rebuilt whenever
+        /// data is loaded.
         /// </summary>
         private IReadOnlyDictionary<string, int> _requiredPropertyIndexes =
             new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-
-        /// <summary>
-        /// True once <see cref="SetCache(IFlowCache)"/> has been called.
-        /// The filtered
-        /// <see cref="ProcessEngine(IFlowData, IDeviceDataHash, int[])"/>
-        /// refuses to run with a cache, because the cache is keyed on
-        /// evidence alone.
-        /// </summary>
-        private bool _cacheSet;
 
         /// <summary>
         /// Factory used to create a new <see cref="IEngineSwigWrapper"/> when
@@ -184,36 +172,27 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         public override string ElementDataKey => "device";
 
         /// <summary>
-        /// Property name to required property index for every property the
-        /// engine was built with that the data file contains. Pass the
-        /// indexes of the properties that will be read to
-        /// <see cref="ProcessEngine(IFlowData, IDeviceDataHash, int[])"/>
-        /// so only the graphs those properties need are walked. Names are
-        /// compared ignoring case.
+        /// Required property index for each property name, compared ignoring
+        /// case. Pass the indexes of the properties a request will read to
+        /// <see cref="ProcessEngine(IFlowData, IDeviceDataHash, int[])"/>.
         /// </summary>
         /// <remarks>
-        /// An index is a position in the data file's required properties,
-        /// which are sorted by name, so a refresh that loads a data file
-        /// which gains or loses a required property moves the indexes. The
-        /// map is replaced after every refresh and before
-        /// <see cref="RefreshCompleted"/> is raised, so an array of indexes
-        /// stays valid for as long as this property returns the same
-        /// instance. A request that runs while a refresh is completing can
-        /// use the new data file with indexes from the old map.
+        /// Indexes come from the loaded data file, so a refresh can change
+        /// them. The map is replaced before <see cref="RefreshCompleted"/> is
+        /// raised.
         /// </remarks>
         public IReadOnlyDictionary<string, int> RequiredPropertyIndexes =>
             _requiredPropertyIndexes;
 
         /// <summary>
-        /// Records that a results cache is in use so the filtered
-        /// <see cref="ProcessEngine(IFlowData, IDeviceDataHash, int[])"/>
-        /// can refuse to run. The unfiltered path is unaffected.
+        /// Not supported. Results refer to native memory, which is not safe
+        /// to share between requests through a cache.
         /// </summary>
-        /// <param name="cache">The cache.</param>
+        /// <param name="cache">Not used.</param>
+        /// <exception cref="NotSupportedException">Always thrown.</exception>
         public override void SetCache(IFlowCache cache)
         {
-            base.SetCache(cache);
-            _cacheSet = true;
+            throw new NotSupportedException(Messages.ExceptionSetCache);
         }
 
         /// <summary>
@@ -383,48 +362,25 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         }
 
         /// <summary>
-        /// Perform processing for this engine walking only the graphs
-        /// needed by the given required property indexes.
+        /// Processes the request, walking only the graphs that the given
+        /// required properties need. For subclasses that know which
+        /// properties each request reads.
         /// </summary>
         /// <remarks>
-        /// This is for a subclass used by a service that knows, for every
-        /// request, which properties it will read. Other callers have no
-        /// need of it.
-        /// A property whose graph was not walked has no value, with a
-        /// message that reports a null profile. That is the caller's
-        /// responsibility, since the caller said it would not read it.
-        /// Metric properties, such as DeviceId, are worked out from every
-        /// component, so they reflect only the components whose graphs were
-        /// walked, and the device id carries 0 for each skipped component.
-        /// The native mask is 32 bits, so a data file with more than 32
-        /// components is filtered for the first 32 only and the rest are
-        /// always walked. That limit is accepted for performance.
+        /// A property whose graph was skipped has no value and reports a null
+        /// profile. Metric properties such as DeviceId reflect only the
+        /// components walked, and the device id has 0 for each skipped
+        /// component. Only the first 32 components can be skipped.
         /// </remarks>
-        /// <param name="data">
-        /// The <see cref="IFlowData"/> instance containing data for the
-        /// current request.
-        /// </param>
-        /// <param name="deviceData">
-        /// The <see cref="IDeviceDataHash"/> instance to populate with
-        /// property values
-        /// </param>
+        /// <param name="data">The flow data for the request.</param>
+        /// <param name="deviceData">The device data to populate.</param>
         /// <param name="requiredPropertyIndexes">
         /// Indexes from <see cref="RequiredPropertyIndexes"/> for the
-        /// properties that will be read. Null walks every graph. An empty
-        /// array walks none. Indexes outside the required properties are
-        /// ignored.
+        /// properties that will be read. Null walks every graph and an empty
+        /// array none. Indexes that are not required properties are ignored.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        /// Thrown if a required parameter is null
-        /// </exception>
-        /// <exception cref="InvalidOperationException">
-        /// Thrown if a results cache has been set on the engine and
-        /// <paramref name="requiredPropertyIndexes"/> is not null. The check
-        /// comes before any processing, so nothing is stored in the cache.
-        /// With lazy loading the exception is raised when a value is read
-        /// instead, and the pipeline has by then cached that failed result,
-        /// so later requests with the same evidence fail the same way until
-        /// the entry is evicted.
+        /// Thrown if a required parameter is null.
         /// </exception>
         protected void ProcessEngine(
             IFlowData data,
@@ -433,10 +389,6 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.FlowElements
         {
             if (data == null) { throw new ArgumentNullException(nameof(data)); }
             if (deviceData == null) { throw new ArgumentNullException(nameof(deviceData)); }
-            if (requiredPropertyIndexes != null && _cacheSet)
-            {
-                throw new InvalidOperationException(Messages.ExceptionGraphFilterWithCache);
-            }
 
             using (var relevantEvidence = new EvidenceDeviceDetectionSwig())
             {
