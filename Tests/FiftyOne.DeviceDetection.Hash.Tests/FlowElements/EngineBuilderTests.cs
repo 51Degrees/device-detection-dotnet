@@ -116,6 +116,20 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
                 _ = _builder.SetCache(new Pipeline.Engines.Configuration.CacheConfiguration());
             });
         }
+
+        ///<summary>
+        ///Check that the engine refuses a results cache set on it directly.
+        ///</summary>
+        [TestMethod]
+        public void Engine_CacheDisabled()
+        {
+            var engine = _builder.Build(new MemoryStream());
+            Assert.Throws<NotSupportedException>(() =>
+            {
+                engine.SetCache(new Pipeline.Engines.Caching.DefaultFlowCache(
+                    new Pipeline.Engines.Configuration.CacheConfiguration()));
+            });
+        }
     }
 }
 
