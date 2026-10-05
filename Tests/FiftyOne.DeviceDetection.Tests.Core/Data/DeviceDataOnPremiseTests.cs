@@ -318,6 +318,56 @@ namespace FiftyOne.DeviceDetection.Tests.Core.Data
                 + "accessor.");
         }
 
+        /// <summary>
+        /// A value set directly on the data, as a flow element that runs
+        /// after the engine might set one, can be read back singly without
+        /// first populating the whole dictionary through AsDictionary.
+        /// </summary>
+        /// <remarks>
+        /// Before this was fixed a single read asked the engine alone, so
+        /// it answered that there was no such value until something called
+        /// AsDictionary, after which the same read found it.
+        /// </remarks>
+        [TestMethod]
+        public void TryGet_ValueSetDirectly_IsFoundWithoutPopulating()
+        {
+            const string name = "setdirectly";
+            var expected = new AspectPropertyValue<string>("set directly");
+            _results[name] = expected;
+
+            Assert.IsTrue(
+                _results.TryGet(name, out var value),
+                "A value set directly on the data should be found by a "
+                + "single read.");
+            Assert.AreSame(expected, value);
+        }
+
+        /// <summary>
+        /// Where a key is both one of the engine's properties and has had
+        /// a value set directly, a single read answers with the value that
+        /// was set, as the IP intelligence data does.
+        /// </summary>
+        [TestMethod]
+        public void TryGet_EnginePropertyAlsoSetDirectly_SetValueIsRead()
+        {
+            var expected = new AspectPropertyValue<string>("set directly");
+            _results[_testPropertyNameString] = expected;
+
+            Assert.IsTrue(
+                _results.TryGet(_testPropertyNameString, out var value));
+            Assert.AreSame(expected, value);
+        }
+
+        /// <summary>
+        /// A key that is neither one of the engine's properties nor set
+        /// directly is still reported as not found.
+        /// </summary>
+        [TestMethod]
+        public void TryGet_UnknownKey_IsNotFound()
+        {
+            Assert.IsFalse(_results.TryGet("notapropertyname", out _));
+        }
+
         private void TestAccessingValue(string propertyName, object expectedResult)
         {
             var value = _results[propertyName];
