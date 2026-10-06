@@ -498,7 +498,13 @@ namespace FiftyOne.DeviceDetection.Shared.Data
                 // the value from the dictionary.
                 return base.TryGetValue(key, out value);
             }
-            else if (Results.HasResults())
+            // Check if the value has been set directly in the dictionary
+            // (e.g. by a post-processing flow element).
+            if (base.TryGetValue(key, out value))
+            {
+                return true;
+            }
+            if (Results.HasResults())
             {
                 // If the complete set of values has not been populated 
                 // then we don't want to retrieve values for all 
