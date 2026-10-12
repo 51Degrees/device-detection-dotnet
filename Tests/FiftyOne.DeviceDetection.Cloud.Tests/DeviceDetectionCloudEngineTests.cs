@@ -119,7 +119,7 @@ namespace FiftyOne.DeviceDetection.Cloud.Tests
 
             try
             {
-                var resourceKey = "AQS5HKcyVj6B8wNG2Ug";
+                var resourceKey = "AQRVdgJ-AT9Z6gsc30g";
 
                 _pipeline = new DeviceDetectionPipelineBuilder(
                     new LoggerFactory(), new System.Net.Http.HttpClient())
