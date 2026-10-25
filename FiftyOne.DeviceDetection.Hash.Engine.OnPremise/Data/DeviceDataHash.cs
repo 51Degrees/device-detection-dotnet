@@ -90,7 +90,7 @@ namespace FiftyOne.DeviceDetection.Hash.Engine.OnPremise.Data
         private IAspectPropertyValue<int> GetDrift()
         {
             return new AspectPropertyValue<int>(
-                Results.ResultsList.Max(r => r.getDrift()));
+                Results.ResultsList.Sum(r => r.getDrift()));
         }
 
         private IAspectPropertyValue<int> GetDifference()
