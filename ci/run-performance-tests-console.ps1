@@ -4,7 +4,8 @@ param(
     [string]$OrgName,
     [string]$Name = "Release_x64",
     [string]$Configuration = "Release",
-    [string]$Arch = "x64"
+    [string]$Arch = "x64",
+    [string]$ExamplesBranch = "main"
 )
 
 $RepoPath = [IO.Path]::Combine($pwd, $RepoName)
@@ -38,8 +39,10 @@ finally {
 
 try {
     if ($(Test-Path -Path $ExamplesRepoName) -eq $False) {
-        Write-Output "Cloning '$ExamplesRepoName'"
-        ./steps/clone-repo.ps1 -RepoName $ExamplesRepoName -OrgName $OrgName
+        # Same branch as run-integration-tests.ps1, which renames its own
+        # checkout to ex, so the clone here would otherwise always be main.
+        Write-Output "Cloning '$ExamplesRepoName' branch '$ExamplesBranch'"
+        ./steps/clone-repo.ps1 -RepoName $ExamplesRepoName -OrgName $OrgName -Branch $ExamplesBranch
     }
 
     Write-Output "Moving TAC file"

@@ -6,6 +6,10 @@ on:
       dryrun:
         type: boolean
         default: false
+      examples-branch:
+        description: 'device-detection-dotnet-examples branch to test against (empty = main)'
+        type: string
+        default: ''
   schedule:
     - cron: '0 3 * * *'
 
@@ -52,6 +56,7 @@ jobs:
       org-name: ${{ github.event.repository.owner.login }}
       dryrun: ${{ inputs.dryrun || false }}
       cache-assets: true
+      examples-branch: ${{ inputs.examples-branch || '' }}
     secrets:
       token: ${{ secrets.ACCESS_TOKEN }}
       DeviceDetection: ${{ secrets.DEVICE_DETECTION_KEY }}
@@ -73,6 +78,7 @@ jobs:
       org-name: ${{ github.event.repository.owner.login }}
       dryrun: ${{ inputs.dryrun || false }}
       cache-assets: true
+      examples-branch: ${{ inputs.examples-branch || '' }}
       build-platform: windows-latest
     secrets:
       token: ${{ secrets.ACCESS_TOKEN }}
