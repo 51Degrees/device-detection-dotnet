@@ -96,6 +96,33 @@ namespace FiftyOne.DeviceDetection.Hash.Tests.FlowElements
             }
         }
 
+        /// <summary>
+        /// Check that Drift adds the drift of every native result, one per
+        /// component, as the specification describes and the native results
+        /// do.
+        /// </summary>
+        [TestMethod]
+        public void DeviceData_Drift_IsTheSumOfTheResults()
+        {
+            using (var flowData = Wrapper.Pipeline.CreateFlowData())
+            {
+                var data = new DeviceDataHash(
+                    _logger.Object,
+                    flowData.Pipeline,
+                    Wrapper.GetEngine() as DeviceDetectionHashEngine,
+                    _missingPropertyService.Object);
+
+                var hardware = new Mock<IResultsSwigWrapper>();
+                hardware.Setup(r => r.getDrift()).Returns(3);
+                var browser = new Mock<IResultsSwigWrapper>();
+                browser.Setup(r => r.getDrift()).Returns(5);
+                data.SetResults(hardware.Object);
+                data.SetResults(browser.Object);
+
+                Assert.AreEqual(8, data.Drift.Value);
+            }
+        }
+
         /// </summary>
         /// <param name="data">instance to call method on</param>
         /// <param name="results">results to be checked</param>
