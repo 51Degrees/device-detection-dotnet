@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> This repo has been merged into the monorepo https://github.com/51Degrees/51degrees-dotnet, under `device-detection/`. Please refer to the new monorepository for issues and PRs. The NuGet packages keep their names and are published from there.
+
 # 51Degrees Device Detection Engines
 
 ![51Degrees](https://raw.githubusercontent.com/51Degrees/common-ci/main/images/logo/360x67.png "Data rewards the curious")
